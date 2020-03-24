@@ -1,21 +1,12 @@
 package ru.mobnius.vote.ui.fragment.form;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-
 import java.util.Date;
 
-import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DocumentManager;
-import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.data.DocumentUtil;
 import ru.mobnius.vote.ui.fragment.data.IMeterReadingTextWatcher;
 import ru.mobnius.vote.ui.fragment.data.IStringTextWatcher;
-import ru.mobnius.vote.ui.fragment.photoGallery.GalleryFragment;
-import ru.mobnius.vote.ui.fragment.photoGallery.GalleryListener;
 import ru.mobnius.vote.ui.model.Meter;
 import ru.mobnius.vote.utils.DateUtil;
 
@@ -23,16 +14,6 @@ public abstract class  BaseFormFragment extends BaseFragment
         implements IMeterReadingTextWatcher, IStringTextWatcher {
 
     private DocumentUtil mDocumentUtil;
-    private GalleryListener mGalleryListener;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if(context instanceof GalleryListener) {
-            mGalleryListener = (GalleryListener)context;
-        }
-    }
 
     /**
      * Получение даты ввода показаний
@@ -94,28 +75,6 @@ public abstract class  BaseFormFragment extends BaseFragment
         getDocumentUtil().updateValue(id, value);
     }
 
-    /**
-     * Сохранение показаний
-     * @param documentManager управление документами
-     * @param serverMeters показания с сервера
-     * @param userPointId иден. пользов. точки
-     */
-    protected void saveMeters(DocumentManager documentManager, Meter[] serverMeters, String userPointId) {
-        DocumentUtil.MeterReading[] meters = getDocumentUtil().getMeters();
-
-        for (int i = 0; i < meters.length; i++) {
-            String outputMeterReadingsId = serverMeters[i].getOutputMeterReadingsId();
-            if (outputMeterReadingsId != null && !outputMeterReadingsId.isEmpty()) {
-                documentManager.updateOutputMeterReadings(outputMeterReadingsId, meters[i].getValue());
-            } else {
-                documentManager.createOutputMeterReadings(
-                        serverMeters[i].getInputMeterReadingsId(),
-                        userPointId,
-                        meters[i].getValue());
-            }
-        }
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -124,29 +83,5 @@ public abstract class  BaseFormFragment extends BaseFragment
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-    }
-
-    public GalleryListener getGalleryListener() {
-        return mGalleryListener;
-    }
-
-    /**
-     * Вывести фотогалерею
-     * @param pointId инден. точки маршрута
-     * @param result результат
-     */
-    protected void toGallery(String pointId, Results result) {
-        GalleryFragment galleryFragment;
-        if (result != null) {
-            String resultId = result.id;
-            galleryFragment = GalleryFragment.updateInstance(resultId);
-        } else {
-            galleryFragment = GalleryFragment.createInstance(pointId);
-        }
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.single_fragment_container, galleryFragment)
-                .addToBackStack(null)
-                .commit();
     }
 }

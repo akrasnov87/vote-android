@@ -9,36 +9,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.IProgressListener;
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.GeoManager;
-import ru.mobnius.vote.data.manager.PhotoManager;
-import ru.mobnius.vote.data.manager.camera.CameraManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.form.controlMeterReadings.ControlMeterReadingsFragment;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
-import ru.mobnius.vote.ui.fragment.data.GalleryUtil;
-import ru.mobnius.vote.ui.fragment.photoGallery.GalleryListener;
-import ru.mobnius.vote.ui.fragment.photoGallery.UpdateUIListener;
-import ru.mobnius.vote.ui.model.Image;
-import ru.mobnius.vote.utils.BitmapUtil;
-import ru.mobnius.vote.utils.LocationUtil;
 
-public class ControlMeterReadingsActivity extends BaseFormActivity implements GalleryListener {
+public class ControlMeterReadingsActivity extends BaseFormActivity {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
 
@@ -87,20 +72,6 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements Ga
     }
 
     @Override
-    public void onSave() {
-        ((ControlMeterReadingsFragment) getFragment()).onSaveDocument();
-    }
-
-    /**
-     * При уничтожении активити удаляем созданные временные файлы, т.к. при сохранении они должны быть перещены в постоянное хранилище
-     */
-    @Override
-    public void onDestroyGallery() {
-        PhotoManager photoManager = getPhotoManager();
-        photoManager.clearTempImage(FileManager.getInstance());
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).setTitle(null);
@@ -134,66 +105,6 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements Ga
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final AppCompatActivity activity = this;
-
-        switch (requestCode) {
-            case ControlMeterReadingsFragment.POINT_GALLERY_REQUEST_CODE:
-                setPhotoManager(GalleryUtil.deSerializable(data));
-                break;
-
-            case CameraManager.REQUEST_CODE_PHOTO:
-                try {
-                    getCameraManager().processing(resultCode, new IProgressListener() {
-                        @Override
-                        public void onDone(String fileName, byte[] bytes) {
-                            String resultId = UUID.randomUUID().toString();
-                            if(getIntent().hasExtra(Names.RESULT_ID)) {
-                                resultId = getIntent().getStringExtra(Names.RESULT_ID);
-                            }
-
-                            try {
-                                getPhotoManager().addTempPicture(Image.getInstance(fileName,
-                                        DataManager.getInstance().getDefaultImageType().id,
-                                        resultId,
-                                        "",
-                                        bytes,
-                                        getCurrentLocation()));
-
-                                FragmentManager fm = activity.getSupportFragmentManager();
-                                Fragment fragment = fm.findFragmentById(R.id.single_fragment_container);
-                                if(fragment != null) {
-                                    if(fragment instanceof UpdateUIListener){
-                                        ((UpdateUIListener)fragment).onUpdateUI();
-                                    }
-                                }
-
-                            } catch (Exception e) {
-                                Logger.error(e);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
-                } catch (Exception e) {
-                    Logger.error(e);
-                }
-        }
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        onDestroyGallery();
-        super.onDestroy();
     }
 
     @Override

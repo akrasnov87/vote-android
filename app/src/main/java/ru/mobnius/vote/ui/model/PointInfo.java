@@ -7,9 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import ru.mobnius.vote.data.storage.models.InputMeterReadings;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
-import ru.mobnius.vote.data.storage.models.TimeZones;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.DoubleUtil;
 
@@ -54,19 +52,6 @@ public class PointInfo {
      * Показания
      */
     private List<MeterReadingsInfo> mMeters;
-
-    /**
-     * Добавление показания
-     * @param inputMeterReadings входное показание
-     */
-    public void addMeter(InputMeterReadings inputMeterReadings) {
-        try {
-            TimeZones timeZone = inputMeterReadings.getTimeZone();
-            mMeters.add(new MeterReadingsInfo(DateUtil.convertStringToDate(inputMeterReadings.d_date_prev), inputMeterReadings.n_value_prev, timeZone.c_name, timeZone.n_order));
-        }catch (ParseException ignore) {
-
-        }
-    }
 
     /**
      * Получение списка показаний

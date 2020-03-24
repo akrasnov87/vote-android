@@ -101,41 +101,35 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
         super.onCreate(savedInstanceState);
 
         mDaoSession = DataManager.getInstance().getDaoSession();
-        try {
-            String mNoticeText = "";
-            Bundle arguments = getArguments();
-            assert arguments != null;
-            if (arguments.containsKey(Names.RESULT_ID)) {  // есть результат
-                String resultId = getArguments().getString(Names.RESULT_ID);
-                mResult = mDaoSession.getResultsDao().load(resultId);
-                if (mResult != null) {
-                    mPointId = mResult.fn_point;
-                    mRouteId = mResult.fn_route;
-                    mUserPointId = mResult.fn_user_point;
-                    mResultTypeId = mResult.fn_type;
-                    mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
-                    mMeters = mDocumentManager.getOutputMeters(mUserPointId);
-                    Document document = mDocumentManager.getDocument(resultId);
-                    if(document != null) {
-                        mNoticeText = document.getNotice();
-                    }
-                } else {
-                    Logger.error(new Exception("Результат не найден."));
-                    return;
-                }
-            } else { // нужно создать результат
-                mRouteId = getArguments().getString(Names.ROUTE_ID);
-                mPointId = getArguments().getString(Names.POINT_ID);
-                mResultTypeId = getArguments().getLong(Names.RESULT_TYPE_ID);
+        String mNoticeText = "";
+        Bundle arguments = getArguments();
+        assert arguments != null;
+        if (arguments.containsKey(Names.RESULT_ID)) {  // есть результат
+            String resultId = getArguments().getString(Names.RESULT_ID);
+            mResult = mDaoSession.getResultsDao().load(resultId);
+            if (mResult != null) {
+                mPointId = mResult.fn_point;
+                mRouteId = mResult.fn_route;
+                mUserPointId = mResult.fn_user_point;
+                mResultTypeId = mResult.fn_type;
                 mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
-                mMeters = mDocumentManager.getInputMeters(mPointId);
+                Document document = mDocumentManager.getDocument(resultId);
+                if(document != null) {
+                    mNoticeText = document.getNotice();
+                }
+            } else {
+                Logger.error(new Exception("Результат не найден."));
+                return;
             }
-            setDocumentUtil(DocumentUtil.getInstance(mMeters, mNoticeText));
-
-            Objects.requireNonNull(getActivity()).getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
-        } catch (ParseException e) {
-            Logger.error(e);
+        } else { // нужно создать результат
+            mRouteId = getArguments().getString(Names.ROUTE_ID);
+            mPointId = getArguments().getString(Names.POINT_ID);
+            mResultTypeId = getArguments().getLong(Names.RESULT_TYPE_ID);
+            mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
         }
+        setDocumentUtil(DocumentUtil.getInstance(mMeters, mNoticeText));
+
+        Objects.requireNonNull(getActivity()).getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -193,14 +187,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
 
                 Objects.requireNonNull(getActivity()).finish();
                 break;
-
-            case R.id.fMeterReadings_ivTakePhoto:
-                getGalleryListener().onCamera();
-                break;
-
-            case R.id.fMeterReadings_ibGoToPhoto:
-                toGallery(mPointId, mResult);
-                break;
         }
     }
 
@@ -227,11 +213,9 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
         String notice = mNotice.getText().toString();
 
         boolean isExistResult = mResult != null;
-        String resultId;
         if (isExistResult) {
             mDocumentManager.updateUserPoint(mUserPointId, null, null, null);
             mDocumentManager.updateResult(mResult.id, notice, null, false);
-            resultId = mResult.id;
         } else {
             double longitude = 0;
             double latitude = 0;
@@ -243,16 +227,8 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
             }
 
             mUserPointId = mDocumentManager.createUserPoint(null, null, longitude, latitude, null, false);
-            resultId = mDocumentManager.createResult(mResultTypeId, mUserPointId, notice, null, false);
+            mDocumentManager.createResult(mResultTypeId, mUserPointId, notice, null, false);
         }
-
-        try {
-            getGalleryListener().getPhotoManager().savePictures(DataManager.getInstance(), FileManager.getInstance(), resultId);
-        }catch (Exception ignored) {
-            Logger.error(ignored);
-        }
-
-        saveMeters(mDocumentManager, mMeters, mUserPointId);
         getActivity().finish();
     }
 

@@ -15,7 +15,6 @@ import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.packager.FileBinary;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.storage.FieldNames;
-import ru.mobnius.vote.data.storage.models.AttachmentsDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.SqlInsertFromJSONObject;
 import ru.mobnius.vote.utils.SqlUpdateFromJSONObject;
@@ -131,7 +130,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
      * @return результат
      */
     public PackageResult from(DaoSession session, RPCResult rpcResult, String packageTid, boolean isRequestToServer, boolean attachmentUse) {
-        boolean attachmentProcessing = attachmentUse && fileManager != null;
         if (rpcResult.meta.success) {
             Database db = session.getDatabase();
             AbstractDao abstractDao = null;
@@ -158,14 +156,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                 db.execSQL("delete from " + tableName);
                 // таким образом очищаем кэш http://greenrobot.org/greendao/documentation/sessions/
                 abstractDao.detachAll();
-                if (attachmentProcessing) {
-                    try {
-                        fileManager.deleteFolder(tableName);
-                        fileManager.deleteFolder(FileManager.TEMP_PICTURES);
-                    } catch (FileNotFoundException ignored) {
-
-                    }
-                }
             }
 
             if (rpcResult.result.records.length > 0) {
@@ -175,15 +165,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                     try {
                         for (JSONObject object : rpcResult.result.records) {
                             try {
-                                if (attachmentProcessing) {
-                                    String fileName = object.getString(AttachmentsDao.Properties.C_name.name);
-                                    FileBinary file = getFile(fileName);
-                                    if (file != null) {
-                                        fileManager.writeBytes(tableName, file.name, file.bytes);
-                                    } else {
-                                        Logger.error(new Exception("Включен механизм обработки вложений. В результате ответа не найден файл с именем " + fileName + "."));
-                                    }
-                                }
                                 db.execSQL(sqlInsert.convertToQuery(isRequestToServer), sqlInsert.getValues(object, isRequestToServer));
                             } catch (SQLiteConstraintException ignored) {
                                 Log.e("SYNC_ERROR", ignored.getMessage());

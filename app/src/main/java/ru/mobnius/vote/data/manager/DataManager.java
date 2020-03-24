@@ -1,10 +1,5 @@
 package ru.mobnius.vote.data.manager;
 
-import android.location.Location;
-import android.service.autofill.LuhnChecksumValidator;
-
-import com.google.gson.internal.bind.JsonTreeReader;
-
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.FileNotFoundException;
@@ -17,16 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.storage.models.AttachmentTypes;
-import ru.mobnius.vote.data.storage.models.AttachmentTypesDao;
-import ru.mobnius.vote.data.storage.models.Attachments;
-import ru.mobnius.vote.data.storage.models.AttachmentsDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Files;
-import ru.mobnius.vote.data.storage.models.InputMeterReadings;
-import ru.mobnius.vote.data.storage.models.InputMeterReadingsDao;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
@@ -40,14 +28,12 @@ import ru.mobnius.vote.data.storage.models.RouteTypes;
 import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.data.storage.models.UserPoints;
 import ru.mobnius.vote.data.storage.models.UserPointsDao;
-import ru.mobnius.vote.ui.model.Image;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.PointResult;
 import ru.mobnius.vote.ui.model.PointState;
 import ru.mobnius.vote.ui.model.RouteInfo;
-import ru.mobnius.vote.ui.model.RouteInfoHistory;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.StringUtil;
@@ -170,108 +156,6 @@ public class DataManager {
 
         daoSession.getFilesDao().insert(file);
         return file;
-    }
-
-    /**
-     * Получение вложения
-     * @param attachmentId идентификатор
-     * @return результат
-     */
-    public Attachments getAttachment(String attachmentId) {
-        return daoSession.getAttachmentsDao().load(attachmentId);
-    }
-
-    /**
-     * сохранение файлов
-     * @param c_name иям файла
-     * @param fn_type тип файла, информация из таблицы cs_file_types
-     * @param fn_result результат выполнения задания
-     * @param notice примечание
-     * @param location местоположение
-     * @throws IOException исключение при работе с файловым менеджером
-     */
-    public Attachments saveAttachment(String c_name, long fn_type, String fn_result, String notice, Location location, byte[] bytes) throws IOException {
-        Files file = saveFile(c_name, bytes, FileManager.ATTACHMENTS);
-
-        Attachments attachment = new Attachments();
-        attachment.c_name = c_name;
-        attachment.fn_type = fn_type;
-        attachment.fn_result = fn_result;
-        attachment.n_latitude = location.getLatitude();
-        attachment.n_longitude = location.getLongitude();
-        attachment.d_date = DateUtil.convertDateToString(new Date(location.getTime()));
-        attachment.folder = FileManager.ATTACHMENTS;
-        attachment.fn_file = file.id;
-        attachment.c_notice = notice;
-        attachment.objectOperationType = DbOperationType.CREATED;
-
-        daoSession.getAttachmentsDao().insert(attachment);
-        return attachment;
-    }
-
-    /**
-     * обновление существующего файла
-     * @param attachmentId идентификатор файла
-     * @param type тип
-     * @param notice описание
-     */
-    public Attachments updateAttachment(String attachmentId, long type, String notice) {
-        Attachments attachment = daoSession.getAttachmentsDao().load(attachmentId);
-        if(attachment != null){
-            attachment.fn_type = type;
-            attachment.c_notice = notice;
-            if(!attachment.objectOperationType.equals(DbOperationType.CREATED) && !attachment.isSynchronization) {
-                attachment.objectOperationType = DbOperationType.UPDATED;
-                attachment.isSynchronization = false;
-            }
-
-            daoSession.getAttachmentsDao().update(attachment);
-            return attachment;
-        }
-
-        return null;
-    }
-
-    /**
-     * Можно ли обновлять вложение
-     * @param attachmentId иден. вложения
-     * @return true - обновление разрешены
-     */
-    public boolean isUpdateAttachment(String attachmentId) {
-        Attachments attachment = daoSession.getAttachmentsDao().load(attachmentId);
-        if(attachment != null) {
-            return !attachment.isSynchronization;
-        }
-
-        return false;
-    }
-
-    /**
-     * Удаление вложения
-     * @param attachmentId идентификатор
-     */
-    public void removeAttachment(String attachmentId) {
-        Attachments attachments = getAttachment(attachmentId);
-        if(attachments != null) {
-            removeFile(attachments.fn_file);
-            daoSession.getAttachmentsDao().delete(attachments);
-        }
-    }
-
-    /**
-     * Получение байтов для вложений
-     *
-     * @param attachmentId идентификтаор объекта
-     * @return массив байтов
-     * @throws IOException
-     */
-    public byte[] getFileAttachment(String attachmentId) throws IOException {
-        Attachments attachments = getAttachment(attachmentId);
-        if (attachments != null) {
-            return FileManager.getInstance().readPath(attachments.folder, attachments.c_name);
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -547,16 +431,7 @@ public class DataManager {
             if(userPoint.isSynchronization) {
                 List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
                 for(Results result : results) {
-                    if(result.isSynchronization) {
-                        List<Attachments> attachments = daoSession.getAttachmentsDao().queryBuilder().where(AttachmentsDao.Properties.Fn_result.eq(result.id)).list();
-                        for(Attachments attachment : attachments) {
-                            if(attachment.getFile() != null) {
-                                if (!attachment.isSynchronization || !attachment.getFile().isSynchronization) {
-                                    return pointState;
-                                }
-                            }
-                        }
-                    } else {
+                    if(!result.isSynchronization) {
                         return pointState;
                     }
                 }
@@ -650,74 +525,11 @@ public class DataManager {
             RegistrPts registrPts = point.getRegistrPts();
             if(registrPts != null) {
                 PointInfo info = new PointInfo(registrPts);
-                List<InputMeterReadings> inputMeterReadings = daoSession.getInputMeterReadingsDao().queryBuilder().where(InputMeterReadingsDao.Properties.F_point.eq(pointId)).list();
-                for (InputMeterReadings inputMeterReading:
-                        inputMeterReadings) {
-                    info.addMeter(inputMeterReading);
-                }
 
                 return info;
             }
         }
         return null;
-    }
-
-    /**
-     * Получение списка изображений привязанных к результату
-     * @param resultId иден. результата, Results
-     * @return список изображений, Image[]
-     */
-    public Image[] getImages(String resultId) {
-        List<Attachments> attachments = daoSession.getAttachmentsDao().queryBuilder().where(AttachmentsDao.Properties.Fn_result.eq(resultId)).list();
-        if(attachments.size() > 0) {
-            List<Image> images = new ArrayList<>();
-            for (Attachments attachment : attachments) {
-                try {
-                    images.add(Image.getInstance(this, attachment));
-                } catch (ParseException e) {
-                    Logger.error(e);
-                } catch (IOException e) {
-                    Logger.error(e);
-                }
-            }
-            return images.toArray(new Image[0]);
-        }
-
-        return null;
-    }
-
-    /**
-     * Тип изображения по умолчанию
-     * @return тип изображения
-     */
-    public AttachmentTypes getDefaultImageType() {
-        DataManager dataManager = DataManager.getInstance();
-        List<AttachmentTypes> attachmentTypes = dataManager.getDaoSession().getAttachmentTypesDao().queryBuilder()
-                .where(AttachmentTypesDao.Properties.B_default.eq(true)).orderAsc(AttachmentTypesDao.Properties.N_order)
-                .list();
-        if(attachmentTypes.size() > 0) {
-            return attachmentTypes.get(0);
-        }
-        return dataManager.getDaoSession().getAttachmentTypesDao().loadAll().get(0);
-    }
-
-    /**
-     * Тип изображения
-     * @return типы изображений
-     */
-    public AttachmentTypes[] getAttachmentTypes() {
-        DataManager dataManager = DataManager.getInstance();
-        List<AttachmentTypes> attachmentTypes = dataManager.getDaoSession().getAttachmentTypesDao().queryBuilder().orderAsc(AttachmentTypesDao.Properties.N_order).list();
-        return attachmentTypes.toArray(new AttachmentTypes[0]);
-    }
-
-    /**
-     * Тип изображения
-     * @param id идентификатор
-     * @return тип изображения
-     */
-    public AttachmentTypes getImageType(long id) {
-        return dataManager.getDaoSession().getAttachmentTypesDao().load(id);
     }
 
     /**

@@ -1,28 +1,20 @@
 package ru.mobnius.vote.data.manager.synchronization;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
-import ru.mobnius.vote.data.storage.models.Attachments;
 import ru.mobnius.vote.data.storage.models.AttachmentsDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
-import ru.mobnius.vote.data.storage.models.Files;
 import ru.mobnius.vote.data.storage.models.FilesDao;
-import ru.mobnius.vote.data.storage.models.SubDivisionsDao;
-import ru.mobnius.vote.utils.LocationUtil;
 import ru.mobnius.vote.utils.PackageReadUtils;
-import ru.mobnius.vote.utils.SyncUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

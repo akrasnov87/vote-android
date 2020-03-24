@@ -9,10 +9,6 @@ import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.manager.packager.MetaPackage;
-import ru.mobnius.vote.data.storage.models.AttachmentTypes;
-import ru.mobnius.vote.data.storage.models.Attachments;
-import ru.mobnius.vote.ui.model.Image;
 import ru.mobnius.vote.utils.LocationUtil;
 import ru.mobnius.vote.utils.StreamUtil;
 

@@ -1,7 +1,5 @@
 package ru.mobnius.vote.ui.model;
 
-import android.location.Location;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +11,6 @@ import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.storage.models.AttachmentTypes;
-import ru.mobnius.vote.data.storage.models.Attachments;
 import ru.mobnius.vote.utils.LocationUtil;
 import ru.mobnius.vote.utils.StreamUtil;
 

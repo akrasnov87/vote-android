@@ -1,17 +1,10 @@
 package ru.mobnius.vote.data.manager.synchronization.utils;
 
-import android.content.Context;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,13 +22,9 @@ import ru.mobnius.vote.data.manager.packager.BinaryBlock;
 import ru.mobnius.vote.data.manager.rpc.RPCRecords;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.manager.rpc.RPCResultMeta;
-import ru.mobnius.vote.data.storage.DbOpenHelper;
-import ru.mobnius.vote.data.storage.models.Attachments;
 import ru.mobnius.vote.data.storage.models.AttachmentsDao;
 import ru.mobnius.vote.data.storage.models.Audits;
 import ru.mobnius.vote.data.storage.models.AuditsDao;
-import ru.mobnius.vote.data.storage.models.DaoMaster;
-import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Tracking;
 import ru.mobnius.vote.data.storage.models.TrackingDao;
 import ru.mobnius.vote.utils.AuditUtils;

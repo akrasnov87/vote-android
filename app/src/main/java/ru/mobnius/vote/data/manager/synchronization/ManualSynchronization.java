@@ -8,18 +8,12 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
 import ru.mobnius.vote.data.manager.synchronization.utils.FullServerSidePackage;
-import ru.mobnius.vote.data.storage.models.AttachmentTypesDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.DigestsDao;
 import ru.mobnius.vote.data.storage.models.DivisionsDao;
-import ru.mobnius.vote.data.storage.models.FeedbackTypesDao;
-import ru.mobnius.vote.data.storage.models.FeedbacksDao;
-import ru.mobnius.vote.data.storage.models.InputMeterReadings;
-import ru.mobnius.vote.data.storage.models.InputMeterReadingsDao;
-import ru.mobnius.vote.data.storage.models.NotificationsDao;
-import ru.mobnius.vote.data.storage.models.OutputMeterReadingsDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
+import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.RegistrPtsDao;
 import ru.mobnius.vote.data.storage.models.ResultTypesDao;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
@@ -30,8 +24,6 @@ import ru.mobnius.vote.data.storage.models.RouteTypesDao;
 import ru.mobnius.vote.data.storage.models.RoutesDao;
 import ru.mobnius.vote.data.storage.models.StatusSchemasDao;
 import ru.mobnius.vote.data.storage.models.SubDivisionsDao;
-import ru.mobnius.vote.data.storage.models.TimeZones;
-import ru.mobnius.vote.data.storage.models.TimeZonesDao;
 import ru.mobnius.vote.data.storage.models.UserInDivisionsDao;
 import ru.mobnius.vote.data.storage.models.UserInRoutesDao;
 import ru.mobnius.vote.data.storage.models.UserPointsDao;
@@ -63,23 +55,18 @@ public class ManualSynchronization extends FileTransferWebSocketSynchronization 
     protected ManualSynchronization(DaoSession session, FileManager fileManager, boolean zip) {
         super(session, "MANUAL_SYNCHRONIZATION", fileManager, zip);
         oneOnlyMode = true;
-        useAttachments = true;
         serverSidePackage = new FullServerSidePackage();
     }
 
     @Override
     protected void initEntities() {
-        super.initEntities();
 
         totalTid = UUID.randomUUID().toString();
         dictionaryTid = UUID.randomUUID().toString();
 
-        addEntity(new EntityDictionary(TimeZonesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(DivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(SubDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteStatusesDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(AttachmentTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(FeedbackTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(PointTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(ResultTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
@@ -88,7 +75,6 @@ public class ManualSynchronization extends FileTransferWebSocketSynchronization 
         addEntity(new EntityDictionary(DigestsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(DigestsDao.Properties.C_app_name.name, "android")));
         addEntity(new EntityDictionary(UserInDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(UserInDivisionsDao.Properties.F_user.name, getUserID())));
 
-        addEntity(Entity.createInstance(NotificationsDao.TABLENAME, true, true).setTid(totalTid).setFilters(new FilterItem(NotificationsDao.Properties.Fn_user_to.name, getUserID()), "OR", new FilterItem(NotificationsDao.Properties.Fn_user_from.name, getUserID())));
         addEntity(Entity.createInstance(RoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(UserPointsDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(PointsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
@@ -96,10 +82,7 @@ public class ManualSynchronization extends FileTransferWebSocketSynchronization 
         addEntity(Entity.createInstance(UserInRoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(RouteHistoryDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(UsersDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
-        addEntity(Entity.createInstance(FeedbacksDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(RegistrPtsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
-        addEntity(Entity.createInstance(InputMeterReadingsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
-        addEntity(Entity.createInstance(OutputMeterReadingsDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
     }
 
     @Override
@@ -122,12 +105,6 @@ public class ManualSynchronization extends FileTransferWebSocketSynchronization 
             sendBytes(totalTid, bytes);
         }catch (Exception e){
             onError(IProgressStep.START, "Ошибка обработки пакета для общих таблиц. " + e.toString(), totalTid);
-        }
-        try {
-            bytes = generatePackage(fileTid, (Object) null);
-            sendBytes(fileTid, bytes);
-        }catch (Exception e){
-            onError(IProgressStep.START, "Ошибка обработки пакета с файлами. " + e.toString(), fileTid);
         }
     }
 }
