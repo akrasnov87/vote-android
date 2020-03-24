@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fPointSort_tMenu"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/fPointSort_rlTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fPointSort_tMenu">
+
+        <TextView
+            android:id="@+id/fPointSort_tvTitle"
+            style="@style/TextViewMainTitle"
+            android:text="@string/points_sort" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fPointSort_rlTop"
+        android:background="@color/contentColor">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/adress_sort"
+                android:layout_marginStart="@dimen/size_xxxs_4"
+                android:layout_marginTop="@dimen/size_s_24"
+                android:labelFor="@id/fPointSort_spPointAddress"
+                android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/fPointSort_spPointAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_background"
+                android:layout_margin="@dimen/size_xxxs_4" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <RelativeLayout
+        android:id="@+id/fPointPhoto_rlTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fPointPhoto_tvTitle"
+            style="@style/TextViewMainTitle"
+            android:text="@string/control_act_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/fPointPhoto_rlBottom"
+        android:layout_below="@+id/fPointPhoto_rlTop"
+        android:background="@color/main_background">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/contentColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/fPointPhoto_tvTitlePhoto"
+                style="@style/TextViewMainText"
+                android:layout_alignParentTop="true"
+                android:text="@string/photos" />
+
+            <RelativeLayout
+                android:id="@+id/fPointPhoto_rlAddPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fPointPhoto_tvTitlePhoto">
+
+                <ImageView
+                    android:id="@+id/fPointPhoto_ivPhotoContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/size_s_24"
+                    android:minHeight="@dimen/size_xxxl_176"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/photo_container_background" />
+
+                <TextView
+                    android:id="@+id/fPointPhoto_tvAddPhoto"
+                    style="@style/TextViewMainText"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:minLines="2"
+                    android:text="@string/press_to_add_photo"
+                    android:textColor="@color/document_text" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fPointPhoto_rvMeters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fPointPhoto_rlAddPhoto" />
+
+            <TextView
+                android:id="@+id/fPointPhoto_tvNoAttachments"
+                style="@style/TextViewFilters"
+                android:layout_below="@id/fPointPhoto_rlAddPhoto"
+                android:gravity="center"
+                android:text="@string/no_attachments"
+                android:textColor="@color/document_text"
+                android:textSize="18sp" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/fPointPhoto_rlBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/contentColor"
+        android:padding="@dimen/size_s_24">
+
+        <Button
+            android:id="@+id/fPointPhoto_btnSave"
+            style="@style/ButtonStyle"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/fPointPhoto_ibGoToAct"
+            android:layout_marginEnd="@dimen/size_s_24"
+            android:text="@string/save_act" />
+
+        <ImageButton
+            android:id="@+id/fPointPhoto_ibGoToAct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@color/contentColor"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_in_rectangle_24dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

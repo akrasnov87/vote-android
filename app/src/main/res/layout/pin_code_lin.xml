@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content">
+    <ImageView
+        android:id="@+id/pinCodeLin_ivFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        android:src="@drawable/ic_pin_circle_empty_24dp" />
+
+    <ImageView
+        android:id="@+id/pinCodeLin_ivSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        android:src="@drawable/ic_pin_circle_empty_24dp" />
+
+    <ImageView
+        android:id="@+id/pinCodeLin_ivThird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        android:src="@drawable/ic_pin_circle_empty_24dp" />
+
+    <ImageView
+        android:id="@+id/pinCodeLin_ivFourth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pin_circle_empty_24dp" />
+</LinearLayout>

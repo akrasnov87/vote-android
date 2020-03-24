@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/fRoute_tvRoutesTitle"
+        android:layout_alignParentTop="true"
+        style="@style/TextViewMainTitle"
+        android:text="@string/all_routes" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fRoute_rvRoutes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fRoute_tvRoutesTitle"
+        android:layout_gravity="center" />
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:key="MBL_APP_VERSION"
+        android:summary="0.0.0.0"
+        android:title="Версия"
+        app:summary="Общая информация о приложении" />
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_trending_up_black_24dp"
+        android:summary="Настройки производительности приложения"
+        android:title="@string/performance">
+
+        <ListPreference
+            android:defaultValue="webp"
+            android:entries="@array/image_format"
+            android:entryValues="@array/image_format_values"
+            android:key="MBL_IMAGE_FORMAT"
+            android:title="Формат" />
+
+        <ListPreference
+            android:defaultValue="720"
+            android:entries="@array/image_quality"
+            android:entryValues="@array/image_quality_values"
+            android:key="MBL_IMAGE_HEIGHT"
+            android:title="Качество" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_pin_icon_24dp"
+        android:summary="Настройки авторизации"
+        android:title="Авторизация">
+        <SwitchPreference
+            android:enabled="true"
+            android:key="MBL_PIN"
+            android:summary="Включить режим авторизации по пин-коду"
+            android:title="Пин-код" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:summary="Включен режим отладки приложения"
+        android:title="@string/debug_mode">
+
+        <SwitchPreference
+            android:key="MBL_DEBUG"
+            android:summary="Включить режим отладки"
+            android:title="Включить" />
+
+        <Preference
+            android:key="MBL_GENERATED_ERROR"
+            android:summary="Генерация исключения для проверки механизма обработки ошибок. Внимание будет перезапуск приложения!!!"
+            android:title="Создать исключение" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

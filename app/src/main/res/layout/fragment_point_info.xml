@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: 17/01/2020 можно переделать на RecyclerView -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_background"
+    android:padding="@dimen/size_xxxs_4">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/meter_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/fPointInfo_llGeneralInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/general_info"
+            android:textColor="@color/colorPrimary" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvSubscrNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/subscr_account_short" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvFIO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/fio" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/adress" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fPointInfo_llReadings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fPointInfo_llGeneralInfo">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/readings"
+            android:textColor="@color/colorPrimary" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvLastReadingsDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/last_readings_date" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvLastReadingsValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/previous_readings" />
+    </LinearLayout>
+
+    <!-- TODO: 17/01/2020 Можно переделать на отдельный компонент. см. ru.mobnius.vote.ui.component.TextFieldView -->
+    <RelativeLayout
+        android:id="@+id/fPointInfo_rlPlomb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fPointInfo_llReadings">
+
+        <TextView
+            android:id="@+id/fPointInfo_tvPlombLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/plombs"
+            android:textColor="@color/colorPrimary" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fPointInfo_rvPlomb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fPointInfo_tvPlombLabel"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/fPointInfo_ivPlombArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_drop_down_24dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fPointInfo_rlPrescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:background="@drawable/card_background"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fPointInfo_rlPlomb">
+        <TextView
+            android:id="@+id/fPointInfo_tvPrescriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/route_history"
+            android:textColor="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/fPointInfo_ivPrescriptionArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_drop_down_24dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/fPointInfo_rlMeterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:background="@drawable/card_background"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fPointInfo_rlPrescription">
+        <TextView
+            android:id="@+id/fPointInfo_tvMeterInfoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/meter_info"
+            android:textColor="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/fPointInfo_ivMeterInfoArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_drop_down_24dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/fPointInfo_llSubscrAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:padding="@dimen/size_s_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fPointInfo_rlMeterInfo">
+
+        <TextView
+            android:id="@+id/fPointInfo_tfvSubscrInfoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subscr_account_long"
+            android:textColor="@color/colorPrimary" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/fPointInfo_tfvSubDivision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/sub_division"
+            android:layout_below="@id/fPointInfo_tfvSubscrInfoTitle"
+            />
+        <ImageView
+            android:id="@+id/fPointInfo_ivSubscrInfoArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_drop_down_24dp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

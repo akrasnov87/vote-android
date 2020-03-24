@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/text_field_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/label_light_gray"
+        android:textSize="12sp"
+        tools:text="Телофонные номера"/>
+
+    <TextView
+        android:id="@+id/text_field_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginEnd="@dimen/size_s_24"
+        tools:text="+79278421477 - Александр, +79278421478 - дом. тел." />
+
+</merge>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/contentColor"
+    >
+    <item android:drawable="@drawable/ic_backspace_button_24_dp"
+        android:height="@dimen/size_s_24"
+        android:width="@dimen/size_s_24"
+        android:gravity="center">
+    </item>
+</ripple>

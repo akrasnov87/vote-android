@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/ItemParentLayout"
+    android:paddingStart="@dimen/size_s_24">
+
+    <ImageView
+        android:id="@+id/itemPointPhoto_ivThumbPhoto"
+        android:layout_width="@dimen/size_xl_72"
+        android:layout_height="@dimen/size_xl_72"
+        android:layout_marginTop="@dimen/size_s_24"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_photo_camera_24dp" />
+
+    <TextView
+        android:id="@+id/itemPointPhoto_tvActType"
+        style="@style/TextViewMainText"
+        android:layout_toEndOf="@id/itemPointPhoto_ivThumbPhoto"
+        tools:text="Тип акта"/>
+
+    <TextView
+        android:id="@+id/itemPointPhoto_tvDate"
+        style="@style/TextViewLabelText"
+        android:layout_below="@id/itemPointPhoto_tvActType"
+        android:layout_toEndOf="@id/itemPointPhoto_ivThumbPhoto"
+        android:maxLines="3"
+        tools:text="широта и долгота"/>
+
+    <TextView
+        android:id="@+id/itemPointPhoto_tvNotice"
+        style="@style/TextViewLabelText"
+        android:layout_below="@id/itemPointPhoto_tvDate"
+        android:layout_toEndOf="@id/itemPointPhoto_ivThumbPhoto"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/document_text"
+        tools:text="Текст примечания, скрытый если он слишком длинный"/>
+
+</RelativeLayout>

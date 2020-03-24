@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ItemParentLayout">
+
+
+    <TextView
+        android:id="@+id/itemPoint_tvDeviceNumber"
+        style="@style/TextViewMainText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/colorAccent"
+        tools:text="ПУ-111-11-111" />
+    <ImageView
+        android:id="@+id/itemPoint_ivSyncStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_sync_disabled_gray_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="@dimen/size_s_24"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/itemPoint_ivDoneStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_check_green_24dp"
+        app:layout_constraintEnd_toStartOf="@id/itemPoint_ivSyncStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="@dimen/size_s_24"/>
+
+    <ru.mobnius.vote.ui.component.TextFieldView
+        android:id="@+id/itemPoint_tvSubscrNumber"
+        app:fieldLabel="@string/private_account_short"
+        style="@style/TextViewLabelText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemPoint_tvDeviceNumber"
+        android:visibility="gone"
+        tools:fieldText="11111-222-111"/>
+
+    <ru.mobnius.vote.ui.component.TextFieldView
+        android:id="@+id/itemPoint_tvFIO"
+        style="@style/TextViewLabelText"
+        app:fieldLabel="@string/fio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemPoint_tvSubscrNumber"
+        android:visibility="gone"/>
+
+    <ru.mobnius.vote.ui.component.TextFieldView
+        android:id="@+id/itemPoint_tvAdress"
+        style="@style/TextViewLabelText"
+        app:fieldLabel="@string/adress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemPoint_tvFIO"
+        android:visibility="gone"
+        tools:fieldText="г. Чебоксары, улица Композиторов Воробьевых, дом 15, квартира 20"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

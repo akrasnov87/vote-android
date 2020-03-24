@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/fPoint_pbRoutesProgress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_xxs_8"
+        android:layout_alignParentTop="true"
+        android:progressDrawable="@drawable/progress_background"
+        android:visibility="gone"
+        tools:progress="50"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/fPoint_tvPointsTitle"
+        style="@style/TextViewMainTitle"
+        android:layout_below="@id/fPoint_pbRoutesProgress"
+        android:text="@string/all_points" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fPoint_rvPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fPoint_tvPointsTitle" />
+
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ItemParentLayout"
+    android:background="@color/contentColor"
+    android:elevation="0dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemMeterReadings_Guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/itemMeterReadings_tvType"
+        style="@style/TextViewMainText"
+        android:layout_alignParentStart="true"
+        tools:text="Ночь"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/itemMeterReadings_tvPreviousTitle"
+        style="@style/TextViewLabelText"
+        app:layout_constraintTop_toBottomOf="@id/itemMeterReadings_tvType"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/previous_readings" />
+
+    <TextView
+        android:id="@+id/itemMeterReadings_tvPreviousData"
+        style="@style/TextViewMainText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemMeterReadings_tvPreviousTitle"
+        tools:text="12345" />
+
+    <TextView
+        android:id="@+id/itemMeterReadings_tvCurrentTitle"
+        style="@style/TextViewLabelText"
+        app:layout_constraintTop_toBottomOf="@id/itemMeterReadings_tvType"
+        app:layout_constraintStart_toStartOf="@id/itemMeterReadings_Guideline"
+        android:text="@string/current_readings" />
+
+    <EditText
+        android:id="@+id/itemMeterReadings_etCurrentData"
+        style="@style/TextViewMainText"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/itemMeterReadings_tvCurrentTitle"
+        app:layout_constraintStart_toStartOf="@id/itemMeterReadings_Guideline"
+        app:layout_constraintEnd_toEndOf="@id/itemMeterReadings_tvCurrentTitle"
+        app:layout_constraintBaseline_toBaselineOf="@id/itemMeterReadings_tvPreviousData"
+        android:backgroundTint="@color/document_text"
+        android:inputType="numberDecimal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

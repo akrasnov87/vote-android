@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_container_padding">5dp</dimen>
+    <dimen name="default_field_margin_left">5dp</dimen>
+    <dimen name="small_icon">16dp</dimen>
+    <dimen name="image_size">110dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- font size -->
+    <dimen name="large_font_size">18sp</dimen>
+    <dimen name="high_font_size">16sp</dimen>
+    <dimen name="medium_font_size">14sp</dimen>
+    <dimen name="small_font_size">12sp</dimen>
+
+    <!-- element size -->
+    <dimen name="radius">6dp</dimen>
+
+    <dimen name="space_large">16dp</dimen>
+    <dimen name="space_high">8dp</dimen>
+    <dimen name="space_medium">4dp</dimen>
+
+    <dimen name="toolbar_icon_size">32dp</dimen>
+
+
+    <dimen name="separate_line_1">1dp</dimen>
+    <dimen name="size_xxxs_4">4dp</dimen>
+    <dimen name="size_xxs_8">8dp</dimen>
+    <dimen name="size_xs_16">16dp</dimen>
+    <dimen name="size_s_24">24dp</dimen>
+    <dimen name="size_m_32">32dp</dimen>
+    <dimen name="size_l_56">56dp</dimen>
+    <dimen name="size_xl_72">72dp</dimen>
+    <dimen name="size_xxxl_176">176dp</dimen>
+
+</resources>

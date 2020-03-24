@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextFieldView">
+        <attr name="fieldLabel" format="string" />
+        <attr name="fieldText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="labelText" format="string" />
+    </declare-styleable>
+</resources>
