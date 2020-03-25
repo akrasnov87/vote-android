@@ -16,7 +16,6 @@ import java.util.List;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.ui.activity.ChoiceDocumentActivity;
 import ru.mobnius.vote.ui.activity.ControlMeterReadingsActivity;
 import ru.mobnius.vote.ui.component.TextFieldView;
 import ru.mobnius.vote.ui.model.PointItem;
