@@ -9,8 +9,6 @@
         android:title="Версия"
         app:summary="Общая информация о приложении" />
 
-
-
     <PreferenceCategory
         android:icon="@drawable/ic_pin_icon_24dp"
         android:summary="Настройки авторизации"

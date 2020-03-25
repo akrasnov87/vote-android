@@ -8,7 +8,7 @@
         android:id="@+id/fRoute_tvRoutesTitle"
         android:layout_alignParentTop="true"
         style="@style/TextViewMainTitle"
-        android:text="@string/all_routes" />
+        android:text="@string/house_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fRoute_rvRoutes"

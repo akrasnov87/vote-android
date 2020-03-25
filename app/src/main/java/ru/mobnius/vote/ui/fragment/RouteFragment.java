@@ -80,7 +80,7 @@ public class RouteFragment extends BaseFragment {
         if (finishRoutes.size() > 0) {
             innerList.add(finishRoutes);
         }
-        mRecyclerView.setAdapter(new RouteTypeAdapter(getContext(), innerList));
+        mRecyclerView.setAdapter(new RouteAdapter(getContext(), innerList));
     }
 
     @Override
