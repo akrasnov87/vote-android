@@ -38,30 +38,10 @@ public class DocumentManagerTest extends ManagerGenerate {
 
     @After
     public void tearDown() {
-        getDaoSession().getOutputMeterReadingsDao().deleteAll();
-        getDaoSession().getInputMeterReadingsDao().deleteAll();
         getDaoSession().getResultsDao().deleteAll();
         getDaoSession().getUserPointsDao().deleteAll();
-        getDaoSession().getTimeZonesDao().deleteAll();
         getDaoSession().getPointTypesDao().deleteAll();
         fileManager.clearUserFolder();
-    }
-
-    @Test
-    public void createOutputMeterReadings() throws ParseException {
-        String inputMeterRedingsId = UUID.randomUUID().toString();
-        String userPointId = UUID.randomUUID().toString();
-
-        String resultId = mDocumentManager.createOutputMeterReadings(inputMeterRedingsId, userPointId, 1.25);
-        OutputMeterReadings outputMeterReadings = getDaoSession().getOutputMeterReadingsDao().load(resultId);
-        assertEquals(outputMeterReadings.fn_meter_reading, inputMeterRedingsId);
-        assertEquals(outputMeterReadings.fn_user_point, userPointId);
-        assertEquals(outputMeterReadings.n_value, 1.25, 0);
-
-        // updateOutputMeterReadings
-        mDocumentManager.updateOutputMeterReadings(resultId, 1.50);
-        outputMeterReadings = getDaoSession().getOutputMeterReadingsDao().load(resultId);
-        assertEquals(outputMeterReadings.n_value, 1.50, 0);
     }
 
     @Test
@@ -103,59 +83,5 @@ public class DocumentManagerTest extends ManagerGenerate {
         assertEquals(userPoint.jb_data, "{\"data\":\"\"}");
         assertEquals(userPoint.jb_email, "{\"email\":\"\"}");
         assertEquals(userPoint.jb_tel, "{\"tel\":\"\"}");
-    }
-
-    @Test
-    public void  getMeters() throws ParseException {
-        String userPointId = UUID.randomUUID().toString();
-
-        TimeZones timeZone = new TimeZones();
-        timeZone.id = (long)1;
-        timeZone.c_name = "Сутки";
-        timeZone.n_order = 900;
-        getDaoSession().getTimeZonesDao().insert(timeZone);
-
-        timeZone = new TimeZones();
-        timeZone.id = (long)2;
-        timeZone.c_name = "Ночь";
-        timeZone.n_order = 1000;
-        getDaoSession().getTimeZonesDao().insert(timeZone);
-
-        InputMeterReadings inputMeterReading = new InputMeterReadings();
-        inputMeterReading.id = UUID.randomUUID().toString();
-        inputMeterReading.f_point = mPointId;
-        inputMeterReading.f_time_zone = (long)1;
-        inputMeterReading.n_value_prev = 1.25;
-        inputMeterReading.d_date_prev = DateUtil.convertDateToString(new Date());
-        getDaoSession().getInputMeterReadingsDao().insert(inputMeterReading);
-
-        OutputMeterReadings outputMeterReading = new OutputMeterReadings();
-        outputMeterReading.n_value = 3.25;
-        outputMeterReading.d_date = DateUtil.convertDateToString(new Date());
-        outputMeterReading.id = UUID.randomUUID().toString();
-        outputMeterReading.fn_user_point = userPointId;
-        outputMeterReading.fn_meter_reading = inputMeterReading.id;
-        getDaoSession().getOutputMeterReadingsDao().insert(outputMeterReading);
-
-        inputMeterReading = new InputMeterReadings();
-        inputMeterReading.id = UUID.randomUUID().toString();
-        inputMeterReading.f_point = mPointId;
-        inputMeterReading.f_time_zone = (long)2;
-        inputMeterReading.n_value_prev = 2.25;
-        inputMeterReading.d_date_prev = DateUtil.convertDateToString(new Date());
-        getDaoSession().getInputMeterReadingsDao().insert(inputMeterReading);
-
-        outputMeterReading = new OutputMeterReadings();
-        outputMeterReading.n_value = 4.25;
-        outputMeterReading.d_date = DateUtil.convertDateToString(new Date());
-        outputMeterReading.id = UUID.randomUUID().toString();
-        outputMeterReading.fn_user_point = userPointId;
-        outputMeterReading.fn_meter_reading = inputMeterReading.id;
-        getDaoSession().getOutputMeterReadingsDao().insert(outputMeterReading);
-
-        Meter[] meters = mDocumentManager.getOutputMeters(userPointId);
-        assertEquals(meters.length, 2);
-        assertEquals(meters[0].getValue(), 4.25, 0);
-        assertEquals(meters[0].getValuePrev(), 2.25, 0);
     }
 }

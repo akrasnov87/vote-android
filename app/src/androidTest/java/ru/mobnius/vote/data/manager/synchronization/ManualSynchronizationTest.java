@@ -29,17 +29,6 @@ public class ManualSynchronizationTest extends ManagerGenerate {
     public void setUp() {
         synchronization = new ManualSynchronizationTest.MySynchronization(getDaoSession(), getFileManager(), getCredentials());
         synchronization.initEntities();
-
-        // без этого фильтрации не будет работать
-        // TODO 09/01/2020 нужно добавить проверку в метод start у синхронизации на передачу идентификатора пользователя, что null не было
-        synchronization.getEntity(getDaoSession().getAttachmentsDao().getTablename()).setParam(null);
-        synchronization.getEntity(getDaoSession().getFilesDao().getTablename()).setParam(null);
-    }
-
-    @After
-    public void tearDown() {
-        synchronization.getDaoSession().getFilesDao().deleteAll();
-        synchronization.getDaoSession().getAttachmentsDao().deleteAll();
     }
 
     @Test
@@ -51,62 +40,6 @@ public class ManualSynchronizationTest extends ManagerGenerate {
         Object[] array = synchronization.getRecords(SubDivisionsDao.TABLENAME, "").toArray();
         Assert.assertTrue(array.length > 0);
         synchronization.destroy();
-        utils.destroy();
-    }
-
-    @Test
-    public void attachments() throws IOException {
-        FileManager fileManager = synchronization.getFileManager();
-        try {
-            fileManager.deleteFolder(FileManager.FILES);
-        }catch (FileNotFoundException e){
-
-        }
-
-        // создаем записи о вложениях
-        DaoSession session = synchronization.getDaoSession();
-
-        for(int i = 0; i < 2; i++) {
-            byte[] bytes = ("file number " + i).getBytes();
-            getDataManager().saveAttachment("file" + i + ".tmp", 1, UUID.randomUUID().toString(), "", LocationUtil.getLocation(0, 0), bytes);
-        }
-
-        boolean updateTid = SyncUtil.updateTid(synchronization, session.getAttachmentsDao().getTablename(), synchronization.fileTid);
-        Assert.assertTrue(updateTid);
-
-        updateTid = SyncUtil.updateTid(synchronization, session.getFilesDao().getTablename(), synchronization.fileTid);
-        Assert.assertTrue(updateTid);
-
-        byte[] bytes = synchronization.generatePackage(synchronization.fileTid, (Object) null);
-        byte[] results = (byte[]) synchronization.sendBytes(synchronization.fileTid, bytes);
-
-        try {
-            fileManager.deleteFolder(FileManager.FILES);
-        }catch (FileNotFoundException e){
-
-        }
-
-        synchronization.getDaoSession().getAttachmentsDao().deleteAll();
-        synchronization.getDaoSession().getFilesDao().deleteAll();
-
-        PackageReadUtils utils = new PackageReadUtils(results, synchronization.isZip());
-        synchronization.onProcessingPackage(utils, synchronization.fileTid);
-        byte[] fileBytes = fileManager.readPath(FileManager.FILES, "file0.tmp");
-        Assert.assertNotNull(fileBytes);
-        assertEquals(new String(fileBytes), "file number 0");
-
-        List records = synchronization.getRecords(session.getAttachmentsDao().getTablename(), "");
-        Assert.assertTrue(records.size() >= 2);
-
-        records = synchronization.getRecords(session.getFilesDao().getTablename(), "");
-        Assert.assertTrue(records.size() >= 2);
-
-        synchronization.destroy();
-        try {
-            fileManager.deleteFolder(FileManager.FILES);
-        }catch (FileNotFoundException e){
-
-        }
         utils.destroy();
     }
 

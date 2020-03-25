@@ -15,7 +15,6 @@ import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.storage.models.Divisions;
-import ru.mobnius.vote.data.storage.models.Files;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.ResultTypes;
@@ -32,7 +31,6 @@ import ru.mobnius.vote.ui.model.PointResult;
 
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.utils.DateUtil;
-import ru.mobnius.vote.utils.LocationUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -54,76 +52,6 @@ public class DataManagerTest extends ManagerGenerate {
         routeType.id = (long)1;
         routeType.c_name = "тип";
         getDaoSession().getRouteTypesDao().insert(routeType);
-    }
-
-    @Test
-    public void saveFile() throws IOException {
-
-        String str = "Hello";
-        byte[] bytes = str.getBytes();
-
-        Files file = dataManager.saveFile("test.txt", bytes);
-
-        Files dbFile = dataManager.getFile(file.id);
-
-        assertEquals(file.c_name, dbFile.c_name);
-
-        byte[] fileBytes = dataManager.getFileBytes(file.id);
-
-        assertEquals(new String(fileBytes), str);
-    }
-
-    @Test
-    public void saveAttachment() throws IOException {
-        String str = "Hello";
-        byte[] bytes = str.getBytes();
-
-        Attachments file = dataManager.saveAttachment("test.txt", 1, "", "", LocationUtil.getLocation(0, 0), bytes);
-
-        Attachments dbFile = getDaoSession().getAttachmentsDao().load(file.id);
-        assertEquals(file.c_name, dbFile.c_name);
-
-        byte[] fileBytes = dataManager.getFileAttachment(file.id);
-
-        assertEquals(new String(fileBytes), str);
-
-        Attachments attachments = dataManager.getAttachment(file.id);
-        assertNotNull(attachments);
-
-        String fileId = attachments.fn_file;
-        dataManager.removeAttachment(attachments.id);
-
-        assertNull(dataManager.getAttachment(attachments.id));
-        assertNull(dataManager.getFileBytes(fileId));
-        assertNull(FileManager.getInstance().readPath(attachments.folder, attachments.c_name));
-    }
-
-    @Test
-    public void updateAttachment() throws IOException {
-        String str = "Hello";
-        byte[] bytes = str.getBytes();
-
-        Attachments file = dataManager.saveAttachment("test.txt", 1, "", "", LocationUtil.getLocation(0, 0), bytes);
-        assertEquals(file.fn_type, 1);
-        assertEquals(file.c_notice, "");
-
-        Attachments attachments = dataManager.updateAttachment(file.id, 2, "notice");
-        assertNotNull(attachments);
-
-        assertEquals(attachments.c_notice, "notice");
-        assertEquals(attachments.fn_type, 2);
-    }
-
-    @Test
-    public void file() throws IOException {
-        Files files = dataManager.saveFile("test.txt", "Hello".getBytes());
-        assertNotNull(files);
-        assertNotNull(dataManager.getFile(files.id));
-        assertNotNull(dataManager.getFileBytes(files.id));
-
-        dataManager.removeFile(files.id);
-        assertNull(dataManager.getFile(files.id));
-        assertNull(dataManager.getFileBytes(files.id));
     }
 
     @Test
@@ -244,8 +172,6 @@ public class DataManagerTest extends ManagerGenerate {
         getDaoSession().getPointsDao().deleteAll();
         getDaoSession().getUserPointsDao().deleteAll();
         getDaoSession().getResultsDao().deleteAll();
-        getDaoSession().getAttachmentsDao().deleteAll();
-        getDaoSession().getFilesDao().deleteAll();
 
         Routes routes = new Routes();
         routes.id = UUID.randomUUID().toString();
@@ -276,17 +202,6 @@ public class DataManagerTest extends ManagerGenerate {
         results.fn_user_point = userPoints.id;
         getDaoSession().getResultsDao().insert(results);
 
-        Files files = new Files();
-        files.id = UUID.randomUUID().toString();
-        getDaoSession().getFilesDao().insert(files);
-
-        Attachments attachments = new Attachments();
-        attachments.id = UUID.randomUUID().toString();
-        attachments.fn_file = files.id;
-        attachments.fn_result = results.id;
-        attachments.fn_type = 1;
-        getDaoSession().getAttachmentsDao().insert(attachments);
-
         points = new Points();
         String secondPointId = points.id = UUID.randomUUID().toString();
         points.f_registr_pts = UUID.randomUUID().toString();
@@ -309,19 +224,6 @@ public class DataManagerTest extends ManagerGenerate {
         results.fn_user_point = userPoints.id;
         results.isSynchronization = true;
         getDaoSession().getResultsDao().insert(results);
-
-        files = new Files();
-        files.id = UUID.randomUUID().toString();
-        files.isSynchronization = true;
-        getDaoSession().getFilesDao().insert(files);
-
-        attachments = new Attachments();
-        attachments.id = UUID.randomUUID().toString();
-        attachments.fn_file = files.id;
-        attachments.fn_result = results.id;
-        attachments.fn_type = 1;
-        attachments.isSynchronization = true;
-        getDaoSession().getAttachmentsDao().insert(attachments);
 
         points = new Points();
         String threePointId = points.id = UUID.randomUUID().toString();
@@ -472,8 +374,6 @@ public class DataManagerTest extends ManagerGenerate {
         getDaoSession().getRegistrPtsDao().deleteAll();
         getDaoSession().getDivisionsDao().deleteAll();
         getDaoSession().getSubDivisionsDao().deleteAll();
-        getDaoSession().getInputMeterReadingsDao().deleteAll();
-        getDaoSession().getTimeZonesDao().deleteAll();
         getDaoSession().getPointsDao().deleteAll();
 
         Divisions division = new Divisions();
@@ -497,40 +397,10 @@ public class DataManagerTest extends ManagerGenerate {
         registrPts.f_subdivision = subDivision.id;
         getDaoSession().getRegistrPtsDao().insert(registrPts);
 
-        TimeZones timeZone = new TimeZones();
-        timeZone.id = (long)1;
-        timeZone.c_name = "Сутки";
-        timeZone.c_short_name = "сутки";
-        timeZone.n_order = 900;
-        getDaoSession().getTimeZonesDao().insert(timeZone);
-
-        TimeZones timeZone2 = new TimeZones();
-        timeZone2.id = (long)2;
-        timeZone2.c_name = "Ночь";
-        timeZone2.c_short_name = "ночь";
-        timeZone2.n_order = 1000;
-        getDaoSession().getTimeZonesDao().insert(timeZone2);
-
         Points point = new Points();
         point.id = UUID.randomUUID().toString();
         point.f_registr_pts = registrPts.id;
         getDaoSession().getPointsDao().insert(point);
-
-        InputMeterReadings inputMeterReadings = new InputMeterReadings();
-        inputMeterReadings.id = UUID.randomUUID().toString();
-        inputMeterReadings.d_date_prev = DateUtil.convertDateToString(new Date());
-        inputMeterReadings.n_value_prev = 0.25;
-        inputMeterReadings.f_time_zone = timeZone.id;
-        inputMeterReadings.f_point = point.id;
-        getDaoSession().getInputMeterReadingsDao().insert(inputMeterReadings);
-
-        inputMeterReadings = new InputMeterReadings();
-        inputMeterReadings.id = UUID.randomUUID().toString();
-        inputMeterReadings.d_date_prev = DateUtil.convertDateToString(new Date());
-        inputMeterReadings.n_value_prev = 0.54;
-        inputMeterReadings.f_time_zone = timeZone2.id;
-        inputMeterReadings.f_point = point.id;
-        getDaoSession().getInputMeterReadingsDao().insert(inputMeterReadings);
 
         PointInfo info = dataManager.getPointInfo(point.id);
         assertNotNull(info);
@@ -539,9 +409,6 @@ public class DataManagerTest extends ManagerGenerate {
         assertEquals(info.getAddress(), registrPts.c_address);
         assertEquals(info.getFio(), registrPts.c_fio);
         assertEquals(info.getSubDivisionName(), subDivision.c_name);
-        assertEquals(info.getMeters().length, 2);
-        assertEquals(info.getMeters()[0].getTimeZoneName(), "Ночь");
-        assertEquals(info.getMeters()[0].getValuePrev(), 0.54, 0);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.DaoSession;
-import ru.mobnius.vote.data.storage.models.Files;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
@@ -64,98 +63,6 @@ public class DataManager {
 
     public DaoSession getDaoSession(){
         return daoSession;
-    }
-
-    /**
-     * Получение байтов для файла
-     *
-     * @param fileId идентификтаор объекта
-     * @return массив байтов
-     * @throws IOException
-     */
-    public byte[] getFileBytes(String fileId) throws IOException {
-        Files files = getFile(fileId);
-        if (files != null) {
-            return FileManager.getInstance().readPath(files.folder, files.c_name);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Получение данных о файле
-     * @param fileId идентификтаор
-     * @return данные
-     */
-    public Files getFile(String fileId) {
-        return daoSession.getFilesDao().load(fileId);
-    }
-
-    /**
-     * Удаление файла по идентификтаору
-     *
-     * @param fileId идентификтаор
-     * @return true - файл был удален
-     */
-    public boolean removeFile(String fileId) {
-        Files files = getFile(fileId);
-        if (files != null) {
-            if(files.isSynchronization) {
-                files.objectOperationType = DbOperationType.REMOVED;
-                files.isDelete = true;
-                files.isSynchronization = false;
-
-                daoSession.getFilesDao().update(files);
-            }else{
-                daoSession.getFilesDao().delete(files);
-            }
-            FileManager fileManager = FileManager.getInstance();
-            try {
-                fileManager.deleteFile(files.folder, files.c_name);
-            }catch (FileNotFoundException ignore){
-                // это нормально
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Сохранение файла
-     *
-     * @param c_name имя файла
-     * @param bytes  массив байтов
-     * @return файл
-     * @throws IOException
-     */
-    public Files saveFile(String c_name, byte[] bytes) throws IOException {
-        return saveFile(c_name, bytes, FileManager.FILES);
-    }
-
-    /**
-     * Сохранение файла
-     *
-     * @param c_name имя файла
-     * @param bytes  массив байтов
-     * @param folder каталог
-     * @return файл
-     * @throws IOException
-     */
-    public Files saveFile(String c_name, byte[] bytes, String folder) throws IOException {
-        FileManager fileManager = FileManager.getInstance();
-        fileManager.writeBytes(folder, c_name, bytes);
-
-        Files file = new Files();
-        file.c_name = c_name;
-        file.c_mime = StringUtil.getMimeByName(c_name);
-        file.c_extension = StringUtil.getExtension(c_name);
-        file.d_date = DateUtil.convertDateToString(new Date());
-        file.folder = folder;
-        file.objectOperationType = DbOperationType.CREATED;
-
-        daoSession.getFilesDao().insert(file);
-        return file;
     }
 
     /**

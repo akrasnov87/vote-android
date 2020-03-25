@@ -24,7 +24,6 @@ import ru.mobnius.vote.utils.SqlUpdateFromJSONObject;
  */
 public abstract class ServerSidePackage implements IServerSidePackage {
     private boolean deleteRecordBeforeAppend = false;
-    private FileManager fileManager;
     private FileBinary[] mFileBinary;
 
     /**
@@ -41,14 +40,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
      */
     public boolean getDeleteRecordBeforeAppend(){
         return deleteRecordBeforeAppend;
-    }
-
-    /**
-     * добавление информации для обработки вложений
-     * @param fileManager файловый менеджер
-     */
-    public void attachmentBy(FileManager fileManager){
-        this.fileManager = fileManager;
     }
 
     /**

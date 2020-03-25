@@ -43,14 +43,6 @@ public class Users implements IEntityTo {
         this.c_login = c_login;
     }
 
-    public String getFn_file() {
-        return this.fn_file;
-    }
-
-    public void setFn_file(String fn_file) {
-        this.fn_file = fn_file;
-    }
-
     public String getC_firstname() {
         return this.c_firstname;
     }
@@ -180,35 +172,6 @@ public class Users implements IEntityTo {
         }
     }
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 715862082)
-    public Files getFile() {
-        String __key = this.fn_file;
-        if (file__resolvedKey == null || file__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            FilesDao targetDao = daoSession.getFilesDao();
-            Files fileNew = targetDao.load(__key);
-            synchronized (this) {
-                file = fileNew;
-                file__resolvedKey = __key;
-            }
-        }
-        return file;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 39298584)
-    public void setFile(Files file) {
-        synchronized (this) {
-            this.file = file;
-            fn_file = file == null ? null : file.getId();
-            file__resolvedKey = fn_file;
-        }
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -273,15 +236,6 @@ public class Users implements IEntityTo {
      */
     @Expose
     public String c_login;
-
-    /**
-     * Иконка
-     */
-    @Expose
-    public String fn_file;
-
-    @ToOne(joinProperty = "fn_file")
-    public Files file;
 
     /**
      * Имя
@@ -358,16 +312,15 @@ public class Users implements IEntityTo {
     @Generated(hash = 1073488616)
     private transient UsersDao myDao;
 
-    @Generated(hash = 1816361666)
-    public Users(Long id, long f_parent, String c_login, String fn_file,
-            String c_firstname, String c_lastname, String c_patronymic,
-            String c_email, String c_tel, String c_description, boolean b_disabled,
-            String objectOperationType, boolean isDelete, boolean isSynchronization,
-            String tid, String blockTid) {
+    @Generated(hash = 1432811130)
+    public Users(Long id, long f_parent, String c_login, String c_firstname,
+            String c_lastname, String c_patronymic, String c_email, String c_tel,
+            String c_description, boolean b_disabled, String objectOperationType,
+            boolean isDelete, boolean isSynchronization, String tid,
+            String blockTid) {
         this.id = id;
         this.f_parent = f_parent;
         this.c_login = c_login;
-        this.fn_file = fn_file;
         this.c_firstname = c_firstname;
         this.c_lastname = c_lastname;
         this.c_patronymic = c_patronymic;
@@ -388,7 +341,4 @@ public class Users implements IEntityTo {
 
     @Generated(hash = 1293412156)
     private transient Long parent__resolvedKey;
-
-    @Generated(hash = 1260399539)
-    private transient String file__resolvedKey;
 }

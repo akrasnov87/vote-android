@@ -22,7 +22,6 @@ import ru.mobnius.vote.data.manager.packager.BinaryBlock;
 import ru.mobnius.vote.data.manager.rpc.RPCRecords;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.manager.rpc.RPCResultMeta;
-import ru.mobnius.vote.data.storage.models.AttachmentsDao;
 import ru.mobnius.vote.data.storage.models.Audits;
 import ru.mobnius.vote.data.storage.models.AuditsDao;
 import ru.mobnius.vote.data.storage.models.Tracking;
@@ -36,7 +35,6 @@ public class ServerSidePackageUtilTest extends DbGenerate {
     public void setUp() {
         getDaoSession().getAuditsDao().deleteAll();
         getDaoSession().getTrackingDao().deleteAll();
-        getDaoSession().getAttachmentsDao().deleteAll();
     }
 
     @Test
@@ -199,69 +197,6 @@ public class ServerSidePackageUtilTest extends DbGenerate {
         trackings = getDaoSession().getTrackingDao().queryBuilder().where(TrackingDao.Properties.Id.eq(tracking2.getId())).list();
         Tracking t = trackings.toArray(new Tracking[0])[0];
         Assert.assertEquals(t.fn_user, tracking2.fn_user);
-    }
-
-    @Test
-    public void attachmentsFromTest() throws IOException, JSONException {
-        String LINK = UUID.randomUUID().toString();
-        String tid = UUID.randomUUID().toString();
-        int blockTid = 0;
-
-        BasicCredentials credentials = new BasicCredentials(GlobalSettings.DEFAULT_USER_NAME, GlobalSettings.DEFAULT_USER_PASSWORD);
-        FileManager fileManager = FileManager.createInstance(credentials, getContext());
-        try {
-            fileManager.deleteFolder(FileManager.ATTACHMENTS);
-        }catch (FileNotFoundException e){
-
-        }
-
-        fileManager.writeBytes(FileManager.ATTACHMENTS, "file1.tmp", "attachmentsToTest".getBytes());
-
-        Attachments attachment = new Attachments();
-        attachment.id = LINK;
-        attachment.folder = FileManager.ATTACHMENTS;
-        attachment.d_date = DateUtil.convertDateToString(new Date());
-        attachment.c_name = "file1.tmp";
-        attachment.objectOperationType = DbOperationType.CREATED;
-        attachment.tid = tid;
-        attachment.fn_type = 1;
-        attachment.blockTid = String.valueOf(blockTid);
-
-        getDaoSession().getAttachmentsDao().insert(attachment);
-
-        RPCResult result = new RPCResult();
-        RPCResultMeta resultMeta = new RPCResultMeta();
-        resultMeta.success = true;
-        result.meta = resultMeta;
-        result.tid = blockTid;
-        result.action = AttachmentsDao.TABLENAME;
-        result.method = "Query";
-        RPCRecords records = new RPCRecords();
-        records.total = 1;
-        JSONObject[] objects = new JSONObject[1];
-
-        JSONObject object = new JSONObject();
-        object.put(AttachmentsDao.Properties.Id.name, LINK);
-        object.put(AttachmentsDao.Properties.Fn_type.name, 1);
-        object.put(AttachmentsDao.Properties.C_name.name, "file1.tmp");
-        object.put(AttachmentsDao.Properties.D_date.name, DateUtil.convertDateToString(new Date()));
-        object.put(AttachmentsDao.Properties.Folder.name, FileManager.ATTACHMENTS);
-
-        objects[0] = object;
-        records.records = objects;
-        result.result = records;
-
-        BinaryBlock binaryBlock = new BinaryBlock();
-        binaryBlock.add("file1.tmp", LINK, "test".getBytes());
-        FileBinary[] files = binaryBlock.getFiles();
-
-        MyServerSidePackageUtil sidePackage = new MyServerSidePackageUtil();
-        sidePackage.attachmentBy(fileManager);
-        sidePackage.setFileBinary(files);
-        PackageResult packageResult = sidePackage.from(getDaoSession(), result, tid, true, true);
-        Assert.assertTrue(packageResult.message, packageResult.success);
-        String txt = new String(fileManager.readPath(FileManager.ATTACHMENTS, "file1.tmp"));
-        Assert.assertEquals(txt, "test");
     }
 
     class MyServerSidePackageUtil extends ServerSidePackage {
