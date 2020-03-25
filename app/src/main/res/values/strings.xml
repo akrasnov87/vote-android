@@ -118,4 +118,6 @@
     <string name="finish">Завершить</string>
     <string name="revert_route_title">Возобновить ранее завершенный маршрут?</string>
     <string name="finish_route_title">Завершенный маршрут?</string>
+    <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
+    <string name="no_server_connection">НЕТ СОЕДИНЕНИЯ С СЕРВЕРОМ</string>
 </resources>

@@ -44,7 +44,7 @@ import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 public class ControlMeterReadingsFragment extends BaseFormFragment
         implements View.OnClickListener {
     public static final int POINT_GALLERY_REQUEST_CODE = 1;
-    
+
     private DaoSession mDaoSession;
     private GeoManager.GeoListener mGeoListener;
 
@@ -114,7 +114,7 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
                 mResultTypeId = mResult.fn_type;
                 mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
                 Document document = mDocumentManager.getDocument(resultId);
-                if(document != null) {
+                if (document != null) {
                     mNoticeText = document.getNotice();
                 }
             } else {
@@ -127,7 +127,7 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
             mResultTypeId = getArguments().getLong(Names.RESULT_TYPE_ID);
             mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
         }
-        setDocumentUtil(DocumentUtil.getInstance(mMeters, mNoticeText));
+        //setDocumentUtil(DocumentUtil.getInstance(mMeters, mNoticeText));
 
         Objects.requireNonNull(getActivity()).getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
     }
@@ -136,8 +136,8 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof GeoManager.GeoListener) {
-            mGeoListener = (GeoManager.GeoListener)context;
+        if (context instanceof GeoManager.GeoListener) {
+            mGeoListener = (GeoManager.GeoListener) context;
         }
     }
 
@@ -158,9 +158,9 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        currentDate.setFieldText(getCurrentDate());
-        previousDate.setFieldText(getPrevDate());
-        mNotice.setText(getDocumentUtil().getStringValue(DocumentUtil.NAME_NOTICE));
+        //currentDate.setFieldText(getCurrentDate());
+        //previousDate.setFieldText(getPrevDate());
+        // mNotice.setText(getDocumentUtil().getStringValue(DocumentUtil.NAME_NOTICE));
 
         return view;
     }
@@ -168,10 +168,11 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
     @Override
     public void onResume() {
         super.onResume();
-
-        mReadingsAdapter = new ReadingsAdapter(getContext(), mMeters, this, getDocumentUtil().getMeters());
-        mRecyclerView.setAdapter(mReadingsAdapter);
-        mNotice.addTextChangedListener(new StringTextWatcher(this, DocumentUtil.NAME_NOTICE));
+        if (getDocumentUtil() != null) {
+            mReadingsAdapter = new ReadingsAdapter(getContext(), mMeters, this, getDocumentUtil().getMeters());
+            mRecyclerView.setAdapter(mReadingsAdapter);
+            mNotice.addTextChangedListener(new StringTextWatcher(this, DocumentUtil.NAME_NOTICE));
+        }
     }
 
     @Override
@@ -195,12 +196,12 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
     }
 
     public void onSaveDocument() {
-        if(DataManager.getInstance().isRouteFinish(mRouteId)) {
+        if (DataManager.getInstance().isRouteFinish(mRouteId)) {
             Toast.makeText(getActivity(), "Маршрут завершен, внесение изменения запрещено.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!DataManager.getInstance().isWait(mRouteId)) {
+        if (!DataManager.getInstance().isWait(mRouteId)) {
             Toast.makeText(getActivity(), "Маршрут запрещен для изменений.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -220,7 +221,7 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
             double longitude = 0;
             double latitude = 0;
 
-            if(mGeoListener != null) {
+            if (mGeoListener != null) {
                 Location location = mGeoListener.getCurrentLocation();
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();

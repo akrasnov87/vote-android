@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.ui.activity.ChoiceDocumentActivity;
+import ru.mobnius.vote.ui.activity.ControlMeterReadingsActivity;
 import ru.mobnius.vote.ui.component.TextFieldView;
 import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.ui.model.PointResult;
 
 public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder> {
 
@@ -97,7 +101,15 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
         @Override
         public void onClick(View v) {
             String routeId = mPointsList.get(getAdapterPosition()).routeId;
-            mContext.startActivity(ChoiceDocumentActivity.newIntent(mContext, mPointsList.get(getLayoutPosition()).id, routeId));
+            String pointId = mPointsList.get(getLayoutPosition()).id;
+            List<PointResult> pointResults  = DataManager.getInstance().getPointDocuments(pointId);
+            Intent intent;
+            if(pointResults.size()>0) {
+                intent = ControlMeterReadingsActivity.newIntent(mContext, pointResults.get(0).getResultId());
+            } else {
+                intent = ControlMeterReadingsActivity.newIntent(mContext, routeId, pointId, 0);
+            }
+            mContext.startActivity(intent);
         }
     }
 }

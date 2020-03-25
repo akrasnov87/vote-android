@@ -50,8 +50,8 @@ public class ChoiceDocumentFragment extends BaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_choice_document, container, false);
-        mRecyclerView = view.findViewById(R.id.fChoiceDocument_rvDocumentType);
+        View view = inflater.inflate(R.layout.fragment_control_meter_readings, container, false);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
@@ -70,7 +70,6 @@ public class ChoiceDocumentFragment extends BaseFragment {
         public ChoiceDocumentHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvDocumentType = itemView.findViewById(R.id.itemChoiceDocument_tvDocumentName);
             itemView.setOnClickListener(this);
         }
 
@@ -106,7 +105,7 @@ public class ChoiceDocumentFragment extends BaseFragment {
         @Override
         public ChoiceDocumentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View view = inflater.inflate(R.layout.item_choice_document, parent, false);
+            View view = null;
             return new ChoiceDocumentHolder(view);
         }
 

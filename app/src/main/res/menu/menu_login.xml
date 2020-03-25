@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/login_Server"
-        android:icon="@drawable/ic_server_available_24dp"
-        android:title="@string/server_available"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/login_Network"
-        android:icon="@drawable/ic_network_available_24dp"
-        android:title="@string/network_availablre"
-        app:showAsAction="always" />
 </menu>

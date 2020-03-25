@@ -21,11 +21,8 @@ import ru.mobnius.vote.utils.NetworkUtil;
 
 
 public class LoginActivity extends SingleFragmentActivity implements INetworkChange {
-    private MenuItem miServer;
-    private MenuItem miNetwork;
+    private LoginFragment mLoginFragment;
     private ExistsAsync mExistsAsync;
-    private boolean mOnline = false;
-    private boolean mServerExists = false;
 
     public LoginActivity() {
         super(true);
@@ -33,7 +30,8 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
 
     @Override
     protected Fragment createFragment() {
-        return LoginFragment.newInstance(false);
+        mLoginFragment = LoginFragment.newInstance(false);
+        return mLoginFragment;
     }
 
     @Override
@@ -41,7 +39,7 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
         super.onStart();
 
         if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().addNetworkChangeListener(this);
+            getNetworkChangeListener().addNetworkChangeListener(mLoginFragment);
         }
     }
 
@@ -62,7 +60,7 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
         super.onStop();
 
         if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().removeNetworkChangeListener(this);
+            getNetworkChangeListener().removeNetworkChangeListener(mLoginFragment);
         }
     }
 
@@ -75,11 +73,6 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_login, menu);
-        miNetwork = menu.findItem(R.id.login_Network);
-        miServer = menu.findItem(R.id.login_Server);
-
-        // потому что onCreateOptionsMenu вызвается в разные моменты
-        onNetworkChange(mOnline, mServerExists);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -87,15 +80,6 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
 
     @Override
     public void onNetworkChange(boolean online, boolean serverExists) {
-        mOnline = online;
-        mServerExists = serverExists;
-
-        if(miNetwork != null && miServer != null) {
-            miNetwork.setIcon(online ? R.drawable.ic_network_available_24dp : R.drawable.ic_network_unavailable_24dp);
-            miNetwork.setTitle(online ? getString(R.string.network_availablre) : getString(R.string.network_not_available));
-            miServer.setIcon(serverExists ? R.drawable.ic_server_available_24dp : R.drawable.ic_server_unavailable_24dp);
-            miServer.setTitle(online ? getString(R.string.server_available) : getString(R.string.server_not_available));
-        }
     }
 
     private class ExistsAsync extends AsyncTask<Boolean, String, Boolean> {

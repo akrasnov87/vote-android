@@ -32,6 +32,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
+import ru.mobnius.vote.data.manager.INetworkChange;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
 
@@ -46,7 +47,7 @@ import ru.mobnius.vote.utils.NetworkUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener {
+public class LoginFragment extends BaseFragment implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener, INetworkChange {
     private final String LOGIN = "login";
     private final String PASSWORD = "password";
 
@@ -57,6 +58,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private String password = "";
 
     private TextView tvVersion;
+    private TextView tvNetwork;
+    private TextView tvServer;
     private EditText etLogin;
     private ImageButton ibLoginClear;
     private ImageButton ibPasswordClear;
@@ -117,6 +120,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         tilLogin = v.findViewById(R.id.fAuthorization_tilLogin);
         etPassword = v.findViewById(R.id.fAuthorization_etPassword);
         tilPassword = v.findViewById(R.id.fAuthorization_tilPassword);
+        tvNetwork = v.findViewById(R.id.fAuthorization_tvNoIntetnet);
+        tvServer = v.findViewById(R.id.fAuthorization_tvNoServer);
 
         ibLoginClear = v.findViewById(R.id.fAuthorization_ibClearLogin);
         ibPasswordClear = v.findViewById(R.id.fAuthorization_ibClearPassword);
@@ -153,9 +158,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                     Point size = new Point();
                     display.getSize(size);
                     int screenHeight = size.y;
-                    int toastPosition = (screenHeight-btnLocation-btnSignIn.getHeight())/2;
-                    Toast toast= Toast.makeText(getContext(), "Введите логин и пароль. Пин-код будет сброшен", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, toastPosition);
+                    int toastPosition = (screenHeight - btnLocation - btnSignIn.getHeight()) / 2;
+                    Toast toast = Toast.makeText(getContext(), "Введите логин и пароль. Пин-код будет сброшен", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, toastPosition);
                     toast.show();
                 }
             });
@@ -399,5 +404,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         if (!visible) {
             cross.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onNetworkChange(boolean online, boolean serverExists) {
+        tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
+        tvServer.setVisibility(online ? View.GONE : View.VISIBLE);
     }
 }

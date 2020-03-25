@@ -14,10 +14,33 @@
         android:indeterminateTint="@color/over_due"
         android:elevation="@dimen/size_s_24"
         android:visibility="gone" />
+    <TextView
+        android:id="@+id/fAuthorization_tvNoIntetnet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet"
+        android:background="@color/colorFail"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/size_xxs_8"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:padding="@dimen/size_xxs_8"/>
+    <TextView
+        android:id="@+id/fAuthorization_tvNoServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_server_connection"
+        android:layout_below="@id/fAuthorization_tvNoIntetnet"
+        android:background="@color/colorFail"
+        android:layout_margin="@dimen/size_xxs_8"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:padding="@dimen/size_xxs_8"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/fAuthorization_flBottom"
+        android:layout_below="@id/fAuthorization_tvNoServer"
         >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +51,7 @@
         android:layout_marginLeft="@dimen/size_xl_72"
         android:layout_gravity="center"
         android:layout_marginRight="@dimen/size_xl_72">
+
 
 
         <com.google.android.material.textfield.TextInputLayout
