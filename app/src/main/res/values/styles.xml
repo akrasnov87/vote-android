@@ -102,7 +102,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/size_s_24</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/title_color</item>
         <item name="android:background">@color/main_background</item>
@@ -111,13 +111,13 @@
     <style name="TextViewMainText" parent="TextViewBase">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:layout_marginTop">@dimen/size_s_24</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="TextViewLabelText" parent="TextViewBase">
         <item name="android:textColor">@color/label_light_gray</item>
         <item name="android:layout_marginTop">@dimen/size_xxs_8</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextViewFilters">

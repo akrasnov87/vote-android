@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;

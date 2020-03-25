@@ -14,12 +14,19 @@
         android:indeterminateTint="@color/over_due"
         android:elevation="@dimen/size_s_24"
         android:visibility="gone" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Theme.AppCompat.NoActionBar"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/fAuthorization_flBottom"
+        >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        style="@style/Theme.AppCompat.NoActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/size_xl_72"
+        android:layout_gravity="center"
         android:layout_marginRight="@dimen/size_xl_72">
 
 
@@ -41,6 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:textSize="22sp"
+                    android:textColorHint="@color/colorPrimary"
                     android:hint="@string/login"
                     android:inputType="textAutoComplete"
                     tools:ignore="Autofill" />
@@ -79,6 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
+                    android:textColorHint="@color/colorPrimary"
+                    android:textSize="22sp"
                     android:inputType="textPassword"
                     tools:ignore="Autofill" />
 
@@ -117,12 +128,16 @@
             android:layout_marginTop="@dimen/size_s_24"
             android:enabled="false"
             android:text="@string/enter"
+            android:textSize="22sp"
+            android:padding="@dimen/size_s_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fAuthorization_tilPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <FrameLayout
+        android:id="@+id/fAuthorization_flBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -145,6 +160,7 @@
             android:id="@+id/fAuthorization_tvVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:layout_gravity="end"
             android:clickable="true"
             android:focusable="true"
