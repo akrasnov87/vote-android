@@ -9,25 +9,7 @@
         android:title="Версия"
         app:summary="Общая информация о приложении" />
 
-    <PreferenceCategory
-        android:icon="@drawable/ic_trending_up_black_24dp"
-        android:summary="Настройки производительности приложения"
-        android:title="@string/performance">
 
-        <ListPreference
-            android:defaultValue="webp"
-            android:entries="@array/image_format"
-            android:entryValues="@array/image_format_values"
-            android:key="MBL_IMAGE_FORMAT"
-            android:title="Формат" />
-
-        <ListPreference
-            android:defaultValue="720"
-            android:entries="@array/image_quality"
-            android:entryValues="@array/image_quality_values"
-            android:key="MBL_IMAGE_HEIGHT"
-            android:title="Качество" />
-    </PreferenceCategory>
 
     <PreferenceCategory
         android:icon="@drawable/ic_pin_icon_24dp"

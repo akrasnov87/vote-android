@@ -26,11 +26,7 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
     private String debugSummary = "Режим отладки: %s";
     private String pinSummary = "Авторизация по пину: %s";
     private int clickToVersion = 0;
-    private String imageFormatSummary = "Формат сжатия изображений: %s";
-    private String imageHeightSummary = "Качество формата: %s";
 
-    private ListPreference lpImageFormat;
-    private ListPreference lpImageHeight;
     private Preference pVersion;
     private SwitchPreference spDebug;
     private SwitchPreference spPin;
@@ -69,15 +65,7 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
             pCreateError.setOnPreferenceClickListener(this);
         }
 
-        lpImageFormat = findPreference(PreferencesManager.IMAGE_FORMAT);
-        if (lpImageFormat != null) {
-            lpImageFormat.setOnPreferenceChangeListener(this);
-        }
 
-        lpImageHeight = findPreference(PreferencesManager.IMAGE_HEIGHT);
-        if (lpImageHeight != null) {
-            lpImageHeight.setOnPreferenceChangeListener(this);
-        }
     }
 
     @Override
@@ -97,26 +85,6 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
             spPin.setChecked(PreferencesManager.getInstance().isPinAuth());
         }
 
-
-        if (lpImageFormat != null) {
-            String imageFormatValue = PreferencesManager.getInstance().getImageFormat();
-
-            if (PreferencesManager.getInstance().hasDefaultValue(PreferencesManager.IMAGE_FORMAT) && !PreferencesManager.getInstance().isDebug()) {
-                lpImageFormat.setEnabled(false);
-            }
-            lpImageFormat.setValue(imageFormatValue);
-            lpImageFormat.setSummary(String.format(imageFormatSummary, getValueFromPosition(R.array.image_format, R.array.image_format_values, imageFormatValue)));
-        }
-
-        if (lpImageHeight != null) {
-            String imageHeightValue = String.valueOf(PreferencesManager.getInstance().getImageHeight());
-
-            if (PreferencesManager.getInstance().hasDefaultValue(PreferencesManager.IMAGE_HEIGHT) && !PreferencesManager.getInstance().isDebug()) {
-                lpImageHeight.setEnabled(false);
-            }
-            lpImageHeight.setValue(imageHeightValue);
-            lpImageHeight.setSummary(String.format(imageHeightSummary, getValueFromPosition(R.array.image_quality, R.array.image_quality_values, imageHeightValue)));
-        }
     }
 
 
@@ -143,8 +111,6 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
                     spDebug.setChecked(true);
                     spDebug.setEnabled(true);
                     pCreateError.setVisible(true);
-                    lpImageFormat.setEnabled(true);
-                    lpImageHeight.setEnabled(true);
 
                     Toast.makeText(getActivity(), String.format("Режим отладки активирован."), Toast.LENGTH_SHORT).show();
                     clickToVersion = 0;
@@ -165,21 +131,10 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
                 boolean debugValue = Boolean.parseBoolean(String.valueOf(newValue));
                 spDebug.setSummary(String.format(debugSummary, debugValue ? "включен" : "отключен"));
                 spDebug.setEnabled(debugValue);
-                lpImageFormat.setEnabled(debugValue);
-                lpImageHeight.setEnabled(debugValue);
                 PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.DEBUG, debugValue).apply();
                 pCreateError.setVisible(debugValue);
                 break;
 
-            case PreferencesManager.IMAGE_FORMAT:
-                String imageFormatValue = String.valueOf(newValue);
-                lpImageFormat.setSummary(String.format(imageFormatSummary, getValueFromPosition(R.array.image_format, R.array.image_format_values, imageFormatValue)));
-                break;
-
-            case PreferencesManager.IMAGE_HEIGHT:
-                String imageHeightValue = String.valueOf(newValue);
-                lpImageHeight.setSummary(String.format(imageHeightSummary, getValueFromPosition(R.array.image_quality, R.array.image_quality_values, imageHeightValue)));
-                break;
             case PreferencesManager.PIN:
                 boolean pinValue = Boolean.parseBoolean(String.valueOf(newValue));
                 spPin.setSummary(String.format(pinSummary, pinValue ? "включена" : "отключена"));

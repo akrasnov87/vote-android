@@ -23,8 +23,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public final static String APP_VERSION = "MBL_APP_VERSION";
     public static final String DEBUG = "MBL_DEBUG";
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
-    public static final String IMAGE_FORMAT = "MBL_IMAGE_FORMAT";
-    public static final String IMAGE_HEIGHT = "MBL_IMAGE_HEIGHT";
     public static final String PIN= "MBL_PIN";
     public static final String IS_ROUTE_VIEW = "IS_ROUTE_VIEW";
 
@@ -46,22 +44,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public boolean isPinAuth() {
         return getDefaultBooleanValue(PIN, false);
-    }
-
-    /**
-     * Формат изображения
-     * @return
-     */
-    public String getImageFormat() {
-        return getDefaultStringValue(IMAGE_FORMAT, "webp");
-    }
-
-    /**
-     * Качество создаваемого изображения
-     * @return
-     */
-    public int getImageHeight(){
-        return getIntValue(IMAGE_HEIGHT, 720);
     }
 
     public boolean getIsRouteView(){return getDefaultBooleanValue(IS_ROUTE_VIEW, true);}
