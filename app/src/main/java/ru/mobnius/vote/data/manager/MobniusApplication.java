@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.support.v4.app.INotificationSideChannel;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +84,11 @@ public class MobniusApplication extends android.app.Application implements IExce
         }
 
         DaoSession daoSession = new DaoMaster(new DbOpenHelper(this, credentials.login + ".db").getWritableDb()).newSession();
+
+        // enable debug for SQL Queries
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
+
         DataManager.createInstance(daoSession);
 
         AuditUtils.write(this, "", AuditUtils.ON_AUTH, AuditUtils.Level.HIGH);
