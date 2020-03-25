@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,7 +80,7 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         mProgressBar = view.findViewById(R.id.fPoint_pbRoutesProgress);
         tvTitle = view.findViewById(R.id.fPoint_tvPointsTitle);
         mRecyclerView = view.findViewById(R.id.fPoint_rvPoints);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         return view;
     }

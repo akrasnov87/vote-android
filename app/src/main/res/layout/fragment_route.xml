@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/main_background">
 
     <TextView
         android:id="@+id/fRoute_tvRoutesTitle"
@@ -13,7 +14,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fRoute_rvRoutes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/fRoute_tvRoutesTitle"
         android:layout_gravity="center" />
+    <Button
+        android:id="@+id/fRoute_btnSynchronization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_xs_16"
+        android:text="@string/synchronization"
+        android:background="@color/colorFail"
+        android:textColor="@color/contentColor"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 </RelativeLayout>
