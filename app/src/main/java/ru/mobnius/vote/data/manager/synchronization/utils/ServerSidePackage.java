@@ -143,11 +143,11 @@ public abstract class ServerSidePackage implements IServerSidePackage {
             }
             db.beginTransaction();
 
-            if (getDeleteRecordBeforeAppend()) {
+            /*if (getDeleteRecordBeforeAppend()) {
                 db.execSQL("delete from " + tableName);
                 // таким образом очищаем кэш http://greenrobot.org/greendao/documentation/sessions/
                 abstractDao.detachAll();
-            }
+            }*/
 
             if (rpcResult.result.records.length > 0) {
                 JSONObject firstObject = rpcResult.result.records[0];

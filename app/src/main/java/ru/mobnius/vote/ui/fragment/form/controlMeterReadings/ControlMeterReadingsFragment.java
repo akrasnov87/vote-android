@@ -41,9 +41,7 @@ import ru.mobnius.vote.ui.model.Meter;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 
-public class ControlMeterReadingsFragment extends BaseFormFragment
-        implements View.OnClickListener {
-    public static final int POINT_GALLERY_REQUEST_CODE = 1;
+public class ControlMeterReadingsFragment extends BaseFormFragment implements View.OnClickListener {
 
     private DaoSession mDaoSession;
     private GeoManager.GeoListener mGeoListener;
@@ -60,7 +58,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
     private ImageView ivTakePhoto;
     private ImageButton ibGoToPhoto;
     private DocumentManager mDocumentManager;
-    private Meter[] mMeters;
     private Results mResult;
 
 
@@ -69,14 +66,12 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
      *
      * @param routeId      иден. маршрута, Routes
      * @param pointId      иден. точки маршрута, Points
-     * @param resultTypeId иден. импа результата
      * @return
      */
-    public static ControlMeterReadingsFragment createInstance(String routeId, String pointId, long resultTypeId) {
+    public static ControlMeterReadingsFragment createInstance(String routeId, String pointId) {
         Bundle args = new Bundle();
         args.putString(Names.POINT_ID, pointId);
         args.putString(Names.ROUTE_ID, routeId);
-        args.putLong(Names.RESULT_TYPE_ID, resultTypeId);
         ControlMeterReadingsFragment controlMeterReadingsFragment = new ControlMeterReadingsFragment();
         controlMeterReadingsFragment.setArguments(args);
         return controlMeterReadingsFragment;
@@ -169,8 +164,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment
     public void onResume() {
         super.onResume();
         if (getDocumentUtil() != null) {
-            mReadingsAdapter = new ReadingsAdapter(getContext(), mMeters, this, getDocumentUtil().getMeters());
-            mRecyclerView.setAdapter(mReadingsAdapter);
             mNotice.addTextChangedListener(new StringTextWatcher(this, DocumentUtil.NAME_NOTICE));
         }
     }

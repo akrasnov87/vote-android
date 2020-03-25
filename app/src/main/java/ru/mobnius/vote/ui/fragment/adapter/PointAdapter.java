@@ -101,13 +101,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
         public void onClick(View v) {
             String routeId = mPointsList.get(getAdapterPosition()).routeId;
             String pointId = mPointsList.get(getLayoutPosition()).id;
-            List<PointResult> pointResults  = DataManager.getInstance().getPointDocuments(pointId);
-            Intent intent;
-            if(pointResults.size()>0) {
-                intent = ControlMeterReadingsActivity.newIntent(mContext, pointResults.get(0).getResultId());
-            } else {
-                intent = ControlMeterReadingsActivity.newIntent(mContext, routeId, pointId, 0);
-            }
+            Intent intent = ControlMeterReadingsActivity.newIntent(mContext, routeId, pointId);
             mContext.startActivity(intent);
         }
     }

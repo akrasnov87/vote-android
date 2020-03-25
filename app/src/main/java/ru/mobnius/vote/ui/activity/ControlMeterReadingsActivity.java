@@ -33,30 +33,14 @@ public class ControlMeterReadingsActivity extends BaseFormActivity {
      * @param context
      * @param routeId маршрут, Routes
      * @param pointId точка маршрута, Points
-     * @param outputTypeId тип создаваемого результата, ResultTypes
      * @return
      */
-    public static Intent newIntent(Context context, String routeId, String pointId, long outputTypeId) {
+    public static Intent newIntent(Context context, String routeId, String pointId) {
         Intent intent = new Intent(context, ControlMeterReadingsActivity.class);
         intent.putExtra(Names.POINT_ID, pointId);
         intent.putExtra(Names.ROUTE_ID, routeId);
-        intent.putExtra(Names.RESULT_TYPE_ID, outputTypeId);
         return intent;
     }
-
-    /**
-     * Редактирование существующего результата
-     *
-     * @param context
-     * @param resultId иден. результата, Results
-     * @return
-     */
-    public static Intent newIntent(Context context, String resultId) {
-        Intent intent = new Intent(context, ControlMeterReadingsActivity.class);
-        intent.putExtra(Names.RESULT_ID, resultId);
-        return intent;
-    }
-
 
     @Override
     protected Fragment createFragment() {
@@ -66,8 +50,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity {
         } else {
             return ControlMeterReadingsFragment.createInstance(
                     intent.getStringExtra(Names.ROUTE_ID),
-                    intent.getStringExtra(Names.POINT_ID),
-                    intent.getLongExtra(Names.RESULT_TYPE_ID, 0));
+                    intent.getStringExtra(Names.POINT_ID));
         }
     }
 
