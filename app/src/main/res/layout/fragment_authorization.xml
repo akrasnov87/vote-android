@@ -21,6 +21,8 @@
         android:text="@string/no_internet"
         android:background="@color/colorFail"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_margin="@dimen/size_xxs_8"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -33,6 +35,8 @@
         android:layout_below="@id/fAuthorization_tvNoIntetnet"
         android:background="@color/colorFail"
         android:layout_margin="@dimen/size_xxs_8"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:padding="@dimen/size_xxs_8"/>
@@ -48,9 +52,9 @@
         style="@style/Theme.AppCompat.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/size_xl_72"
+        android:layout_marginLeft="@dimen/size_s_24"
         android:layout_gravity="center"
-        android:layout_marginRight="@dimen/size_xl_72">
+        android:layout_marginRight="@dimen/size_s_24">
 
 
 
@@ -166,8 +170,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/size_xs_16"
-        android:layout_marginBottom="@dimen/size_s_24">
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        android:layout_marginBottom="@dimen/size_xxs_8">
         <TextView
             android:id="@+id/fAuthorization_tvBackToPin"
             android:layout_width="wrap_content"
