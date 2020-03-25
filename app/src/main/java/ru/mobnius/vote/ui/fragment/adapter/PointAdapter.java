@@ -62,20 +62,10 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
 
     class PointHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvDeviceNumber;
-        private TextFieldView tvSubscrNumber;
-        private TextFieldView tvAdress;
-        private TextFieldView tvFIO;
-        private ImageView ivSyncStatus;
-        private ImageView ivDoneStatus;
 
         public PointHolder(@NonNull View itemView) {
             super(itemView);
             tvDeviceNumber = itemView.findViewById(R.id.itemPoint_tvDeviceNumber);
-            tvSubscrNumber = itemView.findViewById(R.id.itemPoint_tvSubscrNumber);
-            tvAdress = itemView.findViewById(R.id.itemPoint_tvAdress);
-            tvFIO = itemView.findViewById(R.id.itemPoint_tvFIO);
-            ivSyncStatus = itemView.findViewById(R.id.itemPoint_ivSyncStatus);
-            ivDoneStatus = itemView.findViewById(R.id.itemPoint_ivDoneStatus);
 
             itemView.setOnClickListener(this);
         }
@@ -84,15 +74,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
             tvDeviceNumber.setText(point.deviceNumber);
             if(point.done){
                 tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.document_created_text));
-                ivDoneStatus.setVisibility(View.VISIBLE);
-                ivSyncStatus.setImageDrawable(point.sync ? mContext.getDrawable(R.drawable.ic_sync_done_green_24dp) : mContext.getDrawable(R.drawable.ic_sync_problem_red_24dp));
             } else {
-                tvSubscrNumber.setVisibility(View.VISIBLE);
-                tvAdress.setVisibility(View.VISIBLE);
-                tvFIO.setVisibility(View.VISIBLE);
-                tvFIO.setFieldText(point.fio);
-                tvSubscrNumber.setFieldText(point.subscrNumber);
-                tvAdress.setFieldText(point.address);
             }
 
         }

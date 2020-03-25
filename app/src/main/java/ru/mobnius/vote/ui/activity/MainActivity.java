@@ -22,6 +22,7 @@ import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Date;
+import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.MobniusApplication;
@@ -82,6 +83,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
+        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
     }
 
     @Override
@@ -89,7 +91,6 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         super.onResume();
         invalidateOptionsMenu();
 
-        mToolbar.setTitle(mIsRouteView ? R.string.routes : R.string.all_points);
     }
 
     @Override

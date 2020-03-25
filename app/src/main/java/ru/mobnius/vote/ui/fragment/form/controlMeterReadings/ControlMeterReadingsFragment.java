@@ -55,8 +55,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
     private EditText mNotice;
     private ReadingsAdapter mReadingsAdapter;
     private Button btnSave;
-    private ImageView ivTakePhoto;
-    private ImageButton ibGoToPhoto;
     private DocumentManager mDocumentManager;
     private Results mResult;
 
@@ -144,12 +142,8 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
         mNotice = view.findViewById(R.id.fMeterReadings_tietNotice);
         mRecyclerView = view.findViewById(R.id.fMeterReadings_rvReadings);
         btnSave = view.findViewById(R.id.fMeterReadings_btnSave);
-        ivTakePhoto = view.findViewById(R.id.fMeterReadings_ivTakePhoto);
-        ibGoToPhoto = view.findViewById(R.id.fMeterReadings_ibGoToPhoto);
 
         btnSave.setOnClickListener(this);
-        ivTakePhoto.setOnClickListener(this);
-        ibGoToPhoto.setOnClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.ui.activity.PointActivity;
-import ru.mobnius.vote.ui.activity.RouteInfoActivity;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
@@ -27,12 +25,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteHolder>
 
     private Context mContext;
     private List<RouteItem> mRouteItems;
-    private boolean isFuture;
 
-    public RouteAdapter(Context context, List<RouteItem> items, boolean isFutureRoutes) {
+    public RouteAdapter(Context context, List<RouteItem> items) {
         mContext = context;
         mRouteItems = items;
-        isFuture = isFutureRoutes;
     }
 
     @NonNull
@@ -60,22 +56,17 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteHolder>
         private TextView tvType;
         private TextView tvPointCount;
         private TextView tvEndDate;
-        private ImageView ivRouteInfo;
         private ProgressBar pbRouteProgress;
 
         public RouteHolder(@NonNull View itemView) {
             super(itemView);
-            ivRouteInfo = itemView.findViewById(R.id.itemRoute_ivRouteInfo);
             tvRouteName = itemView.findViewById(R.id.itemRoute_tvRouteName);
             tvType = itemView.findViewById(R.id.itemRoute_tvType);
             tvPointCount = itemView.findViewById(R.id.itemRoute_tvPointsCount);
             tvEndDate = itemView.findViewById(R.id.itemRoute_tvEndDate);
             pbRouteProgress = itemView.findViewById(R.id.itemRoute_ivRouteProgress);
-            ivRouteInfo.setOnClickListener(this);
             itemView.setOnClickListener(this);
-            if (isFuture) {
-                setEnabledOrNot(itemView);
-            }
+
         }
 
         public void bindRoute(RouteItem routeItem) {
@@ -97,19 +88,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteHolder>
         public void onClick(View v) {
             String routeId = mRouteItems.get(getLayoutPosition()).id;
             switch (v.getId()) {
-                case R.id.itemRoute_ivRouteInfo:
-                    mContext.startActivity(RouteInfoActivity.newIntent(mContext, routeId));
-                    break;
                 default:
                     mContext.startActivity(PointActivity.newIntent(mContext, routeId));
                     break;
             }
-        }
-
-        private void setEnabledOrNot(View v) {
-            pbRouteProgress.setProgressDrawable(v.getResources().getDrawable(R.drawable.route_progress_circle_disabled, null));
-            tvRouteName.setTextColor(v.getResources().getColor(R.color.disabled_primary_color));
-            ivRouteInfo.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_info_outline_disabled, null));
         }
     }
 }

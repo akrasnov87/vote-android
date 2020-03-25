@@ -1,5 +1,8 @@
 package ru.mobnius.vote.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,6 +35,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.FileManager;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -45,6 +50,7 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListener;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
+import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.fragment.template.SynchronizationPartFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
@@ -186,7 +192,7 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
                         removeSynchronizationPart(tid);
                         success.remove(0);
 
-                        if(success.size() == 0) {
+                        if (success.size() == 0) {
                             btnCancel.setVisibility(View.GONE);
                             btnStart.setEnabled(true);
                             btnStart.setTextColor(Color.BLACK);
@@ -208,6 +214,7 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
                 @Override
                 public void onStop(ISynchronization synchronization) {
                     if (synchronization.getFinishStatus() == FinishStatus.SUCCESS) {
+
                         try {
                             FileManager.getInstance().deleteFolder(FileManager.CACHES);
                         } catch (FileNotFoundException e) {
@@ -224,13 +231,17 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
 
                     if (!message.isEmpty()) {
                         tvLogs.append(message + "\n");
-
                     }
+                    if (synchronization.getFinishStatus() == FinishStatus.SUCCESS && step > 1) {
+                        showDialog(message, Color.BLACK);
+                    }
+
                 }
 
                 @Override
                 public void onError(ISynchronization synchronization, int step, String message, String tid) {
                     tvLogs.append(Html.fromHtml("<font color='#FF0000'>" + message + "</font><br />"));
+                    showDialog(message, Color.RED);
                 }
             });
         } catch (Exception e) {
@@ -318,4 +329,17 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
         item.setIcon(visible ? R.drawable.ic_visibility_white_24dp : R.drawable.ic_visibility_off_white_24dp);
         tvLogs.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
+
+    public void showDialog(String message, int color) {
+        AlertDialog adb = new AlertDialog.Builder(getContext()).setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+        TextView messageBox = (TextView) adb.findViewById(android.R.id.message);
+        messageBox.setTextColor(color);
+        messageBox.setTextSize(26);
+    }
+
 }

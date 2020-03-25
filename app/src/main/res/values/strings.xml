@@ -120,4 +120,5 @@
     <string name="finish_route_title">Завершенный маршрут?</string>
     <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
     <string name="no_server_connection">НЕТ СОЕДИНЕНИЯ С СЕРВЕРОМ</string>
+    <string name="house_list">Список домов</string>
 </resources>
