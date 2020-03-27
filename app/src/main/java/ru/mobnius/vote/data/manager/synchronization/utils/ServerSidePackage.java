@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.FileManager;
@@ -16,6 +17,7 @@ import ru.mobnius.vote.data.manager.packager.FileBinary;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.storage.FieldNames;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.utils.SqlInsertFromJSONObject;
 import ru.mobnius.vote.utils.SqlUpdateFromJSONObject;
 
@@ -40,14 +42,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
      */
     public boolean getDeleteRecordBeforeAppend(){
         return deleteRecordBeforeAppend;
-    }
-
-    /**
-     * Добавление бинарного блока
-     * @param fileBinary бинарный блок
-     */
-    public void setFileBinary(FileBinary[] fileBinary){
-        this.mFileBinary = fileBinary;
     }
 
     /**
@@ -142,12 +136,11 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                 return  PackageResult.fail("Метод результата " + tableName + " должен быть Query. Текущее значение " + rpcResult.method, null);
             }
             db.beginTransaction();
-
-            /*if (getDeleteRecordBeforeAppend()) {
+            if (getDeleteRecordBeforeAppend()) {
                 db.execSQL("delete from " + tableName);
                 // таким образом очищаем кэш http://greenrobot.org/greendao/documentation/sessions/
                 abstractDao.detachAll();
-            }*/
+            }
 
             if (rpcResult.result.records.length > 0) {
                 JSONObject firstObject = rpcResult.result.records[0];
@@ -180,8 +173,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                         packageResult = PackageResult.success(null);
                     } catch (Exception e) {
                         packageResult = PackageResult.fail("Ошибка вставки записей в таблицу " + tableName + ".", e);
-                    } finally {
-                        db.endTransaction();
                     }
                 }else{
                     String error;
@@ -192,27 +183,14 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                     }
                     packageResult = PackageResult.fail("Ошибка вставки записей в таблицу " + tableName + ".", new Exception(error));
                 }
+                db.endTransaction();
                 return packageResult;
+            } else {
+                db.endTransaction();
             }
             return PackageResult.success(null);
         } else {
             return PackageResult.fail("Ошибка обработки блока на сервере. " + rpcResult.meta.msg, null);
         }
-    }
-
-    /**
-     * Получение файла по имени
-     * @param name имя
-     * @return возарщается файл
-     */
-    protected FileBinary getFile(String name) {
-        if(mFileBinary != null) {
-            for (FileBinary file : mFileBinary) {
-                if (file.name.equals(name)) {
-                    return file;
-                }
-            }
-        }
-        return null;
     }
 }
