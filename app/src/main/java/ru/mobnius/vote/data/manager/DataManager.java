@@ -4,6 +4,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.acl.AclNotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.storage.models.Answer;
+import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
+import ru.mobnius.vote.data.storage.models.Question;
+import ru.mobnius.vote.data.storage.models.QuestionDao;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.ResultTypes;
 import ru.mobnius.vote.data.storage.models.Results;
@@ -569,6 +574,25 @@ public class DataManager {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    /**
+     * Список вопросов
+     * @return получить список вопросов
+     */
+    public Question[] getQuestions() {
+        List<Question> questions = daoSession.getQuestionDao().queryBuilder().orderAsc(QuestionDao.Properties.N_order).list();
+        return questions.toArray(new Question[0]);
+    }
+
+    /**
+     * список ответов
+     * @param question вопрос
+     * @return получение списка ответов по вопросу
+     */
+    public Answer[] getAnswer(long question) {
+        List<Answer> answers = daoSession.getAnswerDao().queryBuilder().where(AnswerDao.Properties.F_question.eq(question)).orderAsc(AnswerDao.Properties.N_order).list();
+        return answers.toArray(new Answer[0]);
     }
 
     public void destroy() {

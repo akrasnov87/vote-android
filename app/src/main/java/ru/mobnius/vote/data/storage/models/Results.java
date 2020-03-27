@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.NotNull;
 
 @Entity(nameInDb = "cd_results")
 public class Results implements IEntityTo {
@@ -45,6 +46,24 @@ public class Results implements IEntityTo {
      */
     @Expose
     public long fn_user;
+
+    /**
+     * Пользователь
+     */
+    @Expose
+    public long fn_question;
+
+    @ToOne(joinProperty = "fn_question")
+    public Question question;
+
+    /**
+     * Пользователь
+     */
+    @Expose
+    public long fn_answer;
+
+    @ToOne(joinProperty = "fn_answer")
+    public Answer answer;
 
     /**
      * Дата события
@@ -102,18 +121,20 @@ public class Results implements IEntityTo {
     @Generated(hash = 1445092935)
     private transient ResultsDao myDao;
 
-    @Generated(hash = 625862056)
+    @Generated(hash = 699220038)
     public Results(String id, String fn_route, String fn_point,
-            String fn_user_point, long fn_type, long fn_user, String d_date,
-            String c_notice, boolean b_warning, String objectOperationType,
-            boolean isDelete, boolean isSynchronization, String tid,
-            String blockTid, String jb_data, String dx_created) {
+            String fn_user_point, long fn_type, long fn_user, long fn_question,
+            long fn_answer, String d_date, String c_notice, boolean b_warning,
+            String objectOperationType, boolean isDelete, boolean isSynchronization,
+            String tid, String blockTid, String jb_data, String dx_created) {
         this.id = id;
         this.fn_route = fn_route;
         this.fn_point = fn_point;
         this.fn_user_point = fn_user_point;
         this.fn_type = fn_type;
         this.fn_user = fn_user;
+        this.fn_question = fn_question;
+        this.fn_answer = fn_answer;
         this.d_date = d_date;
         this.c_notice = c_notice;
         this.b_warning = b_warning;
@@ -176,6 +197,22 @@ public class Results implements IEntityTo {
 
     public void setFn_user(long fn_user) {
         this.fn_user = fn_user;
+    }
+
+    public long getFn_question() {
+        return this.fn_question;
+    }
+
+    public void setFn_question(long fn_question) {
+        this.fn_question = fn_question;
+    }
+
+    public long getFn_answer() {
+        return this.fn_answer;
+    }
+
+    public void setFn_answer(long fn_answer) {
+        this.fn_answer = fn_answer;
     }
 
     public String getD_date() {
@@ -319,6 +356,78 @@ public class Results implements IEntityTo {
             this.userPoint = userPoint;
             fn_user_point = userPoint == null ? null : userPoint.getId();
             userPoint__resolvedKey = fn_user_point;
+        }
+    }
+
+    @Generated(hash = 527827701)
+    private transient Long question__resolvedKey;
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 873859214)
+    public Question getQuestion() {
+        long __key = this.fn_question;
+        if (question__resolvedKey == null || !question__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            QuestionDao targetDao = daoSession.getQuestionDao();
+            Question questionNew = targetDao.load(__key);
+            synchronized (this) {
+                question = questionNew;
+                question__resolvedKey = __key;
+            }
+        }
+        return question;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1392251698)
+    public void setQuestion(@NotNull Question question) {
+        if (question == null) {
+            throw new DaoException(
+                    "To-one property 'fn_question' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.question = question;
+            fn_question = question.getId();
+            question__resolvedKey = fn_question;
+        }
+    }
+
+    @Generated(hash = 1281831381)
+    private transient Long answer__resolvedKey;
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1220172236)
+    public Answer getAnswer() {
+        long __key = this.fn_answer;
+        if (answer__resolvedKey == null || !answer__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AnswerDao targetDao = daoSession.getAnswerDao();
+            Answer answerNew = targetDao.load(__key);
+            synchronized (this) {
+                answer = answerNew;
+                answer__resolvedKey = __key;
+            }
+        }
+        return answer;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 471771674)
+    public void setAnswer(@NotNull Answer answer) {
+        if (answer == null) {
+            throw new DaoException(
+                    "To-one property 'fn_answer' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.answer = answer;
+            fn_answer = answer.getId();
+            answer__resolvedKey = fn_answer;
         }
     }
 

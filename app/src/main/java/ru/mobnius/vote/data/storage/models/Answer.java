@@ -58,6 +58,9 @@ public class Answer {
     @Expose
     public int n_order;
 
+    @Expose
+    public String c_color;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -66,15 +69,16 @@ public class Answer {
     @Generated(hash = 1299531889)
     private transient AnswerDao myDao;
 
-    @Generated(hash = 1455547281)
+    @Generated(hash = 1403469332)
     public Answer(Long id, String c_text, long f_question, long f_next_question,
-            String c_action, int n_order) {
+            String c_action, int n_order, String c_color) {
         this.id = id;
         this.c_text = c_text;
         this.f_question = f_question;
         this.f_next_question = f_next_question;
         this.c_action = c_action;
         this.n_order = n_order;
+        this.c_color = c_color;
     }
 
     @Generated(hash = 53889439)
@@ -127,6 +131,14 @@ public class Answer {
 
     public void setN_order(int n_order) {
         this.n_order = n_order;
+    }
+
+    public String getC_color() {
+        return this.c_color;
+    }
+
+    public void setC_color(String c_color) {
+        this.c_color = c_color;
     }
 
     @Generated(hash = 527827701)

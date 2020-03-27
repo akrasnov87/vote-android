@@ -94,7 +94,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
         super.onCreate(savedInstanceState);
 
         mDaoSession = DataManager.getInstance().getDaoSession();
-        String mNoticeText = "";
         Bundle arguments = getArguments();
         assert arguments != null;
         if (arguments.containsKey(Names.RESULT_ID)) {  // есть результат
@@ -106,10 +105,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
                 mUserPointId = mResult.fn_user_point;
                 mResultTypeId = mResult.fn_type;
                 mDocumentManager = new DocumentManager(mDaoSession, mRouteId, mPointId);
-                Document document = mDocumentManager.getDocument(resultId);
-                if (document != null) {
-                    mNoticeText = document.getNotice();
-                }
             } else {
                 Logger.error(new Exception("Результат не найден."));
                 return;
@@ -202,8 +197,7 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
 
         boolean isExistResult = mResult != null;
         if (isExistResult) {
-            mDocumentManager.updateUserPoint(mUserPointId, null, null, null);
-            mDocumentManager.updateResult(mResult.id, notice, null, false);
+
         } else {
             double longitude = 0;
             double latitude = 0;
@@ -214,8 +208,6 @@ public class ControlMeterReadingsFragment extends BaseFormFragment implements Vi
                 longitude = location.getLongitude();
             }
 
-            mUserPointId = mDocumentManager.createUserPoint(null, null, longitude, latitude, null, false);
-            mDocumentManager.createResult(mResultTypeId, mUserPointId, notice, null, false);
         }
         getActivity().finish();
     }
