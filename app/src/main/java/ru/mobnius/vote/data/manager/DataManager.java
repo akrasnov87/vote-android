@@ -590,7 +590,7 @@ public class DataManager {
      * @param question вопрос
      * @return получение списка ответов по вопросу
      */
-    public Answer[] getAnswer(long question) {
+    public Answer[] getAnswers(long question) {
         List<Answer> answers = daoSession.getAnswerDao().queryBuilder().where(AnswerDao.Properties.F_question.eq(question)).orderAsc(AnswerDao.Properties.N_order).list();
         return answers.toArray(new Answer[0]);
     }
