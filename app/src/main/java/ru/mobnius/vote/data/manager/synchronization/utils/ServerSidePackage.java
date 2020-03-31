@@ -186,6 +186,7 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                 db.endTransaction();
                 return packageResult;
             } else {
+                db.setTransactionSuccessful();
                 db.endTransaction();
             }
             return PackageResult.success(null);
