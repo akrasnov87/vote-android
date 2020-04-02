@@ -112,6 +112,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
             case R.id.navigationDrawerExit:
                 showDialog();
                 break;
+
         }
         mDrawerLayout.closeDrawers();
 

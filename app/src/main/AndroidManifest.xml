@@ -61,6 +61,7 @@
             android:name=".ui.activity.FilterActivity" />
         <activity
             android:name=".ui.activity.SortActivity" />
+        <activity android:name=".ui.activity.StatisticActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
