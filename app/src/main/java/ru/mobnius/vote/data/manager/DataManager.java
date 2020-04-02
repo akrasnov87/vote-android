@@ -586,6 +586,14 @@ public class DataManager {
     }
 
     /**
+     * вопрос
+     * @return получить вопрос
+     */
+    public Question getQuestion(long id) {
+        return daoSession.getQuestionDao().load(id);
+    }
+
+    /**
      * список ответов
      * @param question вопрос
      * @return получение списка ответов по вопросу

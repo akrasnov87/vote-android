@@ -174,4 +174,6 @@ public interface IExceptionCode {
      * Ввод пин-кода
      */
     int PIN_CODE = 34;
+
+    int VOTE_ITEM = 35;
 }

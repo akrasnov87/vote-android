@@ -18,12 +18,16 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
+import ru.mobnius.vote.ui.fragment.VoteItemFragment;
+import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
 import ru.mobnius.vote.ui.fragment.form.controlMeterReadings.ControlMeterReadingsFragment;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
-public class ControlMeterReadingsActivity extends BaseFormActivity {
+public class ControlMeterReadingsActivity extends BaseFormActivity implements onClickVoteItemListener {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
 
@@ -48,9 +52,12 @@ public class ControlMeterReadingsActivity extends BaseFormActivity {
         if (intent.hasExtra(Names.RESULT_ID)) {
             return ControlMeterReadingsFragment.updateInstance(intent.getStringExtra(Names.RESULT_ID));
         } else {
-            return ControlMeterReadingsFragment.createInstance(
+
+            Question[] questions = DataManager.getInstance().getQuestions();
+
+            return VoteItemFragment.createInstance(
                     intent.getStringExtra(Names.ROUTE_ID),
-                    intent.getStringExtra(Names.POINT_ID));
+                    intent.getStringExtra(Names.POINT_ID), questions[0].id);
         }
     }
 
@@ -131,6 +138,13 @@ public class ControlMeterReadingsActivity extends BaseFormActivity {
 
             menuItem.setIcon(icon);
             menuItem.setTitle(message);
+        }
+    }
+
+    @Override
+    public void onClickVoteItem(Answer answer) {
+        if(answer.f_next_question > 0) {
+
         }
     }
 }
