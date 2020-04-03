@@ -155,7 +155,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
             FragmentManager fragmentManager = getSupportFragmentManager();
             VoteItemFragment fragment = VoteItemFragment.createInstance( intent.getStringExtra(Names.ROUTE_ID),
                     intent.getStringExtra(Names.POINT_ID), answer.f_next_question);
-            previousQuestionTag = String.valueOf(answer.f_question)
+            previousQuestionTag = String.valueOf(answer.f_question);
             fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment, String.valueOf(answer.id))
                     .addToBackStack(previousQuestionTag).commit();
             mVoteManager.addQuestion(answer.f_question, answer.id);
@@ -170,8 +170,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
         super.onBackPressed();
         if(currentQuestionId!=0) {
             mVoteManager.removeQuestion(currentQuestionId);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.findFragmentByTag(previousQuestionTag);
+            currentQuestionId = mVoteManager.getList()[mVoteManager.getList().length-1].questionId;
         }
     }
 }
