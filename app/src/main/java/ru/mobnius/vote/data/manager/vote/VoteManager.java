@@ -14,7 +14,7 @@ public class VoteManager implements Serializable {
         mList = new ArrayList<>();
     }
 
-    public void addQuestion(long question, int answer) {
+    public void addQuestion(long question, long answer) {
         mList.add(new Vote(question, answer));
     }
 

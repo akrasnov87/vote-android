@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Question;
@@ -30,6 +32,9 @@ import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 public class ControlMeterReadingsActivity extends BaseFormActivity implements onClickVoteItemListener {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
+    private VoteManager mVoteManager;
+    private long currentQuestionId;
+    private String previousQuestionTag;
 
     /**
      * Создание нового результата
@@ -66,6 +71,8 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).setTitle(null);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        mVoteManager = new VoteManager();
+        currentQuestionId = 0;
     }
 
     @Override
@@ -144,7 +151,27 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
     @Override
     public void onClickVoteItem(Answer answer) {
         if(answer.f_next_question > 0) {
+            Intent intent = getIntent();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            VoteItemFragment fragment = VoteItemFragment.createInstance( intent.getStringExtra(Names.ROUTE_ID),
+                    intent.getStringExtra(Names.POINT_ID), answer.f_next_question);
+            previousQuestionTag = String.valueOf(answer.f_question)
+            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment, String.valueOf(answer.id))
+                    .addToBackStack(previousQuestionTag).commit();
+            mVoteManager.addQuestion(answer.f_question, answer.id);
+            currentQuestionId = answer.f_question;
+        }else{
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(currentQuestionId!=0) {
+            mVoteManager.removeQuestion(currentQuestionId);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.findFragmentByTag(previousQuestionTag);
         }
     }
 }
