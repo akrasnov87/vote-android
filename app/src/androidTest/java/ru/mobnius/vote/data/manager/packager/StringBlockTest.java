@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 
 import ru.mobnius.vote.data.manager.rpc.SingleItemQuery;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
+import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,6 +31,6 @@ public class StringBlockTest {
 
         block = new StringBlock(to, from);
         str = block.toJsonString();
-        assertEquals(str, "{\"from\":[{\"action\":\"shell\",\"data\":[[{\"params\":[null]}]],\"method\":\"getServerTime\",\"tid\":"+from[0].tid+",\"type\":\"rpc\"}],\"to\":[{\"action\":\"shell\",\"data\":[[null]],\"method\":\"getServerTime\",\"tid\":"+to[0].tid+",\"type\":\"rpc\"},{\"action\":\"setting\",\"data\":[[null]],\"method\":\"getMobileSettings\",\"tid\":"+to[1].tid+",\"type\":\"rpc\"}]}");
+        assertEquals(str, "{\"from\":[{\"action\":\"shell\",\"data\":[[{\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[null]}]],\"method\":\"getServerTime\",\"tid\":"+from[0].tid+",\"type\":\"rpc\"}],\"to\":[{\"action\":\"shell\",\"data\":[[null]],\"method\":\"getServerTime\",\"tid\":"+to[0].tid+",\"type\":\"rpc\"},{\"action\":\"setting\",\"data\":[[null]],\"method\":\"getMobileSettings\",\"tid\":"+to[1].tid+",\"type\":\"rpc\"}]}");
     }
 }

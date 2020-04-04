@@ -47,7 +47,7 @@
     <string name="end">Конец</string>
     <string name="changes">Изменения</string>
     <string name="private_account_short">ЛС</string>
-    <string name="adress">Адрес</string>
+    <string name="address">Адрес</string>
     <string name="control_act_title">Снятие контрольного показания</string>
     <string name="act_date">Дата показания</string>
     <string name="previous_date">Предыдущая дата</string>
@@ -105,7 +105,6 @@
     <string name="forgot_pin_code">Забыли пин-код?</string>
     <string name="back_to_pin">Вернуться к вводу пин-кода</string>
 
-
     <plurals name="plurals_routes">
         <item quantity="zero">%1$d заданий</item>
         <item quantity="one">%1$d задание</item>
@@ -128,4 +127,6 @@
     <string name="expand_collapse">Развернуть/Свернуть</string>
     <string name="clear">Очистить</string>
     <string name="show_password">Показать пароль</string>
+    <string name="finger">Отпечаток пальца</string>
+    <string name="to_simple_authorization">Вернуться к обычной авторизации</string>
 </resources>

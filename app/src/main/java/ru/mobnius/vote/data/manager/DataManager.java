@@ -441,7 +441,7 @@ public class DataManager {
             RegistrPts registrPts = point.getRegistrPts();
             if(registrPts != null) {
                 PointInfo info = new PointInfo(registrPts);
-
+                info.setNotice(point.c_info);
                 return info;
             }
         }

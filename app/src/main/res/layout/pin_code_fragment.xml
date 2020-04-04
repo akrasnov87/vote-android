@@ -146,8 +146,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_s_24"
             android:orientation="horizontal"
-            android:layout_gravity="end"
-            >
+            android:layout_gravity="end">
+
             <ImageButton
                 android:id="@+id/pinFragment_ibFingerPrint"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -155,7 +155,8 @@
                 android:layout_height="@dimen/size_l_56"
                 android:background="@drawable/ic_fingerprint_authentication_24dp"
                 android:scaleType="centerInside"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:contentDescription="@string/finger" />
 
             <Button
                 android:id="@+id/pinFragment_btnZero"
@@ -166,13 +167,15 @@
                 android:text="0"
                 android:textSize="20sp"
                 android:layout_marginEnd="@dimen/size_s_24"/>
+
             <ImageButton
                 android:id="@+id/pinFragment_ibClear"
                 android:gravity="end"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:background="@drawable/backspace_button"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:contentDescription="@string/to_simple_authorization" />
 
         </LinearLayout>
 

@@ -408,7 +408,6 @@ public class DataManagerTest extends ManagerGenerate {
         assertEquals(info.getSubscrNumber(), registrPts.c_subscr);
         assertEquals(info.getAddress(), registrPts.c_address);
         assertEquals(info.getFio(), registrPts.c_fio);
-        assertEquals(info.getSubDivisionName(), subDivision.c_name);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);

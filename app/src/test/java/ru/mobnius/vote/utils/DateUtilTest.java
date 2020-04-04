@@ -14,10 +14,10 @@ public class DateUtilTest {
     @Test
     public void convertDateToUserString() {
         String userDateString = DateUtil.convertDateToUserString(Version.BIRTH_DAY);
-        assertEquals("16.12.2019 00:00:00", userDateString);
+        assertEquals("24.03.2020 00:00:00", userDateString);
 
         userDateString = DateUtil.convertDateToUserString(Version.BIRTH_DAY, DateUtil.USER_FORMAT);
-        assertEquals("16.12.2019 00:00:00", userDateString);
+        assertEquals("24.03.2020 00:00:00", userDateString);
     }
 
     @Test
