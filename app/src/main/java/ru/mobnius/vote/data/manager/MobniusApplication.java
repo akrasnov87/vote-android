@@ -39,11 +39,11 @@ public class MobniusApplication extends android.app.Application implements IExce
 
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
-        String baseUrl = "http://kes.it-serv.ru";
-        String virtualDirPath = "/vote/dev";
+        //String baseUrl = "http://kes.it-serv.ru";
+        //String virtualDirPath = "/vote/dev";
 
-        //String baseUrl = "http://10.10.1.230:3000";
-        //String virtualDirPath = "";
+        String baseUrl = "http://192.168.1.68:3000";
+        String virtualDirPath = "";
 
         return baseUrl + virtualDirPath;
     }

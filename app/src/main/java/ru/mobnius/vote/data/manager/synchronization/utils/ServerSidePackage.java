@@ -135,6 +135,10 @@ public abstract class ServerSidePackage implements IServerSidePackage {
             if(!rpcResult.method.equals("Query") && !rpcResult.method.equals("Select")){
                 return  PackageResult.fail("Метод результата " + tableName + " должен быть Query. Текущее значение " + rpcResult.method, null);
             }
+            if(tableName.equals("cd_routes")) {
+                int i = 2+ 2;
+            }
+
             db.beginTransaction();
             if (getDeleteRecordBeforeAppend()) {
                 db.execSQL("delete from " + tableName);

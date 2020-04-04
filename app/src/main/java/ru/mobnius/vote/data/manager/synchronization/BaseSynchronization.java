@@ -33,7 +33,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * Максимальное количество получаемых данных для одной сущности
      */
-    public static final int MAX_COUNT_IN_QUERY = 10000;
+    public static final int MAX_COUNT_IN_QUERY = 100000;
 
     /**
      * объект подключения к БД
