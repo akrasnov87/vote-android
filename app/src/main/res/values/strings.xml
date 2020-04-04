@@ -1,5 +1,5 @@
 <resources>
-    <string name="appName">Мобильный инспектор</string>
+    <string name="appName">Агитатор</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="enter">Войти</string>
@@ -94,7 +94,7 @@
     <string name="all_routes">Все маршруты</string>
     <string name="mode_all_points">Задания по всем маршрутам</string>
     <string name="search">Поиск</string>
-    <string name="clear">Очистить поиск</string>
+    <string name="clear_search">Очистить поиск</string>
     <string name="routes_sort">Сортировка маршрутов</string>
     <string name="sort_start_date">Сортировать по дате начала</string>
     <string name="sort_end_date">Сортировать по дате окончания</string>
@@ -125,4 +125,7 @@
     <string name="apartment_open">Открытых квартир: %s</string>
     <string name="signs_received">Количество собранных подписей: %s</string>
     <string name="statistic">Статистика</string>
+    <string name="expand_collapse">Развернуть/Свернуть</string>
+    <string name="clear">Очистить</string>
+    <string name="show_password">Показать пароль</string>
 </resources>
