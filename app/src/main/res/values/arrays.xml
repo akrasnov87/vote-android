@@ -1,32 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="image_quality_values">
-        <item>240</item>
-        <item>480</item>
-        <item>576</item>
-        <item>720</item>
-        <item>1080</item>
-        <item>2160</item>
-    </string-array>
-
-    <string-array name="image_quality">
-        <item>SD 240p</item>
-        <item>SD 480p</item>
-        <item>SD 576p</item>
-        <item>HD 720p</item>
-        <item>FULL HD 1080p</item>
-        <item>4K 2160p</item>
-    </string-array>
-
-    <string-array name="image_format">
-        <item>JPEG</item>
-        <item>WEBP</item>
-    </string-array>
-
-    <string-array name="image_format_values">
-        <item>jpeg</item>
-        <item>webp</item>
-    </string-array>
 
     <string-array name="point_statuses">
         <item>Не установлен</item>

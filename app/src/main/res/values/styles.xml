@@ -10,12 +10,6 @@
         <item name="colorAccent">@color/document_text</item>
     </style>
 
-    <style name="EditTextInput">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/size_l_56</item>
-        <item name="android:layout_marginBottom">@dimen/size_s_24</item>
-        <item name="android:ems">10</item>
-    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -26,55 +20,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="SmallIcon_24">
-        <item name="android:layout_width">@dimen/size_s_24</item>
-        <item name="android:layout_height">@dimen/size_s_24</item>
-    </style>
-
-    <style name="SmallIcon_24_left_margin" parent="SmallIcon_24">
-        <item name="android:layout_gravity">top|left</item>
-        <item name="android:layout_marginTop">42dp</item>
-        <item name="android:layout_marginLeft">@dimen/size_xs_16</item>
-    </style>
-
-    <style name="SmallIcon_24_right_margin">
-        <item name="android:layout_gravity">top|right</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">36dp</item>
-        <item name="android:layout_marginEnd">@dimen/size_m_32</item>
-        <item name="android:layout_width">@dimen/size_m_32</item>
-        <item name="android:layout_height">@dimen/size_m_32</item>
-    </style>
-
-    <style name="TextViewCenter">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="EditTextUserProfile">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:enabled">false</item>
-        <item name="android:focusable">false</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
     <!--Стиль для родительского layout отдельного ряда в RecyclerView (item_something.xml)-->
-    <style name="ItemParentLayout">
-        <item name="android:background">@drawable/card_background</item>
-        <item name="android:elevation">@dimen/size_xxxs_4</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/size_xxxs_4</item>
-        <item name="android:paddingBottom">@dimen/size_s_24</item>
-    </style>
 
     <style name="ButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:layout_height">wrap_content</item>
@@ -85,12 +31,6 @@
         </item><!--Селектор цвета текста кнопки в зависимости от состояния (setEnabled)-->
     </style>
 
-    <style name="CircleButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="android:background">@drawable/pin_round_button
-        </item><!--Селектор цвета кнопки в зависимости от состояния (setEnabled)-->
-        <item name="android:textColor">@color/contentColor
-        </item><!--Селектор цвета текста кнопки в зависимости от состояния (setEnabled)-->
-    </style>
     <!--Стили для TextView-->
     <style name="TextViewBase">
         <item name="android:layout_width">wrap_content</item>
@@ -119,18 +59,5 @@
         <item name="android:layout_marginTop">@dimen/size_xxs_8</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-    <style name="TextViewFilters">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/size_xxxs_4</item>
-        <item name="android:background">@drawable/card_background</item>
-        <item name="android:elevation">@dimen/size_xxxs_4</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">@dimen/size_s_24</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/label_light_gray</item>
-    </style>
-
 
 </resources>

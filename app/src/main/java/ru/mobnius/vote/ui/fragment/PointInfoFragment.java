@@ -35,6 +35,7 @@ public class PointInfoFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert getArguments() != null;
         mPointInfo = DataManager.getInstance().getPointInfo(getArguments().getString(Names.POINT_ID));
     }
 

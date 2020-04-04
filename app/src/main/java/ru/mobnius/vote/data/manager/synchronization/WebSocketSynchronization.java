@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.Logger;
@@ -325,85 +326,80 @@ public abstract class WebSocketSynchronization extends BaseSynchronization {
             }
 
             JSONObject jsonObject = (JSONObject) args[0];
-            if(jsonObject != null) {
-                try {
-                    // данный кусок кода нужен для вывода сообщений от сервера см. modules/synchronization/v1.js метод socketSend
-                    String tid = jsonObject.getString("tid");
-                    if(getSynchronization().getEntities(tid).length > 0) {
-                        onProgress(IProgressStep.UPLOAD, jsonObject.getString("result"), tid);
-                    }else{
-                        //onProgress(IProgressStep.UPLOAD, "Не текущая сессия: " + jsonObject.getString("result"));
-                    }
-                    return;
-                } catch (JSONException ignored) {
-
+            try {
+                // данный кусок кода нужен для вывода сообщений от сервера см. modules/synchronization/v1.js метод socketSend
+                String tid = jsonObject.getString("tid");
+                if(getSynchronization().getEntities(tid).length > 0) {
+                    onProgress(IProgressStep.UPLOAD, jsonObject.getString("result"), tid);
+                }else{
+                    //onProgress(IProgressStep.UPLOAD, "Не текущая сессия: " + jsonObject.getString("result"));
                 }
+                return;
+            } catch (JSONException ignored) {
 
-                JSONObject jsonData;
-                try {
-                    jsonData = jsonObject.getJSONObject("data");
-                    if(jsonData.getBoolean("success")){
-                        // тут нужно запросить данные от сервера
-                        JSONObject metaJSONObject = jsonObject.getJSONObject("meta");
-                        String tid = metaJSONObject.getString("tid");
-                        if(metaJSONObject.getBoolean("processed") && getEntities(tid).length > 0) {
-                            //onProgress(IProgressStep.DOWNLOAD, getEntities(tid).length > 0 ? "Текущий объект": "из паралельной синхронизации", tid);
-                            DownloadTransfer downloadTransfer = new DownloadTransfer(getSynchronization(), getSocketManager().getSocket(), PreferencesManager.SYNC_PROTOCOL, getActivity(), tid);
-                            if(transfers.get(tid) != null) {
-                                transfers.get(tid).destroy();
-                            }
-                            transfers.put(tid, downloadTransfer);
-                            downloadTransfer.download(new ITransferStatusCallback() {
+            }
 
-                                @Override
-                                public void onStartTransfer(String tid, Transfer transfer) {
-                                    onProgressTransfer(TransferListener.START, tid, transfer, null);
-                                }
-
-                                @Override
-                                public void onRestartTransfer(String tid, Transfer transfer) {
-                                    onProgressTransfer(TransferListener.RESTART, tid, transfer, null);
-                                }
-
-                                @Override
-                                public void onPercentTransfer(String tid, TransferProgress progress, Transfer transfer) {
-                                    onProgressTransfer(TransferListener.PERCENT, tid, transfer, progress);
-                                }
-
-                                @Override
-                                public void onStopTransfer(String tid, Transfer transfer) {
-                                    onProgressTransfer(TransferListener.STOP, tid, transfer, null);
-                                }
-
-                                @Override
-                                public void onEndTransfer(String tid, Transfer transfer, Object data) {
-                                    onProgressTransfer(TransferListener.END, tid, transfer, null);
-                                    processingPackage(getCollectionTid(), (byte[])data);
-
-                                    // значит все пакеты обработаны
-                                    if (isEntityFinished()) {
-                                        stop();
-                                    }
-                                }
-
-                                @Override
-                                public void onErrorTransfer(String tid, String message, Transfer transfer) {
-                                    onProgressTransfer(TransferListener.ERROR, tid, transfer, message);
-                                    onError(IProgressStep.DOWNLOAD, message, tid);
-                                }
-                            });
+            JSONObject jsonData;
+            try {
+                jsonData = jsonObject.getJSONObject("data");
+                if(jsonData.getBoolean("success")){
+                    // тут нужно запросить данные от сервера
+                    JSONObject metaJSONObject = jsonObject.getJSONObject("meta");
+                    String tid = metaJSONObject.getString("tid");
+                    if(metaJSONObject.getBoolean("processed") && getEntities(tid).length > 0) {
+                        //onProgress(IProgressStep.DOWNLOAD, getEntities(tid).length > 0 ? "Текущий объект": "из паралельной синхронизации", tid);
+                        DownloadTransfer downloadTransfer = new DownloadTransfer(getSynchronization(), getSocketManager().getSocket(), PreferencesManager.SYNC_PROTOCOL, getActivity(), tid);
+                        if(transfers.get(tid) != null) {
+                            Objects.requireNonNull(transfers.get(tid)).destroy();
                         }
-                    }else{
-                        // тут текст ошибки
-                        onError(IProgressStep.RESTORE, jsonData.getString("msg"), null);
-                        stop();
+                        transfers.put(tid, downloadTransfer);
+                        downloadTransfer.download(new ITransferStatusCallback() {
+
+                            @Override
+                            public void onStartTransfer(String tid, Transfer transfer) {
+                                onProgressTransfer(TransferListener.START, tid, transfer, null);
+                            }
+
+                            @Override
+                            public void onRestartTransfer(String tid, Transfer transfer) {
+                                onProgressTransfer(TransferListener.RESTART, tid, transfer, null);
+                            }
+
+                            @Override
+                            public void onPercentTransfer(String tid, TransferProgress progress, Transfer transfer) {
+                                onProgressTransfer(TransferListener.PERCENT, tid, transfer, progress);
+                            }
+
+                            @Override
+                            public void onStopTransfer(String tid, Transfer transfer) {
+                                onProgressTransfer(TransferListener.STOP, tid, transfer, null);
+                            }
+
+                            @Override
+                            public void onEndTransfer(String tid, Transfer transfer, Object data) {
+                                onProgressTransfer(TransferListener.END, tid, transfer, null);
+                                processingPackage(getCollectionTid(), (byte[])data);
+
+                                // значит все пакеты обработаны
+                                if (isEntityFinished()) {
+                                    stop();
+                                }
+                            }
+
+                            @Override
+                            public void onErrorTransfer(String tid, String message, Transfer transfer) {
+                                onProgressTransfer(TransferListener.ERROR, tid, transfer, message);
+                                onError(IProgressStep.DOWNLOAD, message, tid);
+                            }
+                        });
                     }
-                } catch (JSONException e) {
-                    onError(IProgressStep.RESTORE, e, null);
+                }else{
+                    // тут текст ошибки
+                    onError(IProgressStep.RESTORE, jsonData.getString("msg"), null);
                     stop();
                 }
-            }else {
-                onError(IProgressStep.RESTORE, "Ответ от сервера получен. Данные отсуствуют.", null);
+            } catch (JSONException e) {
+                onError(IProgressStep.RESTORE, e, null);
                 stop();
             }
         }

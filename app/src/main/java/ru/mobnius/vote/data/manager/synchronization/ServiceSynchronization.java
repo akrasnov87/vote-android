@@ -27,7 +27,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
 
     private static ServiceSynchronization serviceSynchronization;
 
-    public static ServiceSynchronization getInstance(boolean zip){
+    public static ServiceSynchronization getInstance(boolean zip) {
         if(serviceSynchronization != null){
             return serviceSynchronization;
         }else{
@@ -83,7 +83,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
     protected byte[] generatePackage(String tid, Object... args) throws Exception {
         PackageCreateUtils utils = new PackageCreateUtils(isZip());
         String tableName = (String) args[0];
-        if(tableName == null || (tableName != null && tableName.isEmpty())){
+        if(tableName == null || tableName.isEmpty()){
             throw new Exception("Имя таблицы в аргументах не передано.");
         }
         processingPackageTo(utils, tableName, tid);

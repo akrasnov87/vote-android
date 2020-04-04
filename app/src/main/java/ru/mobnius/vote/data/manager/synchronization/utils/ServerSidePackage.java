@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.FileManager;
@@ -154,8 +155,8 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                         for (JSONObject object : rpcResult.result.records) {
                             try {
                                 db.execSQL(sqlInsert.convertToQuery(isRequestToServer), sqlInsert.getValues(object, isRequestToServer));
-                            } catch (SQLiteConstraintException ignored) {
-                                Log.e("SYNC_ERROR", ignored.getMessage());
+                            } catch (SQLiteConstraintException e) {
+                                Log.e("SYNC_ERROR", Objects.requireNonNull(e.getMessage()));
                                 // тут нужно обновить запись
                                 String pkColumnName = "";
                                 for (AbstractDao a : session.getAllDaos()) {

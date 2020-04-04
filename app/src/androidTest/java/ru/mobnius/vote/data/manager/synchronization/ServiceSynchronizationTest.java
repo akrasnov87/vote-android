@@ -23,7 +23,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
     /**
      * массив с тестовыми данными
      */
-    private ArrayList<Tracking> trackings;
+    private ArrayList<Tracking> tracking;
 
     private ServiceSynchronizationTest.MySynchronization synchronization;
 
@@ -38,7 +38,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
     }
 
     void generateData(){
-        trackings = new ArrayList<>();
+        tracking = new ArrayList<>();
         for(int i =0; i < 10; i++) {
             Tracking tracking = new Tracking();
             tracking.d_date = DateUtil.convertDateToString(new Date());
@@ -47,7 +47,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
             tracking.c_network_status = "LTE";
             tracking.fn_user = 1;
             tracking.setObjectOperationType(DbOperationType.CREATED);
-            trackings.add(tracking);
+            this.tracking.add(tracking);
             synchronization.getDaoSession().getTrackingDao().insert(tracking);
         }
     }
@@ -69,12 +69,15 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
         array[0] = tid;
         synchronization.processingPackage(array, results);
         Object[] records = synchronization.getRecords(TrackingDao.TABLENAME, tid).toArray();
+        for(Object o : records) {
+            Assert.assertNotNull(o);
+        }
         Assert.assertEquals(records.length, 0);
 
         Assert.assertNotEquals(synchronization.getFinishStatus(), FinishStatus.FAIL);
 
         // тут повторно отправляем
-        for(Tracking tracking : trackings){
+        for(Tracking tracking : tracking){
             synchronization.getDaoSession().getTrackingDao().insert(tracking);
         }
 

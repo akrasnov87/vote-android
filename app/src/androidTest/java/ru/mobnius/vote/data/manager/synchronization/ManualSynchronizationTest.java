@@ -27,7 +27,7 @@ public class ManualSynchronizationTest extends ManagerGenerate {
 
     @Before
     public void setUp() {
-        synchronization = new ManualSynchronizationTest.MySynchronization(getDaoSession(), getFileManager(), getCredentials());
+        synchronization = new MySynchronization(getDaoSession(), getFileManager(), getCredentials());
         synchronization.initEntities();
     }
 
@@ -43,7 +43,7 @@ public class ManualSynchronizationTest extends ManagerGenerate {
         utils.destroy();
     }
 
-    public class MySynchronization extends ManualSynchronization {
+    public static class MySynchronization extends ManualSynchronization {
         private BasicCredentials mCredentials;
         public MySynchronization(DaoSession daoSession, FileManager fileManager, BasicCredentials credentials) {
             super(daoSession, fileManager, PreferencesManager.ZIP_CONTENT);

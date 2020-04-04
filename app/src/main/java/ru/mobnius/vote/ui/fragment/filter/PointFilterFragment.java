@@ -1,12 +1,10 @@
 package ru.mobnius.vote.ui.fragment.filter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import java.text.ParseException;
@@ -28,7 +25,6 @@ import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.activity.MainActivity;
 import ru.mobnius.vote.ui.data.PointFilterManager;
 import ru.mobnius.vote.ui.model.FilterItem;
 import ru.mobnius.vote.utils.DateUtil;
@@ -39,12 +35,12 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
 
     private final String STATUS_ID = "done";
     private final String DEVICE_NUMBER = "deviceNumber";
-    private final String SUBSCR_NAMBER = "subscrNumber";
-    private final String ADRESS = "address";
+    private final String SUBSCR_NUMBER = "subscrNumber";
+    private final String ADDRESS = "address";
 
     private EditText etMeterFilter;
     private EditText etSubscrFilter;
-    private EditText etAdressFilter;
+    private EditText etAddressFilter;
     private TextView tvTitle;
     private AppCompatSpinner spPointStatus;
 
@@ -69,7 +65,7 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
 
         etMeterFilter = v.findViewById(R.id.fPointFilter_etMeterName);
         etSubscrFilter = v.findViewById(R.id.fPointFilter_etSubscrName);
-        etAdressFilter = v.findViewById(R.id.fPointFilter_etAdress);
+        etAddressFilter = v.findViewById(R.id.fPointFilter_etAddress);
 
         spPointStatus = v.findViewById(R.id.fPointFilter_spPointStatus);
 
@@ -107,7 +103,7 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
         if (item.getItemId() == R.id.filterMenu_Cancel) {
             etMeterFilter.setText("");
             etSubscrFilter.setText("");
-            etAdressFilter.setText("");
+            etAddressFilter.setText("");
             spPointStatus.setSelection(0);
             setTitle(getString(R.string.point_filters));
             Toast.makeText(getActivity(), "Фильтры сброшены", Toast.LENGTH_SHORT).show();
@@ -155,11 +151,11 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
                 case DEVICE_NUMBER:
                     etMeterFilter.setText(item.getValue());
                     break;
-                case SUBSCR_NAMBER:
+                case SUBSCR_NUMBER:
                     etSubscrFilter.setText(item.getValue());
                     break;
-                case ADRESS:
-                    etAdressFilter.setText(item.getValue());
+                case ADDRESS:
+                    etAddressFilter.setText(item.getValue());
                     break;
                 case STATUS_ID:
                     int selection = 2;
@@ -181,13 +177,13 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
     public void onClick(View v) {
         String meterFilter = etMeterFilter.getText().toString();
         String subscrFilter = etSubscrFilter.getText().toString();
-        String adressFilter = etAdressFilter.getText().toString();
+        String addressFilter = etAddressFilter.getText().toString();
         long statusId = mStatusAdapter.getId(spPointStatus.getSelectedItemPosition());
 
 
         changeFilter(DEVICE_NUMBER, ConfigurationSetting.TEXT, meterFilter);
-        changeFilter(SUBSCR_NAMBER, ConfigurationSetting.TEXT, subscrFilter);
-        changeFilter(ADRESS, ConfigurationSetting.TEXT, adressFilter);
+        changeFilter(SUBSCR_NUMBER, ConfigurationSetting.TEXT, subscrFilter);
+        changeFilter(ADDRESS, ConfigurationSetting.TEXT, addressFilter);
         changeFilter(STATUS_ID, ConfigurationSetting.BOOLEAN, statusId);
 
         String preferencesType = PreferencesManager.POINT_FILTER_PREFS;

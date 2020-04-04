@@ -65,7 +65,7 @@ public class DateUtil {
      * Генерация TID
      * @return уникальный идентификатор
      */
-    public static int geenerateTid() {
+    public static int generateTid() {
         return Math.abs((int)((new Date().getTime() - Version.BIRTH_DAY.getTime())));
     }
 }

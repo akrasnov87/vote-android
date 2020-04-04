@@ -70,6 +70,7 @@ public class ExceptionUtils {
 
                 for (String fileName : files) {
                     ExceptionModel model = toModel(new String(fileExceptionManager.readPath(fileName)));
+                    assert model != null;
                     list.add(model.toDbItem(context, userID));
                 }
                 if (list.size() > 0) {

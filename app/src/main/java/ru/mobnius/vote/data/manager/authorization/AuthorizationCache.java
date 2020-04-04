@@ -117,12 +117,15 @@ public class AuthorizationCache {
         File dir = new File(context.getFilesDir().getPath());
         if(all){
             File[] files = dir.listFiles();
-            for(File file: files){
-                if(file.getName().indexOf(PART_FILENAME) > 0){
-                    context.deleteFile(file.getName());
+            if(files != null) {
+                for (File file : files) {
+                    if (file.getName().indexOf(PART_FILENAME) > 0) {
+                        context.deleteFile(file.getName());
+                    }
                 }
+                return true;
             }
-            return true;
+            return false;
         } else {
             String login = Authorization.getInstance().getUser().getCredentials().login;
             if(!StringUtil.isEmptyOrNull(login)) {
@@ -145,9 +148,11 @@ public class AuthorizationCache {
         ArrayList<String> users = new ArrayList<>();
 
         File[] files = dir.listFiles();
-        for(File file: files){
-            if(file.getName().indexOf(PART_FILENAME) > 0){
-                users.add(file.getName().replace(PART_FILENAME, ""));
+        if(files != null) {
+            for (File file : files) {
+                if (file.getName().indexOf(PART_FILENAME) > 0) {
+                    users.add(file.getName().replace(PART_FILENAME, ""));
+                }
             }
         }
         return users.toArray(new String[0]);

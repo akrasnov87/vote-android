@@ -4,8 +4,4 @@
         <attr name="fieldLabel" format="string" />
         <attr name="fieldText" format="string" />
     </declare-styleable>
-
-    <declare-styleable name="ExpandableLayout">
-        <attr name="labelText" format="string" />
-    </declare-styleable>
 </resources>

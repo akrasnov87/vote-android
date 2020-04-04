@@ -133,51 +133,47 @@ public class UploadTransfer extends Transfer {
             }
 
             JSONObject jsonObject = (JSONObject) args[0];
-            if (jsonObject != null) {
-                TransferResult result = TransferResult.readResult(jsonObject);
+            TransferResult result = TransferResult.readResult(jsonObject);
 
-                if (result.tid.equals(tid)) {
-                    if (!result.data.success) {
-                        onError(result.data.msg);
+            if (result.tid.equals(tid)) {
+                if (!result.data.success) {
+                    onError(result.data.msg);
+                } else {
+                    if (result.meta.processed) {
+                        onEnd(uploadBytes);
+                        transfer.destroy();
+                        Log.d(UPLOAD_TAG, "tid: " + tid + "; finish");
                     } else {
-                        if (result.meta.processed) {
-                            onEnd(uploadBytes);
-                            transfer.destroy();
-                            Log.d(UPLOAD_TAG, "tid: " + tid + "; finish");
+                        uploadPosition = result.meta.start;
+                        int percent = (uploadPosition * 100) / uploadBytes.length;
+                        int end = uploadPosition + getChunk();
+                        if (end > uploadBytes.length) {
+                            end = uploadBytes.length;
+                        }
+                        try {
+                            Log.d(UPLOAD_TAG, "tid: " + tid + "; start: " + end + "; chunk: " + getChunk() + "; totalLength: " + uploadBytes.length);
+                            socket.emit(EVENT_UPLOAD, protocolVersion, Arrays.copyOfRange(uploadBytes, uploadPosition, end), tid, uploadPosition, uploadBytes.length);
+                        } catch (Exception e) {
+                            onError(e.getMessage());
+                        }
+                        long lastChunk = getChunk();
+                        if (getIterationStartTime() != null) {
+                            // время которое потребовалось для передачи CHUNK блока
+                            long time = new Date().getTime() - getIterationStartTime().getTime();
+                            // сколько нужно блоков для передачи за 1 секунду?
+                            updateChunk((INTERVAL * getChunk()) / (time == 0 ? 1 : time));
+                            onPercent(percent,
+                                    TransferSpeed.getInstance(lastChunk, new Date().getTime() - getIterationStartTime().getTime()),
+                                    getLastTime(dtStart, percent),
+                                    TransferData.getInstance(uploadPosition, uploadBytes.length));
                         } else {
-                            uploadPosition = result.meta.start;
-                            int percent = (uploadPosition * 100) / uploadBytes.length;
-                            int end = uploadPosition + getChunk();
-                            if (end > uploadBytes.length) {
-                                end = uploadBytes.length;
-                            }
-                            try {
-                                Log.d(UPLOAD_TAG, "tid: " + tid + "; start: " + end + "; chunk: " + getChunk() + "; totalLength: " + uploadBytes.length);
-                                socket.emit(EVENT_UPLOAD, protocolVersion, Arrays.copyOfRange(uploadBytes, uploadPosition, end), tid, uploadPosition, uploadBytes.length);
-                            } catch (Exception e) {
-                                onError(e.getMessage());
-                            }
-                            long lastChunk = getChunk();
-                            if (getIterationStartTime() != null) {
-                                // время которое потребовалось для передачи CHUNK блока
-                                long time = new Date().getTime() - getIterationStartTime().getTime();
-                                // сколько нужно блоков для передачи за 1 секунду?
-                                updateChunk((INTERVAL * getChunk()) / (time == 0 ? 1 : time));
-                                onPercent(percent,
-                                        TransferSpeed.getInstance(lastChunk, new Date().getTime() - getIterationStartTime().getTime()),
-                                        getLastTime(dtStart, percent),
-                                        TransferData.getInstance(uploadPosition, uploadBytes.length));
-                            } else {
-                                onPercent(percent,
-                                        TransferSpeed.getInstance(uploadPosition, new Date().getTime() - dtStart.getTime()),
-                                        getLastTime(dtStart, percent),
-                                        TransferData.getInstance(uploadPosition, uploadBytes.length));
-                            }
+                            onPercent(percent,
+                                    TransferSpeed.getInstance(uploadPosition, new Date().getTime() - dtStart.getTime()),
+                                    getLastTime(dtStart, percent),
+                                    TransferData.getInstance(uploadPosition, uploadBytes.length));
                         }
                     }
                 }
-            } else {
-                onError("Ответ от сервера получен. Данные отсуствуют.");
             }
         }
     }

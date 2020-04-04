@@ -36,9 +36,9 @@ import ru.mobnius.vote.ui.activity.MainActivity;
 import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
-import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGHT;
+import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
 
-public class PinCodeFragment extends BaseFragment implements View.OnClickListener, PinCodeLinLay.PinChangeListner, PinCodeLinLay.CheckPin, PinCodeLinLay.FocusChange {
+public class PinCodeFragment extends BaseFragment implements View.OnClickListener, PinCodeLinLay.PinChangeListener, PinCodeLinLay.CheckPin, PinCodeLinLay.FocusChange {
 
     private PinCodeLinLay pclPinPoints;
 
@@ -104,9 +104,9 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.pin_code_fragment, container, false);
         pclPinPoints = v.findViewById(R.id.pinFragment_pclTop);
-        pclPinPoints.setPinChangeListner(this);
-        pclPinPoints.setCheckPinListner(this);
-        pclPinPoints.setFocusChangeListner(this);
+        pclPinPoints.setPinChangeListener(this);
+        pclPinPoints.setCheckPinListener(this);
+        pclPinPoints.setFocusChangeListener(this);
 
         TextView tvForgotPin = v.findViewById(R.id.pinFragment_tvForgotPin);
 
@@ -145,7 +145,7 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
         }
 
         if (mAuthorization.isAutoSignIn()&&!isCreateMode&& Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            fingerPrintAcrivate(ibFingerPrint);
+            fingerPrintActivate(ibFingerPrint);
 
         }
         return v;
@@ -163,7 +163,7 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
             if (activity != null) {
                 activity.setBackToExist(false);
             }
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.single_fragment_container, LoginFragment.newInstance(true)).addToBackStack("Pin").commit();
         } else {
             if (v.getId() == R.id.pinFragment_ibClear) {
@@ -171,7 +171,7 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
             } else {
                 Button btn = (Button) v;
                 pclPinPoints.onPinEnter();
-                if (pinDigits.length() < PIN_CODE_LENGHT) {
+                if (pinDigits.length() < PIN_CODE_LENGTH) {
                     pinDigits = pinDigits + btn.getText().toString();
                 }
                 pclPinPoints.setPinnedPoints();
@@ -214,7 +214,7 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
                 if (pinDigits.equals(tempPin)) {
 
                     cache.update(login, pinDigits, new Date());
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
                     getActivity().finish();
                     Intent intent = new Intent(getContext(), SettingActivity.class);
                     startActivity(intent);
@@ -237,8 +237,8 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void onAuthorize() {
-        String[] logins = cache.getNames();
-        for (String log : logins) {
+        String[] names = cache.getNames();
+        for (String log : names) {
             if (log.equals(login)) {
                 BasicUser user = cache.read(log);
                 Authorization.getInstance().setUser(user);
@@ -252,11 +252,11 @@ public class PinCodeFragment extends BaseFragment implements View.OnClickListene
         Objects.requireNonNull(getActivity()).finish();
     }
 
-    private void fingerPrintAcrivate(ImageButton imageButton) {
-        BiometricManager manager = BiometricManager.from(getActivity());
+    private void fingerPrintActivate(ImageButton imageButton) {
+        BiometricManager manager = BiometricManager.from(Objects.requireNonNull(getActivity()));
         if (manager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
             imageButton.setVisibility(View.VISIBLE);
-            Executor executor = ContextCompat.getMainExecutor(getContext());
+            Executor executor = ContextCompat.getMainExecutor(Objects.requireNonNull(getContext()));
             final BiometricPrompt biometricPrompt = new BiometricPrompt(getActivity(),
                     executor, new BiometricPrompt.AuthenticationCallback() {
                 @Override

@@ -324,7 +324,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         RouteStatuses routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)1;
-        routeStatuses.c_name = "Cоздан";
+        routeStatuses.c_name = "Создан";
         getDaoSession().getRouteStatusesDao().insert(routeStatuses);
         routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)2;
@@ -424,7 +424,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         RouteStatuses routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)1;
-        routeStatuses.c_name = "Cоздан";
+        routeStatuses.c_name = "Создан";
         routeStatuses.c_const = "CREATED";
         getDaoSession().getRouteStatusesDao().insert(routeStatuses);
 

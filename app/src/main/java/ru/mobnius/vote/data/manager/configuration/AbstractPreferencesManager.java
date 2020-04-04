@@ -113,10 +113,7 @@ public abstract class AbstractPreferencesManager {
 
     protected boolean isUpdateString(String key, String value){
         String stringValue = getStringValue(key, null);
-        if(stringValue == null || (stringValue != null && !stringValue.equals(value))){
-            return true;
-        }
-        return false;
+        return stringValue == null || !stringValue.equals(value);
     }
 
     /**
@@ -182,7 +179,7 @@ public abstract class AbstractPreferencesManager {
      */
     public void clear() {
         if(sharedPreferences != null) {
-            sharedPreferences.edit().clear().commit();
+            sharedPreferences.edit().clear().apply();
         }
     }
 

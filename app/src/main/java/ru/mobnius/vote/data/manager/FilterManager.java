@@ -97,6 +97,7 @@ public abstract class FilterManager<T> extends ItemsManager<FilterItem, String> 
                     case ConfigurationSetting.DATE:
                         Date valueDate = (Date) field.get(item);
                         try {
+                            assert valueDate != null;
                             if (valueDate.getTime() != DateUtil.convertStringToDate(filterItem.getValue()).getTime()) {
                                 append = false;
                             }

@@ -68,6 +68,7 @@ public class DefaultPreferencesManagerTest {
             }
         }
 
+        assert set != null;
         Assert.assertEquals(set.value, "value");
 
         Assert.assertEquals(preferencesManager.hasValue(configurationSetting.key), true);

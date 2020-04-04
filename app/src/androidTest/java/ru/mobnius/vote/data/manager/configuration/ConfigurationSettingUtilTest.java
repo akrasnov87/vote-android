@@ -74,16 +74,14 @@ public class ConfigurationSettingUtilTest extends ManagerGenerate {
 
     @Test
     public void getConfigurationSettings() {
-        List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(null);
-        assertNull(configurationSettings);
-
-        configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(success.result.records[0]);
+        List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(success.result.records[0]);
         assertEquals(configurationSettings.size(), 4);
     }
 
     @Test
     public void getSettings() {
         List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(getCredentials());
+        assert configurationSettings != null;
         assertTrue(configurationSettings.size() > 0);
     }
 }

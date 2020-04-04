@@ -41,7 +41,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void geenerateTid() {
-        assertTrue(DateUtil.geenerateTid() > 0);
+    public void generateTid() {
+        assertTrue(DateUtil.generateTid() > 0);
     }
 }

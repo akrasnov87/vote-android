@@ -6,15 +6,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
 @RunWith(AndroidJUnit4.class)
 public class TransferDataTest {
 
     @Test
     public void toStringTest() {
         TransferData data = TransferData.getInstance(512, 1024);
-        String txt = data.toString();
+        String txt = data.toTransferString();
         Assert.assertEquals(txt.replace(',', '.'), "512 байт/1.00 КБ");
     }
 }

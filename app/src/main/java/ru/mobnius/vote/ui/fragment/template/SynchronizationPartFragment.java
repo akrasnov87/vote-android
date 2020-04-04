@@ -1,5 +1,6 @@
 package ru.mobnius.vote.ui.fragment.template;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class SynchronizationPartFragment extends Fragment {
         super.onResume();
 
         Bundle arguments = getArguments();
+        assert arguments != null;
         tvDescription.setText(arguments.getString(DATA_TYPE));
 
         updateProgressBarColor(TransferListener.START);
@@ -64,9 +66,12 @@ public class SynchronizationPartFragment extends Fragment {
      * @param progress прогресс
      */
     public void updateStatus(TransferProgress progress) {
-        tvStatus.setText(progress.toString());
+        tvStatus.setText(progress.toTransferString());
         Bundle arguments = getArguments();
-        tvDescription.setText(arguments.getString(DATA_TYPE) + " (" + progress.getTransferData().toString() + ")");
+        if(arguments != null && arguments.getString(DATA_TYPE) != null) {
+            String type = arguments.getString(DATA_TYPE)+ " (" + progress.getTransferData().toTransferString() + ")";
+            tvDescription.setText(type);
+        }
     }
 
     /**
@@ -76,7 +81,10 @@ public class SynchronizationPartFragment extends Fragment {
      */
     public void updateLogs(String logs) {
         Bundle arguments = getArguments();
-        tvDescription.setText(arguments.getString(DATA_TYPE) + " " + logs);
+        if(arguments != null && arguments.getString(DATA_TYPE) != null) {
+            String type = arguments.getString(DATA_TYPE) + " " + logs;
+            tvDescription.setText(type);
+        }
     }
 
     /**

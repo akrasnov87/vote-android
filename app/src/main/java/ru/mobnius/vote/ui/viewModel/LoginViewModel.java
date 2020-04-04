@@ -90,7 +90,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
     public void setNoSpaces(EditText[] editText) {
         InputFilter filter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end,
-                                       Spanned dest, int dstart, int dend) {
+                                       Spanned dest, int date_start, int date_end) {
                 for (int i = start; i < end; i++) {
                     if (!Character.isLetterOrDigit(source.charAt(i))) {
                         return "";

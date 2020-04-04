@@ -21,6 +21,7 @@ public class SingleItemQuery {
      */
     @Expose
     private Object[] params;
+
     @Expose
     public int limit;
 

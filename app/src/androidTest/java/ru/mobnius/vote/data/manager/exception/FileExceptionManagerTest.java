@@ -30,6 +30,7 @@ public class FileExceptionManagerTest {
         Assert.assertNotNull(bytes);
         String result = new String(bytes);
         ExceptionModel exceptionModel = ExceptionUtils.toModel(result);
+        assert exceptionModel != null;
         Assert.assertEquals(exceptionModel.getMessage(), model.getMessage());
         fileExceptionManager.deleteFile(fileName);
         Assert.assertFalse(fileExceptionManager.exists(fileName));

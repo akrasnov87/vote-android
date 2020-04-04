@@ -59,18 +59,18 @@ public class ZipManager {
         byte[] input = inputText.getBytes(StandardCharsets.UTF_8);
         ZipResult zipResult = new ZipResult(input);
 
-        Deflater compresser = new Deflater();
-        compresser.setInput(input);
-        compresser.finish();
+        Deflater compressor = new Deflater();
+        compressor.setInput(input);
+        compressor.finish();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buf = new byte[2048];
-        while (!compresser.finished()) {
-            int byteCount = compresser.deflate(buf);
-            baos.write(buf, 0, byteCount);
+        while (!compressor.finished()) {
+            int byteCount = compressor.deflate(buf);
+            byteArrayOutputStream.write(buf, 0, byteCount);
         }
-        compresser.end();
-        return zipResult.getResult(baos.toByteArray());
+        compressor.end();
+        return zipResult.getResult(byteArrayOutputStream.toByteArray());
     }
 
     private static ZipResult newCompress(String inputText) throws IOException {
@@ -103,14 +103,14 @@ public class ZipManager {
 
         while(zin.getNextEntry()!=null) {
             // распаковка
-            ByteArrayOutputStream fout = new ByteArrayOutputStream();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             for (int c = zin.read(); c != -1; c = zin.read()) {
-                fout.write(c);
+                byteArrayOutputStream.write(c);
             }
-            fout.flush();
+            byteArrayOutputStream.flush();
             zin.closeEntry();
-            fout.close();
-            return fout.toByteArray();
+            byteArrayOutputStream.close();
+            return byteArrayOutputStream.toByteArray();
         }
         return  null;
     }

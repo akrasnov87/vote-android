@@ -88,7 +88,7 @@ public class ConfigurationSettingUtil {
      * @return список настроек
      */
     public static List<ConfigurationSetting> getConfigurationSettings(JSONObject result) {
-        if(result == null){
+        if(result == null) {
             return null;
         }
         List<ConfigurationSetting> configurationSettings = new ArrayList<>();
@@ -101,8 +101,8 @@ public class ConfigurationSettingUtil {
 
                 JSONObject jsonObject = result.getJSONObject(key);
 
-                for (Iterator<String> iter = jsonObject.keys(); iter.hasNext(); ) {
-                    String name = iter.next();
+                for (Iterator<String> item = jsonObject.keys(); item.hasNext(); ) {
+                    String name = item.next();
                     String val = (String) jsonObject.get(name);
                     switch (name) {
                         case "key":

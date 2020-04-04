@@ -54,7 +54,7 @@ public class FilterItem implements ItemsManager.IItemManager {
         if(mValue != null) {
             return mValue.toLowerCase();
         }
-        return mValue;
+        return null;
     }
 
     public void setValue(String value) {

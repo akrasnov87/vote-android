@@ -75,7 +75,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/fPointFilter_tilAdress"
+                android:id="@+id/fPointFilter_tilAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/size_xxxs_4"
@@ -83,7 +83,7 @@
                 android:paddingTop="@dimen/size_s_24">
 
                 <EditText
-                    android:id="@+id/fPointFilter_etAdress"
+                    android:id="@+id/fPointFilter_etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"

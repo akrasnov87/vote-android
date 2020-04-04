@@ -54,7 +54,6 @@ public abstract class SearchManager<T> extends FilterManager<T> {
                 }
             }
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
-            append = false;
         }
         return append;
     }

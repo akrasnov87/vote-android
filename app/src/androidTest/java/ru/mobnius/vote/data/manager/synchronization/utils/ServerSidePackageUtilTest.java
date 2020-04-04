@@ -192,10 +192,10 @@ public class ServerSidePackageUtilTest extends DbGenerate {
         sidePackage.setDeleteRecordBeforeAppend(false);
         PackageResult packageResult = sidePackage.from(getDaoSession(), result, tid, true);
         Assert.assertTrue(packageResult.success);
-        List<Tracking> trackings = getDaoSession().getTrackingDao().queryBuilder().list();
-        Assert.assertEquals(trackings.size(), 2);
-        trackings = getDaoSession().getTrackingDao().queryBuilder().where(TrackingDao.Properties.Id.eq(tracking2.getId())).list();
-        Tracking t = trackings.toArray(new Tracking[0])[0];
+        List<Tracking> tacking = getDaoSession().getTrackingDao().queryBuilder().list();
+        Assert.assertEquals(tacking.size(), 2);
+        tacking = getDaoSession().getTrackingDao().queryBuilder().where(TrackingDao.Properties.Id.eq(tracking2.getId())).list();
+        Tracking t = tacking.toArray(new Tracking[0])[0];
         Assert.assertEquals(t.fn_user, tracking2.fn_user);
     }
 

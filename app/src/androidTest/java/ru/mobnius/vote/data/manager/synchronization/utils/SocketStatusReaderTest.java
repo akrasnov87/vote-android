@@ -13,6 +13,7 @@ public class SocketStatusReaderTest {
     @Test
     public void getInstanceTest(){
         SocketStatusReader reader = SocketStatusReader.getInstance("[DONE]12;hello world;12568");
+        assert reader != null;
         assertEquals(reader.getName(), "DONE");
         assertEquals(reader.getParams().length, 3);
         Object[] params = reader.getParams();

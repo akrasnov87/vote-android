@@ -81,8 +81,8 @@ public class FilterManagerTest extends DbGenerate {
             getDaoSession().getTrackingDao().insert(tracking);
         }
 
-        Tracking[] trackings = getDaoSession().getTrackingDao().loadAll().toArray(new Tracking[0]);
-        Tracking[] results = mFilterManager.toFilters(trackings);
+        Tracking[] takings = getDaoSession().getTrackingDao().loadAll().toArray(new Tracking[0]);
+        Tracking[] results = mFilterManager.toFilters(takings);
         assertEquals(results.length , 1);
     }
 

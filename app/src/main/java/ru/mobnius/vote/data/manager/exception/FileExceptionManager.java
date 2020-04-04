@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.FileManager;
@@ -124,9 +125,9 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
      * удаление объекта File
      * @param fileOrDirectory файл или директория
      */
-    protected void deleteRecursive(File fileOrDirectory) {
+    private void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
+            for (File child : Objects.requireNonNull(fileOrDirectory.listFiles()))
                 deleteRecursive(child);
 
         fileOrDirectory.delete();

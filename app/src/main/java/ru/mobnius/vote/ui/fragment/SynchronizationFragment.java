@@ -2,7 +2,6 @@ package ru.mobnius.vote.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,7 +33,6 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.FileManager;
-import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -50,7 +47,6 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListener;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
-import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.fragment.template.SynchronizationPartFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
@@ -108,7 +104,7 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
         switch (v.getId()) {
             case R.id.fSynchronization_btnStart:
                 if (NetworkUtil.isNetworkAvailable(Objects.requireNonNull(getContext()))) {
-                    avilableNetwork();
+                    availableNetwork();
                     tvLogs.setText("");
                     start();
                 } else {
@@ -124,7 +120,7 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
         }
     }
 
-    private void avilableNetwork() {
+    private void availableNetwork() {
         if (tvNetworkError.getVisibility() == View.VISIBLE) {
             Transition transition = new Slide(Gravity.TOP);
             transition.addTarget(tvNetworkError).setDuration(800);

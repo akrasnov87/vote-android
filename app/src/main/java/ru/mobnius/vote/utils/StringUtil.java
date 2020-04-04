@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class StringUtil {
     private static final String NULL = "null";
@@ -28,20 +29,20 @@ public class StringUtil {
      */
     public static String getSize(long size) {
         String s = "";
-        double kb = size / 1024;
+        double kb = (double) size / 1024;
         double mb = kb / 1024;
         double gb = mb / 1024;
         double tb = gb / 1024;
         if(size < 1024) {
             s = size + " байт";
-        } else if(size >= 1024 && size < (1024 * 1024)) {
-            s =  String.format("%.2f", kb) + " КБ";
-        } else if(size >= (1024 * 1024) && size < (1024 * 1024 * 1024)) {
-            s = String.format("%.2f", mb) + " МБ";
-        } else if(size >= ((long)1024 * (long)1024 * (long)1024) && size < ((long)1024 * (long)1024 * (long)1024 * (long)1024)) {
-            s = String.format("%.2f", gb) + " ГБ";
-        } else if(size >= ((long)1024 * (long)1024 * (long)1024 * (long)1024)) {
-            s = String.format("%.2f", tb) + " ТБ";
+        } else if(size < 1024 * 1024) {
+            s =  String.format(new Locale("ru","RU"), "%.2f", kb) + " КБ";
+        } else if(size < 1024 * 1024 * 1024) {
+            s = String.format(new Locale("ru","RU"), "%.2f", mb) + " МБ";
+        } else if(size < (long) 1024 * (long) 1024 * (long) 1024 * (long) 1024) {
+            s = String.format(new Locale("ru","RU"), "%.2f", gb) + " ГБ";
+        } else {
+            s = String.format(new Locale("ru","RU"), "%.2f", tb) + " ТБ";
         }
         return s;
     }
@@ -53,13 +54,7 @@ public class StringUtil {
      */
     public static boolean isEmptyOrNull(String input){
         String normal = normalString(input);
-        if(normal == null){
-            return true;
-        }else if(normal.isEmpty()){
-            return true;
-        }
-
-        return false;
+        return normal.isEmpty();
     }
 
     /**

@@ -15,7 +15,7 @@
         android:elevation="@dimen/size_s_24"
         android:visibility="gone" />
     <TextView
-        android:id="@+id/fAuthorization_tvNoIntetnet"
+        android:id="@+id/fAuthorization_tvNoInternet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_internet"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_server_connection"
-        android:layout_below="@id/fAuthorization_tvNoIntetnet"
+        android:layout_below="@id/fAuthorization_tvNoInternet"
         android:background="@color/colorFail"
         android:layout_margin="@dimen/size_xxs_8"
         android:visibility="gone"

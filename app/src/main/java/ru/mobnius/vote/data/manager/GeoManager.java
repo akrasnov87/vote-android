@@ -40,6 +40,7 @@ public class GeoManager implements LocationListener, Serializable {
             mGeoListener.onLocationStatusChange(count, latitude, longitude);
         }
         locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+        assert locationManager != null;
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
     }
 

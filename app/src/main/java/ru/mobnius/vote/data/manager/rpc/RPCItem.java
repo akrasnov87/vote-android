@@ -11,7 +11,7 @@ import ru.mobnius.vote.utils.DateUtil;
 public class RPCItem {
 
     public RPCItem() {
-        tid = DateUtil.geenerateTid();
+        tid = DateUtil.generateTid();
     }
 
     public RPCItem(String action, String method, SingleItemQuery data){
@@ -139,7 +139,7 @@ public class RPCItem {
     }
 
     /**
-     * Объект для удаления записb
+     * Объект для удаления запись
      *
      * @param action сущность
      * @param item   список объектов

@@ -29,8 +29,7 @@ public class TransferData {
         return data;
     }
 
-    @Override
-    public String toString() {
+    public String toTransferString() {
         return StringUtil.getSize(position) + "/" +StringUtil.getSize(total);
     }
 }

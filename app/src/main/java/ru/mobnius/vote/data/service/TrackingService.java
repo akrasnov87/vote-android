@@ -88,6 +88,7 @@ public class TrackingService extends BaseService {
     private boolean isNetworkAvailable(Context context){
         ConnectivityManager manager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -132,7 +133,7 @@ public class TrackingService extends BaseService {
 
             // отправляем текущее местоположение пользователя
             SocketManager socketManager = SocketManager.getInstance();
-            if(socketManager != null && socketManager.isRegistered()){
+            if(socketManager != null && socketManager.isRegistered()) {
                 socketManager.getSocket().emit("tracking", (Object) MailManager.send(new GeoMail(tracking)));
             }
 

@@ -28,7 +28,7 @@ import static ru.mobnius.vote.utils.SyncUtil.resetTid;
 public class BaseSynchronizationTest extends ManagerGenerate {
     private MySynchronization synchronization;
 
-    private ArrayList<Tracking> trackings;
+    private ArrayList<Tracking> takings;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class BaseSynchronizationTest extends ManagerGenerate {
     }
 
     void generateData(){
-        trackings = new ArrayList<>();
+        takings = new ArrayList<>();
         for(int i =0; i < 10; i++) {
             Tracking tracking = new Tracking();
             tracking.fn_user = 1;
@@ -51,7 +51,7 @@ public class BaseSynchronizationTest extends ManagerGenerate {
             tracking.n_longitude = i * 10.0;
             tracking.d_date = DateUtil.convertDateToString(new Date());
             tracking.setObjectOperationType(DbOperationType.CREATED);
-            trackings.add(tracking);
+            takings.add(tracking);
             synchronization.getDaoSession().getTrackingDao().insert(tracking);
         }
         for(int i =0; i < 10; i++) {
@@ -74,6 +74,9 @@ public class BaseSynchronizationTest extends ManagerGenerate {
         generateData();
 
         Object[] records = synchronization.getRecords(TrackingDao.TABLENAME, "").toArray();
+        for(Object o : records) {
+            Assert.assertNotNull(o);
+        }
         Assert.assertEquals(records.length, 10);
 
         SyncUtil.updateTid(synchronization, TrackingDao.TABLENAME, tid);
@@ -114,11 +117,14 @@ public class BaseSynchronizationTest extends ManagerGenerate {
         array[0] = tid;
         synchronization.processingPackage(array, results);
         Object[] records = synchronization.getRecords(TrackingDao.TABLENAME, tid).toArray();
+        for(Object o : records) {
+            Assert.assertNotNull(o);
+        }
         Assert.assertEquals(records.length, 0);
         synchronization.getDaoSession().getTrackingDao().deleteAll();
 
         // тут повторно отправляем
-        for(Tracking tracking : trackings){
+        for(Tracking tracking : takings){
             synchronization.getDaoSession().getTrackingDao().insert(tracking);
         }
         // принудительно указывается, что нужно передать данные в другом режиме
@@ -160,6 +166,9 @@ public class BaseSynchronizationTest extends ManagerGenerate {
         synchronization.processingPackage(array, results);
 
         Object[] records = synchronization.getRecords(TrackingDao.TABLENAME, "").toArray();
+        for(Object o : records) {
+            Assert.assertNotNull(o);
+        }
         Assert.assertEquals(records.length, 0);
         records = synchronization.getRecords(AuditsDao.TABLENAME, "").toArray();
         Assert.assertEquals(records.length, 0);

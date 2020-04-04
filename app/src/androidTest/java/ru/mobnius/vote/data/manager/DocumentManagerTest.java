@@ -48,9 +48,8 @@ public class DocumentManagerTest extends ManagerGenerate implements OnVoteListen
     public void createResultTest() {
         String userPointId = UUID.randomUUID().toString();
         String notice = "";
-        boolean warning = true;
 
-        String resultId = mDocumentManager.createResult(userPointId, 1, 1, notice, null, 0, warning);
+        String resultId = mDocumentManager.createResult(userPointId, 1, 1, notice, null, 0, true);
         Results result = getDaoSession().getResultsDao().load(resultId);
 
         assertEquals(result.fn_user_point, userPointId);

@@ -1,7 +1,6 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;
@@ -102,7 +101,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             String pin = cache.readPin(mBasicUser.getCredentials().login);
             if (!pin.isEmpty()) {
                 PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
             } else {
                 if (mAuthorization.isAutoSignIn()) {
                     singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
@@ -120,7 +119,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         tilLogin = v.findViewById(R.id.fAuthorization_tilLogin);
         etPassword = v.findViewById(R.id.fAuthorization_etPassword);
         tilPassword = v.findViewById(R.id.fAuthorization_tilPassword);
-        tvNetwork = v.findViewById(R.id.fAuthorization_tvNoIntetnet);
+        tvNetwork = v.findViewById(R.id.fAuthorization_tvNoInternet);
         tvServer = v.findViewById(R.id.fAuthorization_tvNoServer);
 
         ibLoginClear = v.findViewById(R.id.fAuthorization_ibClearLogin);
@@ -154,7 +153,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                     int[] locations = new int[2];
                     btnSignIn.getLocationOnScreen(locations);
                     int btnLocation = locations[1];
-                    Display display = getActivity().getWindowManager().getDefaultDisplay();
+                    Display display = Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay();
                     Point size = new Point();
                     display.getSize(size);
                     int screenHeight = size.y;
@@ -332,7 +331,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 String pin = new AuthorizationCache(getContext()).readPin(mBasicUser.getCredentials().login);
                 if (!pin.isEmpty()) {
                     PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                 }
                 break;
         }

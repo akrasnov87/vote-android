@@ -417,9 +417,9 @@ public class DataManager {
 
                 List<RouteHistory> histories = daoSession.getRouteHistoryDao().queryBuilder().where(RouteHistoryDao.Properties.Fn_route.eq(routeId)).list();
                 for(RouteHistory routeHistory : histories) {
-                    RouteStatuses routeStatuse = routeHistory.getStatus();
-                    if(routeStatuse != null) {
-                        routeInfo.addHistory(routeStatuse.id, routeStatuse.c_name, DateUtil.convertStringToDate(routeHistory.d_date), routeHistory.c_notice);
+                    RouteStatuses routeStatuses = routeHistory.getStatus();
+                    if(routeStatuses != null) {
+                        routeInfo.addHistory(routeStatuses.id, routeStatuses.c_name, DateUtil.convertStringToDate(routeHistory.d_date), routeHistory.c_notice);
                     }
                 }
                 return routeInfo;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
@@ -29,6 +30,10 @@ public abstract class BaseFragment extends Fragment implements IExceptionInterce
     }
 
     protected MobniusApplication getApplication() {
-        return (MobniusApplication)getActivity().getApplication();
+        FragmentActivity fragmentActivity = getActivity();
+        if(fragmentActivity != null) {
+            return (MobniusApplication) fragmentActivity.getApplication();
+        }
+        return null;
     }
 }
