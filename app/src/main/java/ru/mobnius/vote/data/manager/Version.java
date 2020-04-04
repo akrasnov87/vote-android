@@ -17,7 +17,7 @@ public class Version {
     /**
      * Дата рождения приложения
      */
-    public static final Date BIRTH_DAY = new GregorianCalendar(2019, 11, 16).getTime();
+    public static final Date BIRTH_DAY = new GregorianCalendar(2020, 2, 24).getTime();
     /**
      * альфа версия
      */

@@ -38,8 +38,6 @@ import ru.mobnius.vote.utils.JsonUtil;
 public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private PointFragment mPointFragment;
-    private boolean mIsRouteView;
 
     public MainActivity() {
         super(true);
@@ -47,14 +45,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
 
     @Override
     protected Fragment createFragment() {
-        mIsRouteView = PreferencesManager.getInstance().getIsRouteView();
-
-        if (mIsRouteView) {
-            return new RouteFragment();
-        } else {
-            mPointFragment = PointFragment.newInstance(null);
-            return mPointFragment;
-        }
+        return new RouteFragment();
     }
 
 
@@ -153,14 +144,8 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (mIsRouteView) {
-                    PointFragment fragment = PointFragment.newSearchInstance(query);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-                } else {
-                    if (mPointFragment != null) {
-                        mPointFragment.searchResult(query);
-                    }
-                }
+                PointFragment fragment = PointFragment.newSearchInstance(query);
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                 return false;
             }
 
@@ -172,27 +157,17 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                if (mIsRouteView) {
-                    RouteFragment fragment = new RouteFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-                } else {
-                    if (mPointFragment != null) {
-                        mPointFragment.searchResult("");
-                    }
-                }
+                RouteFragment fragment = new RouteFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                 return false;
             }
         });
 
         MenuItem sortIcon = menu.findItem(R.id.route_and_point_setSort);
         PreferencesManager manager = PreferencesManager.getInstance();
-        boolean isFilter = mIsRouteView ?
-                JsonUtil.isEmpty(manager.getFilter(PreferencesManager.ROUTE_FILTER_PREFS)) :
-                JsonUtil.isEmpty(manager.getFilter(PreferencesManager.ALL_POINTS_FILTER_PREFS));
+        boolean isFilter = JsonUtil.isEmpty(manager.getFilter(PreferencesManager.ROUTE_FILTER_PREFS));
 
-        boolean isSort = mIsRouteView ?
-                JsonUtil.isEmpty(manager.getSort(PreferencesManager.ROUTE_SORT_PREFS)) :
-                JsonUtil.isEmpty(manager.getSort(PreferencesManager.ALL_POINTS_SORT_PREFS));
+        boolean isSort = JsonUtil.isEmpty(manager.getSort(PreferencesManager.ROUTE_SORT_PREFS));
 
         filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
         sortIcon.setIcon(getDrawable(isSort ? R.drawable.ic_sort_off_24dp : R.drawable.ic_sort_on_24dp));
@@ -203,19 +178,11 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.route_and_point_setFilters:
-                if (mIsRouteView) {
-                    startActivity(FilterActivity.getIntent(this, FilterActivity.ROUTE_FILTER));
-                } else {
-                    startActivity(FilterActivity.getIntent(this, FilterActivity.POINT_FILTER));
-                }
+                startActivity(FilterActivity.getIntent(this, FilterActivity.ROUTE_FILTER));
                 return true;
 
             case R.id.route_and_point_setSort:
-                if (mIsRouteView) {
-                    startActivity(SortActivity.getIntent(this, SortActivity.ROUTE_SORT));
-                } else {
-                    startActivity(SortActivity.getIntent(this, SortActivity.POINT_SORT));
-                }
+                startActivity(SortActivity.getIntent(this, SortActivity.ROUTE_SORT));
                 return true;
         }
         return super.onOptionsItemSelected(item);

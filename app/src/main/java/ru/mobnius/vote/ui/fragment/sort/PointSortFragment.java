@@ -42,8 +42,7 @@ public class PointSortFragment extends BaseFragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
         mSortAdapter = new SortAdapter(getContext(), new ArrayList<Map<String, Object>>(), true);
         mPreferencesManager = PreferencesManager.getInstance();
-        boolean isRouteView = mPreferencesManager.getIsRouteView();
-        sortPrefs = isRouteView ? PreferencesManager.POINT_SORT_PREFS : PreferencesManager.ALL_POINTS_SORT_PREFS;
+        sortPrefs = PreferencesManager.POINT_SORT_PREFS;
         String filter = mPreferencesManager.getSort(sortPrefs);
         mPointSortManager = new PointSortManager(sortPrefs, filter);
     }

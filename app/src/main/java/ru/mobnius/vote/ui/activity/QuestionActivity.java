@@ -10,13 +10,15 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
+import java.util.List;
 import java.util.Objects;
 
+import ru.mobnius.vote.Command;
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.DocumentManager;
 import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
@@ -24,17 +26,21 @@ import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
+import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
+import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
-import ru.mobnius.vote.ui.fragment.form.controlMeterReadings.ControlMeterReadingsFragment;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
-public class ControlMeterReadingsActivity extends BaseFormActivity implements onClickVoteItemListener {
+public class QuestionActivity extends BaseFormActivity implements OnVoteListener, onClickVoteItemListener {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
-    private long currentQuestionId;
-    private String previousQuestionTag;
+    private DocumentManager mDocumentManager;
+
+    private String routeID;
+    private String pointID;
+    private long mCurrentQuestionID;
 
     /**
      * Создание нового результата
@@ -45,7 +51,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
      * @return
      */
     public static Intent newIntent(Context context, String routeId, String pointId) {
-        Intent intent = new Intent(context, ControlMeterReadingsActivity.class);
+        Intent intent = new Intent(context, QuestionActivity.class);
         intent.putExtra(Names.POINT_ID, pointId);
         intent.putExtra(Names.ROUTE_ID, routeId);
         return intent;
@@ -53,17 +59,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
 
     @Override
     protected Fragment createFragment() {
-        Intent intent = getIntent();
-        if (intent.hasExtra(Names.RESULT_ID)) {
-            return ControlMeterReadingsFragment.updateInstance(intent.getStringExtra(Names.RESULT_ID));
-        } else {
-
-            Question[] questions = DataManager.getInstance().getQuestions();
-
-            return VoteItemFragment.createInstance(
-                    intent.getStringExtra(Names.ROUTE_ID),
-                    intent.getStringExtra(Names.POINT_ID), questions[0].id);
-        }
+        return VoteItemFragment.createInstance();
     }
 
     @Override
@@ -71,8 +67,19 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).setTitle(null);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        pointID = getIntent().getStringExtra(Names.POINT_ID);
+        routeID = getIntent().getStringExtra(Names.ROUTE_ID);
+
+        mDocumentManager = new DocumentManager(this);
+
         mVoteManager = new VoteManager();
-        currentQuestionId = 0;
+        if(isDone()) {
+            DataManager dataManager = DataManager.getInstance();
+            List<Results> results = dataManager.getPointResults(pointID);
+            // задание ранее выполнялось
+            mVoteManager.importFromResult(results.toArray(new Results[0]));
+        }
     }
 
     @Override
@@ -105,6 +112,14 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        Question question = DataManager.getInstance().getQuestions()[0];
+        onShowQuestion(question.id);
+    }
+
+    @Override
     public int getExceptionCode() {
         return IExceptionCode.CONTROL_METER_READINGS;
     }
@@ -120,7 +135,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
         Log.d(TAG, "Статус: " + status);
 
         if(actionMenu != null) {
-            int icon = -1;
+            int icon;
             String message = "";
             switch (status) {
                 case GeoManager.GeoListener.NONE:
@@ -150,27 +165,86 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
 
     @Override
     public void onClickVoteItem(Answer answer) {
-        if(answer.f_next_question > 0) {
-            Intent intent = getIntent();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            VoteItemFragment fragment = VoteItemFragment.createInstance( intent.getStringExtra(Names.ROUTE_ID),
-                    intent.getStringExtra(Names.POINT_ID), answer.f_next_question);
-            previousQuestionTag = String.valueOf(answer.f_question);
-            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment, String.valueOf(answer.id))
-                    .addToBackStack(previousQuestionTag).commit();
-            mVoteManager.addQuestion(answer.f_question, answer.id);
-            currentQuestionId = answer.f_question;
-        }else{
+        if(!isDone()) {
+            // если вопрос ранее не задавался, то сохраняем в стэке
+            mVoteManager.addQuestion(answer.f_question, answer.id, mVoteManager.getList().length);
+        }
 
+        if(answer.f_next_question > 0) {
+            onShowQuestion(answer.f_next_question);
+        }
+
+        // Присутствует команда Завершения
+        if(answer.c_action.contains(Command.FINISH)) {
+            if(isDone()) {
+                finish();
+            } else {
+                onVoteFinish();
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if(currentQuestionId!=0) {
-            mVoteManager.removeQuestion(currentQuestionId);
-            currentQuestionId = mVoteManager.getList()[mVoteManager.getList().length-1].questionId;
+        long lastQuestionID = isDone() ? mVoteManager.getPrevQuestionID(mCurrentQuestionID) : mVoteManager.getLastQuestionID();
+        if(lastQuestionID > 0) {
+            onShowQuestion(lastQuestionID);
+
+            if(!isDone()) {
+                // если вопрос ранее не задавался, то удаляем из стэка последнй
+                mVoteManager.removeQuestion(lastQuestionID);
+            }
+        } else {
+            super.onBackPressed();
         }
+    }
+
+    @Override
+    public VoteManager getVoteManager() {
+        return mVoteManager;
+    }
+
+    @Override
+    public String getRouteId() {
+        return routeID;
+    }
+
+    @Override
+    public String getPointId() {
+        return pointID;
+    }
+
+    /**
+     * Выполнялся ли ранее опрос
+     * @return true - да
+     */
+    private boolean isDone() {
+        return DataManager.getInstance().getPointState(getPointId()).isDone();
+    }
+
+    /**
+     * Завершение опроса
+     */
+    private void onVoteFinish() {
+        mDocumentManager.saveVote(this);
+        finish();
+    }
+
+    /**
+     * Интерфейс привязки данных к вопросу
+     * @return
+     */
+    private onQuestionListener getQuestionListener() {
+        return (onQuestionListener) getFragment();
+    }
+
+    /**
+     * Вывод вопроса
+     * @param questionID иден. вопроса
+     */
+    private void onShowQuestion(long questionID) {
+        mCurrentQuestionID = questionID;
+        long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
+        getQuestionListener().onQuestionBind(questionID, exclusionAnswerID);
     }
 }

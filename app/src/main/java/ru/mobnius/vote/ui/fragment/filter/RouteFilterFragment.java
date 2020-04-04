@@ -87,26 +87,11 @@ public class RouteFilterFragment extends BaseFragment implements View.OnClickLis
         tvDate = v.findViewById(R.id.fRouteFilter_tvRouteDate);
         tvTitle = v.findViewById(R.id.fRouteFilter_tvTitle);
         ivCancel = v.findViewById(R.id.fRouteFilter_ivCancel);
-        SwitchCompat scAllPoints = v.findViewById(R.id.fRouteFilter_scAllPoints);
 
         toolbar.getMenu().findItem(R.id.filterMenu_Cancel).setOnMenuItemClickListener(this);
         tvDate.setOnClickListener(this);
         ivCancel.setOnClickListener(this);
         toolbar.setNavigationOnClickListener(this);
-
-        scAllPoints.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.IS_ROUTE_VIEW, false).apply();
-                }
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
 
         return v;
     }

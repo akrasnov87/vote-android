@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.data.storage.models.Results;
+
 /**
  * Для сохранения состояния
  */
@@ -14,15 +16,27 @@ public class VoteManager implements Serializable {
         mList = new ArrayList<>();
     }
 
-    public void addQuestion(long question, long answer) {
-        mList.add(new Vote(question, answer));
+    /**
+     * добавление вопроса
+     * @param questionID идентификтаор вопроса
+     * @param answerID идентификатор ответа
+     * @param order сортировка
+     */
+    public void addQuestion(long questionID, long answerID, int order) {
+        Vote vote = new Vote(questionID, answerID);
+        vote.setOrder(order);
+        mList.add(vote);
     }
 
-    public void removeQuestion(long question) {
+    /**
+     * Удаление последнего вопроса
+     * @param questionID идентификтаор вопроса
+     */
+    public void removeQuestion(long questionID) {
         Vote vote = null;
         if(mList.size() > 0) {
             for(Vote v : mList) {
-                if(v.questionId == question) {
+                if(v.questionId == questionID) {
                     vote = v;
                     break;
                 }
@@ -34,14 +48,47 @@ public class VoteManager implements Serializable {
     }
 
     /**
-     * Доступен ли вопрос
-     * @param question идентификтаор вопроса
+     * Идентификтаор последнего вопроса
      * @return
      */
-    public boolean isQuestionExists(long question) {
+    public long getLastQuestionID() {
+        if(mList.size() > 0) {
+            return mList.get(mList.size() - 1).questionId;
+        }
+
+        return  -1;
+    }
+
+    /**
+     * Предыдущий вопрос
+     * @param currentQuestionID идентификатор текущего вопроса
+     * @return
+     */
+    public long getPrevQuestionID(long currentQuestionID) {
+        if(mList.size() > 0) {
+            long prevID = -1;
+            for(Vote v : mList) {
+                if(v.questionId == currentQuestionID) {
+                    return prevID;
+                } else {
+                    prevID = v.questionId;
+                }
+            }
+        }
+        return  -1;
+    }
+
+    /**
+     * Доступен ли вопрос
+     * @param questionID идентификтаор вопроса
+     * @return
+     */
+    public boolean isQuestionExists(long questionID) {
         if(mList.size() > 0) {
             for(Vote v : mList) {
-                return v.questionId == question;
+                if(v.questionId == questionID) {
+                    return true;
+                }
             }
         }
 
@@ -49,22 +96,59 @@ public class VoteManager implements Serializable {
     }
 
     /**
+     * Вернуть ответ на вопрос
+     * @param questionID идентификтаор вопроса
+     * @return
+     */
+    public long getQuestionAnswer(long questionID) {
+        if(mList.size() > 0) {
+            for(Vote v : mList) {
+                if(v.questionId == questionID){
+                    return v.answerId;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Доступность ответа
-     * @param question вопрос
+     * @param questionID вопрос
      * @param answer ответ
      * @return
      */
-    public boolean isAnswerExists(long question, long answer) {
+    public boolean isAnswerExists(long questionID, long answer) {
         if(mList.size() > 0) {
             for(Vote v : mList) {
-                return v.questionId == question && v.answerId == answer;
+                if(v.questionId == questionID && v.answerId == answer) {
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
+    /**
+     * Получение списка результатов
+     * @return
+     */
     public Vote[] getList() {
         return mList.toArray(new Vote[0]);
+    }
+
+    /**
+     * Импорт результатов головования в текущий объект
+     * @param results результаты
+     */
+    public void importFromResult(Results[] results) {
+        for(Results result : results) {
+            Vote vote = new Vote(result.fn_question, result.fn_answer);
+            vote.setOrder(result.n_order);
+            vote.setComment(result.c_notice);
+            vote.setJbTel(result.jb_data);
+            mList.add(vote);
+        }
     }
 }

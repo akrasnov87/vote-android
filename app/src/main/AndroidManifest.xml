@@ -52,9 +52,7 @@
             android:label="@string/synchronization"
             android:parentActivityName=".ui.activity.MainActivity" />
         <activity
-            android:name=".ui.activity.RouteInfoActivity" />
-        <activity
-        android:name=".ui.activity.ControlMeterReadingsActivity" />
+        android:name=".ui.activity.QuestionActivity" />
         <activity
             android:name=".ui.activity.PointInfoActivity" />
         <activity

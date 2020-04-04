@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.ui.activity.ControlMeterReadingsActivity;
-import ru.mobnius.vote.ui.component.TextFieldView;
+import ru.mobnius.vote.ui.activity.QuestionActivity;
 import ru.mobnius.vote.ui.model.PointItem;
-import ru.mobnius.vote.ui.model.PointResult;
 
 public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder> {
 
@@ -81,9 +77,10 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
 
         @Override
         public void onClick(View v) {
-            String routeId = mPointsList.get(getAdapterPosition()).routeId;
-            String pointId = mPointsList.get(getLayoutPosition()).id;
-            Intent intent = ControlMeterReadingsActivity.newIntent(mContext, routeId, pointId);
+            PointItem pointItem = mPointsList.get(getAdapterPosition());
+            String routeId = pointItem.routeId;
+            String pointId = pointItem.id;
+            Intent intent = QuestionActivity.newIntent(mContext, routeId, pointId);
             mContext.startActivity(intent);
         }
     }

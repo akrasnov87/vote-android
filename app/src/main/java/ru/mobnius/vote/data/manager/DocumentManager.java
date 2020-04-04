@@ -1,10 +1,14 @@
 package ru.mobnius.vote.data.manager;
 
+import android.content.Context;
+import android.location.Location;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.vote.Vote;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.PointTypes;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
@@ -12,6 +16,7 @@ import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.UserPoints;
 import ru.mobnius.vote.data.storage.models.UserPointsDao;
+import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
@@ -19,15 +24,11 @@ import ru.mobnius.vote.utils.StringUtil;
  * Управление документами
  */
 public class DocumentManager {
-    private DaoSession mDaoSession;
-    private String mRouteId;
-    private String mPointId;
     private long mUserId;
+    private OnVoteListener mVoteListener;
 
-    public DocumentManager(DaoSession daoSession, String routeId, String pointId) {
-        mDaoSession = daoSession;
-        mPointId = pointId;
-        mRouteId = routeId;
+    public DocumentManager(OnVoteListener context) {
+        mVoteListener = context;
         mUserId = Authorization.getInstance().getUser().getUserId();
     }
 
@@ -41,26 +42,27 @@ public class DocumentManager {
      * @param answer если нет, то указать -1
      * @return иден. созданной записи, Results
      */
-    public String createResult(String userPointId, long question, long answer, String notice, String jData, boolean warning) {
+    public String createResult(String userPointId, long question, long answer, String notice, String jData, int order, boolean warning) {
         Results result = new Results();
         result.id = UUID.randomUUID().toString();
         result.fn_user = mUserId;
         result.d_date = DateUtil.convertDateToString(new Date());
         result.fn_user_point = userPointId;
-        result.fn_point = mPointId;
-        result.fn_route = mRouteId;
+        result.fn_point = mVoteListener.getPointId();
+        result.fn_route = mVoteListener.getRouteId();
         result.fn_type = 1;
         result.c_notice = notice;
         result.b_warning = warning;
         result.fn_question = question;
         result.fn_answer = answer;
+        result.n_order = order;
 
         if(!StringUtil.isEmptyOrNull(jData)) {
             result.jb_data = jData;
         }
         result.isSynchronization = false;
         result.objectOperationType = DbOperationType.CREATED;
-        mDaoSession.getResultsDao().insert(result);
+        getDaoSession().getResultsDao().insert(result);
         return result.id;
     }
 
@@ -76,7 +78,7 @@ public class DocumentManager {
         long userPointTypeId;
         String type = "STANDART";
 
-        List<PointTypes> pointTypes = mDaoSession.getPointTypesDao().queryBuilder().where(PointTypesDao.Properties.C_const.eq(type)).list();
+        List<PointTypes> pointTypes = mVoteListener.getDataManager().getDaoSession().getPointTypesDao().queryBuilder().where(PointTypesDao.Properties.C_const.eq(type)).list();
         if(pointTypes.size() > 0) {
             userPointTypeId = pointTypes.get(0).id;
         } else {
@@ -85,8 +87,8 @@ public class DocumentManager {
 
         UserPoints userPoint = new UserPoints();
         userPoint.id = UUID.randomUUID().toString();
-        userPoint.fn_point = mPointId;
-        userPoint.fn_route = mRouteId;
+        userPoint.fn_point = mVoteListener.getPointId();
+        userPoint.fn_route = mVoteListener.getRouteId();
         userPoint.fn_type = userPointTypeId;
         userPoint.fn_user = mUserId;
         userPoint.d_date = DateUtil.convertDateToString(new Date());
@@ -102,9 +104,23 @@ public class DocumentManager {
 
         userPoint.isSynchronization = false;
         userPoint.objectOperationType = DbOperationType.CREATED;
-        mDaoSession.getUserPointsDao().insert(userPoint);
+        getDaoSession().getUserPointsDao().insert(userPoint);
 
         return userPoint.id;
+    }
+
+    /**
+     * Сохранения результата опроса
+     * @param listener
+     */
+    public void saveVote(OnVoteListener listener) {
+        // тут нужно создать userpoint
+        Location location = listener.getCurrentLocation();
+        String userPointID = createUserPoint(null, location.getLongitude(), location.getLatitude(), null);
+
+        for(Vote vote : listener.getVoteManager().getList()) {
+            createResult(userPointID, vote.questionId, vote.answerId, vote.getComment(), vote.getJbTel(), vote.getOrder(), location.getAccuracy() == 0);
+        }
     }
 
     /**
@@ -112,19 +128,23 @@ public class DocumentManager {
      */
     public void removeAll() {
         // найти пользоват. точку
-        List<UserPoints> userPoints = mDaoSession.getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(mPointId)).list();
+        List<UserPoints> userPoints = getDaoSession().getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(mVoteListener.getPointId())).list();
         if(userPoints.size() > 0) {
             // удалить результаты
             for (UserPoints point :
                     userPoints) {
-                mDaoSession.getUserPointsDao().delete(point);
+                getDaoSession().getUserPointsDao().delete(point);
 
-                List<Results> results = mDaoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(point.id)).list();
+                List<Results> results = getDaoSession().getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(point.id)).list();
 
                 for (Results result : results) {
-                    mDaoSession.getResultsDao().delete(result);
+                    getDaoSession().getResultsDao().delete(result);
                 }
             }
         }
+    }
+
+    private DaoSession getDaoSession() {
+        return mVoteListener.getDataManager().getDaoSession();
     }
 }
