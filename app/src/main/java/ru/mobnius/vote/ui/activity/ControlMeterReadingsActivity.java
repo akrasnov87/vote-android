@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,12 +25,14 @@ import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
+import ru.mobnius.vote.ui.additional.BaseAdditionalInfoDialog;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
 import ru.mobnius.vote.ui.fragment.form.controlMeterReadings.ControlMeterReadingsFragment;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
-public class ControlMeterReadingsActivity extends BaseFormActivity implements onClickVoteItemListener {
+public class ControlMeterReadingsActivity extends BaseFormActivity
+        implements onClickVoteItemListener, BaseAdditionalInfoDialog.IAdditionalInfoCallback {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
@@ -73,6 +76,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mVoteManager = new VoteManager();
         currentQuestionId = 0;
+
     }
 
     @Override
@@ -111,7 +115,8 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
 
     /**
      * Обработчик получения координат
-     * @param status статус сигнала: GeoListener.NONE, GeoListener.NORMAL, GeoListener.GOOD
+     *
+     * @param status    статус сигнала: GeoListener.NONE, GeoListener.NORMAL, GeoListener.GOOD
      * @param latitude
      * @param longitude
      */
@@ -119,7 +124,7 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
     public void onLocationStatusChange(int status, double latitude, double longitude) {
         Log.d(TAG, "Статус: " + status);
 
-        if(actionMenu != null) {
+        if (actionMenu != null) {
             int icon = -1;
             String message = "";
             switch (status) {
@@ -150,27 +155,59 @@ public class ControlMeterReadingsActivity extends BaseFormActivity implements on
 
     @Override
     public void onClickVoteItem(Answer answer) {
-        if(answer.f_next_question > 0) {
-            Intent intent = getIntent();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            VoteItemFragment fragment = VoteItemFragment.createInstance( intent.getStringExtra(Names.ROUTE_ID),
-                    intent.getStringExtra(Names.POINT_ID), answer.f_next_question);
-            previousQuestionTag = String.valueOf(answer.f_question);
-            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment, String.valueOf(answer.id))
-                    .addToBackStack(previousQuestionTag).commit();
-            mVoteManager.addQuestion(answer.f_question, answer.id);
-            currentQuestionId = answer.f_question;
-        }else{
-
+        if (!answer.c_action.equals("null")) {
+            switch (answer.c_action){
+                case COMMENT_FINISH:
+                    break;
+                case COMMENT:
+                    break;
+                case CONTACT:
+                    break;
+                case FINISH:
+                    Toast.makeText(this, answer.c_action, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        } else {
+            if (answer.f_next_question > 0) {
+                Intent intent = getIntent();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                VoteItemFragment fragment = VoteItemFragment.createInstance(intent.getStringExtra(Names.ROUTE_ID),
+                        intent.getStringExtra(Names.POINT_ID), answer.f_next_question);
+                previousQuestionTag = String.valueOf(answer.f_question);
+                fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment, String.valueOf(answer.id))
+                        .addToBackStack(previousQuestionTag).commit();
+                mVoteManager.addQuestion(answer.f_question, answer.id);
+                currentQuestionId = answer.f_question;
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(currentQuestionId!=0) {
+        if (currentQuestionId != 0) {
             mVoteManager.removeQuestion(currentQuestionId);
-            currentQuestionId = mVoteManager.getList()[mVoteManager.getList().length-1].questionId;
+            if (mVoteManager.getList().length > 0) {
+                currentQuestionId = mVoteManager.getList()[mVoteManager.getList().length - 1].questionId;
+            }
         }
+    }
+
+
+
+
+    @Override
+    public void OnCommentFinish(String comment) {
+
+    }
+
+    @Override
+    public void OnContact(String comment) {
+
+    }
+
+    @Override
+    public void onComment() {
+
     }
 }
