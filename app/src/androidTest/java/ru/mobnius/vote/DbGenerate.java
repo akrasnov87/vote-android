@@ -14,14 +14,13 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
  * Вспомогательный класс для работы с БД
  */
 public abstract class DbGenerate {
-    private String mDbName;
     private Context mContext;
     private DaoSession mDaoSession;
 
     public DbGenerate() {
-        mDbName = getClass().getName();
+        String dbName = getClass().getName();
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        mDaoSession = new DaoMaster(new DbOpenHelper(mContext, mDbName).getWritableDb()).newSession();
+        mDaoSession = new DaoMaster(new DbOpenHelper(mContext, dbName).getWritableDb()).newSession();
 
         // очистить все таблицы в БД можно еще вот так вот
         //DaoMaster.dropAllTables(getDaoSession("").getDatabase(), true);

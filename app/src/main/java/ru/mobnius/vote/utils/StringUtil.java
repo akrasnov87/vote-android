@@ -110,6 +110,7 @@ public class StringUtil {
      * @param paramName имя параметра
      * @return результат
      */
+    @SuppressWarnings("unchecked")
     public static String hashMapToString(Object obj, String paramName){
         HashMap<String, Object> hashMap = (HashMap<String, Object>)obj;
         if(hashMap != null) {

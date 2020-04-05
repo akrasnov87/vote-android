@@ -12,12 +12,12 @@ import static org.junit.Assert.assertTrue;
 
 public class LoginViewModelTest {
     private LoginViewModel mSubject;
-    private String mVersion = "4.3.0.520";
 
     @Before
     public void setUp() {
         mSubject = new LoginViewModel();
-        mSubject.setModel(LoginModel.getInstance("login", "password", mVersion));
+        String version = "4.3.0.520";
+        mSubject.setModel(LoginModel.getInstance("login", "password", version));
     }
 
     @Test

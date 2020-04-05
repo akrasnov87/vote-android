@@ -25,19 +25,16 @@ public class FilterManagerTest extends DbGenerate {
     private TrackingFilterManager mFilterManager;
     private FilterItem mFilterItem;
     private String mUuid;
-    private String mNetworkStatus;
-    private Date mDate;
-    private PreferencesManager mPreferencesManager;
 
     @Before
     public void setUp() {
-        mDate = new Date();
+        Date date = new Date();
         mFilterManager = new TrackingFilterManager(mKey);
         mUuid = UUID.randomUUID().toString();
         mFilterItem = new FilterItem(TrackingDao.Properties.Id.name, mUuid);
         mFilterManager.addItem(mFilterItem);
-        mNetworkStatus = "LTE";
-        mFilterManager.addItem(new FilterItem(TrackingDao.Properties.C_network_status.name, mNetworkStatus));
+        String networkStatus = "LTE";
+        mFilterManager.addItem(new FilterItem(TrackingDao.Properties.C_network_status.name, networkStatus));
     }
 
     @After
@@ -102,12 +99,12 @@ public class FilterManagerTest extends DbGenerate {
 
     @Test
     public void setFilter() {
-        mPreferencesManager = PreferencesManager.createInstance(getContext(), "login");
-        mPreferencesManager.clear();
+        PreferencesManager preferencesManager = PreferencesManager.createInstance(getContext(), "login");
+        preferencesManager.clear();
         String txt = mFilterManager.serialize();
-        mPreferencesManager.setFilter(mKey, txt);
+        preferencesManager.setFilter(mKey, txt);
 
-        String result = mPreferencesManager.getFilter(mKey);
+        String result = preferencesManager.getFilter(mKey);
         assertEquals(txt, result);
     }
 

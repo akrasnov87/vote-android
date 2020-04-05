@@ -72,7 +72,6 @@
     <string name="apartment_count">Всего квартир: %s</string>
     <string name="apartment_open">Открытых квартир: %s</string>
     <string name="signs_received">Количество собранных подписей: %s</string>
-    <string name="expand_collapse">Развернуть/Свернуть</string>
     <string name="clear">Очистить</string>
     <string name="show_password">Показать пароль</string>
     <string name="finger">Отпечаток пальца</string>

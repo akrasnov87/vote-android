@@ -56,7 +56,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private String login = "";
     private String password = "";
 
-    private TextView tvVersion;
     private TextView tvNetwork;
     private TextView tvServer;
     private EditText etLogin;
@@ -127,7 +126,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         ibShowPassword = v.findViewById(R.id.fAuthorization_ibShowPassword);
         btnSignIn = v.findViewById(R.id.fAuthorization_btnSignIn);
 
-        tvVersion = v.findViewById(R.id.fAuthorization_tvVersion);
+        TextView tvVersion = v.findViewById(R.id.fAuthorization_tvVersion);
         tvVersion.setText(getString(R.string.versionShort, getVersion()));
         TextView tvBackToPin = v.findViewById(R.id.fAuthorization_tvBackToPin);
         mLoginViewModel.setModel(LoginModel.getInstance(login, password, getVersion()));

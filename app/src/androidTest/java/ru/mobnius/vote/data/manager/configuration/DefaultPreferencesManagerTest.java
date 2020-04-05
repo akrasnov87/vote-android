@@ -16,13 +16,12 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class DefaultPreferencesManagerTest {
-    private Context appContext;
     private DefaultPreferencesManager preferencesManager;
     private PreferencesManager mPreferencesManager;
 
     @Before
     public void setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         preferencesManager = new DefaultPreferencesManager(appContext, "default");
         preferencesManager.clear();
     }

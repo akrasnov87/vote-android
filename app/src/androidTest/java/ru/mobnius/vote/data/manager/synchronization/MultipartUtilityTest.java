@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 public class MultipartUtilityTest {
     private final String URL_PART = "/synchronization/v0";
     private final BasicCredentials basicCredentials;
-    private final boolean ZIP = true;
 
     public MultipartUtilityTest(){
         basicCredentials = new BasicCredentials("root", "root0");
@@ -30,6 +29,7 @@ public class MultipartUtilityTest {
 
     @Test
     public void successTest() throws IOException {
+        boolean ZIP = true;
         PackageCreateUtils packageCreateUtils = new PackageCreateUtils(ZIP);
         byte[] resultBytes = packageCreateUtils.addFrom(new RPCItem("shell.welcome", null)).generatePackage(UUID.randomUUID().toString());
 

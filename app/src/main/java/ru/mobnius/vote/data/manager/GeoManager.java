@@ -15,7 +15,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class GeoManager implements LocationListener, Serializable {
-    private Context mContext;
 
     private double latitude;
     private double longitude;
@@ -30,16 +29,15 @@ public class GeoManager implements LocationListener, Serializable {
 
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
     public GeoManager(Context context, int count, double latitude, double longitude) {
-        mContext = context;
         locations = count;
         this.latitude = latitude;
         this.longitude = longitude;
 
-        if(mContext instanceof GeoListener) {
+        if(context instanceof GeoListener) {
             mGeoListener = (GeoListener)context;
             mGeoListener.onLocationStatusChange(count, latitude, longitude);
         }
-        locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         assert locationManager != null;
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
     }

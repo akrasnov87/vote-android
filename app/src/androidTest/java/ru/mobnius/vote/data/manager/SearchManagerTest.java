@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 public class SearchManagerTest {
 
     private List<People> mList;
-    private String mKey = "test";
     private PeopleSearchManager mPeopleSearchManager;
 
     @Before
@@ -28,7 +27,8 @@ public class SearchManagerTest {
         mList.add(new People("Дима", 30, true, 4500));
         mList.add(new People("Игорь", 33, true, 8500));
 
-        mPeopleSearchManager = new PeopleSearchManager(mKey);
+        String key = "test";
+        mPeopleSearchManager = new PeopleSearchManager(key);
         mPeopleSearchManager.addItem(new FilterItem("name", "са"));
         mPeopleSearchManager.addItem(new FilterItem("age", "5"));
     }

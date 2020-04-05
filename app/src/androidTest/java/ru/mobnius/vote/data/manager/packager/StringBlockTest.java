@@ -17,7 +17,7 @@ public class StringBlockTest {
     @Test
     public void toJsonString(){
         RPCItem[] to = new RPCItem[2];
-        to[0] = new RPCItem("shell.getServerTime", null);;
+        to[0] = new RPCItem("shell.getServerTime", null);
         to[1] = new RPCItem("setting.getMobileSettings", null);
 
         RPCItem[] from = new RPCItem[1];

@@ -201,6 +201,7 @@ public class RouteFilterFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void changeFilter(FilterManager manager, String key, String type, Object value) {
         boolean delete = false;
         String valueStr = null;

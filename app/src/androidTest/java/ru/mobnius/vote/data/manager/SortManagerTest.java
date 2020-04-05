@@ -22,7 +22,6 @@ public class SortManagerTest extends DbGenerate {
     private String mKey = "test";
     private PeopleFilterManager mSortManager;
     private SortItem mSortItem;
-    private PreferencesManager mPreferencesManager;
     private List<People> mList;
 
 
@@ -96,12 +95,12 @@ public class SortManagerTest extends DbGenerate {
 
     @Test
     public void setFilter() {
-        mPreferencesManager = PreferencesManager.createInstance(getContext(), "login");
-        mPreferencesManager.clear();
+        PreferencesManager preferencesManager = PreferencesManager.createInstance(getContext(), "login");
+        preferencesManager.clear();
         String txt = mSortManager.serialize();
-        mPreferencesManager.setSort(mKey, txt);
+        preferencesManager.setSort(mKey, txt);
 
-        String result = mPreferencesManager.getSort(mKey);
+        String result = preferencesManager.getSort(mKey);
         assertEquals(txt, result);
     }
 

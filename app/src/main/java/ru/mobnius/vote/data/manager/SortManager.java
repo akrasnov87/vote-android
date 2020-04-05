@@ -64,6 +64,7 @@ public abstract class SortManager<T> extends ItemsManager<SortItem, Integer> {
      * @param items массив данных
      * @return результат
      */
+    @SuppressWarnings("unchecked")
     public T[] toSorters(T[] items, final ISortCallback callback) {
 
         List<T> results = Arrays.asList(items);

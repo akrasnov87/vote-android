@@ -215,8 +215,8 @@ public class MobniusApplication extends android.app.Application implements IExce
                 onNotificationDelivered(buffer);
                 return;
             }
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
 

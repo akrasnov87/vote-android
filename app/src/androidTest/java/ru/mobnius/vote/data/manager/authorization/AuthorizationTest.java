@@ -18,13 +18,12 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import static org.junit.Assert.*;
 
 public class AuthorizationTest {
-    private Context mAppContext;
     private Authorization mAuthorization;
 
     @Before
     public void setUp() {
-        mAppContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        mAuthorization = Authorization.createInstance(mAppContext, "");
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        mAuthorization = Authorization.createInstance(appContext, "");
     }
 
     @After

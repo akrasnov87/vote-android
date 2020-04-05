@@ -43,8 +43,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
     private TextView tvTitle;
 
     private DataManager mDataManager;
-    private PointSearchManager mPointSearchManager;
-    private boolean mIsRouteView;
 
     private String routeId;
 
@@ -92,7 +90,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         String query = null;
         if (getArguments() != null) {
             routeId = getArguments().getString(Names.ROUTE_ID);
-            mIsRouteView = getArguments().containsKey(Names.ROUTE_ID);
             query = getArguments().getString(QUERY_RESULT);
         }
         if (query != null) {
@@ -114,9 +111,9 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         if (query.isEmpty()) {
             mRecyclerView.setAdapter(new PointAdapter(getContext(), getFilteredAndSortedList()));
         } else {
-            mPointSearchManager = new PointSearchManager();
+            PointSearchManager pointSearchManager = new PointSearchManager();
             List<PointItem> list;
-            list = Arrays.asList(mPointSearchManager.toFilters(getFilteredAndSortedList().toArray(new PointItem[0]), query));
+            list = Arrays.asList(pointSearchManager.toFilters(getFilteredAndSortedList().toArray(new PointItem[0]), query));
             mRecyclerView.setAdapter(new PointAdapter(getContext(), list));
         }
     }

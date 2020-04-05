@@ -22,15 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class FileManagerTest {
-    private BasicCredentials credentials;
     private FileManager fileManager;
-
-    private Context appContext;
 
     @Before
     public void setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        credentials = new BasicCredentials("inspector", "");
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        BasicCredentials credentials = new BasicCredentials("inspector", "");
         fileManager = FileManager.createInstance(credentials, appContext);
     }
 

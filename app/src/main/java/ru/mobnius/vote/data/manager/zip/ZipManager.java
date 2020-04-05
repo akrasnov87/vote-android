@@ -79,7 +79,7 @@ public class ZipManager {
         ZipResult zipResult = new ZipResult(bytes);
 
         InputStream stream = new ByteArrayInputStream(bytes);
-        byte data[] = new byte[2048];
+        byte[] data = new byte[2048];
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream( bos );
         BufferedInputStream entryStream = new BufferedInputStream( stream, 2048);
@@ -101,7 +101,8 @@ public class ZipManager {
         ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
         ZipInputStream zin = new ZipInputStream(bis);
 
-        while(zin.getNextEntry()!=null) {
+        //noinspection LoopStatementThatDoesntLoop
+        while(zin.getNextEntry() != null) {
             // распаковка
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             for (int c = zin.read(); c != -1; c = zin.read()) {

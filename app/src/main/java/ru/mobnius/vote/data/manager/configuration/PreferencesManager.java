@@ -36,11 +36,11 @@ public class PreferencesManager extends AbstractPreferencesManager {
     }
 
     public boolean isDebug() {
-        return getDefaultBooleanValue(DEBUG, false);
+        return getDefaultBooleanValue(DEBUG);
     }
 
     public boolean isPinAuth() {
-        return getDefaultBooleanValue(PIN, false);
+        return getDefaultBooleanValue(PIN);
     }
 
     /**

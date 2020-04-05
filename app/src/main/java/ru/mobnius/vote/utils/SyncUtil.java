@@ -88,8 +88,7 @@ public class SyncUtil {
      * @param operationType тип операции
      * @return возвращается результат обработки
      */
-    public static boolean updateBlockTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context, String tableName, String tid, String blockTid, String operationType){
-        boolean result = false;
+    public static void updateBlockTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context, String tableName, String tid, String blockTid, String operationType){
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
         try {
@@ -99,12 +98,10 @@ public class SyncUtil {
             params[2] = operationType;
 
             db.execSQL("update " + tableName + " set "+ FieldNames.BLOCK_TID+" = ? where "+FieldNames.TID+" = ? AND " + FieldNames.OBJECT_OPERATION_TYPE + " = ?", params);
-            result = true;
-        }catch (Exception e){
+        }catch (Exception e) {
             Logger.error(e);
             context.onError(ru.mobnius.vote.data.manager.synchronization.IProgressStep.START, e, tid);
         }
-        return result;
     }
 
     /**

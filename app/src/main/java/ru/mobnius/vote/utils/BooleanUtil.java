@@ -8,11 +8,7 @@ public class BooleanUtil {
      */
     public static boolean isBooleanValue(String value) {
         String lowerCase = value.toLowerCase();
-        if(lowerCase == "true" || lowerCase == "false") {
-            return true;
-        }
-
-        return false;
+        return lowerCase == "true" || lowerCase == "false";
     }
 
     /**

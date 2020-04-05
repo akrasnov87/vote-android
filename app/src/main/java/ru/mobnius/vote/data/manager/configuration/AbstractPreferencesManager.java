@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.utils.StringUtil;
 
 public abstract class AbstractPreferencesManager {
 
@@ -18,7 +16,7 @@ public abstract class AbstractPreferencesManager {
 
     protected AbstractPreferencesManager(Context context, String preferenceName){
         mPreferenceName = preferenceName;
-        sharedPreferences = context.getSharedPreferences(preferenceName, context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
     public SharedPreferences getSharedPreferences(){
@@ -97,18 +95,12 @@ public abstract class AbstractPreferencesManager {
 
     protected boolean isUpdateInt(String key, int value){
         int intValue = getIntValue(key, Integer.MIN_VALUE);
-        if(intValue != value){
-            return true;
-        }
-        return false;
+        return intValue != value;
     }
 
     protected boolean isUpdateBoolean(String key, boolean value){
         boolean booleanValue = getBooleanValue(key, false);
-        if(booleanValue != value){
-            return true;
-        }
-        return false;
+        return booleanValue != value;
     }
 
     protected boolean isUpdateString(String key, String value){
@@ -158,12 +150,12 @@ public abstract class AbstractPreferencesManager {
         return PreferencesManager.getInstance().getIntValue(key, defaultValue);
     }
 
-    protected boolean getDefaultBooleanValue(String key, boolean defaultValue){
+    protected boolean getDefaultBooleanValue(String key){
         if(hasDefaultValue(key)){
-            return DefaultPreferencesManager.getInstance().getBooleanValue(key, defaultValue);
+            return DefaultPreferencesManager.getInstance().getBooleanValue(key, false);
         }
 
-        return PreferencesManager.getInstance().getBooleanValue(key, defaultValue);
+        return PreferencesManager.getInstance().getBooleanValue(key, false);
     }
 
     protected String getDefaultStringValue(String key, String defaultValue){

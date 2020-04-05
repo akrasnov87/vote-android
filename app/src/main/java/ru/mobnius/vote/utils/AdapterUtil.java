@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import ru.mobnius.vote.Names;
 
-public class AdapterUtil {
+class AdapterUtil {
     /**
      * Получение позиции по идентификтаору записи
      *
@@ -14,7 +14,7 @@ public class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
-    public static int getAdapterItemPosition(SimpleAdapter adapter, long id) {
+    static int getAdapterItemPosition(SimpleAdapter adapter, long id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override
             public boolean equals(HashMap<String, Object> map, Object id) {
@@ -30,7 +30,7 @@ public class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
-    public static int getAdapterItemPosition(SimpleAdapter adapter, int id) {
+    static int getAdapterItemPosition(SimpleAdapter adapter, int id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override
             public boolean equals(HashMap<String, Object> map, Object id) {
@@ -46,7 +46,7 @@ public class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
-    public static int getAdapterItemPosition(SimpleAdapter adapter, String id) {
+    static int getAdapterItemPosition(SimpleAdapter adapter, String id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override
             public boolean equals(HashMap<String, Object> map, Object id) {
@@ -62,6 +62,7 @@ public class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
+    @SuppressWarnings("unchecked")
     private static int getAdapterItemPosition(SimpleAdapter adapter, Object id, IAdapterItemPosition callback) {
         for (int position = 0; position < adapter.getCount(); position++) {
             if (callback.equals((HashMap<String, Object>) adapter.getItem(position), id)) {

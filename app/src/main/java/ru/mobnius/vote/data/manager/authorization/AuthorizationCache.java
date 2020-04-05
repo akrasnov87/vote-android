@@ -51,11 +51,10 @@ public class AuthorizationCache {
      * @param login логин
      * @param pin пин-код
      * @param time время
-     * @return Возвращается true если все хорошо
      */
-    public boolean update(String login, String pin, Date time){
+    public void update(String login, String pin, Date time){
         BasicUser user = read(login);
-        return saveUser(user, pin, time);
+        saveUser(user, pin, time);
     }
 
     /**

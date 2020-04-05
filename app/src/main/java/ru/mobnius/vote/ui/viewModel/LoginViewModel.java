@@ -77,11 +77,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
      * @return нужно ли активировать кнопку.
      */
     public boolean isButtonEnable(String login, String password) {
-        if (login.length() >= MIN_LENGTH && password.length() >= MIN_LENGTH) {
-            return true;
-        } else {
-            return false;
-        }
+        return login.length() >= MIN_LENGTH && password.length() >= MIN_LENGTH;
     }
     /**
      * Автозамена пробела на ""

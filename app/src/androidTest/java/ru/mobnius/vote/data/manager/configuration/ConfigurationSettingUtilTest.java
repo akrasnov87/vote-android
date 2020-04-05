@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class ConfigurationSettingUtilTest extends ManagerGenerate {
     private RPCResult success;
-    private RPCResult failed;
 
     @Before
     public void setUp() throws JSONException {
@@ -66,7 +65,7 @@ public class ConfigurationSettingUtilTest extends ManagerGenerate {
         success.result = new RPCRecords();
         success.result.records = array;
 
-        failed = new RPCResult();
+        RPCResult failed = new RPCResult();
         failed.meta = new RPCResultMeta();
         failed.meta.success = false;
         failed.meta.msg = "failed";

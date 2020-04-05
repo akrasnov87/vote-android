@@ -37,7 +37,6 @@ import ru.mobnius.vote.utils.JsonUtil;
 
 public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
 
     public MainActivity() {
         super(true);
@@ -64,11 +63,11 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
-        mToolbar = findViewById(R.id.mainMenu_Toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = findViewById(R.id.mainMenu_Toolbar);
+        setSupportActionBar(toolbar);
 
-        mToolbar.setNavigationIcon(R.drawable.ic_open_drawer_white_24dp);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationIcon(R.drawable.ic_open_drawer_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(GravityCompat.START);

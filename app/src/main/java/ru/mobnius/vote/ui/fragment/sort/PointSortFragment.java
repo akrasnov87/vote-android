@@ -84,7 +84,7 @@ public class PointSortFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        changeSort(mPointSortManager, ADDRESS, spAddress.getSelectedItemPosition());
+        changeSort(mPointSortManager, spAddress.getSelectedItemPosition());
         String json = mPointSortManager.serialize();
         if (mPointSortManager.getItems().length > 0) {
             mPreferencesManager.setSort(sortPrefs, json);
@@ -99,18 +99,18 @@ public class PointSortFragment extends BaseFragment implements View.OnClickListe
         spAddress.setSelection(x);
     }
 
-    private void changeSort(PointSortManager manager, String key, int type) {
+    private void changeSort(PointSortManager manager, int type) {
         boolean delete = false;
         if (type == 0) {
             delete = true;
         }
         if (delete) {
-            manager.removeItem(manager.getItem(key));
+            manager.removeItem(manager.getItem(PointSortFragment.ADDRESS));
         } else {
-            if (manager.getItem(key) == null) {
-                manager.addItem(new SortItem(key, type));
+            if (manager.getItem(PointSortFragment.ADDRESS) == null) {
+                manager.addItem(new SortItem(PointSortFragment.ADDRESS, type));
             } else {
-                manager.updateItem(key, type);
+                manager.updateItem(PointSortFragment.ADDRESS, type);
             }
         }
     }

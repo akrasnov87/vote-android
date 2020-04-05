@@ -15,8 +15,8 @@ public class DefaultPreferencesManager extends AbstractPreferencesManager {
         return preferencesManager;
     }
 
-    public static DefaultPreferencesManager createInstance(Context context, String preferenceName){
-        return preferencesManager = new DefaultPreferencesManager(context, preferenceName);
+    public static void createInstance(Context context, String preferenceName){
+        preferencesManager = new DefaultPreferencesManager(context, preferenceName);
     }
 
     protected DefaultPreferencesManager(Context context, String preferenceName){

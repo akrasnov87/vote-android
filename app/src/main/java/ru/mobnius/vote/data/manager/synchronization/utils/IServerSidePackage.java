@@ -30,5 +30,5 @@ public interface IServerSidePackage {
      * @param attachmentUse применяется обработка вложений
      * @return результат
      */
-    PackageResult from(DaoSession session, RPCResult rpcResult, String packageTid, boolean isRequestToServer, boolean attachmentUse) throws JSONException;
+    PackageResult from(DaoSession session, RPCResult rpcResult, String packageTid, boolean isRequestToServer, boolean attachmentUse);
 }
