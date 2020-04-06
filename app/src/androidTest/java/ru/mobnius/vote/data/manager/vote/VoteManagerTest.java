@@ -1,6 +1,5 @@
 package ru.mobnius.vote.data.manager.vote;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +9,9 @@ import ru.mobnius.vote.data.storage.models.Question;
 
 import static org.junit.Assert.*;
 
-public class VoteLoaderTest extends ManagerGenerate {
+public class VoteManagerTest extends ManagerGenerate {
+
+    private VoteManager mVoteManager;
 
     public static Question getQuestion(int id, String text, String description) {
         Question question = new Question();
@@ -36,6 +37,9 @@ public class VoteLoaderTest extends ManagerGenerate {
 
     @Before
     public void setUp() {
+        getDaoSession().getQuestionDao().deleteAll();
+        getDaoSession().getAnswerDao().deleteAll();
+
         getDaoSession().getQuestionDao().insert(getQuestion(1, "question 1", ""));
         getDaoSession().getQuestionDao().insert(getQuestion(2, "question 2", ""));
         getDaoSession().getQuestionDao().insert(getQuestion(3, "question 3", ""));
@@ -51,16 +55,27 @@ public class VoteLoaderTest extends ManagerGenerate {
         getDaoSession().getAnswerDao().insert(getAnswer(7, "answer 7", 3, 4, ""));
 
         getDaoSession().getAnswerDao().insert(getAnswer(4, "answer 4", 4, 0, ""));
-    }
 
-    @After
-    public void tearDown() {
-        getDaoSession().getQuestionDao().deleteAll();
-        getDaoSession().getAnswerDao().deleteAll();
+        mVoteManager = new VoteManager();
     }
 
     @Test
-    public void getQuestions() {
+    public void questionTest() {
+        mVoteManager.addQuestion(1, 1, 0);
+        mVoteManager.addQuestion(2, 5, 1);
+        mVoteManager.addQuestion(4, 4, 2);
 
+        assertEquals(mVoteManager.getList().length, 3);
+
+        assertEquals(mVoteManager.getLastQuestionID(), 4);
+        assertEquals(mVoteManager.getPrevQuestionID(2), 1);
+        assertTrue(mVoteManager.isQuestionExists(2));
+        assertFalse(mVoteManager.isQuestionExists(3));
+        assertEquals(mVoteManager.getQuestionAnswer(2), 5);
+        assertTrue(mVoteManager.isAnswerExists(2, 5));
+        assertFalse(mVoteManager.isAnswerExists(2, 4));
+
+        mVoteManager.removeQuestion(2);
+        assertFalse(mVoteManager.isQuestionExists(2));
     }
 }

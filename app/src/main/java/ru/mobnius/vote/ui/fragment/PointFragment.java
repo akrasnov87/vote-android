@@ -100,10 +100,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
             mProgressBar.setVisibility(View.GONE);
             tvTitle.setText("Результаты поиска");
         } else {
-            if (!isRouteView()) {
-                tvTitle.setText("Задания по всем маршрутам");
-                mProgressBar.setVisibility(View.GONE);
-            }
             mRecyclerView.setAdapter(new PointAdapter(getContext(), getFilteredAndSortedList()));
             int donePoints = mDataManager.getCountDonePoints(routeId);
             if (donePoints > 0) {
@@ -129,8 +125,9 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
      * @return Получение отсортированного и отфильтрованного массива PointItem
      */
     private List<PointItem> getFilteredAndSortedList() {
-        String prefName = isRouteView() ? PreferencesManager.POINT_FILTER_PREFS : PreferencesManager.ALL_POINTS_FILTER_PREFS;
-        String sortPref = isRouteView() ? PreferencesManager.POINT_SORT_PREFS : PreferencesManager.ALL_POINTS_SORT_PREFS;
+        String prefName = PreferencesManager.POINT_FILTER_PREFS;
+        String sortPref = PreferencesManager.POINT_SORT_PREFS;
+
         String serializedFilter = PreferencesManager.getInstance().getFilter(prefName);
         String serializedSort = PreferencesManager.getInstance().getSort(sortPref);
         PointSortManager pointSortManager = new PointSortManager(sortPref, serializedSort);
@@ -141,31 +138,14 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         return Arrays.asList(pointSortManager.toSorters(pointsList1.toArray(new PointItem[0])));
     }
 
-    /**
-     * Представление в режиме маршрута
-     *
-     * @return режим (Все задания или задания отдельного маршрута)
-     */
-    private boolean isRouteView() {
-        return mIsRouteView;
-    }
-
     @Override
     public int getExceptionCode() {
-        int exeption = IExceptionCode.ALL_POINTS;
-        if (PreferencesManager.getInstance() != null && PreferencesManager.getInstance().getIsRouteView()) {
-            exeption = IExceptionCode.POINTS;
-        }
-        return exeption;
+        return IExceptionCode.POINTS;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (isRouteView()) {
-            searchResult(query);
-        } else {
-            searchResult(query);
-        }
+        searchResult(query);
         return false;
     }
 
@@ -176,11 +156,7 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
 
     @Override
     public boolean onClose() {
-        if (isRouteView()) {
-            searchResult(JsonUtil.EMPTY);
-        } else {
-
-        }
+        searchResult(JsonUtil.EMPTY);
         return false;
     }
 }

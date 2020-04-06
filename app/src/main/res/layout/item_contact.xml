@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemContact_tietName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/fio"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemContact_tietEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/e_mail"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemContact_tietPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone_number"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimary"/>
+</LinearLayout>

@@ -11,41 +11,21 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.ui.fragment.adapter.VoteButtonAdapter;
+import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
 
-public class VoteItemFragment extends BaseFragment {
+public class VoteItemFragment extends BaseFragment implements onQuestionListener {
 
     private TextView tvDescription;
     private RecyclerView rvButtons;
 
-    private long mVoteId;
-    private String mRouteId;
-    private String mPointId;
-
-    public static VoteItemFragment createInstance(String routeId, String pointId, long voteId) {
-        Bundle args = new Bundle();
-        args.putLong(Names.VOTE_ID, voteId);
-        args.putString(Names.POINT_ID, pointId);
-        args.putString(Names.ROUTE_ID, routeId);
-
-        VoteItemFragment voteItemFragment = new VoteItemFragment();
-        voteItemFragment.setArguments(args);
-        return voteItemFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mVoteId = getArguments().getLong(Names.VOTE_ID);
-        mRouteId = getArguments().getString(Names.ROUTE_ID);
-        mPointId = getArguments().getString(Names.POINT_ID);
+    public static VoteItemFragment createInstance() {
+        return new VoteItemFragment();
     }
 
     @Override
@@ -58,22 +38,25 @@ public class VoteItemFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public int getExceptionCode() {
+        return IExceptionCode.VOTE_ITEM;
+    }
 
+    /**
+     * Привязка данных
+     * @param questionID иден. вопроса
+     * @param exclusionAnswerID идентификатор существ. ответа
+     */
+    @Override
+    public void onQuestionBind(long questionID, long exclusionAnswerID) {
         DataManager dataManager = DataManager.getInstance();
 
-        rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(mVoteId)));
+        rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(questionID), exclusionAnswerID));
         rvButtons.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Question question = dataManager.getQuestion(mVoteId);
+        Question question = dataManager.getQuestion(questionID);
         if(question != null) {
             tvDescription.setText(question.c_text);
         }
-    }
-
-    @Override
-    public int getExceptionCode() {
-        return IExceptionCode.VOTE_ITEM;
     }
 }

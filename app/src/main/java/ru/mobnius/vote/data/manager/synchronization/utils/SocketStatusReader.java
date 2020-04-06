@@ -38,9 +38,8 @@ public class SocketStatusReader {
      * @return объект
      */
     public static SocketStatusReader getInstance(String status){
-        if(status.matches("\\[\\w+\\]([\\S|\\s]+;?)+")) {
-            SocketStatusReader reader = new SocketStatusReader(status);
-            return reader;
+        if(status.matches("\\[\\w+]([\\S|\\s]+;?)+")) {
+            return new SocketStatusReader(status);
         }else{
             return null;
         }

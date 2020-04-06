@@ -7,7 +7,7 @@
     android:padding="@dimen/size_s_24">
 
     <TextView
-        android:id="@+id/fFinishComment_tvTitle"
+        android:id="@+id/fComment_tvTitle"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textColor="@color/label_light_gray"
@@ -17,23 +17,23 @@
         tools:text="Заголовок" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/fFinishComment_tfvComment"
+        android:id="@+id/fComment_tietComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:gravity="top"
-        android:layout_below="@id/fFinishComment_tvTitle"
+        android:layout_below="@id/fComment_tvTitle"
         android:layout_marginTop="@dimen/size_xs_16"
         android:minLines="3"
         tools:hint="Хинт"/>
 
     <Button
-        android:id="@+id/fFinishComment_btnDone"
+        android:id="@+id/fComment_btnDone"
         style="@style/ButtonStyle"
         android:layout_marginTop="@dimen/size_m_32"
         android:padding="@dimen/size_xxs_8"
         android:text="@string/save_filters"
-        android:layout_below="@id/fFinishComment_tfvComment"
+        android:layout_below="@id/fComment_tietComment"
         android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.INetworkChange;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 
@@ -98,6 +99,10 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         }
 
         return null;
+    }
+
+    public DataManager getDataManager() {
+        return DataManager.getInstance();
     }
 }
 

@@ -125,4 +125,7 @@
     <string name="apartment_open">Открытых квартир: %s</string>
     <string name="signs_received">Количество собранных подписей: %s</string>
     <string name="statistic">Статистика</string>
+    <string name="add">Добавить</string>
+    <string name="e_mail">e-mail</string>
+    <string name="phone_number">Номер телефона</string>
 </resources>

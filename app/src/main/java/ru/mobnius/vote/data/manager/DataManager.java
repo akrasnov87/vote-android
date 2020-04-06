@@ -325,6 +325,10 @@ public class DataManager {
         return null;
     }
 
+    public List<Results> getPointResults(String pointID) {
+        return daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_point.eq(pointID)).orderAsc(ResultsDao.Properties.N_order).list();
+    }
+
     /**
      * Вернуть состояние точки маршрута
      * @param pointId идентификатор точки маршрута

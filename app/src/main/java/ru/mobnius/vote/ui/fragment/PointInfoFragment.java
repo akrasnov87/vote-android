@@ -19,7 +19,6 @@ import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.component.TextFieldView;
-import ru.mobnius.vote.ui.model.Meter;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.utils.DateUtil;
 

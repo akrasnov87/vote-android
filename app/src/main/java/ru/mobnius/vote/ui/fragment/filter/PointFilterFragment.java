@@ -41,37 +41,24 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
     private final String DEVICE_NUMBER = "deviceNumber";
     private final String SUBSCR_NAMBER = "subscrNumber";
     private final String ADRESS = "address";
-    private final String ROUTEID = "routeId";
-
-    private boolean mode;
 
     private EditText etMeterFilter;
     private EditText etSubscrFilter;
     private EditText etAdressFilter;
     private TextView tvTitle;
-    private AppCompatSpinner spRouteFilter;
     private AppCompatSpinner spPointStatus;
 
     private PointFilterManager mPointFilterManager;
     private PreferencesManager mPreferencesManager;
     private PointStatusAdapter mStatusAdapter;
-    private AllPointsAdapter mAllPointsAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferencesManager = PreferencesManager.getInstance();
         mStatusAdapter = new PointStatusAdapter(getContext(), new ArrayList<Map<String, Object>>());
-        String filter;
-        mode = !mPreferencesManager.getIsRouteView();
-        if (mode) {
-            filter = mPreferencesManager.getFilter(PreferencesManager.ALL_POINTS_FILTER_PREFS);
-            mPointFilterManager = new PointFilterManager(PreferencesManager.ALL_POINTS_FILTER_PREFS, filter);
-            mAllPointsAdapter = new AllPointsAdapter(getContext(), new ArrayList<Map<String, Object>>());
-        } else {
-            filter = mPreferencesManager.getFilter(PreferencesManager.POINT_FILTER_PREFS);
-            mPointFilterManager = new PointFilterManager(PreferencesManager.POINT_FILTER_PREFS, filter);
-        }
+        String filter = mPreferencesManager.getFilter(PreferencesManager.POINT_FILTER_PREFS);
+        mPointFilterManager = new PointFilterManager(PreferencesManager.POINT_FILTER_PREFS, filter);
     }
 
     @Override
@@ -86,27 +73,6 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
 
         spPointStatus = v.findViewById(R.id.fPointFilter_spPointStatus);
 
-        TextView tvRouteTitle = v.findViewById(R.id.fPointFilter_tvRouteFilterTitle);
-        spRouteFilter = v.findViewById(R.id.fPointFilter_spRouteFilter);
-        if (mode) {
-            SwitchCompat scAllRoutes = v.findViewById(R.id.fPointFilter_scAllRoutes);
-            tvRouteTitle.setVisibility(View.VISIBLE);
-            scAllRoutes.setVisibility(View.VISIBLE);
-            spRouteFilter.setVisibility(View.VISIBLE);
-            scAllRoutes.setChecked(true);
-            scAllRoutes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!isChecked) {
-                        mPreferencesManager.getSharedPreferences().edit().putBoolean(PreferencesManager.IS_ROUTE_VIEW, true).apply();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                }
-            });
-        }
-
-
         Toolbar toolbar = v.findViewById(R.id.fPointFilter_tMenu);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.inflateMenu(R.menu.filter_menu);
@@ -120,9 +86,6 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
     public void onStart() {
         super.onStart();
         spPointStatus.setAdapter(mStatusAdapter);
-        if (mode){
-            spRouteFilter.setAdapter(mAllPointsAdapter);
-        }
     }
 
     @Override
@@ -148,9 +111,6 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
             spPointStatus.setSelection(0);
             setTitle(getString(R.string.point_filters));
             Toast.makeText(getActivity(), "Фильтры сброшены", Toast.LENGTH_SHORT).show();
-            if (mode) {
-                spRouteFilter.setSelection(0);
-            }
         }
         return true;
     }
@@ -208,10 +168,6 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
                     }
                     spPointStatus.setSelection(selection);
                     break;
-                case ROUTEID:
-                    int position = mAllPointsAdapter.getPositionByRouteId(item.getValue());
-                    spRouteFilter.setSelection(position);
-                    break;
             }
         }
     }
@@ -234,14 +190,7 @@ public class PointFilterFragment extends BaseFragment implements MenuItem.OnMenu
         changeFilter(ADRESS, ConfigurationSetting.TEXT, adressFilter);
         changeFilter(STATUS_ID, ConfigurationSetting.BOOLEAN, statusId);
 
-        String preferencesType;
-        if (mode) {
-            String routeFilter = mAllPointsAdapter.getRouteId(spRouteFilter.getSelectedItemPosition());
-            changeFilter(ROUTEID, ConfigurationSetting.TEXT, routeFilter);
-            preferencesType = PreferencesManager.ALL_POINTS_FILTER_PREFS;
-        }else {
-            preferencesType = PreferencesManager.POINT_FILTER_PREFS;
-        }
+        String preferencesType = PreferencesManager.POINT_FILTER_PREFS;
         String json = mPointFilterManager.serialize();
         if (mPointFilterManager.getItems().length > 0) {
                 mPreferencesManager.setFilter(preferencesType, json);

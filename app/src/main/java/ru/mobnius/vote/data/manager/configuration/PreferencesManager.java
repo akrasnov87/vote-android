@@ -10,12 +10,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
     // фильтр
     public static final String POINT_FILTER_PREFS = "POINT_FILTER_PREFS";
     public static final String ROUTE_FILTER_PREFS = "ROUTE_FILTER_PREFS";
-    public static final String ALL_POINTS_FILTER_PREFS = "ALL_POINTS_FILTER_PREFS";
 
     // сортировка
     public static final String ROUTE_SORT_PREFS = "ROUTE_SORT_PREFS";
     public static final String POINT_SORT_PREFS = "POINT_SORT_PREFS";
-    public static final String ALL_POINTS_SORT_PREFS = "ALL_POINTS_SORT_PREFS";
 
     public final static boolean ZIP_CONTENT = true;
     public final static String SYNC_PROTOCOL = "v1";
@@ -24,7 +22,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String DEBUG = "MBL_DEBUG";
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
     public static final String PIN= "MBL_PIN";
-    public static final String IS_ROUTE_VIEW = "IS_ROUTE_VIEW";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -45,8 +42,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public boolean isPinAuth() {
         return getDefaultBooleanValue(PIN, false);
     }
-
-    public boolean getIsRouteView(){return getDefaultBooleanValue(IS_ROUTE_VIEW, true);}
 
     /**
      * Устновка фильтра

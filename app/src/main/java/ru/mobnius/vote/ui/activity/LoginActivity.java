@@ -70,15 +70,6 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_login, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
     public void onNetworkChange(boolean online, boolean serverExists) {
     }
 
