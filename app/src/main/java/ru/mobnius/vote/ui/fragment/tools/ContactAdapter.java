@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.additional;
+package ru.mobnius.vote.ui.fragment.tools;
 
 import android.content.Context;
 import android.view.LayoutInflater;

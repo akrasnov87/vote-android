@@ -30,17 +30,18 @@ import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
-import ru.mobnius.vote.ui.fragment.additional.CommentDialogFragment;
-import ru.mobnius.vote.ui.fragment.additional.ContactDialogFragment;
+import ru.mobnius.vote.ui.fragment.tools.CommentDialogFragment;
+import ru.mobnius.vote.ui.fragment.tools.ContactDialogFragment;
+import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;
 import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
 import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
-import ru.mobnius.vote.ui.fragment.additional.BaseAdditionalInfoDialog;
+import ru.mobnius.vote.ui.fragment.tools.AnswerFragmentDialog;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
 public class QuestionActivity extends BaseFormActivity
-        implements OnVoteListener, onClickVoteItemListener, BaseAdditionalInfoDialog.IAdditionalInfoCallback {
+        implements OnVoteListener, onClickVoteItemListener, AnswerFragmentDialog.IAdditionalInfoCallback, OnAnswerListener {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
@@ -181,44 +182,19 @@ public class QuestionActivity extends BaseFormActivity
             mVoteManager.addQuestion(answer.f_question, answer.id, mVoteManager.getList().length);
         }
 
-        if (answer.f_next_question > 0) {
-            onShowQuestion(answer.f_next_question);
-        }
-        if (answer.c_action.contains(Command.COMMENT)) {
-            CommentDialogFragment commentFragment;
-            if (answer.c_action.contains(Command.FINISH)) {
-                commentFragment = new CommentDialogFragment(false, true);
-            } else {
-                commentFragment = new CommentDialogFragment(false, false);
-            }
+        if (mVoteManager.isExistsCommand(answer, Command.COMMENT)) {
+            CommentDialogFragment commentFragment = new CommentDialogFragment(answer);
             commentFragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
-        // Присутствует команда Завершения
-        if (answer.c_action.contains(Command.FINISH)) {
-            if (isDone()) {
-                finish();
-            } else {
-                onVoteFinish();
-            }
-            return;
-        }
-
-        if (answer.c_action.contains(Command.CONTACT)) {
+        if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
             ContactDialogFragment fragment = new ContactDialogFragment(false);
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
-        if (answer.f_next_question > 0) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            VoteItemFragment fragment = VoteItemFragment.createInstance();
-            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment);
-            mVoteManager.addQuestion(answer.f_question, answer.id, answer.n_order);
-        }
-
-
+        onAnswerCommand(Command.NONE, answer, null);
     }
 
 
@@ -290,28 +266,26 @@ public class QuestionActivity extends BaseFormActivity
     }
 
     /**
-     * @param comment - комментарий, введенный в диалоговом окне
+     *
+     * @param answer Обработанный ранее ответ
      */
     @Override
-    public void OnCommentFinish(String comment, boolean isFinish) {
-        if (isFinish) {
+    public void onAnswerCommand(String type, Answer answer, Object result) {
+        // Присутствует команда Завершения
+        if (mVoteManager.isExistsCommand(answer, Command.FINISH)) {
             if (isDone()) {
                 finish();
             } else {
                 onVoteFinish();
             }
-        } else {
+            return;
+        }
 
+        if (answer.f_next_question > 0) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            VoteItemFragment fragment = VoteItemFragment.createInstance();
+            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment);
+            mVoteManager.addQuestion(answer.f_question, answer.id, answer.n_order);
         }
     }
-
-    /**
-     * @param contacts - список контактов, добавленных в диалоговм окне
-     */
-    @Override
-    public void OnContactFinish(ArrayList<HashMap<String, String>> contacts) {
-        String x = contacts.get(0).get(ContactDialogFragment.CONTACT_NAME);
-        Toast.makeText(this, x, Toast.LENGTH_SHORT).show();
-    }
-
 }

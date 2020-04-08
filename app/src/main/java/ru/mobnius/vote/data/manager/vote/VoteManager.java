@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.Results;
 
 /**
@@ -150,5 +151,15 @@ public class VoteManager implements Serializable {
             vote.setJbTel(result.jb_data);
             mList.add(vote);
         }
+    }
+
+    /**
+     * Доступна ли команда
+     * @param answer ответ
+     * @param command список команд
+     * @return true - команда доступна
+     */
+    public boolean isExistsCommand(Answer answer, String command) {
+        return answer.c_action.contains(command);
     }
 }

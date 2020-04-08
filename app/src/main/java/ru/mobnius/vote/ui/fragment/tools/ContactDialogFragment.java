@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.additional;
+package ru.mobnius.vote.ui.fragment.tools;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 import ru.mobnius.vote.R;
 
-public class ContactDialogFragment extends BaseAdditionalInfoDialog implements View.OnClickListener {
+public class ContactDialogFragment extends AnswerFragmentDialog implements View.OnClickListener {
 
     public final static String CONTACT_NAME = "contact_name";
     final static String CONTACT_EMAIL = "contact_email";

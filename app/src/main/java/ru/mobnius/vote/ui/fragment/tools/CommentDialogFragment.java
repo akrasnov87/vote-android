@@ -1,5 +1,6 @@
-package ru.mobnius.vote.ui.fragment.additional;
+package ru.mobnius.vote.ui.fragment.tools;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +14,15 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
+import ru.mobnius.vote.Command;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.storage.models.Answer;
 
-public class CommentDialogFragment extends BaseAdditionalInfoDialog implements View.OnClickListener {
+public class CommentDialogFragment extends AnswerFragmentDialog implements View.OnClickListener {
     private TextInputEditText tietComment;
-    private boolean isFinish;
 
-    public CommentDialogFragment(boolean isUpdate, boolean isFinish) {
-        super(isUpdate);
-        this.isFinish = isFinish;
+    public CommentDialogFragment(Answer answer) {
+        super(answer, Command.COMMENT);
     }
 
     @Override
@@ -38,13 +39,10 @@ public class CommentDialogFragment extends BaseAdditionalInfoDialog implements V
         tietComment = v.findViewById(R.id.fComment_tietComment);
         btnDone.setOnClickListener(this);
         return v;
-
     }
-
 
     @Override
     public void onClick(View v) {
-        String comment = Objects.requireNonNull(tietComment.getText()).toString();
-        getInfoCallback().OnCommentFinish(comment, isFinish);
+        onAnswerListener(Objects.requireNonNull(tietComment.getText()).toString());
     }
 }
