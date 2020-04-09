@@ -33,7 +33,7 @@
             android:id="@+id/fContact_btnAdd"
             style="@style/ButtonStyle"
             android:layout_below="@id/fContact_rvContacts"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/size_m_32"
             android:padding="@dimen/size_xxs_8"
             android:text="@string/add" />
@@ -41,7 +41,7 @@
         <Button
             android:id="@+id/fContact_btnDone"
             style="@style/ButtonStyle"
-            android:layout_below="@id/fContact_btnAdd"
+            android:layout_below="@id/fContact_rvContacts"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/size_m_32"
             android:padding="@dimen/size_xxs_8"

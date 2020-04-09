@@ -39,9 +39,11 @@ import ru.mobnius.vote.ui.fragment.tools.AnswerFragmentDialog;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
+import ru.mobnius.vote.ui.fragment.tools.ContactItem;
+import ru.mobnius.vote.utils.JsonUtil;
 
 public class QuestionActivity extends BaseFormActivity
-        implements OnVoteListener, onClickVoteItemListener, AnswerFragmentDialog.IAdditionalInfoCallback, OnAnswerListener {
+        implements OnVoteListener, onClickVoteItemListener, OnAnswerListener {
     public static String TAG = "METER_READINGS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
@@ -189,7 +191,7 @@ public class QuestionActivity extends BaseFormActivity
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
-            ContactDialogFragment fragment = new ContactDialogFragment(false);
+            ContactDialogFragment fragment = new ContactDialogFragment(answer, null);
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
@@ -254,15 +256,18 @@ public class QuestionActivity extends BaseFormActivity
         return (onQuestionListener) getFragment();
     }
 
+    private onQuestionListener getLastQuestionListener() {
+        return (onQuestionListener) getSupportFragmentManager().findFragmentById(R.id.single_fragment_container);
+    }
+
     /**
      * Вывод вопроса
-     *
      * @param questionID иден. вопроса
      */
     private void onShowQuestion(long questionID) {
         mCurrentQuestionID = questionID;
         long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
-        getQuestionListener().onQuestionBind(questionID, exclusionAnswerID);
+        getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID);
     }
 
     /**
@@ -280,12 +285,16 @@ public class QuestionActivity extends BaseFormActivity
             }
             return;
         }
+        if(mVoteManager.isExistsCommand(answer, Command.CONTACT)){
+            ArrayList<ContactItem> list = (ArrayList<ContactItem>) JsonUtil.convertToContacts(String.valueOf(result));
+        }
 
         if (answer.f_next_question > 0) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             VoteItemFragment fragment = VoteItemFragment.createInstance();
-            fragmentManager.beginTransaction().replace(R.id.single_fragment_container, fragment);
-            mVoteManager.addQuestion(answer.f_question, answer.id, answer.n_order);
+            fragmentManager.beginTransaction().
+                    replace(R.id.single_fragment_container, fragment).commitNow();
+            onShowQuestion(answer.f_next_question);
         }
     }
 }

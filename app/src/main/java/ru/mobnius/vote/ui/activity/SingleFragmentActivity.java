@@ -21,6 +21,11 @@ public abstract class SingleFragmentActivity extends BaseActivity {
     }
 
     private boolean mIsBackToExist;
+
+    public void setFragment(Fragment fragment) {
+        mFragment = fragment;
+    }
+
     private Fragment mFragment;
 
     public SingleFragmentActivity() {
@@ -33,9 +38,10 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         mIsBackToExist = isBackToExist;
     }
 
-    public Fragment getFragment() {
+        public Fragment getFragment() {
         return mFragment;
     }
+
 
     protected abstract Fragment createFragment();
 

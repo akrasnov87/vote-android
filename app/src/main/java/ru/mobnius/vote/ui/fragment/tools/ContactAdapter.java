@@ -17,8 +17,8 @@ import ru.mobnius.vote.R;
 
 class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
     private Context mContext;
-    private ArrayList<HashMap<String, String>> mContacts;
-    public ContactAdapter(Context context, ArrayList<HashMap<String, String>> contacts){
+    private ArrayList<ContactItem> mContacts;
+    public ContactAdapter(Context context, ArrayList<ContactItem> contacts){
         this.mContacts = contacts;
         this.mContext = context;
     }
@@ -43,20 +43,17 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
 
     static class ContactHolder extends RecyclerView.ViewHolder{
         private TextInputEditText tietName;
-        private TextInputEditText tietEmail;
         private TextInputEditText tietPhone;
 
         ContactHolder(@NonNull View itemView) {
             super(itemView);
             tietName = itemView.findViewById(R.id.itemContact_tietName);
-            tietEmail = itemView.findViewById(R.id.itemContact_tietEmail);
             tietPhone = itemView.findViewById(R.id.itemContact_tietPhone);
         }
 
-        void bindPoints(HashMap<String, String> contact) {
-            tietName.setText(contact.get(ContactDialogFragment.CONTACT_NAME));
-            tietEmail.setText(contact.get(ContactDialogFragment.CONTACT_EMAIL));
-            tietPhone.setText(contact.get(ContactDialogFragment.CONTACT_PHONE));
+        void bindPoints(ContactItem contact) {
+            tietName.setText(contact.c_key);
+            tietPhone.setText(contact.c_value);
         }
 
     }

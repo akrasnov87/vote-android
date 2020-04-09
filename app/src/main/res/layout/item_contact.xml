@@ -10,12 +10,6 @@
         android:hint="@string/fio"/>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/itemContact_tietEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/e_mail"/>
-
-    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/itemContact_tietPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
