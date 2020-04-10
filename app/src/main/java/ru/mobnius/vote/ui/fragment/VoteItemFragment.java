@@ -58,6 +58,4 @@ public class VoteItemFragment extends BaseFragment implements onQuestionListener
             tvDescription.setText(question.c_text);
         }
     }
-
-
 }

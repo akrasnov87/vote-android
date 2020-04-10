@@ -28,7 +28,7 @@ public class VersionTest {
     public void getBuildDate() {
         Version version = new Version();
         Date buildDate = version.getBuildDate(Version.BIRTH_DAY, "4.4.0.520");
-        assertEquals(buildDate.getTime(), Long.parseLong("1576820400000"));
+        assertEquals(buildDate.getTime(), Long.parseLong("1585374000000"));
     }
 
     @Test

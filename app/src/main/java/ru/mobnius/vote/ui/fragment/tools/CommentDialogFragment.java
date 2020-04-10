@@ -18,11 +18,11 @@ import ru.mobnius.vote.Command;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
 
-public class CommentDialogFragment extends AnswerFragmentDialog implements View.OnClickListener {
+public class CommentDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener {
     private TextInputEditText tietComment;
 
-    public CommentDialogFragment(Answer answer) {
-        super(answer, Command.COMMENT);
+    public CommentDialogFragment(Answer answer, String input) {
+        super(answer, Command.COMMENT, input);
     }
 
     @Override

@@ -185,13 +185,13 @@ public class QuestionActivity extends BaseFormActivity
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.COMMENT)) {
-            CommentDialogFragment commentFragment = new CommentDialogFragment(answer);
+            CommentDialogFragment commentFragment = new CommentDialogFragment(answer, mVoteManager.getComment(answer.f_question));
             commentFragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
-            ContactDialogFragment fragment = new ContactDialogFragment(answer, null);
+            ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question));
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
@@ -247,15 +247,6 @@ public class QuestionActivity extends BaseFormActivity
         finish();
     }
 
-    /**
-     * Интерфейс привязки данных к вопросу
-     *
-     * @return
-     */
-    private onQuestionListener getQuestionListener() {
-        return (onQuestionListener) getFragment();
-    }
-
     private onQuestionListener getLastQuestionListener() {
         return (onQuestionListener) getSupportFragmentManager().findFragmentById(R.id.single_fragment_container);
     }
@@ -276,6 +267,16 @@ public class QuestionActivity extends BaseFormActivity
      */
     @Override
     public void onAnswerCommand(String type, Answer answer, Object result) {
+        switch (type) {
+            case Command.COMMENT:
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result));
+                break;
+
+            case Command.CONTACT:
+                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null);
+                break;
+        }
+
         // Присутствует команда Завершения
         if (mVoteManager.isExistsCommand(answer, Command.FINISH)) {
             if (isDone()) {
@@ -284,9 +285,6 @@ public class QuestionActivity extends BaseFormActivity
                 onVoteFinish();
             }
             return;
-        }
-        if(mVoteManager.isExistsCommand(answer, Command.CONTACT)){
-            ArrayList<ContactItem> list = (ArrayList<ContactItem>) JsonUtil.convertToContacts(String.valueOf(result));
         }
 
         if (answer.f_next_question > 0) {

@@ -28,7 +28,7 @@ public class LoginViewModelTest {
     @Test
     public void getVersionToast() {
         String result = mSubject.getVersionToast("%s.%s %s - %s", "4.2.0.540", "бета");
-        assertEquals(result, "4.2 18.12.2019 09:00:00 - бета");
+        assertEquals(result, "4.2 26.03.2020 09:00:00 - бета");
 
         result = mSubject.getVersionToast("%s.%s %s", "4.2.0.540", "бета");
         assertNull(result);

@@ -21,23 +21,23 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
-public class ContactDialogFragment extends AnswerFragmentDialog implements View.OnClickListener {
+public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener {
 
     private ArrayList<ContactItem> mContacts;
     private RecyclerView mRecyclerView;
     private ContactAdapter mContactAdapter;
     private boolean isCreateMode;
 
-    public ContactDialogFragment(Answer answer, String contactsJson) {
-        super(answer, Command.CONTACT);
-        isCreateMode = contactsJson == null;
+    public ContactDialogFragment(Answer answer, String input) {
+        super(answer, Command.CONTACT, input);
+        isCreateMode = input == null;
         if (isCreateMode) {
             mContacts = new ArrayList<>();
             ContactItem item = new ContactItem();
             item.setDefault(true);
             mContacts.add(item);
         } else {
-            mContacts = (ArrayList<ContactItem>) JsonUtil.convertToContacts(contactsJson);
+            mContacts = (ArrayList<ContactItem>) JsonUtil.convertToContacts(input);
         }
     }
 

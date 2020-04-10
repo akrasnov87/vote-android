@@ -162,4 +162,58 @@ public class VoteManager implements Serializable {
     public boolean isExistsCommand(Answer answer, String command) {
         return answer.c_action.contains(command);
     }
+
+    /**
+     * ОБновление вопроса
+     * @param questionId идентификатор вопроса
+     * @param comment комментарий
+     * @param tel номер телефона
+     */
+    public void updateQuestion(long questionId, String comment, String tel) {
+        if(mList.size() > 0) {
+            for(Vote v : mList) {
+                if(v.questionId == questionId) {
+                    if(comment != null && comment.isEmpty()) {
+                        v.setComment(comment);
+                    }
+
+                    if(tel != null && tel.isEmpty()) {
+                        v.setJbTel(tel);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Получение номера телефона
+     * @param questionId идентификатор вопроса
+     * @return
+     */
+    public String getTel(long questionId) {
+        if(mList.size() > 0) {
+            for(Vote v : mList) {
+                if(v.questionId == questionId) {
+                    return v.getJbTel();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Получение комментария
+     * @param questionId идентификатор вопроса
+     * @return
+     */
+    public String getComment(long questionId) {
+        if(mList.size() > 0) {
+            for(Vote v : mList) {
+                if(v.questionId == questionId) {
+                    return v.getComment();
+                }
+            }
+        }
+        return null;
+    }
 }
