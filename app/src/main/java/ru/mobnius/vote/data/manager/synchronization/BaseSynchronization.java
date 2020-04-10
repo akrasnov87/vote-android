@@ -13,7 +13,6 @@ import java.util.List;
 
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.packager.MetaSize;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 import ru.mobnius.vote.data.manager.synchronization.utils.IServerSidePackage;
@@ -33,7 +32,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * Максимальное количество получаемых данных для одной сущности
      */
-    public static final int MAX_COUNT_IN_QUERY = 10000;
+    public static final int MAX_COUNT_IN_QUERY = 100000;
 
     /**
      * объект подключения к БД

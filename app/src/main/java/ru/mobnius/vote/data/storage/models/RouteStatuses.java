@@ -5,9 +5,7 @@ import com.google.gson.annotations.Expose;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.ToOne;
 
-import ru.mobnius.vote.data.storage.models.IEntityTo;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "cs_route_statuses")

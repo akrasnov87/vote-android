@@ -3,6 +3,7 @@ package ru.mobnius.vote.data.manager.synchronization.utils.transfer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -46,11 +47,10 @@ public class TransferProgress {
         return progress;
     }
 
-    @Override
-    public String toString() {
+    public String toTransferString() {
 
         Date date = new Date(time);
-        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss", new Locale("ru", "RU"));
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         return "~" + formatter.format(date) + "(" + speed.toString() + ")";
     }

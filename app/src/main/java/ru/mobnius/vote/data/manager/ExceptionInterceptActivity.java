@@ -1,13 +1,10 @@
 package ru.mobnius.vote.data.manager;
 
 
-import android.os.Bundle;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
-import ru.mobnius.vote.data.manager.exception.IExceptionManager;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
 
 /**

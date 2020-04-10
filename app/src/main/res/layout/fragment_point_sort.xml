@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/adress_sort"
+                android:text="@string/address_sort"
                 android:layout_marginStart="@dimen/size_xxxs_4"
                 android:layout_marginTop="@dimen/size_s_24"
                 android:labelFor="@id/fPointSort_spPointAddress"

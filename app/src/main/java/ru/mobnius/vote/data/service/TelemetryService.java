@@ -14,8 +14,6 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Objects;
@@ -110,6 +108,7 @@ public class TelemetryService extends BaseService {
 
         ConnectivityManager manager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
         mobileIndicators.b_isonline = NetworkUtil.requestStatus(context).onLine;
@@ -119,6 +118,7 @@ public class TelemetryService extends BaseService {
 
         ActivityManager actManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+        assert actManager != null;
         actManager.getMemoryInfo(memInfo);
 
         mobileIndicators.n_ram = memInfo.totalMem;
@@ -189,6 +189,7 @@ public class TelemetryService extends BaseService {
         if (storage.exists()) {
             File[] files = storage.listFiles();
 
+            assert files != null;
             for (File file : files) {
                 if (file.exists()) {
                     try {

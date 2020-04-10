@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +13,6 @@ import java.util.UUID;
 import ru.mobnius.vote.DbGenerate;
 import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.DbOperationType;
-import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
-import ru.mobnius.vote.data.manager.FileManager;
-import ru.mobnius.vote.data.manager.packager.FileBinary;
-import ru.mobnius.vote.data.manager.packager.BinaryBlock;
 import ru.mobnius.vote.data.manager.rpc.RPCRecords;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.manager.rpc.RPCResultMeta;
@@ -192,10 +186,10 @@ public class ServerSidePackageUtilTest extends DbGenerate {
         sidePackage.setDeleteRecordBeforeAppend(false);
         PackageResult packageResult = sidePackage.from(getDaoSession(), result, tid, true);
         Assert.assertTrue(packageResult.success);
-        List<Tracking> trackings = getDaoSession().getTrackingDao().queryBuilder().list();
-        Assert.assertEquals(trackings.size(), 2);
-        trackings = getDaoSession().getTrackingDao().queryBuilder().where(TrackingDao.Properties.Id.eq(tracking2.getId())).list();
-        Tracking t = trackings.toArray(new Tracking[0])[0];
+        List<Tracking> tacking = getDaoSession().getTrackingDao().queryBuilder().list();
+        Assert.assertEquals(tacking.size(), 2);
+        tacking = getDaoSession().getTrackingDao().queryBuilder().where(TrackingDao.Properties.Id.eq(tracking2.getId())).list();
+        Tracking t = tacking.toArray(new Tracking[0])[0];
         Assert.assertEquals(t.fn_user, tracking2.fn_user);
     }
 

@@ -30,7 +30,7 @@
         style="@style/ButtonStyle"
         android:layout_marginTop="@dimen/size_m_32"
         android:padding="@dimen/size_xxs_8"
-        android:text="@string/save_filters"
+        android:text="@string/save"
         android:layout_below="@id/fComment_tietComment"
         android:layout_alignParentEnd="true"/>
 

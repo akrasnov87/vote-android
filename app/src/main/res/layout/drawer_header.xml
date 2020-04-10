@@ -18,7 +18,7 @@
         android:layout_height="@dimen/size_xl_72"
         android:contentDescription="@string/userProfile"
         android:paddingTop="@dimen/size_xs_16"
-        app:srcCompat="@drawable/ic_person_gray_24dp"
+        app:srcCompat="@mipmap/ic_logo_round"
         android:scaleType="centerCrop"/>
 
     <TextView

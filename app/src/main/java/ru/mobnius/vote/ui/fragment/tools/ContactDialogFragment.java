@@ -89,7 +89,7 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
                 TextInputEditText name = item.findViewById(R.id.itemContact_tietName);
                 TextInputEditText phone = item.findViewById(R.id.itemContact_tietPhone);
                 if (hasData(name, phone) && mContacts.get(i).b_default) {
-                    ContactItem contactItem = new ContactItem(name.getText().toString(), phone.getText().toString());
+                    ContactItem contactItem = new ContactItem(Objects.requireNonNull(name.getText()).toString(), Objects.requireNonNull(phone.getText()).toString());
                     contactItem.setDefault(false);
                     mContacts.set(i, contactItem);
                 }

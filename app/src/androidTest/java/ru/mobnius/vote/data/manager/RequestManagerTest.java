@@ -1,7 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +13,6 @@ import ru.mobnius.vote.data.manager.rpc.QueryData;
 import ru.mobnius.vote.data.manager.rpc.SingleItemQuery;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.manager.rpc.SortItem;
-import ru.mobnius.vote.utils.UrlUtil;
 
 import static org.junit.Assert.*;
 

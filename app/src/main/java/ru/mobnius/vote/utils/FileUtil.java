@@ -13,6 +13,7 @@ public class FileUtil {
      * @param documentFolder Environment.DIRECTORY_PICTURES | Environment.DIRECTORY_DOCUMENTS
      * @return
      */
+    @SuppressWarnings({"deprecation"})
     public static File getRoot(Context context, String documentFolder) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             return Environment.getExternalStorageDirectory();

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.utils.NetworkUtil;
 
 /**
  * Базовое activity для приложения
@@ -19,7 +18,6 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     private final int REQUEST_PERMISSIONS = 1;
     private int mPermissionLength = 0;
-    private Toast mToast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,35 +48,23 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if(mToast != null) {
-            mToast.cancel();
-            mToast = null;
-        }
-
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS: {
-                if (grantResults.length == mPermissionLength) {
-                    boolean allGrant = true;
-                    for(int grant : grantResults) {
-                        if(grant != PackageManager.PERMISSION_GRANTED) {
-                            allGrant = false;
-                            break;
-                        }
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.length == mPermissionLength) {
+                boolean allGrant = true;
+                for (int grant : grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED) {
+                        allGrant = false;
+                        break;
                     }
+                }
 
-                    if(!allGrant) {
-                        mToast = Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG);
-                    } else {
-                        mToast = Toast.makeText(this, getText(R.string.permissions_grant), Toast.LENGTH_LONG);
-                    }
+                if (!allGrant) {
+                    Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG).show();
                 } else {
-                    mToast = Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG);
+                    Toast.makeText(this, getText(R.string.permissions_grant), Toast.LENGTH_LONG).show();
                 }
-
-                if(mToast != null) {
-                    mToast.show();
-                }
-                return;
+            } else {
+                Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG).show();
             }
         }
     }

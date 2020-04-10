@@ -1,7 +1,6 @@
 package ru.mobnius.vote.data.manager.synchronization.utils.transfer;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.github.nkzawa.emitter.Emitter;
 

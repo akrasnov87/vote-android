@@ -5,7 +5,6 @@ import com.google.gson.annotations.Expose;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.ToOne;
 
 import org.greenrobot.greendao.annotation.Generated;
 

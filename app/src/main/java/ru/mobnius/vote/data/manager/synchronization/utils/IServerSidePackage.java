@@ -1,7 +1,5 @@
 package ru.mobnius.vote.data.manager.synchronization.utils;
 
-import org.json.JSONException;
-
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 
@@ -30,5 +28,5 @@ public interface IServerSidePackage {
      * @param attachmentUse применяется обработка вложений
      * @return результат
      */
-    PackageResult from(DaoSession session, RPCResult rpcResult, String packageTid, boolean isRequestToServer, boolean attachmentUse) throws JSONException;
+    PackageResult from(DaoSession session, RPCResult rpcResult, String packageTid, boolean isRequestToServer, boolean attachmentUse);
 }

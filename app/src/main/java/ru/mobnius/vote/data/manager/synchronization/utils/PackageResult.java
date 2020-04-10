@@ -1,7 +1,5 @@
 package ru.mobnius.vote.data.manager.synchronization.utils;
 
-import java.security.cert.Extension;
-
 /**
  * Результат выволнения операции
  */

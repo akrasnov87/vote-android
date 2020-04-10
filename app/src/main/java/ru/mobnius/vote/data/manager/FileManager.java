@@ -1,7 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 
 import java.io.BufferedInputStream;

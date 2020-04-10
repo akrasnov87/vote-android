@@ -3,8 +3,6 @@ package ru.mobnius.vote.data.manager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.Uri;
-import android.support.v4.app.INotificationSideChannel;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -21,8 +19,6 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
-import ru.mobnius.vote.data.manager.mail.StringMail;
-import ru.mobnius.vote.data.manager.packager.MetaPackage;
 import ru.mobnius.vote.data.manager.packager.MetaSize;
 import ru.mobnius.vote.data.manager.packager.PackageUtil;
 import ru.mobnius.vote.data.storage.DbOpenHelper;
@@ -30,7 +26,6 @@ import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
-import ru.mobnius.vote.utils.PackageReadUtils;
 
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, INetworkChange, ISocketNotification {
     private ServiceManager serviceManager;
@@ -42,7 +37,7 @@ public class MobniusApplication extends android.app.Application implements IExce
         String baseUrl = "http://kes.it-serv.ru";
         String virtualDirPath = "/vote/dev";
 
-        //String baseUrl = "http://10.10.1.230:3000";
+        //String baseUrl = "http://192.168.1.68:3000";
         //String virtualDirPath = "";
 
         return baseUrl + virtualDirPath;
@@ -215,8 +210,8 @@ public class MobniusApplication extends android.app.Application implements IExce
                 onNotificationDelivered(buffer);
                 return;
             }
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
 

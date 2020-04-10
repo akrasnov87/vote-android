@@ -31,6 +31,7 @@ public class TextFieldView extends LinearLayout {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
         inflater.inflate(R.layout.text_field, this, true);
 
         tvFieldLabel = findViewById(R.id.text_field_label);

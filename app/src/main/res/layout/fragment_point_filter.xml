@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background">
@@ -49,7 +50,10 @@
                     android:id="@+id/fPointFilter_etMeterName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -64,22 +68,28 @@
                     android:id="@+id/fPointFilter_etSubscrName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/fPointFilter_tilAdress"
+                android:id="@+id/fPointFilter_tilAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/size_xxxs_4"
-                android:hint="@string/adress"
+                android:hint="@string/address"
                 android:paddingTop="@dimen/size_s_24">
 
                 <EditText
-                    android:id="@+id/fPointFilter_etAdress"
+                    android:id="@+id/fPointFilter_etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

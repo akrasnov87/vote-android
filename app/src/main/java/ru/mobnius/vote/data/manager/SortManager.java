@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.ui.model.SortItem;
 
@@ -63,6 +64,7 @@ public abstract class SortManager<T> extends ItemsManager<SortItem, Integer> {
      * @param items массив данных
      * @return результат
      */
+    @SuppressWarnings("unchecked")
     public T[] toSorters(T[] items, final ISortCallback callback) {
 
         List<T> results = Arrays.asList(items);
@@ -113,8 +115,8 @@ public abstract class SortManager<T> extends ItemsManager<SortItem, Integer> {
                         }
 
                         if (field.getType() == Date.class) {
-                            long l1 = ((Date)field.get(t1)).getTime();
-                            long l2 = ((Date)field.get(t2)).getTime();
+                            long l1 = ((Date) Objects.requireNonNull(field.get(t1))).getTime();
+                            long l2 = ((Date) Objects.requireNonNull(field.get(t2))).getTime();
                             int compareDate = item.getType() == SortItem.ASC ? Long.compare(l1, l2) : Long.compare(l2, l1);
                             if(compareDate != 0) {
                                 return compareDate;

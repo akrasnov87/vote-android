@@ -3,7 +3,6 @@ package ru.mobnius.vote.ui.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.mobnius.vote.data.manager.FilterManager;
 import ru.mobnius.vote.data.manager.SearchManager;
 import ru.mobnius.vote.ui.model.FilterItem;
 import ru.mobnius.vote.ui.model.PointItem;

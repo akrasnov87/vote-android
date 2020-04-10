@@ -104,11 +104,9 @@ public class Entity implements IEntity {
 
     /**
      * обработка сущности завершена
-     * @return текущая сущность
      */
-    public Entity setFinished(){
+    void setFinished() {
         this.finished = true;
-        return this;
     }
 
     /**

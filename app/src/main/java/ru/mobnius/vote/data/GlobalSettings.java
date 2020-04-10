@@ -1,10 +1,5 @@
 package ru.mobnius.vote.data;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import ru.mobnius.vote.utils.BitmapUtil;
-
 /**
  * Настройки
  * @// TODO: 04.06.2019 Существует временно потом нужно его менять

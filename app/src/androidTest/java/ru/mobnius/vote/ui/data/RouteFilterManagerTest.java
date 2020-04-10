@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 
 public class RouteFilterManagerTest extends ManagerGenerate {
     private String mRouteId = UUID.randomUUID().toString();
-    private long mUserId = 1;
 
     @Before
     public void setUp() {
@@ -32,17 +31,17 @@ public class RouteFilterManagerTest extends ManagerGenerate {
         routeType.c_name = "Type";
         getDaoSession().getRouteTypesDao().insert(routeType);
 
-        RouteStatuses routeStatuse = new RouteStatuses();
-        routeStatuse.id = (long)1;
-        routeStatuse.c_name = "Принят";
-        getDaoSession().getRouteStatusesDao().insert(routeStatuse);
+        RouteStatuses routeStatuses = new RouteStatuses();
+        routeStatuses.id = (long)1;
+        routeStatuses.c_name = "Принят";
+        getDaoSession().getRouteStatusesDao().insert(routeStatuses);
 
         RouteHistory routeHistory = new RouteHistory();
         routeHistory.id = UUID.randomUUID().toString();
         routeHistory.fn_route = mRouteId;
         routeHistory.d_date = DateUtil.convertDateToString(new Date());
-        routeHistory.fn_status = routeStatuse.id;
-        routeHistory.fn_user = mUserId;
+        routeHistory.fn_status = routeStatuses.id;
+        routeHistory.fn_user = 1;
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
         Routes route = new Routes();

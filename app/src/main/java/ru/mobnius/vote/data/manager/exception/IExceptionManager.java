@@ -1,6 +1,5 @@
 package ru.mobnius.vote.data.manager.exception;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IExceptionManager {

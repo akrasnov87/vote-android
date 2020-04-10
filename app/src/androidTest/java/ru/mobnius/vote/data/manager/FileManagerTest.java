@@ -11,10 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 
 import static org.junit.Assert.assertNull;
@@ -22,15 +20,12 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class FileManagerTest {
-    private BasicCredentials credentials;
     private FileManager fileManager;
-
-    private Context appContext;
 
     @Before
     public void setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        credentials = new BasicCredentials("inspector", "");
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        BasicCredentials credentials = new BasicCredentials("inspector", "");
         fileManager = FileManager.createInstance(credentials, appContext);
     }
 

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
-import ru.mobnius.vote.Names;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.filter.PointFilterFragment;
 import ru.mobnius.vote.ui.fragment.filter.RouteFilterFragment;

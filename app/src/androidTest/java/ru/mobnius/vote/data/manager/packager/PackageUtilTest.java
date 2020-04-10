@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.zip.ZipManager;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 

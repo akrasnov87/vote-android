@@ -134,53 +134,49 @@ public class DownloadTransfer extends Transfer {
             }
 
             JSONObject jsonObject = (JSONObject) args[0];
-            if(jsonObject != null) {
-                TransferResult result = TransferResult.readResult(jsonObject);
-                if(result.tid.equals(tid)) {
-                    if (!result.data.success) {
-                        onError(result.data.msg);
+            TransferResult result = TransferResult.readResult(jsonObject);
+            if(result.tid.equals(tid)) {
+                if (!result.data.success) {
+                    onError(result.data.msg);
+                } else {
+                    if (downloadBytes == null) {
+                        downloadBytes = new byte[0];
+                    }
+
+                    downloadBytes = f(downloadBytes, result.result);
+
+                    if (result.meta.processed) {
+                        Log.d(DOWNLOAD_TAG, "tid: " + tid + "; finish");
+                        onEnd(downloadBytes);
+                        transfer.destroy();
                     } else {
-                        if (downloadBytes == null) {
-                            downloadBytes = new byte[0];
-                        }
+                        downloadPosition = result.meta.start;
+                        int percent = (downloadPosition * 100) / result.meta.totalLength;
+                        Log.d(DOWNLOAD_TAG, "tid: " + tid + "; start: " + downloadPosition + "; chunk: " + getChunk() + "; totalLength: " + result.meta.totalLength);
+                        socket.emit(EVENT_DOWNLOAD, protocolVersion, downloadPosition, getChunk(), tid);
 
-                        downloadBytes = f(downloadBytes, result.result);
+                        long lashChunk = getChunk();
 
-                        if (result.meta.processed) {
-                            Log.d(DOWNLOAD_TAG, "tid: " + tid + "; finish");
-                            onEnd(downloadBytes);
-                            transfer.destroy();
-                        } else {
-                            downloadPosition = result.meta.start;
-                            int percent = (downloadPosition * 100) / result.meta.totalLength;
-                            Log.d(DOWNLOAD_TAG, "tid: " + tid + "; start: " + downloadPosition + "; chunk: " + getChunk() + "; totalLength: " + result.meta.totalLength);
-                            socket.emit(EVENT_DOWNLOAD, protocolVersion, downloadPosition, getChunk(), tid);
+                        if (getIterationStartTime() != null) {
+                            // время которое потребовалось для передачи CHUNK блока
+                            long time = new Date().getTime() - getIterationStartTime().getTime();
+                            if(time == 0)
+                                time = 1;
+                            // сколько нужно блоков для передачи за 1 секунду?
+                            updateChunk((INTERVAL * getChunk()) / time);
 
-                            long lashChunk = getChunk();
-
-                            if (getIterationStartTime() != null) {
-                                // время которое потребовалось для передачи CHUNK блока
-                                long time = new Date().getTime() - getIterationStartTime().getTime();
-                                if(time == 0)
-                                    time = 1;
-                                // сколько нужно блоков для передачи за 1 секунду?
-                                updateChunk((INTERVAL * getChunk()) / time);
-
-                                onPercent(percent,
-                                        TransferSpeed.getInstance(lashChunk, new Date().getTime() - getIterationStartTime().getTime()),
-                                        getLastTime(dtStart, percent),
-                                        TransferData.getInstance(downloadPosition, result.meta.totalLength));
-                            }else {
-                                onPercent(percent,
-                                        TransferSpeed.getInstance(downloadPosition, new Date().getTime() - dtStart.getTime()),
-                                        getLastTime(dtStart, percent),
-                                        TransferData.getInstance(downloadPosition, result.meta.totalLength));
-                            }
+                            onPercent(percent,
+                                    TransferSpeed.getInstance(lashChunk, new Date().getTime() - getIterationStartTime().getTime()),
+                                    getLastTime(dtStart, percent),
+                                    TransferData.getInstance(downloadPosition, result.meta.totalLength));
+                        }else {
+                            onPercent(percent,
+                                    TransferSpeed.getInstance(downloadPosition, new Date().getTime() - dtStart.getTime()),
+                                    getLastTime(dtStart, percent),
+                                    TransferData.getInstance(downloadPosition, result.meta.totalLength));
                         }
                     }
                 }
-            }else {
-                onError("Ответ от сервера получен. Данные отсуствуют.");
             }
         }
     }

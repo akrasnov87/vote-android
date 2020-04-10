@@ -15,7 +15,7 @@ import ru.mobnius.vote.R;
 
 
 public class PinCodeLinLay extends LinearLayout {
-    private PinChangeListner mPinChangeListner;
+    private PinChangeListener mPinChangeListener;
     private CheckPin mCheckPin;
     private FocusChange mFocusChange;
 
@@ -27,7 +27,7 @@ public class PinCodeLinLay extends LinearLayout {
     private Drawable emptyPinPointImage;
     private int pinnedPoints;
 
-    public static final int PIN_CODE_LENGHT = 4;
+    public static final int PIN_CODE_LENGTH = 4;
 
     public PinCodeLinLay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +38,7 @@ public class PinCodeLinLay extends LinearLayout {
         setOrientation(LinearLayout.HORIZONTAL);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
         View rootView = inflater.inflate(R.layout.pin_code_lin, this, false);
         this.addView(rootView);
         firstImage = findViewById(R.id.pinCodeLin_ivFirst);
@@ -52,7 +53,7 @@ public class PinCodeLinLay extends LinearLayout {
     public void setPinnedPoints() {
         pinnedPoints++;
         setPinPoint(pinnedPoints, filledPinPointImage);
-        if (pinnedPoints == PIN_CODE_LENGHT) {
+        if (pinnedPoints == PIN_CODE_LENGTH) {
 
             pinnedPoints = 0;
             mCheckPin.onPinComplete();
@@ -100,15 +101,15 @@ public class PinCodeLinLay extends LinearLayout {
     }
 
     public void onPinClear() {
-        mPinChangeListner.onClear();
+        mPinChangeListener.onClear();
     }
 
     public void onPinEnter() {
-        mPinChangeListner.onEnter();
+        mPinChangeListener.onEnter();
     }
 
 
-    public interface PinChangeListner {
+    public interface PinChangeListener {
         void onEnter();
 
         void onClear();
@@ -122,15 +123,15 @@ public class PinCodeLinLay extends LinearLayout {
         void onRunnableComplete();
     }
 
-    public void setPinChangeListner(PinChangeListner pinChangeListner) {
-        mPinChangeListner = pinChangeListner;
+    public void setPinChangeListener(PinChangeListener pinChangeListener) {
+        mPinChangeListener = pinChangeListener;
     }
 
-    public void setCheckPinListner(CheckPin checkPin) {
+    public void setCheckPinListener(CheckPin checkPin) {
         mCheckPin = checkPin;
     }
 
-    public void setFocusChangeListner(FocusChange focusChange){
+    public void setFocusChangeListener(FocusChange focusChange){
         mFocusChange = focusChange;
     }
 }

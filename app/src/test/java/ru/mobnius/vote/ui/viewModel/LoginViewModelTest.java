@@ -3,26 +3,21 @@ package ru.mobnius.vote.ui.viewModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import ru.mobnius.vote.ui.fragment.LoginFragment;
 import ru.mobnius.vote.ui.model.LoginModel;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class LoginViewModelTest {
     private LoginViewModel mSubject;
-    private String mVersion = "4.3.0.520";
 
     @Before
     public void setUp() {
         mSubject = new LoginViewModel();
-        mSubject.setModel(LoginModel.getInstance("login", "password", mVersion));
+        String version = "4.3.0.520";
+        mSubject.setModel(LoginModel.getInstance("login", "password", version));
     }
 
     @Test

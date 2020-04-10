@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.Date;
+import java.util.Objects;
 
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.utils.StringUtil;
@@ -46,9 +47,9 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
                 FileExceptionManager.getInstance(mContext).writeBytes(exceptionModel.getFileName(), exceptionModel.toString().getBytes());
                 Log.d(TAG, "Исключение " + exceptionModel.getExceptionCode(isDebug) + " записано в файл.");
             }
-        }catch (Exception exc){
+        }catch (Exception exc) {
             intercept = false;
-            Log.d(TAG, exc.getMessage());
+            Log.d(TAG, Objects.requireNonNull(exc.getMessage()));
         }finally {
             intercept = true;
             if (oldHandler != null) {

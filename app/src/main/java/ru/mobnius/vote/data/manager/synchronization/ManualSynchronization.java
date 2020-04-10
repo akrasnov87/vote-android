@@ -20,7 +20,6 @@ import ru.mobnius.vote.data.storage.models.DivisionsDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
-import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.RegistrPtsDao;
 import ru.mobnius.vote.data.storage.models.ResultTypesDao;
 import ru.mobnius.vote.data.storage.models.ResultsDao;

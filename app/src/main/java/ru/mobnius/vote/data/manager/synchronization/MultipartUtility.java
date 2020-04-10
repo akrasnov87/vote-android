@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 

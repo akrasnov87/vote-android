@@ -8,16 +8,12 @@ import org.greenrobot.greendao.database.Database;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
-import java.util.List;
+import java.util.Objects;
 
-import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.packager.FileBinary;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.storage.FieldNames;
 import ru.mobnius.vote.data.storage.models.DaoSession;
-import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.utils.SqlInsertFromJSONObject;
 import ru.mobnius.vote.utils.SqlUpdateFromJSONObject;
 
@@ -135,6 +131,10 @@ public abstract class ServerSidePackage implements IServerSidePackage {
             if(!rpcResult.method.equals("Query") && !rpcResult.method.equals("Select")){
                 return  PackageResult.fail("Метод результата " + tableName + " должен быть Query. Текущее значение " + rpcResult.method, null);
             }
+            if(tableName.equals("cd_routes")) {
+                int i = 2+ 2;
+            }
+
             db.beginTransaction();
             if (getDeleteRecordBeforeAppend()) {
                 db.execSQL("delete from " + tableName);
@@ -150,8 +150,8 @@ public abstract class ServerSidePackage implements IServerSidePackage {
                         for (JSONObject object : rpcResult.result.records) {
                             try {
                                 db.execSQL(sqlInsert.convertToQuery(isRequestToServer), sqlInsert.getValues(object, isRequestToServer));
-                            } catch (SQLiteConstraintException ignored) {
-                                Log.e("SYNC_ERROR", ignored.getMessage());
+                            } catch (SQLiteConstraintException e) {
+                                Log.e("SYNC_ERROR", Objects.requireNonNull(e.getMessage()));
                                 // тут нужно обновить запись
                                 String pkColumnName = "";
                                 for (AbstractDao a : session.getAllDaos()) {

@@ -1,15 +1,10 @@
 package ru.mobnius.vote.ui.fragment.tools;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;

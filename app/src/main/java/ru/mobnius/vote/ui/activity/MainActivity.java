@@ -21,23 +21,19 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Date;
 import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.fragment.PinCodeFragment;
 import ru.mobnius.vote.ui.fragment.PointFragment;
 import ru.mobnius.vote.ui.fragment.RouteFragment;
 import ru.mobnius.vote.utils.JsonUtil;
 
 public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
 
     public MainActivity() {
         super(true);
@@ -64,11 +60,11 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
-        mToolbar = findViewById(R.id.mainMenu_Toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = findViewById(R.id.mainMenu_Toolbar);
+        setSupportActionBar(toolbar);
 
-        mToolbar.setNavigationIcon(R.drawable.ic_open_drawer_white_24dp);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationIcon(R.drawable.ic_open_drawer_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(GravityCompat.START);

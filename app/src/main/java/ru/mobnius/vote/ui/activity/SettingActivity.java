@@ -2,7 +2,6 @@ package ru.mobnius.vote.ui.activity;
 
 import androidx.fragment.app.Fragment;
 
-import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.PrefFragment;
 

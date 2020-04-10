@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.manager.exception;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +29,7 @@ public class FileExceptionManagerTest {
         Assert.assertNotNull(bytes);
         String result = new String(bytes);
         ExceptionModel exceptionModel = ExceptionUtils.toModel(result);
+        assert exceptionModel != null;
         Assert.assertEquals(exceptionModel.getMessage(), model.getMessage());
         fileExceptionManager.deleteFile(fileName);
         Assert.assertFalse(fileExceptionManager.exists(fileName));

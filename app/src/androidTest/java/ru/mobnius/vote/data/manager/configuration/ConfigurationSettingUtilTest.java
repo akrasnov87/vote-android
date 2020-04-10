@@ -17,13 +17,11 @@ import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.manager.rpc.RPCResultMeta;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ConfigurationSettingUtilTest extends ManagerGenerate {
     private RPCResult success;
-    private RPCResult failed;
 
     @Before
     public void setUp() throws JSONException {
@@ -66,7 +64,7 @@ public class ConfigurationSettingUtilTest extends ManagerGenerate {
         success.result = new RPCRecords();
         success.result.records = array;
 
-        failed = new RPCResult();
+        RPCResult failed = new RPCResult();
         failed.meta = new RPCResultMeta();
         failed.meta.success = false;
         failed.meta.msg = "failed";
@@ -74,16 +72,14 @@ public class ConfigurationSettingUtilTest extends ManagerGenerate {
 
     @Test
     public void getConfigurationSettings() {
-        List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(null);
-        assertNull(configurationSettings);
-
-        configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(success.result.records[0]);
+        List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getConfigurationSettings(success.result.records[0]);
         assertEquals(configurationSettings.size(), 4);
     }
 
     @Test
     public void getSettings() {
         List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(getCredentials());
+        assert configurationSettings != null;
         assertTrue(configurationSettings.size() > 0);
     }
 }

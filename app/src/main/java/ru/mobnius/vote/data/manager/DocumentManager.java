@@ -1,6 +1,5 @@
 package ru.mobnius.vote.data.manager;
 
-import android.content.Context;
 import android.location.Location;
 
 import java.util.Date;

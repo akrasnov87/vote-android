@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -324,7 +323,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         RouteStatuses routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)1;
-        routeStatuses.c_name = "Cоздан";
+        routeStatuses.c_name = "Создан";
         getDaoSession().getRouteStatusesDao().insert(routeStatuses);
         routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)2;
@@ -408,7 +407,6 @@ public class DataManagerTest extends ManagerGenerate {
         assertEquals(info.getSubscrNumber(), registrPts.c_subscr);
         assertEquals(info.getAddress(), registrPts.c_address);
         assertEquals(info.getFio(), registrPts.c_fio);
-        assertEquals(info.getSubDivisionName(), subDivision.c_name);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);
@@ -425,7 +423,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         RouteStatuses routeStatuses = new RouteStatuses();
         routeStatuses.id = (long)1;
-        routeStatuses.c_name = "Cоздан";
+        routeStatuses.c_name = "Создан";
         routeStatuses.c_const = "CREATED";
         getDaoSession().getRouteStatusesDao().insert(routeStatuses);
 

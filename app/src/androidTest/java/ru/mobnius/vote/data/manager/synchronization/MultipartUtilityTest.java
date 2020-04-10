@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 public class MultipartUtilityTest {
     private final String URL_PART = "/synchronization/v0";
     private final BasicCredentials basicCredentials;
-    private final boolean ZIP = true;
 
     public MultipartUtilityTest(){
         basicCredentials = new BasicCredentials("root", "root0");
@@ -30,7 +29,7 @@ public class MultipartUtilityTest {
 
     @Test
     public void successTest() throws IOException {
-        PackageCreateUtils packageCreateUtils = new PackageCreateUtils(ZIP);
+        PackageCreateUtils packageCreateUtils = new PackageCreateUtils(true);
         byte[] resultBytes = packageCreateUtils.addFrom(new RPCItem("shell.welcome", null)).generatePackage(UUID.randomUUID().toString());
 
         String text = new String(resultBytes);
@@ -40,8 +39,8 @@ public class MultipartUtilityTest {
             MultipartUtility multipartUtility = new MultipartUtility(ManagerGenerate.getBaseUrl() + URL_PART, basicCredentials);
             multipartUtility.addFilePart("synchronization", resultBytes);
             outputResultBytes = multipartUtility.finish();
-            PackageReadUtils packageReadUtils = new PackageReadUtils(outputResultBytes, ZIP);
-            RPCResult[] to = packageReadUtils.getResultTo(ZIP);
+            PackageReadUtils packageReadUtils = new PackageReadUtils(outputResultBytes, true);
+            RPCResult[] to = packageReadUtils.getResultTo(true);
             assertEquals(to[0].result.records[0].getString("message"), "Hello");
             multipartUtility.destroy();
             packageReadUtils.destroy();

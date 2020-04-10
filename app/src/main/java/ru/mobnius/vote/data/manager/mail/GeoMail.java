@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.manager.mail;
 
 import com.google.gson.annotations.Expose;
 
-import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.Tracking;
 
 public class GeoMail extends BaseMail {

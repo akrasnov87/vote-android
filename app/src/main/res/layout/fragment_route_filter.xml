@@ -100,19 +100,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:visibility="gone"
-                    android:src="@drawable/ic_clear_text_24dp" />
+                    android:src="@drawable/ic_clear_text_24dp"
+                    android:contentDescription="@string/clear" />
 
             </RelativeLayout>
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/fRouteFilter_scAllPoints"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_xxxs_4"
-                android:paddingTop="@dimen/size_s_24"
-                android:paddingBottom="@dimen/size_s_24"
-                android:text="@string/mode_all_points"
-                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
     </ScrollView>

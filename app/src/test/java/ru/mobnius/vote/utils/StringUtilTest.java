@@ -82,8 +82,6 @@ public class StringUtilTest {
         assertNull(value4);
         String value5 = StringUtil.getExtension("");
         assertNull(value5);
-        String value6 = StringUtil.getExtension(null);
-        assertNull(value6);
 
         String value7 = StringUtil.getExtension("image.");
         assertNull(value7);

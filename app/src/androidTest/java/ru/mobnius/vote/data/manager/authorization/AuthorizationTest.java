@@ -6,25 +6,21 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ru.mobnius.vote.data.GlobalSettings;
-import ru.mobnius.vote.data.ICallback;
-import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
 import static org.junit.Assert.*;
 
 public class AuthorizationTest {
-    private Context mAppContext;
     private Authorization mAuthorization;
 
     @Before
     public void setUp() {
-        mAppContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        mAuthorization = Authorization.createInstance(mAppContext, "");
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        mAuthorization = Authorization.createInstance(appContext, "");
     }
 
     @After

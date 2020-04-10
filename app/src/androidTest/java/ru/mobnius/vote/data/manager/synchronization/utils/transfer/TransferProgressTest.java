@@ -15,7 +15,7 @@ public class TransferProgressTest {
                 TransferSpeed.getInstance(1024*1024, 10*1000),
                 TransferData.getInstance(512, 1024),
                 68*1000);
-        String txt = transferProgress.toString();
-        Assert.assertEquals(txt.replace(',', '.'), "~00:01:08(102.00 КБ\\сек.)");
+        String txt = transferProgress.toTransferString();
+        Assert.assertEquals(txt.replace(',', '.'), "~00:01:08(102.40 КБ\\сек.)");
     }
 }

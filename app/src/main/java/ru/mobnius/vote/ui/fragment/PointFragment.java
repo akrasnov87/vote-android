@@ -1,11 +1,9 @@
 package ru.mobnius.vote.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,12 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import ru.mobnius.vote.Names;
@@ -27,7 +22,6 @@ import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.activity.MainActivity;
 import ru.mobnius.vote.ui.data.PointFilterManager;
 import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.data.PointSortManager;
@@ -43,8 +37,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
     private TextView tvTitle;
 
     private DataManager mDataManager;
-    private PointSearchManager mPointSearchManager;
-    private boolean mIsRouteView;
 
     private String routeId;
 
@@ -92,7 +84,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         String query = null;
         if (getArguments() != null) {
             routeId = getArguments().getString(Names.ROUTE_ID);
-            mIsRouteView = getArguments().containsKey(Names.ROUTE_ID);
             query = getArguments().getString(QUERY_RESULT);
         }
         if (query != null) {
@@ -114,9 +105,9 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
         if (query.isEmpty()) {
             mRecyclerView.setAdapter(new PointAdapter(getContext(), getFilteredAndSortedList()));
         } else {
-            mPointSearchManager = new PointSearchManager();
+            PointSearchManager pointSearchManager = new PointSearchManager();
             List<PointItem> list;
-            list = Arrays.asList(mPointSearchManager.toFilters(getFilteredAndSortedList().toArray(new PointItem[0]), query));
+            list = Arrays.asList(pointSearchManager.toFilters(getFilteredAndSortedList().toArray(new PointItem[0]), query));
             mRecyclerView.setAdapter(new PointAdapter(getContext(), list));
         }
     }

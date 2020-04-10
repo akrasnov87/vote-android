@@ -1,13 +1,11 @@
 package ru.mobnius.vote.ui.fragment.filter;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import java.text.ParseException;
@@ -33,7 +30,6 @@ import ru.mobnius.vote.data.manager.FilterManager;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.activity.MainActivity;
 import ru.mobnius.vote.ui.data.RouteFilterManager;
 import ru.mobnius.vote.ui.model.FilterItem;
 import ru.mobnius.vote.utils.DateUtil;
@@ -132,7 +128,7 @@ public class RouteFilterFragment extends BaseFragment implements View.OnClickLis
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         mDateFilter = new GregorianCalendar(year, month, day).getTime();
@@ -201,6 +197,7 @@ public class RouteFilterFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void changeFilter(FilterManager manager, String key, String type, Object value) {
         boolean delete = false;
         String valueStr = null;

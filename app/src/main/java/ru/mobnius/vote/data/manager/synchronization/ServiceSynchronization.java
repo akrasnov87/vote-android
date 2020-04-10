@@ -4,11 +4,8 @@ import android.app.Activity;
 
 import java.util.UUID;
 
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
-import ru.mobnius.vote.data.manager.SocketManager;
 import ru.mobnius.vote.data.manager.synchronization.utils.PackageResult;
 import ru.mobnius.vote.data.manager.synchronization.utils.ToServerOnly;
 import ru.mobnius.vote.data.storage.models.AuditsDao;
@@ -27,7 +24,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
 
     private static ServiceSynchronization serviceSynchronization;
 
-    public static ServiceSynchronization getInstance(boolean zip){
+    public static ServiceSynchronization getInstance(boolean zip) {
         if(serviceSynchronization != null){
             return serviceSynchronization;
         }else{
@@ -83,7 +80,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
     protected byte[] generatePackage(String tid, Object... args) throws Exception {
         PackageCreateUtils utils = new PackageCreateUtils(isZip());
         String tableName = (String) args[0];
-        if(tableName == null || (tableName != null && tableName.isEmpty())){
+        if(tableName == null || tableName.isEmpty()){
             throw new Exception("Имя таблицы в аргументах не передано.");
         }
         processingPackageTo(utils, tableName, tid);

@@ -9,14 +9,13 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 public abstract class ManagerGenerate extends DbGenerate {
     private DataManager mDataManager;
     private FileManager mFileManager;
-    private BasicCredentials mCredentials;
 
     public ManagerGenerate() {
         super();
 
         mDataManager = DataManager.createInstance(getDaoSession());
-        mCredentials = getCredentials();
-        mFileManager = FileManager.createInstance(mCredentials, getContext());
+        BasicCredentials credentials = getCredentials();
+        mFileManager = FileManager.createInstance(credentials, getContext());
     }
 
 

@@ -7,17 +7,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import ru.mobnius.vote.data.manager.packager.MetaSize;
 
 /**
  * Сжатие строки через ZIP
@@ -59,18 +55,18 @@ public class ZipManager {
         byte[] input = inputText.getBytes(StandardCharsets.UTF_8);
         ZipResult zipResult = new ZipResult(input);
 
-        Deflater compresser = new Deflater();
-        compresser.setInput(input);
-        compresser.finish();
+        Deflater compressor = new Deflater();
+        compressor.setInput(input);
+        compressor.finish();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buf = new byte[2048];
-        while (!compresser.finished()) {
-            int byteCount = compresser.deflate(buf);
-            baos.write(buf, 0, byteCount);
+        while (!compressor.finished()) {
+            int byteCount = compressor.deflate(buf);
+            byteArrayOutputStream.write(buf, 0, byteCount);
         }
-        compresser.end();
-        return zipResult.getResult(baos.toByteArray());
+        compressor.end();
+        return zipResult.getResult(byteArrayOutputStream.toByteArray());
     }
 
     private static ZipResult newCompress(String inputText) throws IOException {
@@ -79,7 +75,7 @@ public class ZipManager {
         ZipResult zipResult = new ZipResult(bytes);
 
         InputStream stream = new ByteArrayInputStream(bytes);
-        byte data[] = new byte[2048];
+        byte[] data = new byte[2048];
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream( bos );
         BufferedInputStream entryStream = new BufferedInputStream( stream, 2048);
@@ -101,16 +97,17 @@ public class ZipManager {
         ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
         ZipInputStream zin = new ZipInputStream(bis);
 
-        while(zin.getNextEntry()!=null) {
+        //noinspection LoopStatementThatDoesntLoop
+        while(zin.getNextEntry() != null) {
             // распаковка
-            ByteArrayOutputStream fout = new ByteArrayOutputStream();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             for (int c = zin.read(); c != -1; c = zin.read()) {
-                fout.write(c);
+                byteArrayOutputStream.write(c);
             }
-            fout.flush();
+            byteArrayOutputStream.flush();
             zin.closeEntry();
-            fout.close();
-            return fout.toByteArray();
+            byteArrayOutputStream.close();
+            return byteArrayOutputStream.toByteArray();
         }
         return  null;
     }

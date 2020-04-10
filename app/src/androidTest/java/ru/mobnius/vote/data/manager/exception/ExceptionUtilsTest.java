@@ -1,9 +1,5 @@
 package ru.mobnius.vote.data.manager.exception;
 
-import android.content.Context;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

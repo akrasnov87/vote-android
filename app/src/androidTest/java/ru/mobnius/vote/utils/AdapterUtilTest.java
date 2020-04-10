@@ -19,22 +19,20 @@ import static org.junit.Assert.*;
 public class AdapterUtilTest {
 
     private SimpleAdapter mSimpleAdapter;
-    private Context appContext;
-    private ArrayList<Map<String, Object>> mMaps;
 
     @Before
     public void setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        mMaps = new ArrayList<>(3);
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        ArrayList<Map<String, Object>> maps = new ArrayList<>(3);
         Map<String, Object> m;
         for(int i = 0; i < 3; i++) {
             m = new HashMap<>();
             m.put(Names.ID, i);
             m.put(Names.NAME, i);
 
-            mMaps.add(m);
+            maps.add(m);
         }
-        mSimpleAdapter = new SimpleAdapter(appContext, mMaps, android.R.layout.simple_list_item_1, new String[0], new int[0]);
+        mSimpleAdapter = new SimpleAdapter(appContext, maps, android.R.layout.simple_list_item_1, new String[0], new int[0]);
     }
 
     @Test

@@ -51,11 +51,10 @@ public class AuthorizationCache {
      * @param login логин
      * @param pin пин-код
      * @param time время
-     * @return Возвращается true если все хорошо
      */
-    public boolean update(String login, String pin, Date time){
+    public void update(String login, String pin, Date time){
         BasicUser user = read(login);
-        return saveUser(user, pin, time);
+        saveUser(user, pin, time);
     }
 
     /**
@@ -117,12 +116,15 @@ public class AuthorizationCache {
         File dir = new File(context.getFilesDir().getPath());
         if(all){
             File[] files = dir.listFiles();
-            for(File file: files){
-                if(file.getName().indexOf(PART_FILENAME) > 0){
-                    context.deleteFile(file.getName());
+            if(files != null) {
+                for (File file : files) {
+                    if (file.getName().indexOf(PART_FILENAME) > 0) {
+                        context.deleteFile(file.getName());
+                    }
                 }
+                return true;
             }
-            return true;
+            return false;
         } else {
             String login = Authorization.getInstance().getUser().getCredentials().login;
             if(!StringUtil.isEmptyOrNull(login)) {
@@ -145,9 +147,11 @@ public class AuthorizationCache {
         ArrayList<String> users = new ArrayList<>();
 
         File[] files = dir.listFiles();
-        for(File file: files){
-            if(file.getName().indexOf(PART_FILENAME) > 0){
-                users.add(file.getName().replace(PART_FILENAME, ""));
+        if(files != null) {
+            for (File file : files) {
+                if (file.getName().indexOf(PART_FILENAME) > 0) {
+                    users.add(file.getName().replace(PART_FILENAME, ""));
+                }
             }
         }
         return users.toArray(new String[0]);

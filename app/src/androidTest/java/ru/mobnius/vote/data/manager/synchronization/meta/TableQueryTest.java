@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
+import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +35,7 @@ public class TableQueryTest {
         RPCItem rpcItem = tableQuery.toRPCSelect(new MyObject("test"));
         rpcItem.tid = 0;
         String jsonString = toJsonString(rpcItem);
-        assertEquals(jsonString, "{\"action\":\"cd_settings\",\"data\":[{\"params\":[{\"name\":\"test\"}]}],\"method\":\"Select\",\"tid\":0,\"type\":\"rpc\"}");
+        assertEquals(jsonString, "{\"action\":\"cd_settings\",\"data\":[{\"limit\":"+BaseSynchronization.MAX_COUNT_IN_QUERY+",\"params\":[{\"name\":\"test\"}]}],\"method\":\"Select\",\"tid\":0,\"type\":\"rpc\"}");
     }
 
     private String toJsonString(Object object) {

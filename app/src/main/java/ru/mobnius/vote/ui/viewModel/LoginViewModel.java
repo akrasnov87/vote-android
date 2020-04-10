@@ -77,11 +77,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
      * @return нужно ли активировать кнопку.
      */
     public boolean isButtonEnable(String login, String password) {
-        if (login.length() >= MIN_LENGTH && password.length() >= MIN_LENGTH) {
-            return true;
-        } else {
-            return false;
-        }
+        return login.length() >= MIN_LENGTH && password.length() >= MIN_LENGTH;
     }
     /**
      * Автозамена пробела на ""
@@ -90,7 +86,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
     public void setNoSpaces(EditText[] editText) {
         InputFilter filter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end,
-                                       Spanned dest, int dstart, int dend) {
+                                       Spanned dest, int date_start, int date_end) {
                 for (int i = start; i < end; i++) {
                     if (!Character.isLetterOrDigit(source.charAt(i))) {
                         return "";

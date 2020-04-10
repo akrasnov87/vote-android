@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -43,7 +45,7 @@ public class RPCItemTest {
         query.data[0] = new SingleItemQuery(info);
 
         String str = query.toJsonString();
-        assertEquals(str, "{\"action\":\"setting\",\"data\":[{\"params\":[{\"name\":\""+info.name+"\"}]}],\"method\":\"getMobileSettings\",\"tid\":"+query.tid+",\"type\":\"rpc\"}");
+        assertEquals(str, "{\"action\":\"setting\",\"data\":[{\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[{\"name\":\""+info.name+"\"}]}],\"method\":\"getMobileSettings\",\"tid\":"+query.tid+",\"type\":\"rpc\"}");
 
         query.data = null;
         str = query.toJsonString();

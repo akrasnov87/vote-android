@@ -7,14 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,12 +32,9 @@ import ru.mobnius.vote.ui.fragment.tools.ContactDialogFragment;
 import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;
 import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
 import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
-import ru.mobnius.vote.ui.fragment.tools.AnswerFragmentDialog;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
 import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
-import ru.mobnius.vote.ui.fragment.tools.ContactItem;
-import ru.mobnius.vote.utils.JsonUtil;
 
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, onClickVoteItemListener, OnAnswerListener {
@@ -82,7 +76,7 @@ public class QuestionActivity extends BaseFormActivity
         pointID = getIntent().getStringExtra(Names.POINT_ID);
         routeID = getIntent().getStringExtra(Names.ROUTE_ID);
 
-        mDocumentManager = new DocumentManager((OnVoteListener) this);
+        mDocumentManager = new DocumentManager(this);
 
         mVoteManager = new VoteManager();
         if (isDone()) {
@@ -148,32 +142,30 @@ public class QuestionActivity extends BaseFormActivity
 
         if (actionMenu != null) {
             int icon = -1;
-            if (actionMenu != null) {
-                String message = "";
-                switch (status) {
-                    case GeoManager.GeoListener.NONE:
-                        icon = R.drawable.ic_gps_off_24px;
-                        message = "Местоположение не определено.";
-                        break;
+            String message = "";
+            switch (status) {
+                case GeoManager.GeoListener.NONE:
+                    icon = R.drawable.ic_gps_off_24px;
+                    message = "Местоположение не определено.";
+                    break;
 
-                    case GeoManager.GeoListener.NORMAL:
-                        icon = R.drawable.ic_gps_not_fixed_24px;
-                        message = "Координата не является точной.";
-                        break;
+                case GeoManager.GeoListener.NORMAL:
+                    icon = R.drawable.ic_gps_not_fixed_24px;
+                    message = "Координата не является точной.";
+                    break;
 
-                    default:
-                        icon = R.drawable.ic_gps_fixed_24px;
-                        message = "Координата получена.";
-                        break;
-                }
-
-                final int MENU_GPS_ITEM = 0;
-                MenuItem menuItem = actionMenu.getItem(MENU_GPS_ITEM);
-                menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-                menuItem.setIcon(icon);
-                menuItem.setTitle(message);
+                default:
+                    icon = R.drawable.ic_gps_fixed_24px;
+                    message = "Координата получена.";
+                    break;
             }
+
+            final int MENU_GPS_ITEM = 0;
+            MenuItem menuItem = actionMenu.getItem(MENU_GPS_ITEM);
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menuItem.setIcon(icon);
+            menuItem.setTitle(message);
         }
     }
 

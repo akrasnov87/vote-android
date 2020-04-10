@@ -3,13 +3,12 @@ package ru.mobnius.vote.ui.fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
 import java.util.Date;
+import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
@@ -73,7 +72,7 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
         super.onResume();
 
         if (pVersion != null) {
-            pVersion.setSummary(VersionUtil.getVersionName(getActivity()));
+            pVersion.setSummary(VersionUtil.getVersionName(Objects.requireNonNull(getActivity())));
         }
 
         if (spDebug != null) {
@@ -143,7 +142,7 @@ public class PrefFragment extends PreferenceFragmentCompat implements IException
                 BasicUser user = Authorization.getInstance().getLastAuthUser();
                 if (pinValue) {
                     PinCodeFragment fragment = PinCodeFragment.newInstance(null, user.getCredentials().login);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                 } else {
                     cache.update(user.getCredentials().login, "", new Date());
                 }
