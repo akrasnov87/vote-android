@@ -26,7 +26,6 @@ import ru.mobnius.vote.data.storage.models.SubDivisions;
 import ru.mobnius.vote.data.storage.models.UserPoints;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointInfo;
-import ru.mobnius.vote.ui.model.PointResult;
 
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.utils.DateUtil;
@@ -238,80 +237,6 @@ public class DataManagerTest extends ManagerGenerate {
 
         assertTrue(dataManager.getPointState(firstPointId).isDone());
         assertFalse(dataManager.getPointState(firstPointId).isSync());
-    }
-
-    @Test
-    public void getPointResults() {
-        getDaoSession().getResultTypesDao().deleteAll();
-        getDaoSession().getRoutesDao().deleteAll();
-        getDaoSession().getPointsDao().deleteAll();
-        getDaoSession().getUserPointsDao().deleteAll();
-        getDaoSession().getResultsDao().deleteAll();
-
-        ResultTypes resultTypes = new ResultTypes();
-        resultTypes.id = (long)1;
-        resultTypes.c_name = "Документ 1";
-        resultTypes.n_order = 900;
-        getDaoSession().getResultTypesDao().insert(resultTypes);
-
-        resultTypes = new ResultTypes();
-        resultTypes.id = (long)2;
-        resultTypes.c_name = "Документ 2";
-        resultTypes.n_order = 1000;
-        getDaoSession().getResultTypesDao().insert(resultTypes);
-
-        resultTypes = new ResultTypes();
-        resultTypes.id = (long)3;
-        resultTypes.c_name = "Документ 3";
-        resultTypes.n_order = 800;
-        getDaoSession().getResultTypesDao().insert(resultTypes);
-
-        Routes routes = new Routes();
-        routes.id = UUID.randomUUID().toString();
-        routes.c_number = "1";
-        routes.d_date = DateUtil.convertDateToString(new Date());
-        routes.f_type = 1;
-        getDaoSession().getRoutesDao().insert(routes);
-
-        Points points = new Points();
-        String firstPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
-        points.f_route = routes.id;
-        getDaoSession().getPointsDao().insert(points);
-
-        UserPoints userPoints = new UserPoints();
-        userPoints.id = UUID.randomUUID().toString();
-        userPoints.fn_user = 4;
-        userPoints.fn_type = 1;
-        userPoints.fn_point = points.id;
-        userPoints.fn_route = routes.id;
-        userPoints.isSynchronization = true;
-        getDaoSession().getUserPointsDao().insert(userPoints);
-
-        Results results = new Results();
-        results.id = UUID.randomUUID().toString();
-        results.fn_type = 1;
-        results.fn_user = 1;
-        results.fn_point = firstPointId;
-        results.fn_route = routes.id;
-        results.fn_user_point = userPoints.id;
-        getDaoSession().getResultsDao().insert(results);
-
-        points = new Points();
-        String secondPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
-        points.f_route = routes.id;
-        getDaoSession().getPointsDao().insert(points);
-
-        List<PointResult> pointResults = dataManager.getPointDocuments(firstPointId);
-        assertEquals(3, pointResults.size());
-        assertEquals(pointResults.get(0).getName(), "Документ 2");
-        assertTrue(pointResults.get(1).isExists());
-
-        pointResults = dataManager.getPointDocuments(secondPointId);
-        assertEquals(3, pointResults.size());
-        assertFalse(pointResults.get(0).isExists());
-        assertFalse(pointResults.get(1).isExists());
     }
 
     @Test
