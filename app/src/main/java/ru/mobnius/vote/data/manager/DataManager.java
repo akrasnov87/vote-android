@@ -32,7 +32,6 @@ import ru.mobnius.vote.data.storage.models.UserPointsDao;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
-import ru.mobnius.vote.ui.model.PointResult;
 import ru.mobnius.vote.ui.model.PointState;
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.ui.model.RouteItem;
@@ -357,41 +356,6 @@ public class DataManager {
             pointState.setSync(true);
         }
         return pointState;
-    }
-
-    /**
-     * Получение списка доступных документов при работе с точкой маршрута
-     * @param pointId идентификатор точки маршрута
-     * @return список документов
-     */
-    public List<PointResult> getPointDocuments(String pointId) {
-        List<ResultTypes> resultTypes = daoSession.getResultTypesDao().loadAll();
-        List<Results> resultsList = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_point.eq(pointId)).list();
-        List<PointResult> pointResults = new ArrayList<>();
-
-        for(ResultTypes resultType : resultTypes) {
-            boolean exists = false;
-            for(Results result : resultsList){
-                if(result.fn_type == resultType.id) {
-                    pointResults.add(PointResult.getInstance(resultType.id, resultType.c_name, resultType.n_order, result.id, false));
-                    exists = true;
-                    break; // создание двух одинаковых актов не возможно
-                }
-            }
-
-            if(!exists) {
-                pointResults.add(PointResult.getInstance(resultType.id, resultType.c_name, resultType.n_order, null, false));
-            }
-        }
-
-        Collections.sort(pointResults, new Comparator<PointResult>() {
-            @Override
-            public int compare(PointResult o1, PointResult o2) {
-                return Integer.compare(o2.getOrder(), o1.getOrder());
-            }
-        });
-
-        return pointResults;
     }
 
     /**
