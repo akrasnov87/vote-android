@@ -21,7 +21,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
-public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener {
+public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener, IDeleteItem{
 
     private ArrayList<ContactItem> mContacts;
     private RecyclerView mRecyclerView;
@@ -48,7 +48,7 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
         View v = inflater.inflate(R.layout.dialog_fragment_contact, container, false);
         mRecyclerView = v.findViewById(R.id.fContact_rvContacts);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mContactAdapter = new ContactAdapter(getContext(), mContacts);
+        mContactAdapter = new ContactAdapter(getActivity(), mContacts, this);
         mRecyclerView.setAdapter(mContactAdapter);
         Button btnAdd = v.findViewById(R.id.fContact_btnAdd);
         btnAdd.setOnClickListener(this);
@@ -104,5 +104,15 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
             return !fio.isEmpty() || !telephone.isEmpty();
         }
         return false;
+    }
+
+
+    @Override
+    public void OnItemDelete(int position) {
+        if (mContactAdapter!=null&& mContacts.size()>1){//нельзя удалять последний
+            restoreContacts();
+            mContacts.remove(position);
+            mContactAdapter.notifyDataSetChanged();
+        }
     }
 }

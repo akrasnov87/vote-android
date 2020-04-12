@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,18 +16,20 @@ import java.util.ArrayList;
 import ru.mobnius.vote.R;
 
 class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
+    private ContactDialogFragment mFragment;
     private Context mContext;
     private ArrayList<ContactItem> mContacts;
-    public ContactAdapter(Context context, ArrayList<ContactItem> contacts){
+    ContactAdapter(Context context, ArrayList<ContactItem> contacts, ContactDialogFragment fragment){
         this.mContacts = contacts;
         this.mContext = context;
+        this.mFragment = fragment;
     }
     @NonNull
     @Override
     public ContactHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_contact, parent, false);
-        return new ContactHolder(view);
+        return new ContactHolder(view, mFragment);
     }
 
     @Override
@@ -40,14 +43,21 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
     }
 
 
-    static class ContactHolder extends RecyclerView.ViewHolder{
+
+
+    static class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextInputEditText tietName;
         private TextInputEditText tietPhone;
+        private Button btnDelete;
+        private IDeleteItem mIDeleteItem;
 
-        ContactHolder(@NonNull View itemView) {
+        ContactHolder(@NonNull View itemView, ContactDialogFragment fragment) {
             super(itemView);
+            mIDeleteItem = (IDeleteItem)fragment;
             tietName = itemView.findViewById(R.id.itemContact_tietName);
             tietPhone = itemView.findViewById(R.id.itemContact_tietPhone);
+            btnDelete = itemView.findViewById(R.id.itemContact_btnDelete);
+            btnDelete.setOnClickListener(this);
         }
 
         void bindPoints(ContactItem contact) {
@@ -55,5 +65,10 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
             tietPhone.setText(contact.c_value);
         }
 
+        @Override
+        public void onClick(View v) {
+            mIDeleteItem.OnItemDelete(getAdapterPosition());
+        }
     }
+
 }
