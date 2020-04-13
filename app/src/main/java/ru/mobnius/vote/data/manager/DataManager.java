@@ -347,7 +347,9 @@ public class DataManager {
                 for(Results result : results) {
 
                     Answer answer = result.getAnswer();
-                    pointState.setBgColor(answer.c_color);
+                    if(answer != null) {
+                        pointState.setBgColor(answer.c_color);
+                    }
                     pointState.setColor("#000000");
 
                     if(!result.isSynchronization) {
