@@ -1,50 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size_s_24">
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/fContact_tvTitle"
+            android:id="@+id/fComment_tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/contentColor"
+            android:textSize="@dimen/very_large_font_size"
+            android:padding="@dimen/size_xxs_8"
+            android:text="@string/contact_data"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/fContact_btnAdd"
+            android:background="@drawable/ic_add_white_24dp"
+            android:padding="@dimen/size_xs_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/size_xxs_8"
-            android:textColor="@color/label_light_gray"
-            android:textSize="12sp"
-            tools:text="Заголовок" />
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/size_xxs_8"
+            android:contentDescription="@string/add_contact"/>
+    </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fContact_rvItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_xxs_8" />
 
-            android:id="@+id/fContact_rvContacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fContact_tvTitle"
-            android:layout_marginTop="@dimen/size_xxs_8" />
+    <TextView
+        android:id="@+id/fContact_emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:gravity="center"
+        tools:visibility="visible"
+        android:textSize="@dimen/large_font_size"
+        android:text="@string/contact_lost"
+        android:layout_marginBottom="@dimen/size_xxs_8"
+        android:layout_marginTop="@dimen/size_xxs_8"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_l_56"
+        android:layout_marginEnd="@dimen/size_xxs_8">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/fContact_btnAdd"
-            style="@style/ButtonStyle"
-            android:layout_below="@id/fContact_rvContacts"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/size_m_32"
-            android:padding="@dimen/size_xxs_8"
-            android:text="@string/add" />
-
-        <Button
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
             android:id="@+id/fContact_btnDone"
-            style="@style/ButtonStyle"
-            android:layout_below="@id/fContact_rvContacts"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/size_m_32"
-            android:padding="@dimen/size_xxs_8"
-            android:text="@string/save" />
+            android:text="@string/save"
+            android:textSize="@dimen/high_font_size"
+            android:layout_marginEnd="@dimen/size_xxs_8"
+            android:layout_marginBottom="@dimen/size_xxs_8"/>
 
-    </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -173,11 +173,11 @@ public class VoteManager implements Serializable {
         if(mList.size() > 0) {
             for(Vote v : mList) {
                 if(v.questionId == questionId) {
-                    if(comment != null && comment.isEmpty()) {
+                    if(comment != null && !comment.isEmpty()) {
                         v.setComment(comment);
                     }
 
-                    if(tel != null && tel.isEmpty()) {
+                    if(tel != null && !tel.isEmpty()) {
                         v.setJbTel(tel);
                     }
                 }

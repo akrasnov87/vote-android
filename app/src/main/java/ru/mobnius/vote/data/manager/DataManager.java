@@ -293,6 +293,8 @@ public class DataManager {
                 if(pointState != null) {
                     pointItem.done = pointState.isDone();
                     pointItem.sync = pointState.isSync();
+                    pointItem.color = pointState.getColor();
+                    pointItem.bgColor = pointState.getBgColor();
                 }
 
                 RegistrPts registrPts = point.getRegistrPts();
@@ -343,6 +345,11 @@ public class DataManager {
             if(userPoint.isSynchronization) {
                 List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
                 for(Results result : results) {
+
+                    Answer answer = result.getAnswer();
+                    pointState.setBgColor(answer.c_color);
+                    pointState.setColor("#000000");
+
                     if(!result.isSynchronization) {
                         return pointState;
                     }

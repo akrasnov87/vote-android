@@ -171,19 +171,19 @@ public class QuestionActivity extends BaseFormActivity
 
     @Override
     public void onClickVoteItem(Answer answer) {
-        if (!isDone()) {
+        if (!isDone() && !mVoteManager.isQuestionExists(answer.f_question)) {
             // если вопрос ранее не задавался, то сохраняем в стэке
             mVoteManager.addQuestion(answer.f_question, answer.id, mVoteManager.getList().length);
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.COMMENT)) {
-            CommentDialogFragment commentFragment = new CommentDialogFragment(answer, mVoteManager.getComment(answer.f_question));
+            CommentDialogFragment commentFragment = new CommentDialogFragment(answer, mVoteManager.getComment(answer.f_question), isDone());
             commentFragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
-            ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question));
+            ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
@@ -196,12 +196,11 @@ public class QuestionActivity extends BaseFormActivity
     public void onBackPressed() {
         long lastQuestionID = isDone() ? mVoteManager.getPrevQuestionID(mCurrentQuestionID) : mVoteManager.getLastQuestionID();
         if (lastQuestionID > 0) {
-            onShowQuestion(lastQuestionID);
-
             if (!isDone()) {
-                // если вопрос ранее не задавался, то удаляем из стэка последнй
+                // если вопрос ранее не задавался, то удаляем из стэка последний
                 mVoteManager.removeQuestion(lastQuestionID);
             }
+            onShowQuestion(lastQuestionID);
         } else {
             super.onBackPressed();
         }
@@ -261,11 +260,11 @@ public class QuestionActivity extends BaseFormActivity
     public void onAnswerCommand(String type, Answer answer, Object result) {
         switch (type) {
             case Command.COMMENT:
-                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result));
+                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null);
                 break;
 
             case Command.CONTACT:
-                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null);
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result));
                 break;
         }
 

@@ -93,4 +93,9 @@
     <string name="save">Сохранить</string>
     <string name="fio">ФИО</string>
     <string name="delete_record">Удалить запись</string>
+    <string name="lost_comment">Оставить комментарий</string>
+    <string name="your_comment">Ваш комментарий</string>
+    <string name="contact_data">Контактные данные</string>
+    <string name="add_contact">Добавить контактную информацию</string>
+    <string name="contact_lost">Контакты отсутствуют. Для добавления записис нажмите +</string>
 </resources>

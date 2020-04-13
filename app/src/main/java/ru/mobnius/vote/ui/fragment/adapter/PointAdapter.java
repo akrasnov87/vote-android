@@ -68,11 +68,9 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
 
         public void bindPoints(PointItem point, String status) {
             tvDeviceNumber.setText(point.deviceNumber);
-            if(point.done){
+            if(point.done) {
                 tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.document_created_text));
-            } else {
             }
-
         }
 
         @Override

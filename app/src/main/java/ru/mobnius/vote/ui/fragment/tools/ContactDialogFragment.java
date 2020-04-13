@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,98 +23,78 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
-public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener, IDeleteItem{
-
+public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener, ContactHolder.OnContactItemListener {
     private ArrayList<ContactItem> mContacts;
     private RecyclerView mRecyclerView;
     private ContactAdapter mContactAdapter;
-    private boolean isCreateMode;
+    private TextView mEmptyView;
 
-    public ContactDialogFragment(Answer answer, String input) {
-        super(answer, Command.CONTACT, input);
-        isCreateMode = input == null;
-        if (isCreateMode) {
+    public ContactDialogFragment(Answer answer, String input, boolean isDone) {
+        super(answer, Command.CONTACT, input, isDone);
+        if (!isDone()) {
             mContacts = new ArrayList<>();
-            ContactItem item = new ContactItem();
-            item.setDefault(true);
-            mContacts.add(item);
         } else {
             mContacts = (ArrayList<ContactItem>) JsonUtil.convertToContacts(input);
         }
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_contact, container, false);
-        mRecyclerView = v.findViewById(R.id.fContact_rvContacts);
+        mRecyclerView = v.findViewById(R.id.fContact_rvItems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mContactAdapter = new ContactAdapter(getActivity(), mContacts, this);
         mRecyclerView.setAdapter(mContactAdapter);
-        Button btnAdd = v.findViewById(R.id.fContact_btnAdd);
+        ImageButton btnAdd = v.findViewById(R.id.fContact_btnAdd);
         btnAdd.setOnClickListener(this);
+
         Button btnDone = v.findViewById(R.id.fContact_btnDone);
         btnDone.setOnClickListener(this);
-        return v;
+        if(isDone()) {
+            btnDone.setText("ОК");
+            btnAdd.setVisibility(Button.GONE);
+        }
 
+        mEmptyView = v.findViewById(R.id.fContact_emptyView);
+        updateContactUI();
+        return v;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.fContact_btnAdd:
                 ContactItem item = new ContactItem();
                 item.setDefault(true);
-                if (mContacts.size() > 0) { //сохраняем ранее введенные данные если они были введены
-                    restoreContacts();
-                }
                 mContacts.add(item);
                 mContactAdapter.notifyDataSetChanged();
+
+                updateContactUI();
                 break;
+
             case R.id.fContact_btnDone:
-                String contactsJson = JsonUtil.convertToJson(mContacts);
-                onAnswerListener(contactsJson);
+                if(!isDone()) {
+                    String contactsJson = JsonUtil.convertToJson(mContacts);
+                    onAnswerListener(contactsJson);
+                }
                 this.dismiss();
                 break;
         }
     }
 
-    /**
-     * @return массив контактов
-     */
-
-    private void restoreContacts() {
-        for (int i = 0; i < mContacts.size(); i++) {
-            View item = Objects.requireNonNull(mRecyclerView.getLayoutManager()).findViewByPosition(i);
-            if (item != null) {
-                TextInputEditText name = item.findViewById(R.id.itemContact_tietName);
-                TextInputEditText phone = item.findViewById(R.id.itemContact_tietPhone);
-                if (hasData(name, phone) && mContacts.get(i).b_default) {
-                    ContactItem contactItem = new ContactItem(Objects.requireNonNull(name.getText()).toString(), Objects.requireNonNull(phone.getText()).toString());
-                    contactItem.setDefault(false);
-                    mContacts.set(i, contactItem);
-                }
-            }
-        }
-    }
-
-    private boolean hasData(TextInputEditText name, TextInputEditText phone) {
-        if (name.getText() != null && phone.getText() != null) {
-            String fio = name.getText().toString();
-            String telephone = phone.getText().toString();
-            return !fio.isEmpty() || !telephone.isEmpty();
-        }
-        return false;
-    }
-
-
     @Override
-    public void OnItemDelete(int position) {
-        if (mContactAdapter!=null&& mContacts.size()>1){//нельзя удалять последний
-            restoreContacts();
+    public void onItemDelete(int position) {
+        if(!isDone()) {
             mContacts.remove(position);
             mContactAdapter.notifyDataSetChanged();
+
+            updateContactUI();
         }
+    }
+
+    private void updateContactUI() {
+        mEmptyView.setVisibility(mContacts.size() > 0 ? TextView.GONE : TextView.VISIBLE);
     }
 }

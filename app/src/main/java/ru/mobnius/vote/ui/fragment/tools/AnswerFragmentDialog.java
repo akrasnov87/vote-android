@@ -14,15 +14,17 @@ public abstract class AnswerFragmentDialog<T> extends DialogFragment {
     private Answer mAnswer;
     private String mCommand;
     private T mInput;
+    private boolean mIsDone;
 
     public T getInput() {
         return mInput;
     }
 
-    public AnswerFragmentDialog(Answer answer, String command, T input) {
+    public AnswerFragmentDialog(Answer answer, String command, T input, boolean isDone) {
         mInput = input;
         mCommand = command;
         mAnswer = answer;
+        mIsDone = isDone;
     }
 
     @Override
@@ -38,5 +40,9 @@ public abstract class AnswerFragmentDialog<T> extends DialogFragment {
         if(mAnswerListener != null) {
             mAnswerListener.onAnswerCommand(mCommand, mAnswer, result);
         }
+    }
+
+    public boolean isDone() {
+        return mIsDone;
     }
 }

@@ -24,6 +24,7 @@ public class Results implements IEntityTo {
     @ToOne(joinProperty = "fn_route")
     public UserPoints route;
 
+    @Expose
     public String fn_point;
 
     /**

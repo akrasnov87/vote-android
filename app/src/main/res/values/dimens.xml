@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- font size -->
+    <dimen name="very_large_font_size">20sp</dimen>
     <dimen name="large_font_size">18sp</dimen>
     <dimen name="high_font_size">16sp</dimen>
     <dimen name="medium_font_size">14sp</dimen>

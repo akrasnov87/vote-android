@@ -11,6 +11,8 @@ public class PointItem {
     public String routeName;
     public String routeId;
     public String fio;
+    public String color = "#000000";
+    public String bgColor = "#ffffff";
 
     /**
      * Было выполнено или нет
