@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -134,7 +133,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
 
 
     public void searchResult(String query) {
-        if (query.isEmpty()) {
+        if (query.equals(JsonUtil.EMPTY)) {
             mRecyclerView.setAdapter(new PointAdapter(this, getFilteredAndSortedList()));
         } else {
             PointSearchManager pointSearchManager = new PointSearchManager();
