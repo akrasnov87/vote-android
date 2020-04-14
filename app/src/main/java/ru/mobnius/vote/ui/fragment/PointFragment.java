@@ -40,19 +40,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
 
     private String routeId;
 
-    public static PointFragment newInstance(String routeId) {
-        PointFragment pointFragment;
-        if (routeId != null) {
-            pointFragment = new PointFragment();
-            Bundle args = new Bundle();
-            args.putString(Names.ROUTE_ID, routeId);
-            pointFragment.setArguments(args);
-        } else {
-            pointFragment = new PointFragment();
-        }
-
-        return pointFragment;
-    }
 
     public static PointFragment newSearchInstance(String query) {
         PointFragment pointFragment = new PointFragment();
