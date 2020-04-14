@@ -65,7 +65,7 @@ public class ServiceManager {
      * запуск сервиса по сбора геоинформации, максимальная точность
      */
     public void startTrackingService(){
-        this.startTrackingService(TrackingService.TIMEOUT, Criteria.ACCURACY_FINE, Criteria.POWER_HIGH);
+        this.startTrackingService(TrackingService.TRACK_TIMEOUT, Criteria.ACCURACY_FINE, Criteria.POWER_HIGH);
     }
 
     /**

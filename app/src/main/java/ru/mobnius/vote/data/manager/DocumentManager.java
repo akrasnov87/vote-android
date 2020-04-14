@@ -122,27 +122,6 @@ public class DocumentManager {
         }
     }
 
-    /**
-     * Удаление всех созданных пользовательских точек и результатов
-     */
-    public void removeAll() {
-        // найти пользоват. точку
-        List<UserPoints> userPoints = getDaoSession().getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(mVoteListener.getPointId())).list();
-        if(userPoints.size() > 0) {
-            // удалить результаты
-            for (UserPoints point :
-                    userPoints) {
-                getDaoSession().getUserPointsDao().delete(point);
-
-                List<Results> results = getDaoSession().getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(point.id)).list();
-
-                for (Results result : results) {
-                    getDaoSession().getResultsDao().delete(result);
-                }
-            }
-        }
-    }
-
     private DaoSession getDaoSession() {
         return mVoteListener.getDataManager().getDaoSession();
     }

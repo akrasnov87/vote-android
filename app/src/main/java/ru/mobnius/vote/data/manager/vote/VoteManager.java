@@ -216,4 +216,8 @@ public class VoteManager implements Serializable {
         }
         return null;
     }
+
+    public void clear() {
+        mList.clear();
+    }
 }

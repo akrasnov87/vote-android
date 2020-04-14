@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -77,14 +78,7 @@ public class QuestionActivity extends BaseFormActivity
         routeID = getIntent().getStringExtra(Names.ROUTE_ID);
 
         mDocumentManager = new DocumentManager(this);
-
         mVoteManager = new VoteManager();
-        if (isDone()) {
-            DataManager dataManager = DataManager.getInstance();
-            List<Results> results = dataManager.getPointResults(pointID);
-            // задание ранее выполнялось
-            mVoteManager.importFromResult(results.toArray(new Results[0]));
-        }
     }
 
     @Override
@@ -103,14 +97,7 @@ public class QuestionActivity extends BaseFormActivity
                 return true;
 
             case R.id.choiceDocument_Info:
-                if (getIntent().hasExtra(Names.RESULT_ID)) {
-                    DaoSession daoSession = DataManager.getInstance().getDaoSession();
-                    String resultId = getIntent().getStringExtra(Names.RESULT_ID);
-                    Results mResult = daoSession.getResultsDao().load(resultId);
-                    startActivity(PointInfoActivity.newIntent(this, mResult.fn_point));
-                } else {
-                    startActivity(PointInfoActivity.newIntent(this, getIntent().getStringExtra(Names.POINT_ID)));
-                }
+                startActivityForResult(PointInfoActivity.newIntent(this, pointID), PointInfoActivity.POINT_INFO_CODE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,6 +106,13 @@ public class QuestionActivity extends BaseFormActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (isDone()) {
+            DataManager dataManager = DataManager.getInstance();
+            List<Results> results = dataManager.getPointResults(pointID);
+            // задание ранее выполнялось
+            mVoteManager.importFromResult(results.toArray(new Results[0]));
+        }
 
         Question question = DataManager.getInstance().getQuestions()[0];
         onShowQuestion(question.id);
@@ -284,6 +278,15 @@ public class QuestionActivity extends BaseFormActivity
             fragmentManager.beginTransaction().
                     replace(R.id.single_fragment_container, fragment).commitNow();
             onShowQuestion(answer.f_next_question);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PointInfoActivity.POINT_INFO_CODE && resultCode == RESULT_OK) {
+            mVoteManager.clear();
         }
     }
 }

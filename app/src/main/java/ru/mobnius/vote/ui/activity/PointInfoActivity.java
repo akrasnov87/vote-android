@@ -14,7 +14,8 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.PointInfoFragment;
 
-public class PointInfoActivity extends SingleFragmentActivity{
+public class PointInfoActivity extends SingleFragmentActivity {
+    public static final int POINT_INFO_CODE = 1;
     @Override
     protected Fragment createFragment() {
         return PointInfoFragment.newInstance(getIntent().getStringExtra(Names.POINT_ID));

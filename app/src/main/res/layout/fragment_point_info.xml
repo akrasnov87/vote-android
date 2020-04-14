@@ -26,4 +26,19 @@
         android:layout_height="wrap_content"
         app:fieldLabel="@string/notice" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/fPointInfo_bReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reset"
+        android:background="@color/colorFail"
+        android:textColor="@color/contentColor"
+        android:layout_margin="@dimen/size_xxs_8"
+        android:layout_marginTop="@dimen/space_large"/>
+
 </LinearLayout>
