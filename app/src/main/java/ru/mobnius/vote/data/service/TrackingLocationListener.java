@@ -49,7 +49,7 @@ public class TrackingLocationListener implements LocationListener {
         tracking.n_longitude = location.getLongitude();
         tracking.objectOperationType = DbOperationType.CREATED;
 
-            mDaoSession.getTrackingDao().insert(tracking);
+        mDaoSession.getTrackingDao().insert(tracking);
 
         // отправляем текущее местоположение пользователя
         SocketManager socketManager = SocketManager.getInstance();

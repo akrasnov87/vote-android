@@ -93,9 +93,7 @@ public class MobniusApplication extends android.app.Application implements IExce
         SocketManager socketManager = SocketManager.createInstance(getBaseUrl(), credentials, HardwareUtil.getIMEI(this));
         socketManager.open(this);
 
-        serviceManager.startTrackingService();
-        serviceManager.startTelemetryService();
-        serviceManager.startSynchronizationService();
+        serviceManager.startMyService();
 
         ExceptionUtils.saveLocalException(this, Authorization.getInstance().getUser().getUserId(), daoSession);
     }
@@ -108,9 +106,7 @@ public class MobniusApplication extends android.app.Application implements IExce
 
         AuditUtils.write(this, "", AuditUtils.UN_AUTH, AuditUtils.Level.HIGH);
 
-        serviceManager.stopTrackingService();
-        serviceManager.stopTelemetryService();
-        serviceManager.stopSynchronizationService();
+        serviceManager.stopMyService();
 
         if(clearUserAuthorization) {
             Authorization.getInstance().destroy();
