@@ -1,22 +1,42 @@
 package ru.mobnius.vote.ui.activity;
 
-import androidx.fragment.app.Fragment;
+import android.os.Bundle;
+import android.widget.TextView;
 
-import ru.mobnius.vote.ui.fragment.StatisticFragment;
+import androidx.annotation.Nullable;
+import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 
-public class StatisticActivity extends SingleFragmentActivity {
-    public static final String ALL_POINTS = "all_apartments";
-    public static final String DONE_POINTS = "done_apartments";
+/**
+ * Статистика
+ */
+public class StatisticActivity extends BaseActivity {
+    private TextView apartmentsTotal;
+    private TextView apartmentsOpen;
+    private TextView signaturesReceived;
 
     @Override
-    protected Fragment createFragment() {
-        String all = getIntent().getStringExtra(ALL_POINTS);
-        String done = getIntent().getStringExtra(DONE_POINTS);
-        return StatisticFragment.openStatisticFragment(all, done, "0");
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_statistic);
+
+        apartmentsTotal = findViewById(R.id.fStatistic_tvAppTotal);
+        apartmentsOpen = findViewById(R.id.fStatistic_tvOpenApp);
+        signaturesReceived = findViewById(R.id.fStatistic_tvSignsTotal);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        apartmentsTotal.setText(String.format(getString(R.string.apartment_count), "0"));
+        apartmentsOpen.setText(String.format(getString(R.string.apartment_open), "0"));
+        signaturesReceived.setText(String.format(getString(R.string.signs_received), "0"));
     }
 
     @Override
     public int getExceptionCode() {
-        return 0;
+        return IExceptionCode.STATISTIC;
     }
 }

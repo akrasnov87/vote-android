@@ -58,6 +58,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_point);
+
         routeId = getIntent().getStringExtra(Names.ROUTE_ID);
         mDataManager = DataManager.getInstance();
         mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);

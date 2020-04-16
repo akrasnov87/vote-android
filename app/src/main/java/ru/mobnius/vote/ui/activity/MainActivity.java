@@ -83,11 +83,14 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent;
-        String login = Authorization.getInstance().getLastAuthUser().getCredentials().login;
-        String password = Authorization.getInstance().getLastAuthUser().getCredentials().password;
         switch (menuItem.getItemId()) {
             case R.id.navigationDrawerSynchronization:
                 intent = new Intent(this, SynchronizationActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.navigationDrawerStatistic:
+                intent = new Intent(this, StatisticActivity.class);
                 startActivity(intent);
                 break;
 

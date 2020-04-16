@@ -10,11 +10,14 @@
             android:title="@string/synchronization" />
 
         <item
+            android:id="@+id/navigationDrawerStatistic"
+            android:icon="@drawable/ic_show_chart_black_24dp"
+            android:title="@string/statistic" />
+
+        <item
             android:id="@+id/navigationDrawerSettings"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/settings" />
-
-
     </group>
 
     <group android:id="@+id/navigationDrawerGroup">

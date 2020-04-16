@@ -77,4 +77,5 @@ public interface IExceptionCode {
     int VOTE_ITEM = 35;
     int SETTING = 36;
     int SERVICE = 37;
+    int STATISTIC = 38;
 }

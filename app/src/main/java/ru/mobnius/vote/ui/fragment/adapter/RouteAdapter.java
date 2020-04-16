@@ -94,14 +94,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteHolder>
         @Override
         public void onClick(View v) {
             String routeId = mRouteItems.get(getLayoutPosition()).id;
-            if (v.getId() == R.id.itemRoute_ivRouteProgress) {
-                Intent intent = new Intent(mContext, StatisticActivity.class);
-                intent.putExtra(StatisticActivity.ALL_POINTS, String.valueOf(allPoints));
-                intent.putExtra(StatisticActivity.DONE_POINTS, String.valueOf(donePoints));
-                mContext.startActivity(intent);
-            } else {
-                mContext.startActivity(PointActivity.newIntent(mContext, routeId));
-            }
+            mContext.startActivity(PointActivity.newIntent(mContext, routeId));
         }
     }
 }

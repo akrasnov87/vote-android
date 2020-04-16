@@ -37,8 +37,6 @@ public class PointSearchManager extends SearchManager<PointItem> {
 
         mItems.clear();
         addItem(new FilterItem("deviceNumber", text));
-        addItem(new FilterItem("address", text));
-        addItem(new FilterItem("fio", text));
         addItem(new FilterItem("subscrNumber", text));
 
         List<PointItem> results = new ArrayList<>();
