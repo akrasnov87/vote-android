@@ -25,10 +25,8 @@ import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.MobniusApplication;
-import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.fragment.PointFragment;
 import ru.mobnius.vote.ui.fragment.RouteFragment;
 import ru.mobnius.vote.utils.JsonUtil;
 
@@ -143,8 +141,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                PointFragment fragment = PointFragment.newSearchInstance(query);
-                getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+
                 return false;
             }
 
