@@ -81,15 +81,7 @@
             android:exported="false" />
 
         <service
-            android:name=".data.service.TelemetryService"
-            android:enabled="true"
-            android:exported="false" />
-        <service
-            android:name=".data.service.TrackingService"
-            android:enabled="true"
-            android:exported="false" />
-        <service
-            android:name=".data.service.ServiceSynchronizationService"
+            android:name=".data.service.MyService"
             android:enabled="true"
             android:exported="false" />
     </application>

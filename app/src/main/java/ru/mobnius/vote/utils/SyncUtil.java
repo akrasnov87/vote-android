@@ -3,6 +3,9 @@ package ru.mobnius.vote.utils;
 import org.greenrobot.greendao.database.Database;
 
 import ru.mobnius.vote.data.Logger;
+import ru.mobnius.vote.data.manager.synchronization.Entity;
+import ru.mobnius.vote.data.manager.synchronization.IProgressStep;
+import ru.mobnius.vote.data.manager.synchronization.ISynchronization;
 import ru.mobnius.vote.data.storage.FieldNames;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 
@@ -32,14 +35,14 @@ public class SyncUtil {
      * @param context объект синхронизации
      * @return false - информация не была сброшена
      */
-    public static boolean resetTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context){
+    public static boolean resetTid(ISynchronization context){
         boolean result;
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
         db.beginTransaction();
         try {
             Object[] params = getResetTidParams();
-            for(ru.mobnius.vote.data.manager.synchronization.Entity entity : context.getEntityToList()) {
+            for(Entity entity : context.getEntityToList()) {
                 db.execSQL(getResetTidSqlQuery(entity.tableName), params);
             }
             db.setTransactionSuccessful();
@@ -47,7 +50,7 @@ public class SyncUtil {
         }catch (Exception e){
             result = false;
             Logger.error(e);
-            context.onError(ru.mobnius.vote.data.manager.synchronization.IProgressStep.NONE, e, null);
+            context.onError(IProgressStep.NONE, e, null);
         }finally {
             db.endTransaction();
         }
@@ -62,7 +65,7 @@ public class SyncUtil {
      * @param tid идентификатор транзакции
      * @return возвращается результат обработки
      */
-    public static boolean updateTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context, String tableName, String tid){
+    public static boolean updateTid(ISynchronization context, String tableName, String tid){
         boolean result = false;
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
@@ -74,7 +77,7 @@ public class SyncUtil {
             result = true;
         }catch (Exception e){
             Logger.error(e);
-            context.onError(ru.mobnius.vote.data.manager.synchronization.IProgressStep.START, e, tid);
+            context.onError(IProgressStep.START, e, tid);
         }
         return result;
     }
@@ -88,7 +91,7 @@ public class SyncUtil {
      * @param operationType тип операции
      * @return возвращается результат обработки
      */
-    public static void updateBlockTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context, String tableName, String tid, String blockTid, String operationType){
+    public static void updateBlockTid(ISynchronization context, String tableName, String tid, String blockTid, String operationType){
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
         try {
@@ -100,7 +103,7 @@ public class SyncUtil {
             db.execSQL("update " + tableName + " set "+ FieldNames.BLOCK_TID+" = ? where "+FieldNames.TID+" = ? AND " + FieldNames.OBJECT_OPERATION_TYPE + " = ?", params);
         }catch (Exception e) {
             Logger.error(e);
-            context.onError(ru.mobnius.vote.data.manager.synchronization.IProgressStep.START, e, tid);
+            context.onError(IProgressStep.START, e, tid);
         }
     }
 
@@ -110,7 +113,7 @@ public class SyncUtil {
      * @param tid идентификатор транзакции
      * @return возвращается результат обработки
      */
-    public static boolean updateTid(ru.mobnius.vote.data.manager.synchronization.ISynchronization context, String tid){
+    public static boolean updateTid(ISynchronization context, String tid){
         boolean result;
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
@@ -119,7 +122,7 @@ public class SyncUtil {
             Object[] params = new Object[2];
             params[0] = tid;
             params[1] = "";
-            for(ru.mobnius.vote.data.manager.synchronization.Entity entity : context.getEntityToList()) {
+            for(Entity entity : context.getEntityToList()) {
                 db.execSQL("update " + entity.tableName + " set "+FieldNames.TID+" = ? where "+FieldNames.TID+" is null OR "+FieldNames.TID+" = ?", params);
             }
             db.setTransactionSuccessful();
