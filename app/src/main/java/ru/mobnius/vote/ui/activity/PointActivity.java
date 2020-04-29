@@ -64,7 +64,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
         mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);
         tvTitle = findViewById(R.id.fPoint_tvPointsTitle);
         mRecyclerView = findViewById(R.id.fPoint_rvPoints);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }
 
     @Override

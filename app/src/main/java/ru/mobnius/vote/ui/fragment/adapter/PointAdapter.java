@@ -2,7 +2,6 @@ package ru.mobnius.vote.ui.fragment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +37,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
     @Override
     public void onBindViewHolder(@NonNull PointHolder holder, int position) {
         if (mPointsList.size() > 0) {
-            Resources resources = mContext.getResources();
-            String status = resources.getString(R.string.not_done);
-            PointItem point = mPointsList.get(position);
-            if (point.done) {
-                status = resources.getString(R.string.done);
-                if (point.sync) {
-                    status = status + "/" + resources.getString(R.string.synced);
-                }
-            }
-            holder.bindPoints(point, status);
+            holder.bindPoints(mPointsList.get(position));
         }
     }
 
@@ -66,10 +56,12 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.PointHolder>
             itemView.setOnClickListener(this);
         }
 
-        public void bindPoints(PointItem point, String status) {
+        public void bindPoints(PointItem point) {
             tvDeviceNumber.setText(point.deviceNumber);
             if(point.done) {
                 tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.document_created_text));
+            }else{
+                tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
             }
         }
 
