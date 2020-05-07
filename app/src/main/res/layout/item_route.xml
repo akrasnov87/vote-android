@@ -37,7 +37,7 @@
         android:id="@+id/itemRoute_tvRouteName"
         style="@style/TextViewMainText"
         android:layout_width="0dp"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="@+id/itemRoute_tvEndDate"
         app:layout_constraintStart_toEndOf="@+id/itemRoute_ivRouteProgress"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Название маршрута" />

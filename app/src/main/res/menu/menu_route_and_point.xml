@@ -18,6 +18,6 @@
         android:id="@+id/route_and_point_setFilters"
         android:icon="@drawable/ic_filter_off_24dp"
         android:title="@string/routes_sort"
-        app:showAsAction="ifRoom"/>
-
+        app:showAsAction="ifRoom">
+    </item>
 </menu>

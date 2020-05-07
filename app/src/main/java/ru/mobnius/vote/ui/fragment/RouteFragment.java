@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import ru.mobnius.vote.ui.activity.SynchronizationActivity;
 import ru.mobnius.vote.ui.data.RouteFilterManager;
 import ru.mobnius.vote.ui.data.RouteSortManager;
 import ru.mobnius.vote.ui.fragment.adapter.RouteAdapter;
+import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.RouteItem;
 
 
@@ -51,25 +53,39 @@ public class RouteFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        String serializedFilter = PreferencesManager.getInstance().getFilter(PreferencesManager.ROUTE_FILTER_PREFS);
-        String serializedSort = PreferencesManager.getInstance().getSort(PreferencesManager.ROUTE_SORT_PREFS);
-        RouteSortManager routeSortManager = new RouteSortManager(PreferencesManager.ROUTE_SORT_PREFS, serializedSort);
-        RouteFilterManager routeFilterManager = new RouteFilterManager(PreferencesManager.ROUTE_FILTER_PREFS, serializedFilter);
-        routeFilterManager.deSerialize(serializedFilter);
         List<RouteItem> routesList = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
         if (routesList.size() == 0) {
             btnSync.setVisibility(View.VISIBLE);
         } else {
             btnSync.setVisibility(View.GONE);
-            List<RouteItem> routesList1 = Arrays.asList(routeFilterManager.toFilters
-                    ((routesList).toArray(new RouteItem[0])));
-            List<RouteItem> list = Arrays.asList(routeSortManager.toSorters(routesList1.toArray(new RouteItem[0])));
-            mRecyclerView.setAdapter(new RouteAdapter(getContext(), list));
+            invalidateList();
         }
     }
 
     @Override
     public int getExceptionCode() {
         return IExceptionCode.ROUTES;
+    }
+
+    public void invalidateList() {
+        List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
+        if (!PreferencesManager.getInstance().isUndoneRoutes()) {
+            List<RouteItem> undoneRoutes = new ArrayList<>();
+            for (RouteItem route : routes) {
+                int done = DataManager.getInstance().getCountDonePoints(route.id);
+                int allPoints = DataManager.getInstance().getPointItems(route.id, PointFilter.ALL).size();
+                if (done != allPoints) {
+                    undoneRoutes.add(route);
+                }
+            }
+            PreferencesManager.getInstance().getSharedPreferences().edit().
+                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, true).apply();
+            mRecyclerView.setAdapter(new RouteAdapter(getContext(), undoneRoutes));
+        } else {
+            PreferencesManager.getInstance().getSharedPreferences().edit().
+                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, false).apply();
+            mRecyclerView.setAdapter(new RouteAdapter(getContext(), routes));
+        }
+
     }
 }

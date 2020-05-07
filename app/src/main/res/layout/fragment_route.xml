@@ -5,17 +5,12 @@
     android:layout_gravity="center"
     android:background="@color/main_background">
 
-    <TextView
-        android:id="@+id/fRoute_tvRoutesTitle"
-        android:layout_alignParentTop="true"
-        style="@style/TextViewMainTitle"
-        android:text="@string/house_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fRoute_rvRoutes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fRoute_tvRoutesTitle"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center" />
     <Button
         android:id="@+id/fRoute_btnSynchronization"

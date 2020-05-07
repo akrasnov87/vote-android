@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -21,17 +20,22 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.RouteFragment;
-import ru.mobnius.vote.utils.JsonUtil;
+import ru.mobnius.vote.ui.model.PointFilter;
+import ru.mobnius.vote.ui.model.RouteItem;
 
 public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
+    private RouteFragment mFragment;
 
     public MainActivity() {
         super(true);
@@ -39,7 +43,8 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
 
     @Override
     protected Fragment createFragment() {
-        return new RouteFragment();
+        mFragment = new RouteFragment();
+        return mFragment;
     }
 
 
@@ -68,7 +73,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Дома");
     }
 
     @Override
@@ -133,53 +138,24 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_route_and_point, menu);
-        MenuItem filterIcon = menu.findItem(R.id.route_and_point_setFilters);
-        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+        inflater.inflate(R.menu.menu_route, menu);
+        MenuItem filterIcon = menu.findItem(R.id.route_setFilters);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
+        boolean isFilter = PreferencesManager.getInstance().isUndoneRoutes();
 
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                RouteFragment fragment = new RouteFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-                return false;
-            }
-        });
-
-        MenuItem sortIcon = menu.findItem(R.id.route_and_point_setSort);
-        PreferencesManager manager = PreferencesManager.getInstance();
-        boolean isFilter = JsonUtil.isEmpty(manager.getFilter(PreferencesManager.ROUTE_FILTER_PREFS));
-
-        boolean isSort = JsonUtil.isEmpty(manager.getSort(PreferencesManager.ROUTE_SORT_PREFS));
-
-        filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
-        sortIcon.setIcon(getDrawable(isSort ? R.drawable.ic_sort_off_24dp : R.drawable.ic_sort_on_24dp));
+        filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_on_24dp:R.drawable.ic_filter_off_24dp ));
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.route_and_point_setFilters:
-                startActivity(FilterActivity.getIntent(this, FilterActivity.ROUTE_FILTER));
-                return true;
+            case R.id.route_setFilters:
+                boolean isFilter = PreferencesManager.getInstance().isUndoneRoutes();
 
-            case R.id.route_and_point_setSort:
-                startActivity(SortActivity.getIntent(this, SortActivity.ROUTE_SORT));
-                return true;
+                item.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp: R.drawable.ic_filter_on_24dp));
+               mFragment.invalidateList();
+               break;
         }
         return super.onOptionsItemSelected(item);
     }

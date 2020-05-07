@@ -43,6 +43,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(PIN);
     }
 
+    public boolean isUndoneRoutes() {
+        return getDefaultBooleanValue(ROUTE_FILTER_PREFS);
+    }
+
     /**
      * Устновка фильтра
      * @param key ключ
