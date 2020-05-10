@@ -11,13 +11,7 @@
     <item
         android:id="@+id/route_and_point_setSort"
         android:icon="@drawable/ic_sort_off_24dp"
-        android:title="@string/filters"
+        android:title="@string/routes_sort"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/route_and_point_setFilters"
-        android:icon="@drawable/ic_filter_off_24dp"
-        android:title="@string/routes_sort"
-        app:showAsAction="ifRoom">
-    </item>
 </menu>

@@ -15,16 +15,11 @@
         tools:progress="50"
         tools:visibility="visible"/>
 
-    <TextView
-        android:id="@+id/fPoint_tvPointsTitle"
-        style="@style/TextViewMainTitle"
-        android:layout_below="@id/fPoint_pbRoutesProgress"
-        android:text="@string/all_points" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fPoint_rvPoints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fPoint_tvPointsTitle" />
+        android:layout_below="@id/fPoint_pbRoutesProgress" />
 
 </RelativeLayout>

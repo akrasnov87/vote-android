@@ -43,8 +43,11 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(PIN);
     }
 
-    public boolean isUndoneRoutes() {
+    public boolean isFilter() {
         return getDefaultBooleanValue(ROUTE_FILTER_PREFS);
+    }
+    public boolean isSort() {
+        return getDefaultBooleanValue(POINT_SORT_PREFS);
     }
 
     /**

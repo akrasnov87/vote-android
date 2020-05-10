@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ru.mobnius.vote.R;
@@ -22,8 +21,6 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.SynchronizationActivity;
-import ru.mobnius.vote.ui.data.RouteFilterManager;
-import ru.mobnius.vote.ui.data.RouteSortManager;
 import ru.mobnius.vote.ui.fragment.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.RouteItem;
@@ -58,7 +55,7 @@ public class RouteFragment extends BaseFragment {
             btnSync.setVisibility(View.VISIBLE);
         } else {
             btnSync.setVisibility(View.GONE);
-            invalidateList();
+            invalidateList(PreferencesManager.getInstance().isFilter());
         }
     }
 
@@ -67,9 +64,20 @@ public class RouteFragment extends BaseFragment {
         return IExceptionCode.ROUTES;
     }
 
-    public void invalidateList() {
+
+    public void changePrefs(boolean isFilter) {
+        if (isFilter) {
+            PreferencesManager.getInstance().getSharedPreferences().edit().
+                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, false).apply();
+        } else {
+            PreferencesManager.getInstance().getSharedPreferences().edit().
+                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, true).apply();
+        }
+    }
+
+    public void invalidateList(boolean isDone) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
-        if (!PreferencesManager.getInstance().isUndoneRoutes()) {
+        if (isDone) {
             List<RouteItem> undoneRoutes = new ArrayList<>();
             for (RouteItem route : routes) {
                 int done = DataManager.getInstance().getCountDonePoints(route.id);
@@ -78,13 +86,10 @@ public class RouteFragment extends BaseFragment {
                     undoneRoutes.add(route);
                 }
             }
-            PreferencesManager.getInstance().getSharedPreferences().edit().
-                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, true).apply();
             mRecyclerView.setAdapter(new RouteAdapter(getContext(), undoneRoutes));
         } else {
-            PreferencesManager.getInstance().getSharedPreferences().edit().
-                    putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, false).apply();
             mRecyclerView.setAdapter(new RouteAdapter(getContext(), routes));
+
         }
 
     }

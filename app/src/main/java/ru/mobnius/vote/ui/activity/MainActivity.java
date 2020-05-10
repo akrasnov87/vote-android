@@ -20,18 +20,13 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.RouteFragment;
-import ru.mobnius.vote.ui.model.PointFilter;
-import ru.mobnius.vote.ui.model.RouteItem;
 
 public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
@@ -80,7 +75,6 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
     protected void onResume() {
         super.onResume();
         invalidateOptionsMenu();
-
     }
 
     @Override
@@ -140,22 +134,18 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_route, menu);
         MenuItem filterIcon = menu.findItem(R.id.route_setFilters);
-
-        boolean isFilter = PreferencesManager.getInstance().isUndoneRoutes();
-
-        filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_on_24dp:R.drawable.ic_filter_off_24dp ));
+        boolean isFilter  = PreferencesManager.getInstance().isFilter();
+        filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp  ));
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.route_setFilters:
-                boolean isFilter = PreferencesManager.getInstance().isUndoneRoutes();
-
-                item.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp: R.drawable.ic_filter_on_24dp));
-               mFragment.invalidateList();
-               break;
+        if (item.getItemId() == R.id.route_setFilters) {
+            boolean isFilter = PreferencesManager.getInstance().isFilter();
+            mFragment.invalidateList(isFilter);
+            item.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
+            mFragment.changePrefs(isFilter);
         }
         return super.onOptionsItemSelected(item);
     }

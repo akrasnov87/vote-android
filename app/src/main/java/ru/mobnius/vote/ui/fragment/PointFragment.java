@@ -57,7 +57,6 @@ public class PointFragment extends BaseFragment implements SearchView.OnQueryTex
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_point, container, false);
         mProgressBar = view.findViewById(R.id.fPoint_pbRoutesProgress);
-        tvTitle = view.findViewById(R.id.fPoint_tvPointsTitle);
         mRecyclerView = view.findViewById(R.id.fPoint_rvPoints);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
