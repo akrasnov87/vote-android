@@ -50,8 +50,8 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfe
 import ru.mobnius.vote.ui.fragment.template.SynchronizationPartFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
-
-public class SynchronizationFragment extends BaseFragment implements View.OnClickListener {
+public class SynchronizationFragment extends
+        BaseFragment implements View.OnClickListener {
 
     private Button btnStart;
     private Button btnCancel;
@@ -337,5 +337,4 @@ public class SynchronizationFragment extends BaseFragment implements View.OnClic
         messageBox.setTextColor(color);
         messageBox.setTextSize(26);
     }
-
 }

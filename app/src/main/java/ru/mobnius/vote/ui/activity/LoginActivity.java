@@ -91,4 +91,16 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
             onNetworkChange(online, aBoolean);
         }
     }
+
+    /**
+     * Получение обработчика изменения сети
+     * @return обработчик
+     */
+    public MobniusApplication getNetworkChangeListener() {
+        if(getApplication() instanceof INetworkChange){
+            return (MobniusApplication) getApplication();
+        }
+
+        return null;
+    }
 }

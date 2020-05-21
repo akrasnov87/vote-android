@@ -3,6 +3,7 @@ package ru.mobnius.vote.data.manager;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,8 +17,25 @@ import ru.mobnius.vote.R;
  */
 public abstract class BaseActivity extends ExceptionInterceptActivity {
 
+    private boolean doubleBackToExitPressedOnce = false;
+    private boolean mIsBackToExist;
+
+    public void setBackToExist(boolean backToExist) {
+        mIsBackToExist = backToExist;
+    }
+
     private final int REQUEST_PERMISSIONS = 1;
     private int mPermissionLength = 0;
+
+    public BaseActivity() {
+        super();
+        mIsBackToExist = false;
+    }
+
+    public BaseActivity(boolean isBackToExist) {
+        super();
+        mIsBackToExist = isBackToExist;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,5 +83,38 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
                 Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isBackToExist()) {
+            if (doubleBackToExitPressedOnce) {
+                finishAffinity();
+                finish();
+                super.onBackPressed();
+                return;
+            }
+            doubleBackToExitPressedOnce = true;
+
+            Toast.makeText(this, getString(R.string.signOutMessage), Toast.LENGTH_LONG).show();
+
+            int TOAST_DURATION = 2750;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, TOAST_DURATION);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public DataManager getDataManager() {
+        return DataManager.getInstance();
+    }
+
+    private boolean isBackToExist() {
+        return mIsBackToExist;
     }
 }

@@ -28,7 +28,9 @@ import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.RouteFragment;
 
-public class MainActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends SingleFragmentActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
     private DrawerLayout mDrawerLayout;
     private RouteFragment mFragment;
 
@@ -92,8 +94,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
                 break;
 
             case R.id.navigationDrawerSettings:
-                intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
+                startActivity(SettingActivity.getIntent(this));
                 break;
 
             case R.id.navigationDrawerExit:

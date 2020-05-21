@@ -78,5 +78,5 @@ static def getRelease() {
 }
 
 static def getVersion() {
-    return "4." + startOfDay() + "." + getRelease() + "." + minuteOfDay()
+    return "1." + startOfDay() + "." + getRelease() + "." + minuteOfDay()
 }
