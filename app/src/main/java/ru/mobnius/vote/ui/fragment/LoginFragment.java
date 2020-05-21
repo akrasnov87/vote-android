@@ -38,11 +38,10 @@ import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.activity.MainActivity;
+import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
-import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
 import ru.mobnius.vote.utils.UiUtil;
 import ru.mobnius.vote.utils.VersionUtil;
@@ -205,7 +204,7 @@ public class LoginFragment extends BaseFragment
     private void onAuthorized() {
         getApplication().onAuthorized();
 
-        Intent intent = new Intent(getContext(), MainActivity.class);
+        Intent intent = new Intent(getContext(), RouteListActivity.class);
         startActivity(intent);
         Objects.requireNonNull(getActivity()).finish();
     }

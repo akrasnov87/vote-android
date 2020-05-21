@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.adapter;
+package ru.mobnius.vote.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
+import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 
 public class VoteButtonAdapter extends RecyclerView.Adapter<VoteButtonHolder> {
 
     private Context mContext;
-    private onClickVoteItemListener mListener;
+    private OnClickVoteItemListener mListener;
     private Answer[] mAnswers;
     private long mExclusionAnswerID;
 
@@ -23,8 +23,8 @@ public class VoteButtonAdapter extends RecyclerView.Adapter<VoteButtonHolder> {
         mContext = context;
         mAnswers = answers;
         mExclusionAnswerID = exclusionAnswerID;
-        if(context instanceof onClickVoteItemListener) {
-            mListener = (onClickVoteItemListener) context;
+        if(context instanceof OnClickVoteItemListener) {
+            mListener = (OnClickVoteItemListener) context;
         }
     }
 

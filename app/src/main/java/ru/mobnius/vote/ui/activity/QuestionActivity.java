@@ -29,15 +29,15 @@ import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.tools.CommentDialogFragment;
 import ru.mobnius.vote.ui.fragment.tools.ContactDialogFragment;
-import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;
-import ru.mobnius.vote.ui.fragment.data.OnQuestionListener;
-import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
+import ru.mobnius.vote.ui.data.OnAnswerListener;
+import ru.mobnius.vote.ui.data.OnQuestionListener;
+import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
-import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
-import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
+import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
+import ru.mobnius.vote.ui.BaseFormActivity;
 
 public class QuestionActivity extends BaseFormActivity
-        implements OnVoteListener, onClickVoteItemListener, OnAnswerListener {
+        implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
 
     public static String TAG = "QUESTIONS";
     private Menu actionMenu;
@@ -97,8 +97,8 @@ public class QuestionActivity extends BaseFormActivity
                 return true;
 
             case R.id.choiceDocument_Info:
-                startActivityForResult(AppartamentInfoActivity.newIntent(this, pointID),
-                        AppartamentInfoActivity.POINT_INFO_CODE);
+                startActivityForResult(PointInfoActivity.newIntent(this, pointID),
+                        PointInfoActivity.POINT_INFO_CODE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -286,7 +286,7 @@ public class QuestionActivity extends BaseFormActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == AppartamentInfoActivity.POINT_INFO_CODE && resultCode == RESULT_OK) {
+        if(requestCode == PointInfoActivity.POINT_INFO_CODE && resultCode == RESULT_OK) {
             mVoteManager.clear();
         }
     }

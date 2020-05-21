@@ -75,6 +75,8 @@ public class Routes {
 
     public String dx_created;
 
+    public int n_count;
+
     public int n_order;
 
     /** Used to resolve relations */
@@ -85,11 +87,11 @@ public class Routes {
     @Generated(hash = 415398192)
     private transient RoutesDao myDao;
 
-    @Generated(hash = 1817654290)
+    @Generated(hash = 393336380)
     public Routes(String c_notice, String c_number, String d_date,
             String d_date_end, String d_date_start, boolean b_extended,
             String d_extended, long f_type, String id, String jb_data,
-            String dx_created, int n_order) {
+            String dx_created, int n_count, int n_order) {
         this.c_notice = c_notice;
         this.c_number = c_number;
         this.d_date = d_date;
@@ -101,6 +103,7 @@ public class Routes {
         this.id = id;
         this.jb_data = jb_data;
         this.dx_created = dx_created;
+        this.n_count = n_count;
         this.n_order = n_order;
     }
 
@@ -194,6 +197,14 @@ public class Routes {
 
     public void setDx_created(String dx_created) {
         this.dx_created = dx_created;
+    }
+
+    public int getN_count() {
+        return this.n_count;
+    }
+
+    public void setN_count(int n_count) {
+        this.n_count = n_count;
     }
 
     public int getN_order() {

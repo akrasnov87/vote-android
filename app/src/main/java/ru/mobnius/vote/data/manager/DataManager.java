@@ -177,6 +177,7 @@ public class DataManager {
                     RouteTypes routeType = route.getType();
                     routeItem.typeId = route.f_type;
                     routeItem.typeName = routeType.c_name;
+                    routeItem.count = route.n_count;
 
                     List<RouteHistory> histories = daoSession.getRouteHistoryDao().queryBuilder()
                             .where(RouteHistoryDao.Properties.Fn_route.eq(route.id)).list();
@@ -377,6 +378,7 @@ public class DataManager {
         if(route != null) {
             try {
                 RouteInfo routeInfo = new RouteInfo();
+                routeInfo.setCount(route.n_count);
                 routeInfo.setNotice(route.c_notice);
                 routeInfo.setDateEnd(DateUtil.convertStringToDate(route.d_date_end));
                 routeInfo.setDateStart(DateUtil.convertStringToDate(route.d_date_start));

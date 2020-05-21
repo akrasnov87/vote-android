@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.adapter;
+package ru.mobnius.vote.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
+import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 
 /**
  * кнопка с вариантом ответа
@@ -18,10 +18,10 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder implements View.On
 
     private Button mButton;
     private Answer[] mAnswers;
-    private onClickVoteItemListener mListener;
+    private OnClickVoteItemListener mListener;
     private long mExclusionAnswerID;
 
-    public VoteButtonHolder(@NonNull View itemView, Answer[] answers, onClickVoteItemListener listener, long exclusionAnswerID) {
+    public VoteButtonHolder(@NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID) {
         super(itemView);
 
         mExclusionAnswerID = exclusionAnswerID;

@@ -8,11 +8,9 @@ import java.util.List;
 public class PreferencesManager extends AbstractPreferencesManager {
 
     // фильтр
-    public static final String POINT_FILTER_PREFS = "POINT_FILTER_PREFS";
     public static final String ROUTE_FILTER_PREFS = "ROUTE_FILTER_PREFS";
 
     // сортировка
-    public static final String ROUTE_SORT_PREFS = "ROUTE_SORT_PREFS";
     public static final String POINT_SORT_PREFS = "POINT_SORT_PREFS";
 
     public final static boolean ZIP_CONTENT = true;
@@ -43,53 +41,27 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(PIN);
     }
 
-    public boolean isFilter() {
+    public boolean getFilter() {
         return getDefaultBooleanValue(ROUTE_FILTER_PREFS);
     }
-    public boolean isSort() {
+
+    public boolean getSort() {
         return getDefaultBooleanValue(POINT_SORT_PREFS);
     }
 
     /**
      * Устновка фильтра
-     * @param key ключ
-     * @param serialize строка
+     * @param value значение
      */
-    public void setFilter(String key, String serialize) {
-        List<ConfigurationSetting> configurationSettings = new ArrayList<>();
-        configurationSettings.add(new ConfigurationSetting(key, serialize, ConfigurationSetting.TEXT));
-
-        updateSettings(configurationSettings);
-    }
-
-    /**
-     * Получение фильтра
-     * @param key ключ фильтра
-     * @return настройки фильтра
-     */
-    public String getFilter(String key) {
-        return getStringValue(key,"{}");
+    public void setFilter(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, value).apply();
     }
 
     /**
      * Установка сортировки
-     * @param key ключ
-     * @param serialize строка
+     * @param value значение
      */
-    public void setSort(String key, String serialize) {
-        List<ConfigurationSetting> configurationSettings = new ArrayList<>();
-        configurationSettings.add(new ConfigurationSetting(key, serialize, ConfigurationSetting.TEXT));
-
-        updateSettings(configurationSettings);
+    public void setSort(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.POINT_SORT_PREFS, value).apply();
     }
-
-    /**
-     * Получение сортировки
-     * @param key ключ сортировки
-     * @return настройки сортировки
-     */
-    public String getSort(String key) {
-        return getStringValue(key,"{}");
-    }
-
 }

@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment;
 
 
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;
+import ru.mobnius.vote.ui.data.OnAnswerListener;
 
 public abstract class AnswerFragmentDialog<T> extends DialogFragment {
     private OnAnswerListener mAnswerListener;

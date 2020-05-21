@@ -1,5 +1,8 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.fragment.app.Fragment;
 
 
@@ -12,6 +15,11 @@ import ru.mobnius.vote.utils.NetworkUtil;
 
 
 public class LoginActivity extends SingleFragmentActivity {
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+    }
+
     private LoginFragment mLoginFragment;
 
     public LoginActivity() {

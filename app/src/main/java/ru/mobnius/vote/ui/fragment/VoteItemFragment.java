@@ -16,8 +16,8 @@ import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Question;
-import ru.mobnius.vote.ui.fragment.adapter.VoteButtonAdapter;
-import ru.mobnius.vote.ui.fragment.data.OnQuestionListener;
+import ru.mobnius.vote.ui.adapter.VoteButtonAdapter;
+import ru.mobnius.vote.ui.data.OnQuestionListener;
 
 public class VoteItemFragment extends BaseFragment
         implements OnQuestionListener {

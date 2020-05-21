@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.data;
+package ru.mobnius.vote.ui.data;
 
 import ru.mobnius.vote.data.storage.models.Answer;
 

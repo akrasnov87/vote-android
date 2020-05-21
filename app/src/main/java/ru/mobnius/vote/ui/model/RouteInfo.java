@@ -31,6 +31,8 @@ public class RouteInfo {
      */
     private Date mDateExtended;
 
+    private int mCount;
+
     /**
      * История изменения статуса
      */
@@ -104,5 +106,13 @@ public class RouteInfo {
         });
 
         return mHistories.toArray(new RouteInfoHistory[0]);
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    public void setCount(int count) {
+        mCount = count;
     }
 }

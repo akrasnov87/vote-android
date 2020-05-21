@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.form;
+package ru.mobnius.vote.ui;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
@@ -12,7 +12,8 @@ import java.util.Date;
 import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.ui.activity.SingleFragmentActivity;
 
-public abstract class BaseFormActivity extends SingleFragmentActivity implements GeoManager.GeoListener {
+public abstract class BaseFormActivity extends SingleFragmentActivity
+        implements GeoManager.GeoListener {
     private GeoManager mGeoManager;
 
     private final static String LATITUDE = "latitude";

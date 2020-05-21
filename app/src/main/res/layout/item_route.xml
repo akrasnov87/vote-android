@@ -4,25 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/size_xxxs_4"
-    android:paddingBottom="@dimen/size_s_24">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/separate_line_1"
-        android:layout_marginStart="@dimen/size_xs_16"
-        android:layout_marginEnd="@dimen/size_xs_16"
-        android:background="@color/disabled_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:paddingBottom="8dp">
 
     <ProgressBar
-
-        android:id="@+id/itemRoute_ivRouteProgress"
+        android:id="@+id/item_route_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/size_xs_16"
         android:layout_marginTop="@dimen/size_xs_16"
         android:indeterminate="false"
@@ -34,34 +22,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/itemRoute_tvRouteName"
+        android:id="@+id/item_route_name"
         style="@style/TextViewMainText"
         android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/itemRoute_tvEndDate"
-        app:layout_constraintStart_toEndOf="@+id/itemRoute_ivRouteProgress"
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_route_progress"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Название маршрута" />
 
     <TextView
-        android:id="@+id/itemRoute_tvType"
+        android:id="@+id/item_route_type"
         style="@style/TextViewLabelText"
-        app:layout_constraintStart_toEndOf="@id/itemRoute_ivRouteProgress"
-        app:layout_constraintTop_toBottomOf="@id/itemRoute_tvRouteName"
+        app:layout_constraintStart_toEndOf="@id/item_route_progress"
+        app:layout_constraintTop_toBottomOf="@id/item_route_name"
         tools:text="Лейбл маршрута" />
 
     <TextView
-        android:id="@+id/itemRoute_tvPointsCount"
+        android:id="@+id/item_route_point_count"
         style="@style/TextViewLabelText"
-        app:layout_constraintStart_toEndOf="@id/itemRoute_ivRouteProgress"
-        app:layout_constraintTop_toBottomOf="@id/itemRoute_tvType"
+        app:layout_constraintStart_toEndOf="@id/item_route_progress"
+        app:layout_constraintTop_toBottomOf="@id/item_route_type"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="количество заданий" />
 
     <TextView
-        android:id="@+id/itemRoute_tvEndDate"
+        android:id="@+id/item_route_date"
         style="@style/TextViewLabelText"
         android:layout_marginEnd="@dimen/size_xxs_8"
-        app:layout_constraintStart_toEndOf="@id/itemRoute_tvPointsCount"
-        app:layout_constraintTop_toBottomOf="@id/itemRoute_tvType"
-        tools:text="До 12.02.2021" />
+        android:layout_width="0dp"
+        app:layout_constraintStart_toEndOf="@id/item_route_point_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="end"
+        tools:text="До 12.02.2021"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

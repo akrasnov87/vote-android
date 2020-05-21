@@ -1,4 +1,4 @@
-package ru.mobnius.vote.ui.fragment.data;
+package ru.mobnius.vote.ui.data;
 
 /**
  * Фрагмент для вывода вопроса

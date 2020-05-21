@@ -15,7 +15,7 @@ import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.PointTypes;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.UserPoints;
-import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
+import ru.mobnius.vote.ui.data.OnVoteListener;
 
 import static org.junit.Assert.*;
 

@@ -25,7 +25,7 @@ import ru.mobnius.vote.ui.model.PointInfo;
 /**
  * Экран вывода информации о точке
  */
-public class AppartamentInfoActivity extends BaseActivity
+public class PointInfoActivity extends BaseActivity
         implements View.OnClickListener {
 
     public static final int POINT_INFO_CODE = 1;
@@ -37,7 +37,7 @@ public class AppartamentInfoActivity extends BaseActivity
     private TextFieldView tfvAddress;
 
     public static Intent newIntent(Context context, String id) {
-        Intent intent = new Intent(context, AppartamentInfoActivity.class);
+        Intent intent = new Intent(context, PointInfoActivity.class);
         intent.putExtra(Names.POINT_ID, id);
         return intent;
     }

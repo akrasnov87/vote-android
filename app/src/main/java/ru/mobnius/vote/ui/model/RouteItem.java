@@ -57,8 +57,8 @@ public class RouteItem {
      * Сортировка
      */
     public int order;
-
-    public boolean isContains() {
-        return DataManager.getInstance().isWait(id);
-    }
+    /**
+     * кол-во заданий
+     */
+    public int count;
 }

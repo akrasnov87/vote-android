@@ -12,10 +12,8 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.PointTypes;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.Results;
-import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.UserPoints;
-import ru.mobnius.vote.data.storage.models.UserPointsDao;
-import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
+import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.StringUtil;
 

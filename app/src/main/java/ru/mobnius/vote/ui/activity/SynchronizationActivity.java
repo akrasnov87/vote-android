@@ -1,5 +1,7 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -41,7 +43,12 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfe
 import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
-public class SynchronizationActivity extends BaseActivity implements View.OnClickListener {
+public class SynchronizationActivity extends BaseActivity
+        implements View.OnClickListener {
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, SynchronizationActivity.class);
+    }
 
     /**
      * хранилище фрагментов транспортировки

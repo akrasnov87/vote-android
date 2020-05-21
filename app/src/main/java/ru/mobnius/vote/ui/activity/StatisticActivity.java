@@ -1,5 +1,7 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,6 +19,11 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
  * Статистика
  */
 public class StatisticActivity extends BaseActivity {
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, StatisticActivity.class);
+    }
+
     private TextView tvAppartamentCount;
     private TextView tvAppartamentOpen;
     private TextView tvSignatureCount;

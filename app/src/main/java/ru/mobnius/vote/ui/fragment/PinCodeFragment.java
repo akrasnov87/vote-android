@@ -32,7 +32,7 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
-import ru.mobnius.vote.ui.activity.MainActivity;
+import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
@@ -248,7 +248,7 @@ public class PinCodeFragment extends BaseFragment
             }
         }
         getApplication().onAuthorized();
-        Intent intent = new Intent(getContext(), MainActivity.class);
+        Intent intent = new Intent(getContext(), RouteListActivity.class);
         startActivity(intent);
         Objects.requireNonNull(getActivity()).finish();
     }

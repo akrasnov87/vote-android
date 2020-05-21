@@ -1,0 +1,71 @@
+package ru.mobnius.vote.ui.adapter.holder;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.ui.activity.PointListActivity;
+import ru.mobnius.vote.ui.model.PointFilter;
+import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.ui.model.RouteInfo;
+import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.DateUtil;
+
+public class RouteHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
+
+    private TextView tvRouteName;
+    private TextView tvType;
+    private TextView tvPointCount;
+    private TextView tvEndDate;
+    private ProgressBar mProgress;
+
+    private Context mContext;
+
+    private RouteItem mRouteItem;
+
+    public RouteHolder(Context context, @NonNull View itemView) {
+        super(itemView);
+        mContext = context;
+        tvRouteName = itemView.findViewById(R.id.item_route_name);
+        tvType = itemView.findViewById(R.id.item_route_type);
+        tvPointCount = itemView.findViewById(R.id.item_route_point_count);
+        tvEndDate = itemView.findViewById(R.id.item_route_date);
+        mProgress = itemView.findViewById(R.id.item_route_progress);
+
+        itemView.setOnClickListener(this);
+    }
+
+    public void bindRoute(RouteItem routeItem) {
+        mRouteItem = routeItem;
+
+        tvRouteName.setText(routeItem.number);
+        tvType.setText(routeItem.typeName);
+
+        RouteInfo info = DataManager.getInstance().getRouteInfo(routeItem.id);
+        String endDate = "До " + DateUtil.convertDateToUserString(info.getDateEnd(), DateUtil.USER_SHORT_FORMAT);
+        tvEndDate.setText(endDate);
+
+        List<PointItem> doneList = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.DONE);
+
+        int allPoints = routeItem.count;
+        int donePoints = doneList.size();
+        mProgress.setMax(allPoints);
+        mProgress.setProgress(donePoints);
+        String pointCount = mContext.getResources().getQuantityString(R.plurals.plurals_routes, allPoints, allPoints);
+        tvPointCount.setText(pointCount);
+    }
+
+    @Override
+    public void onClick(View v) {
+        mContext.startActivity(PointListActivity.newIntent(mContext, mRouteItem.id));
+    }
+}

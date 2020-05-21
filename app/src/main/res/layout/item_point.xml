@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:padding="@dimen/size_xs_16"
     android:background="@drawable/card_background"
-    android:layout_margin="@dimen/size_xxxs_4"
-    android:elevation="@dimen/size_xxxs_4">
-
+    android:layout_margin="@dimen/size_xxxs_4">
 
     <TextView
         android:id="@+id/itemPoint_tvDeviceNumber"
