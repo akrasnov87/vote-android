@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true">
 
     <TextView
-        android:id="@+id/fSynchronization_tvNetworkError"
+        android:id="@+id/sync_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorFail"
@@ -15,31 +15,33 @@
         android:text="@string/network_error"
         android:textColor="@color/contentColor"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/fSynchronization_llProgress"
+        android:id="@+id/sync_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fSynchronization_tvNetworkError" />
+        app:layout_constraintTop_toBottomOf="@id/sync_error" />
 
     <TextView
-        android:id="@+id/fSynchronization_tvLogs"
+        android:id="@+id/sync_logs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/fSynchronization_btnStart"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/sync_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fSynchronization_llProgress"
+        app:layout_constraintTop_toBottomOf="@id/sync_progress"
         app:layout_constraintVertical_weight="1"
-        tools:text="Текст" />
+        tools:text="Лог сообщений" />
 
     <Button
-        android:id="@+id/fSynchronization_btnStart"
+        android:id="@+id/sync_start"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,12 +50,13 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/fSynchronization_btnCancel"
+        android:id="@+id/sync_stop"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

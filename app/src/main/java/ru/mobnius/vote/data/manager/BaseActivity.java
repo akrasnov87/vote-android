@@ -1,6 +1,7 @@
 package ru.mobnius.vote.data.manager;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -116,5 +117,11 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     private boolean isBackToExist() {
         return mIsBackToExist;
+    }
+
+    protected void alert(String message) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", null).show();
     }
 }
