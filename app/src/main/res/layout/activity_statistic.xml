@@ -5,24 +5,24 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fStatistic_tvAppTotal"
+        android:id="@+id/statistic_appartament_count"
         style="@style/TextViewMainText"
         android:text="@string/apartment_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fStatistic_tvOpenApp"
+        android:id="@+id/statistic_appartament_open"
         style="@style/TextViewMainText"
         android:text="@string/apartment_open"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fStatistic_tvAppTotal" />
+        app:layout_constraintTop_toBottomOf="@id/statistic_appartament_count" />
 
     <TextView
-        android:id="@+id/fStatistic_tvSignsTotal"
+        android:id="@+id/statistic_signature_count"
         style="@style/TextViewMainText"
         android:text="@string/signs_received"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fStatistic_tvOpenApp" />
+        app:layout_constraintTop_toBottomOf="@id/statistic_appartament_open" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
