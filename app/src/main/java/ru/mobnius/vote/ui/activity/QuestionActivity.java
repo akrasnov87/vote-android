@@ -25,13 +25,12 @@ import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.tools.CommentDialogFragment;
 import ru.mobnius.vote.ui.fragment.tools.ContactDialogFragment;
 import ru.mobnius.vote.ui.fragment.data.OnAnswerListener;
-import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
+import ru.mobnius.vote.ui.fragment.data.OnQuestionListener;
 import ru.mobnius.vote.ui.fragment.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.fragment.data.onClickVoteItemListener;
@@ -39,7 +38,7 @@ import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, onClickVoteItemListener, OnAnswerListener {
-    public static String TAG = "METER_READINGS";
+    public static String TAG = "QUESTIONS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
     private DocumentManager mDocumentManager;
@@ -97,7 +96,8 @@ public class QuestionActivity extends BaseFormActivity
                 return true;
 
             case R.id.choiceDocument_Info:
-                startActivityForResult(PointInfoActivity.newIntent(this, pointID), PointInfoActivity.POINT_INFO_CODE);
+                startActivityForResult(PointInfoActivity.newIntent(this, pointID),
+                        PointInfoActivity.POINT_INFO_CODE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -232,8 +232,8 @@ public class QuestionActivity extends BaseFormActivity
         finish();
     }
 
-    private onQuestionListener getLastQuestionListener() {
-        return (onQuestionListener) getSupportFragmentManager().findFragmentById(R.id.single_fragment_container);
+    private OnQuestionListener getLastQuestionListener() {
+        return (OnQuestionListener) getSupportFragmentManager().findFragmentById(R.id.single_fragment_container);
     }
 
     /**

@@ -7,15 +7,14 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/fAuthorization_pbLoading"
+        android:id="@+id/auth_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray"
-        android:indeterminateTint="@color/over_due"
-        android:elevation="@dimen/size_s_24"
         android:visibility="gone" />
+
     <TextView
-        android:id="@+id/fAuthorization_tvNoInternet"
+        android:id="@+id/auth_no_internet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_internet"
@@ -27,12 +26,13 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:padding="@dimen/size_xxs_8"/>
+
     <TextView
-        android:id="@+id/fAuthorization_tvNoServer"
+        android:id="@+id/auth_no_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_server_connection"
-        android:layout_below="@id/fAuthorization_tvNoInternet"
+        android:layout_below="@id/auth_no_internet"
         android:background="@color/colorFail"
         android:layout_margin="@dimen/size_xxs_8"
         android:visibility="gone"
@@ -40,30 +40,26 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:padding="@dimen/size_xxs_8"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/fAuthorization_flBottom"
-        android:layout_below="@id/fAuthorization_tvNoServer"
-        >
+        android:layout_above="@id/auth_bottom"
+        android:layout_below="@id/auth_no_server">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-        style="@style/Theme.AppCompat.NoActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/size_s_24"
-        android:layout_gravity="center"
-        android:layout_marginRight="@dimen/size_s_24">
-
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_s_24"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/size_s_24">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fAuthorization_tilLogin"
+            android:id="@+id/auth_login_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@id/fAuthorization_tilPassword"
+            app:layout_constraintBottom_toTopOf="@id/auth_password_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -72,7 +68,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/fAuthorization_etLogin"
+                    android:id="@+id/auth_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -83,15 +79,15 @@
                     tools:ignore="Autofill" />
 
                 <ImageButton
-                    android:id="@+id/fAuthorization_ibClearLogin"
+                    android:id="@+id/auth_login_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/fAuthorization_etLogin"
+                    android:layout_alignBottom="@id/auth_login"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="5dp"
                     android:background="@null"
-                    android:src="@drawable/ic_clear_text_24dp"
+                    app:srcCompat="@drawable/ic_clear_text_24dp"
                     android:visibility="gone"
                     android:contentDescription="@string/clear" />
 
@@ -100,7 +96,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fAuthorization_tilPassword"
+            android:id="@+id/auth_password_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
@@ -113,7 +109,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/fAuthorization_etPassword"
+                    android:id="@+id/auth_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
@@ -125,26 +121,26 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/fAuthorization_etPassword"
+                    android:layout_alignBottom="@id/auth_password"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/fAuthorization_ibShowPassword"
+                        android:id="@+id/auth_password_show"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:src="@drawable/ic_visibility_outlined_24dp"
+                        app:srcCompat="@drawable/ic_visibility_outlined_24dp"
                         android:visibility="gone"
                         android:contentDescription="@string/show_password" />
 
                     <ImageButton
-                        android:id="@+id/fAuthorization_ibClearPassword"
+                        android:id="@+id/auth_password_clear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:src="@drawable/ic_clear_text_24dp"
+                        app:srcCompat="@drawable/ic_clear_text_24dp"
                         android:visibility="gone"
                         android:contentDescription="@string/clear" />
                 </LinearLayout>
@@ -152,7 +148,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/fAuthorization_btnSignIn"
+            android:id="@+id/auth_sign_in"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,21 +158,23 @@
             android:textSize="22sp"
             android:padding="@dimen/size_s_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fAuthorization_tilPassword" />
+            app:layout_constraintTop_toBottomOf="@id/auth_password_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/fAuthorization_flBottom"
+        android:id="@+id/auth_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/size_xxs_8"
         android:layout_marginBottom="@dimen/size_xxs_8">
+
         <TextView
-            android:id="@+id/fAuthorization_tvBackToPin"
+            android:id="@+id/auth_pin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -184,11 +182,10 @@
             android:focusable="true"
             android:text="@string/back_to_pin"
             android:drawableStart="@drawable/ic_arrow_back_dark_24dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <TextView
-            android:id="@+id/fAuthorization_tvVersion"
+            android:id="@+id/auth_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -196,6 +193,7 @@
             android:clickable="true"
             android:focusable="true"
             tools:text="Версия: 4.2.0.520" />
+
     </FrameLayout>
 
 </RelativeLayout>

@@ -31,7 +31,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
-import ru.mobnius.vote.data.manager.INetworkChange;
+import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
 
@@ -46,7 +46,7 @@ import ru.mobnius.vote.utils.NetworkUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener, INetworkChange {
+public class LoginFragment extends BaseFragment implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener, OnNetworkChangeListener {
     private final String LOGIN = "login";
     private final String PASSWORD = "password";
 
@@ -112,25 +112,25 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_authorization, container, false);
+        View v = inflater.inflate(R.layout.activity_authorization, container, false);
 
-        etLogin = v.findViewById(R.id.fAuthorization_etLogin);
-        tilLogin = v.findViewById(R.id.fAuthorization_tilLogin);
-        etPassword = v.findViewById(R.id.fAuthorization_etPassword);
-        tilPassword = v.findViewById(R.id.fAuthorization_tilPassword);
-        tvNetwork = v.findViewById(R.id.fAuthorization_tvNoInternet);
-        tvServer = v.findViewById(R.id.fAuthorization_tvNoServer);
+        etLogin = v.findViewById(R.id.auth_login);
+        tilLogin = v.findViewById(R.id.auth_login_view);
+        etPassword = v.findViewById(R.id.auth_password);
+        tilPassword = v.findViewById(R.id.auth_password_view);
+        tvNetwork = v.findViewById(R.id.auth_no_internet);
+        tvServer = v.findViewById(R.id.auth_no_server);
 
-        ibLoginClear = v.findViewById(R.id.fAuthorization_ibClearLogin);
-        ibPasswordClear = v.findViewById(R.id.fAuthorization_ibClearPassword);
-        ibShowPassword = v.findViewById(R.id.fAuthorization_ibShowPassword);
-        btnSignIn = v.findViewById(R.id.fAuthorization_btnSignIn);
+        ibLoginClear = v.findViewById(R.id.auth_login_clear);
+        ibPasswordClear = v.findViewById(R.id.auth_password_clear);
+        ibShowPassword = v.findViewById(R.id.auth_password_show);
+        btnSignIn = v.findViewById(R.id.auth_sign_in);
 
-        TextView tvVersion = v.findViewById(R.id.fAuthorization_tvVersion);
+        TextView tvVersion = v.findViewById(R.id.auth_version);
         tvVersion.setText(getString(R.string.versionShort, getVersion()));
-        TextView tvBackToPin = v.findViewById(R.id.fAuthorization_tvBackToPin);
+        TextView tvBackToPin = v.findViewById(R.id.auth_pin);
         mLoginViewModel.setModel(LoginModel.getInstance(login, password, getVersion()));
-        mProgressBar = v.findViewById(R.id.fAuthorization_pbLoading);
+        mProgressBar = v.findViewById(R.id.auth_progress);
 
         etLogin.addTextChangedListener(this);
         etPassword.addTextChangedListener(this);
@@ -303,19 +303,19 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fAuthorization_tvVersion:
+            case R.id.auth_version:
                 onVersionClick();
                 break;
-            case R.id.fAuthorization_btnSignIn:
+            case R.id.auth_sign_in:
                 singIn(etLogin.getText().toString(), etPassword.getText().toString());
                 break;
-            case R.id.fAuthorization_ibClearLogin:
+            case R.id.auth_login_clear:
                 etLogin.setText("");
                 break;
-            case R.id.fAuthorization_ibClearPassword:
+            case R.id.auth_password_clear:
                 etPassword.setText("");
                 break;
-            case R.id.fAuthorization_ibShowPassword:
+            case R.id.auth_password_show:
                 if (etPassword.getInputType() == (InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT)) {
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
                     ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp, null));
@@ -326,7 +326,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 etPassword.setSelection(etPassword.getText().length());
 
                 break;
-            case R.id.fAuthorization_tvBackToPin:
+            case R.id.auth_pin:
                 String pin = new AuthorizationCache(getContext()).readPin(mBasicUser.getCredentials().login);
                 if (!pin.isEmpty()) {
                     PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);

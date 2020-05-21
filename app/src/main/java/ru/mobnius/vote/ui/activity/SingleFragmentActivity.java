@@ -4,14 +4,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Toast;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
-import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.INetworkChange;
-import ru.mobnius.vote.data.manager.MobniusApplication;
 
 public abstract class SingleFragmentActivity extends BaseActivity {
 

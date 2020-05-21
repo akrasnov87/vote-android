@@ -3,7 +3,7 @@ package ru.mobnius.vote.ui.fragment.data;
 /**
  * Фрагмент для вывода вопроса
  */
-public interface onQuestionListener {
+public interface OnQuestionListener {
     /**
      * Обработчик привязки данных
      * @param questionID иден. вопроса

@@ -1,6 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
-public interface INetworkChange {
+public interface OnNetworkChangeListener {
 
     /**
      * Обработчик изменения сети

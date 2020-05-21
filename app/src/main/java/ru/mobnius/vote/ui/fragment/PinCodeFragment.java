@@ -38,7 +38,8 @@ import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
 
-public class PinCodeFragment extends BaseFragment implements View.OnClickListener, PinCodeLinLay.PinChangeListener, PinCodeLinLay.CheckPin, PinCodeLinLay.FocusChange {
+public class PinCodeFragment extends BaseFragment
+        implements View.OnClickListener, PinCodeLinLay.PinChangeListener, PinCodeLinLay.CheckPin, PinCodeLinLay.FocusChange {
 
     private PinCodeLinLay pclPinPoints;
 

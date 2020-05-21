@@ -17,9 +17,10 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.ui.fragment.adapter.VoteButtonAdapter;
-import ru.mobnius.vote.ui.fragment.data.onQuestionListener;
+import ru.mobnius.vote.ui.fragment.data.OnQuestionListener;
 
-public class VoteItemFragment extends BaseFragment implements onQuestionListener {
+public class VoteItemFragment extends BaseFragment
+        implements OnQuestionListener {
 
     private TextView tvDescription;
     private RecyclerView rvButtons;
@@ -31,14 +32,11 @@ public class VoteItemFragment extends BaseFragment implements onQuestionListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vote_item, container, false);
-        rvButtons = view.findViewById(R.id.rvButtons);
-        tvDescription = view.findViewById(R.id.tvDescription);
-        return view;
-    }
 
-    @Override
-    public int getExceptionCode() {
-        return IExceptionCode.VOTE_ITEM;
+        rvButtons = view.findViewById(R.id.question_item_answers);
+        tvDescription = view.findViewById(R.id.question_item_description);
+
+        return view;
     }
 
     /**
@@ -49,6 +47,7 @@ public class VoteItemFragment extends BaseFragment implements onQuestionListener
     @Override
     public void onQuestionBind(long questionID, long exclusionAnswerID) {
         DataManager dataManager = DataManager.getInstance();
+
         rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(questionID), exclusionAnswerID));
         rvButtons.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -56,5 +55,10 @@ public class VoteItemFragment extends BaseFragment implements onQuestionListener
         if(question != null) {
             tvDescription.setText(question.c_text);
         }
+    }
+
+    @Override
+    public int getExceptionCode() {
+        return IExceptionCode.VOTE_ITEM;
     }
 }

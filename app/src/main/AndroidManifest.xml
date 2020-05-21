@@ -55,7 +55,8 @@
         <activity
         android:name=".ui.activity.QuestionActivity" />
         <activity
-            android:name=".ui.activity.PointInfoActivity" />
+            android:name=".ui.activity.PointInfoActivity"
+            android:label="@string/general_info"/>
         <activity
             android:name=".ui.activity.FilterActivity" />
         <activity

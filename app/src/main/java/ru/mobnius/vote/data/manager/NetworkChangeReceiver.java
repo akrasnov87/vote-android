@@ -25,7 +25,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         mContext = context;
         mNetwork = NetworkUtil.requestStatus(context);
 
-        if(context instanceof INetworkChange) {
+        if(context instanceof OnNetworkChangeListener) {
             if(mExistsAsync != null && !mExistsAsync.isCancelled()) {
                 mExistsAsync.cancel(true);
             }
@@ -51,7 +51,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            ((INetworkChange)mContext).onNetworkChange(mNetwork.onLine, aBoolean);
+            ((OnNetworkChangeListener)mContext).onNetworkChange(mNetwork.onLine, aBoolean);
         }
     }
 }

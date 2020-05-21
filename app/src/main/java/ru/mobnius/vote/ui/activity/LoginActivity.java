@@ -2,23 +2,18 @@ package ru.mobnius.vote.ui.activity;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.AsyncTask;
 
-
-import java.io.IOException;
-
-import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.data.manager.INetworkChange;
+import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.MobniusApplication;
-import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.ui.fragment.LoginFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 
-public class LoginActivity extends SingleFragmentActivity implements INetworkChange {
+public class LoginActivity extends SingleFragmentActivity
+        implements OnNetworkChangeListener {
     private LoginFragment mLoginFragment;
-    private ExistsAsync mExistsAsync;
 
     public LoginActivity() {
         super(true);
@@ -43,12 +38,8 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
     protected void onResume() {
         super.onResume();
 
-        if(mExistsAsync != null && !mExistsAsync.isCancelled()) {
-            mExistsAsync.cancel(true);
-        }
-
-        mExistsAsync = new ExistsAsync();
-        mExistsAsync.execute(NetworkUtil.isNetworkAvailable(this));
+        new ServerExistsAsyncTask(this)
+                .execute(NetworkUtil.isNetworkAvailable(this));
     }
 
     @Override
@@ -67,29 +58,7 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
 
     @Override
     public void onNetworkChange(boolean online, boolean serverExists) {
-    }
 
-    private class ExistsAsync extends AsyncTask<Boolean, String, Boolean> {
-        boolean online = false;
-
-        @Override
-        protected Boolean doInBackground(Boolean... booleans) {
-            boolean serverExists = false;
-            online = booleans[0];
-            if(online) {
-                try {
-                    serverExists = RequestManager.exists(MobniusApplication.getBaseUrl()) != null;
-                } catch (IOException e) {
-                    Logger.error(e);
-                }
-            }
-            return serverExists;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            onNetworkChange(online, aBoolean);
-        }
     }
 
     /**
@@ -97,10 +66,11 @@ public class LoginActivity extends SingleFragmentActivity implements INetworkCha
      * @return обработчик
      */
     public MobniusApplication getNetworkChangeListener() {
-        if(getApplication() instanceof INetworkChange){
+        if(getApplication() instanceof OnNetworkChangeListener){
             return (MobniusApplication) getApplication();
         }
 
         return null;
     }
+
 }

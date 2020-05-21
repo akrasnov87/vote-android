@@ -25,14 +25,16 @@ import ru.mobnius.vote.ui.model.PointInfo;
 /**
  * Экран вывода информации о точке
  */
-public class PointInfoActivity extends BaseActivity implements View.OnClickListener {
-    private Button mReset;
+public class PointInfoActivity extends BaseActivity
+        implements View.OnClickListener {
+
+    public static final int POINT_INFO_CODE = 1;
+
+    private Button btnReset;
     private String mPointID;
 
     private TextFieldView tfvNotice;
     private TextFieldView tfvAddress;
-
-    public static final int POINT_INFO_CODE = 1;
 
     public static Intent newIntent(Context context, String id) {
         Intent intent = new Intent(context, PointInfoActivity.class);
@@ -43,18 +45,17 @@ public class PointInfoActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_point_info);
+        setContentView(R.layout.activity_point_info);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         mPointID = getIntent().getStringExtra(Names.POINT_ID);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        tfvNotice = findViewById(R.id.point_info_notice);
+        tfvAddress = findViewById(R.id.point_info_address);
 
-        tfvNotice = findViewById(R.id.fPointInfo_tfvNotice);
-        tfvAddress = findViewById(R.id.fPointInfo_tfvAddress);
-
-        mReset = findViewById(R.id.fPointInfo_bReset);
-        mReset.setOnClickListener(this);
+        btnReset = findViewById(R.id.point_info_reset);
+        btnReset.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +63,7 @@ public class PointInfoActivity extends BaseActivity implements View.OnClickListe
         super.onStart();
 
         PointInfo pointInfo = DataManager.getInstance().getPointInfo(mPointID);
+
         tfvNotice.setFieldText(pointInfo.getNotice());
         tfvAddress.setFieldText(pointInfo.getAddress() + " д. " + pointInfo.getSubscrNumber());
 
@@ -91,7 +93,7 @@ public class PointInfoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        confirmDialog("Сбросить результаты обхода по квартире?", new DialogInterface.OnClickListener() {
+        confirmDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -106,15 +108,15 @@ public class PointInfoActivity extends BaseActivity implements View.OnClickListe
     private void resetButtonColor(int status) {
         switch (status) {
             case 0: // FINISH_CREATED
-                mReset.setBackgroundColor(getResources().getColor(R.color.disabled_color));
-                mReset.setText("Сбросить");
-                mReset.setEnabled(false);
+                btnReset.setBackgroundColor(getResources().getColor(R.color.disabled_color));
+                btnReset.setText("Сбросить");
+                btnReset.setEnabled(false);
                 break;
 
             case 1: // FINISH_DONED
-                mReset.setBackgroundColor(getResources().getColor(R.color.colorFail));
-                mReset.setText("Сбросить");
-                mReset.setEnabled(true);
+                btnReset.setBackgroundColor(getResources().getColor(R.color.colorFail));
+                btnReset.setText("Сбросить");
+                btnReset.setEnabled(true);
                 break;
         }
     }
@@ -122,17 +124,16 @@ public class PointInfoActivity extends BaseActivity implements View.OnClickListe
     /**
      * Вывод окна сообщения
      *
-     * @param title    заголовок окна
      * @param listener обработчик события нажатий
      */
-    private void confirmDialog(String title, DialogInterface.OnClickListener listener) {
+    private void confirmDialog(DialogInterface.OnClickListener listener) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
         adb.setPositiveButton(getResources().getString(R.string.yes), listener);
         adb.setNegativeButton(getResources().getString(R.string.no), listener);
 
         AlertDialog alert = adb.create();
-        alert.setTitle(title);
+        alert.setTitle("Сбросить результаты обхода по квартире?");
         alert.show();
     }
 }

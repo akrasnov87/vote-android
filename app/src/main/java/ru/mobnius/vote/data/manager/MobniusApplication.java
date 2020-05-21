@@ -27,9 +27,9 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
-public class MobniusApplication extends android.app.Application implements IExceptionIntercept, INetworkChange, ISocketNotification {
+public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener, ISocketNotification {
     private ServiceManager serviceManager;
-    private List<INetworkChange> mNetworkChangeListener;
+    private List<OnNetworkChangeListener> mNetworkChangeListener;
     private List<ISocketNotification> mSocketNotificationListener;
 
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
@@ -141,7 +141,7 @@ public class MobniusApplication extends android.app.Application implements IExce
     @Override
     public void onNetworkChange(boolean online, boolean serverExists) {
         if(mNetworkChangeListener != null) {
-            for(INetworkChange change : mNetworkChangeListener) {
+            for(OnNetworkChangeListener change : mNetworkChangeListener) {
                 change.onNetworkChange(online, serverExists);
             }
         }
@@ -151,7 +151,7 @@ public class MobniusApplication extends android.app.Application implements IExce
      * Подписаться для добавления обработчика. Делать это в событии onStart
      * @param change обработчик
      */
-    public void addNetworkChangeListener(INetworkChange change) {
+    public void addNetworkChangeListener(OnNetworkChangeListener change) {
         if(mNetworkChangeListener == null){
             mNetworkChangeListener = new ArrayList<>();
         }
@@ -163,7 +163,7 @@ public class MobniusApplication extends android.app.Application implements IExce
      * Подписаться для удаление обработчика. Делать это в событии onStop
      * @param change обработчик
      */
-    public void removeNetworkChangeListener(INetworkChange change) {
+    public void removeNetworkChangeListener(OnNetworkChangeListener change) {
         if(mNetworkChangeListener != null) {
             mNetworkChangeListener.remove(change);
         }
