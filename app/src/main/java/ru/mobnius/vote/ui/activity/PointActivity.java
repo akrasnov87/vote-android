@@ -37,7 +37,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private static final String QUERY_RESULT = "query_result";
-    private boolean isSort;
+    private PreferencesManager mPreferencesManager;
 
     public static Intent newIntent(Context context, String routeId) {
         Intent intent = new Intent(context, PointActivity.class);
@@ -62,12 +62,12 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
         mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);
         mRecyclerView = findViewById(R.id.fPoint_rvPoints);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
+        mPreferencesManager = PreferencesManager.getInstance();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        isSort = PreferencesManager.getInstance().isSort();
         String query = null;
         query = getIntent().getStringExtra(QUERY_RESULT);
 
@@ -75,7 +75,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
             searchResult(query);
             mProgressBar.setVisibility(View.GONE);
         } else {
-            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(isSort)));
+            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.isSort())));
             int donePoints = mDataManager.getCountDonePoints(routeId);
             if (donePoints > 0) {
                 mProgressBar.setMax(mDataManager.getPointItems(routeId, PointFilter.ALL).size());
@@ -101,7 +101,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
-        sortIcon.setIcon(getDrawable(isSort ? R.drawable.ic_sort_on_24dp:R.drawable.ic_sort_off_24dp));
+        sortIcon.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_sort_on_24dp : R.drawable.ic_sort_off_24dp));
         return true;
     }
 
@@ -109,19 +109,15 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.route_and_point_setSort:
-                item.setIcon(getDrawable(isSort ? R.drawable.ic_sort_off_24dp : R.drawable.ic_sort_on_24dp));
-
-                if (isSort){
-                    isSort= false;
+                item.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_sort_off_24dp : R.drawable.ic_sort_on_24dp));
+                if (mPreferencesManager.isSort()) {
                     PreferencesManager.getInstance().getSharedPreferences().edit().
                             putBoolean(PreferencesManager.POINT_SORT_PREFS, false).apply();
-                }else {
-                    isSort = true;
-
+                } else {
                     PreferencesManager.getInstance().getSharedPreferences().edit().
                             putBoolean(PreferencesManager.POINT_SORT_PREFS, true).apply();
                 }
-                mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(isSort)));
+                mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.isSort())));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -135,20 +131,20 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
 
     public void searchResult(String query) {
         if (query.equals(JsonUtil.EMPTY)) {
-            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(isSort)));
+            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.isSort())));
         } else {
             PointSearchManager pointSearchManager = new PointSearchManager();
             List<PointItem> list;
-            list = Arrays.asList(pointSearchManager.toFilters(getSortedList(isSort).toArray(new PointItem[0]), query));
+            list = Arrays.asList(pointSearchManager.toFilters(getSortedList(mPreferencesManager.isSort()).toArray(new PointItem[0]), query));
             mRecyclerView.setAdapter(new PointAdapter(this, list));
         }
     }
 
     private List<PointItem> getSortedList(boolean sort) {
         List<PointItem> pointsList;
-        if (sort){
+        if (sort) {
             pointsList = mDataManager.getPointItems(routeId, PointFilter.UNDONE);
-        }else {
+        } else {
             pointsList = mDataManager.getPointItems(routeId, PointFilter.ALL);
         }
         return pointsList;

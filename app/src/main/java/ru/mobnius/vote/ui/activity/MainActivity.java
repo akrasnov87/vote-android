@@ -135,7 +135,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         inflater.inflate(R.menu.menu_route, menu);
         MenuItem filterIcon = menu.findItem(R.id.route_setFilters);
         boolean isFilter  = PreferencesManager.getInstance().isFilter();
-        filterIcon.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp  ));
+        filterIcon.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp  ));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -144,7 +144,7 @@ public class MainActivity extends SingleFragmentActivity implements NavigationVi
         if (item.getItemId() == R.id.route_setFilters) {
             boolean isFilter = PreferencesManager.getInstance().isFilter();
             mFragment.invalidateList(isFilter);
-            item.setIcon(getDrawable(isFilter ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
+            item.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
             mFragment.changePrefs(isFilter);
         }
         return super.onOptionsItemSelected(item);
