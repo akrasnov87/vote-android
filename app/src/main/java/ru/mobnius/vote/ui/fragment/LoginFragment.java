@@ -40,21 +40,18 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.MainActivity;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
-import ru.mobnius.vote.ui.model.LoginModel;
-import ru.mobnius.vote.ui.viewModel.LoginViewModel;
+import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
+import ru.mobnius.vote.utils.AuthUtil;
+import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
+import ru.mobnius.vote.utils.UiUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener, OnNetworkChangeListener {
-    private final String LOGIN = "login";
-    private final String PASSWORD = "password";
+public class LoginFragment extends BaseFragment
+        implements View.OnClickListener, TextWatcher, View.OnFocusChangeListener, OnNetworkChangeListener {
 
-    private LoginViewModel mLoginViewModel;
     private Authorization mAuthorization;
-
-    private String login = "";
-    private String password = "";
 
     private TextView tvNetwork;
     private TextView tvServer;
@@ -83,17 +80,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
         mAuthorization = Authorization.getInstance();
         mBasicUser = mAuthorization.getLastAuthUser();
-        mLoginViewModel = new LoginViewModel();
-
-        if (savedInstanceState != null) {
-            login = savedInstanceState.getString(LOGIN);
-            password = savedInstanceState.getString(PASSWORD);
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        new ServerExistsAsyncTask(this)
+                .execute(NetworkUtil.isNetworkAvailable(Objects.requireNonNull(getContext())));
 
         if (!Objects.requireNonNull(getArguments()).getBoolean(Names.PIN) && mBasicUser != null) {
             AuthorizationCache cache = new AuthorizationCache(getContext());
@@ -129,7 +123,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         TextView tvVersion = v.findViewById(R.id.auth_version);
         tvVersion.setText(getString(R.string.versionShort, getVersion()));
         TextView tvBackToPin = v.findViewById(R.id.auth_pin);
-        mLoginViewModel.setModel(LoginModel.getInstance(login, password, getVersion()));
+
         mProgressBar = v.findViewById(R.id.auth_progress);
 
         etLogin.addTextChangedListener(this);
@@ -165,12 +159,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
         }
 
-        mLoginViewModel.setNoSpaces(new EditText[]{etLogin, etPassword});
+        UiUtil.setNoSpaces(new EditText[] { etLogin, etPassword });
 
         return v;
     }
 
-    public void onVersionClick() {
+    private void onVersionClick() {
         String versionName = VersionUtil.getVersionName(Objects.requireNonNull(getContext()));
         String status = "неизвестен";
         switch (new Version().getVersionParts(versionName)[2]) {
@@ -187,7 +181,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 status = getString(R.string.productionText);
                 break;
         }
-        toast(mLoginViewModel.getVersionToast(getString(R.string.versionToast), versionName, status));
+        toast(AuthUtil.getVersionToast(getString(R.string.versionToast), versionName, status));
     }
 
     /**
@@ -282,7 +276,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         });
     }
 
-    public void singIn(String login, String password) {
+    private void singIn(String login, String password) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
         }
@@ -294,38 +288,35 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(LOGIN, etLogin.getText().toString());
-        outState.putString(PASSWORD, etPassword.getText().toString());
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.auth_version:
                 onVersionClick();
                 break;
+
             case R.id.auth_sign_in:
                 singIn(etLogin.getText().toString(), etPassword.getText().toString());
                 break;
+
             case R.id.auth_login_clear:
                 etLogin.setText("");
                 break;
+
             case R.id.auth_password_clear:
                 etPassword.setText("");
                 break;
+
             case R.id.auth_password_show:
                 if (etPassword.getInputType() == (InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT)) {
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp, null));
+                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp));
                 } else {
                     etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp, null));
+                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
                 }
                 etPassword.setSelection(etPassword.getText().length());
-
                 break;
+
             case R.id.auth_pin:
                 String pin = new AuthorizationCache(getContext()).readPin(mBasicUser.getCredentials().login);
                 if (!pin.isEmpty()) {
@@ -334,7 +325,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 }
                 break;
         }
-
     }
 
     @Override
@@ -351,7 +341,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         String password = etPassword.getText().toString();
 
         if (etLogin.isFocused()) {
-            tilLogin.setError(String.format(mLoginViewModel.minLength(login), getString(R.string.login)));
+            tilLogin.setError(String.format(AuthUtil.minLength(login), getString(R.string.login)));
             if (s.toString().isEmpty()) {
                 ibLoginClear.setVisibility(View.GONE);
             } else {
@@ -362,7 +352,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         }
 
         if (etPassword.isFocused()) {
-            tilPassword.setError(String.format(mLoginViewModel.minLength(password), getString(R.string.password)));
+            tilPassword.setError(String.format(AuthUtil.minLength(password), getString(R.string.password)));
             if (s.toString().isEmpty()) {
                 ibPasswordClear.setVisibility(View.GONE);
                 ibShowPassword.setVisibility(View.GONE);
@@ -374,39 +364,44 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             }
         }
 
-        btnSignIn.setEnabled(mLoginViewModel.isButtonEnable(login, password));
+        btnSignIn.setEnabled(AuthUtil.isButtonEnable(login, password));
     }
-
-    @Override
-    public int getExceptionCode() {
-        return IExceptionCode.LOGIN;
-    }
-
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v == etLogin) {
-            changeVisibility(ibLoginClear, hasFocus, etLogin.getText().toString());
-        }
-        if (v == etPassword) {
-            changeVisibility(ibPasswordClear, hasFocus, etPassword.getText().toString());
-            changeVisibility(ibShowPassword, hasFocus, etPassword.getText().toString());
-        }
+        if(v instanceof EditText) {
+            String str = ((EditText)v).getText().toString();
 
+            switch (v.getId()) {
+                case R.id.auth_login:
+                    changeVisibility(ibLoginClear, hasFocus, str);
+                    break;
+
+                case R.id.auth_password:
+                    changeVisibility(ibPasswordClear, hasFocus, str);
+                    changeVisibility(ibShowPassword, hasFocus, str);
+                    break;
+            }
+        }
     }
 
-    private void changeVisibility(ImageButton cross, boolean visible, String empty) {
+    private void changeVisibility(ImageButton img, boolean visible, String empty) {
         if (visible && !empty.equals("")) {
-            cross.setVisibility(View.VISIBLE);
+            img.setVisibility(View.VISIBLE);
         }
         if (!visible) {
-            cross.setVisibility(View.GONE);
+            img.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onNetworkChange(boolean online, boolean serverExists) {
         tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
-        tvServer.setVisibility(online ? View.GONE : View.VISIBLE);
+        tvServer.setVisibility(serverExists ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public int getExceptionCode() {
+        return IExceptionCode.LOGIN;
     }
 }

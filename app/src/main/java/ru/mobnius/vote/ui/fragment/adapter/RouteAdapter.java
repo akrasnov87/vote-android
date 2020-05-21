@@ -1,7 +1,6 @@
 package ru.mobnius.vote.ui.fragment.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,7 @@ import java.util.List;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.ui.activity.PointActivity;
-import ru.mobnius.vote.ui.activity.StatisticActivity;
+import ru.mobnius.vote.ui.activity.AppartamentListActivity;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
@@ -94,7 +92,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteHolder>
         @Override
         public void onClick(View v) {
             String routeId = mRouteItems.get(getLayoutPosition()).id;
-            mContext.startActivity(PointActivity.newIntent(mContext, routeId));
+            mContext.startActivity(AppartamentListActivity.newIntent(mContext, routeId));
         }
     }
 }

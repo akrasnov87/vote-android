@@ -38,6 +38,7 @@ import ru.mobnius.vote.ui.fragment.form.BaseFormActivity;
 
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, onClickVoteItemListener, OnAnswerListener {
+
     public static String TAG = "QUESTIONS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
@@ -96,8 +97,8 @@ public class QuestionActivity extends BaseFormActivity
                 return true;
 
             case R.id.choiceDocument_Info:
-                startActivityForResult(PointInfoActivity.newIntent(this, pointID),
-                        PointInfoActivity.POINT_INFO_CODE);
+                startActivityForResult(AppartamentInfoActivity.newIntent(this, pointID),
+                        AppartamentInfoActivity.POINT_INFO_CODE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -285,7 +286,7 @@ public class QuestionActivity extends BaseFormActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PointInfoActivity.POINT_INFO_CODE && resultCode == RESULT_OK) {
+        if(requestCode == AppartamentInfoActivity.POINT_INFO_CODE && resultCode == RESULT_OK) {
             mVoteManager.clear();
         }
     }

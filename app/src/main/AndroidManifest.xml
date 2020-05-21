@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.PointActivity"
+            android:name=".ui.activity.AppartamentListActivity"
             android:label="@string/points"
             android:parentActivityName=".ui.activity.MainActivity" />
 
@@ -55,12 +55,8 @@
         <activity
         android:name=".ui.activity.QuestionActivity" />
         <activity
-            android:name=".ui.activity.PointInfoActivity"
+            android:name=".ui.activity.AppartamentInfoActivity"
             android:label="@string/general_info"/>
-        <activity
-            android:name=".ui.activity.FilterActivity" />
-        <activity
-            android:name=".ui.activity.SortActivity" />
 
         <activity android:name=".ui.activity.StatisticActivity"
             android:label="@string/statistic"

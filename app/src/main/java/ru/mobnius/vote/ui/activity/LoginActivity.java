@@ -11,8 +11,7 @@ import ru.mobnius.vote.ui.fragment.LoginFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 
-public class LoginActivity extends SingleFragmentActivity
-        implements OnNetworkChangeListener {
+public class LoginActivity extends SingleFragmentActivity {
     private LoginFragment mLoginFragment;
 
     public LoginActivity() {
@@ -35,14 +34,6 @@ public class LoginActivity extends SingleFragmentActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        new ServerExistsAsyncTask(this)
-                .execute(NetworkUtil.isNetworkAvailable(this));
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
 
@@ -54,11 +45,6 @@ public class LoginActivity extends SingleFragmentActivity
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
-    }
-
-    @Override
-    public void onNetworkChange(boolean online, boolean serverExists) {
-
     }
 
     /**

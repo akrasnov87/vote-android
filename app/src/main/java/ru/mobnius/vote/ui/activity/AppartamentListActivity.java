@@ -31,7 +31,7 @@ import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.utils.JsonUtil;
 
-public class PointActivity extends BaseActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+public class AppartamentListActivity extends BaseActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
     private DataManager mDataManager;
     private String routeId;
     private RecyclerView mRecyclerView;
@@ -40,13 +40,13 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
     private PreferencesManager mPreferencesManager;
 
     public static Intent newIntent(Context context, String routeId) {
-        Intent intent = new Intent(context, PointActivity.class);
+        Intent intent = new Intent(context, AppartamentListActivity.class);
         intent.putExtra(Names.ROUTE_ID, routeId);
         return intent;
     }
 
     public static Intent newSearchIntent(Context context, String routeId, String query) {
-        Intent intent = new Intent(context, PointActivity.class);
+        Intent intent = new Intent(context, AppartamentListActivity.class);
         intent.putExtra(Names.ROUTE_ID, routeId);
         intent.putExtra(QUERY_RESULT, query);
         return intent;
@@ -101,7 +101,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
-        sortIcon.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_sort_on_24dp : R.drawable.ic_sort_off_24dp));
+        sortIcon.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
         return true;
     }
 
@@ -109,7 +109,7 @@ public class PointActivity extends BaseActivity implements SearchView.OnQueryTex
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.route_and_point_setSort:
-                item.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_sort_off_24dp : R.drawable.ic_sort_on_24dp));
+                item.setIcon(getResources().getDrawable(mPreferencesManager.isSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
                 if (mPreferencesManager.isSort()) {
                     PreferencesManager.getInstance().getSharedPreferences().edit().
                             putBoolean(PreferencesManager.POINT_SORT_PREFS, false).apply();

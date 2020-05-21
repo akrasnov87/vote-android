@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import ru.mobnius.vote.R;
 
-
 public class PinCodeLinLay extends LinearLayout {
     private PinChangeListener mPinChangeListener;
     private CheckPin mCheckPin;
@@ -32,8 +31,8 @@ public class PinCodeLinLay extends LinearLayout {
     public PinCodeLinLay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         pinnedPoints = 0;
-        filledPinPointImage = getResources().getDrawable(R.drawable.ic_pin_circle_filled_24dp, null);
-        emptyPinPointImage = getResources().getDrawable(R.drawable.ic_pin_circle_empty_24dp, null);
+        filledPinPointImage = getResources().getDrawable(R.drawable.ic_pin_circle_filled_24dp);
+        emptyPinPointImage = getResources().getDrawable(R.drawable.ic_pin_circle_empty_24dp);
 
         setOrientation(LinearLayout.HORIZONTAL);
         LayoutInflater inflater = (LayoutInflater) context

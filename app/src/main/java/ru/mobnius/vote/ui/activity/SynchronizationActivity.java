@@ -1,7 +1,5 @@
 package ru.mobnius.vote.ui.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -40,7 +38,7 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListener;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
-import ru.mobnius.vote.ui.fragment.template.SynchronizationPartFragment;
+import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 public class SynchronizationActivity extends BaseActivity implements View.OnClickListener {

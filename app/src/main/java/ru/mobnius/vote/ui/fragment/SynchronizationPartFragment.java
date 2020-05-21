@@ -1,6 +1,7 @@
-package ru.mobnius.vote.ui.fragment.template;
+package ru.mobnius.vote.ui.fragment;
 
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListener;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
@@ -18,21 +21,18 @@ public class SynchronizationPartFragment extends Fragment {
 
     public final static String DATA_TYPE = "description";
 
-    ProgressBar progressBar;
-    TextView tvDescription;
-    TextView tvStatus;
-
-    public SynchronizationPartFragment() {
-
-    }
+    private ProgressBar progressBar;
+    private TextView tvDescription;
+    private TextView tvStatus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.template_fragment_synchronization_part, container, false);
-        progressBar = v.findViewById(R.id.fSynchronizationPart_pbProgress);
-        tvDescription = v.findViewById(R.id.fSynchronizationPart_tvDescription);
-        tvStatus = v.findViewById(R.id.frSynchronizationPart_tvStatus);
+
+        progressBar = v.findViewById(R.id.sync_part_progress);
+        tvDescription = v.findViewById(R.id.sync_part_description);
+        tvStatus = v.findViewById(R.id.sync_part_status);
 
         return v;
     }
@@ -42,8 +42,7 @@ public class SynchronizationPartFragment extends Fragment {
         super.onResume();
 
         Bundle arguments = getArguments();
-        assert arguments != null;
-        tvDescription.setText(arguments.getString(DATA_TYPE));
+        tvDescription.setText(Objects.requireNonNull(arguments).getString(DATA_TYPE));
 
         updateProgressBarColor(TransferListener.START);
     }
@@ -93,6 +92,7 @@ public class SynchronizationPartFragment extends Fragment {
      */
     public void updateProgressBarColor(int type) {
         ColorStateList colorStateList;
+
         switch (type) {
             case TransferListener.STOP:
             case TransferListener.ERROR:
@@ -103,7 +103,10 @@ public class SynchronizationPartFragment extends Fragment {
                 colorStateList = getResources().getColorStateList(R.color.colorSuccess);
                 break;
         }
-        progressBar.setSecondaryProgressTintList(colorStateList);
-        progressBar.setProgressTintList(colorStateList);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            progressBar.setSecondaryProgressTintList(colorStateList);
+            progressBar.setProgressTintList(colorStateList);
+        }
     }
 }
