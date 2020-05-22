@@ -1,16 +1,8 @@
 package ru.mobnius.vote.data.manager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.os.Handler;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ProcessLifecycleOwner;
-
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
@@ -18,11 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
-import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.ExceptionUtils;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -33,18 +23,13 @@ import ru.mobnius.vote.data.manager.packager.PackageUtil;
 import ru.mobnius.vote.data.storage.DbOpenHelper;
 import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
-import ru.mobnius.vote.ui.fragment.IPinCodeEnabledListener;
-import ru.mobnius.vote.ui.fragment.PinCodeFragment;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
-public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener, ISocketNotification, LifecycleObserver {
+public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener, ISocketNotification{
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
     private List<ISocketNotification> mSocketNotificationListener;
-    private IPinCodeEnabledListener mIPinCodeEnabledListener;
-    private boolean isPinActivated;
-
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";
@@ -59,7 +44,6 @@ public class MobniusApplication extends android.app.Application implements IExce
     @Override
     public void onCreate() {
         super.onCreate();
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         onExceptionIntercept();
         DefaultPreferencesManager.createInstance(this, DefaultPreferencesManager.NAME);
         serviceManager = new ServiceManager(this);
@@ -73,29 +57,6 @@ public class MobniusApplication extends android.app.Application implements IExce
         registerReceiver(new NetworkChangeReceiver(), filter);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onAppBackgrounded() {
-        Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            isPinActivated = true;
-            }
-        }, IPinCodeEnabledListener.PIN_ACTIVATION_DURATION_MS);
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onAppForegrounded() {
-        if (isPinActivated){
-            isPinActivated =false;
-            mIPinCodeEnabledListener.onPinCodeEnabled();
-        }
-    }
-
-
-    public void addPinCodeEnabledListener (IPinCodeEnabledListener listener){
-        mIPinCodeEnabledListener = listener;
-    }
 
     /**
      * обработчик авторизации пользователя
@@ -181,7 +142,9 @@ public class MobniusApplication extends android.app.Application implements IExce
     public void onNetworkChange(boolean online, boolean serverExists) {
         if (mNetworkChangeListener != null) {
             for (OnNetworkChangeListener change : mNetworkChangeListener) {
-                change.onNetworkChange(online, serverExists);
+                if (change != null) {
+                    change.onNetworkChange(online, serverExists);
+                }
             }
         }
     }

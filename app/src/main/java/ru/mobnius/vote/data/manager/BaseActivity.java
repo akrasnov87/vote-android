@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.manager;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,18 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
-import ru.mobnius.vote.data.manager.credentials.BasicUser;
-import ru.mobnius.vote.ui.activity.RouteListActivity;
-import ru.mobnius.vote.ui.activity.SettingActivity;
-import ru.mobnius.vote.ui.fragment.IPinCodeEnabledListener;
-import ru.mobnius.vote.ui.fragment.PinCodeFragment;
 
 /**
  * Базовое activity для приложения
  */
-public abstract class BaseActivity extends ExceptionInterceptActivity implements IPinCodeEnabledListener {
+public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
     private boolean mIsBackToExist;
@@ -57,8 +49,6 @@ public abstract class BaseActivity extends ExceptionInterceptActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        MobniusApplication application = (MobniusApplication) getApplication();
-        application.addPinCodeEnabledListener(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -136,19 +126,4 @@ public abstract class BaseActivity extends ExceptionInterceptActivity implements
                 .setPositiveButton("OK", null).show();
     }
 
-    @Override
-    public void onPinCodeEnabled() {
-        Authorization mAuthorization = Authorization.getInstance();
-        BasicUser mBasicUser = mAuthorization.getLastAuthUser();
-        AuthorizationCache cache = new AuthorizationCache(this);
-        String pin = cache.readPin(mBasicUser.getCredentials().login);
-        if (!pin.isEmpty()) {
-            PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-            getSupportFragmentManager().beginTransaction().add(getLayoutResId(), fragment).commit();
-        }
-    }
-
-    private int getLayoutResId() {
-        return getWindow().getDecorView().findViewById(android.R.id.content).getId();
-    }
 }

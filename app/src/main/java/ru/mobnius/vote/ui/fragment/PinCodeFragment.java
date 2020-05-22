@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.fragment;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
@@ -155,17 +157,29 @@ public class PinCodeFragment extends BaseFragment
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.pinFragment_tvForgotPin) {
-            LoginActivity activity = null;
-            try {
-                activity = (LoginActivity) getActivity();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (activity != null) {
-                activity.setBackToExist(false);
-            }
-            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.single_fragment_container, LoginFragment.newInstance(true)).addToBackStack("Pin").commit();
+            new AlertDialog.Builder(getContext()).setTitle("Сброс пин-кода")
+                    .setMessage("Сбросить пин-код и авторизоаться через логин и пароль?")
+                    .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PreferencesManager.createInstance(getApplication().getApplicationContext(), login);
+                            PreferencesManager.getInstance().getSharedPreferences().edit().
+                                    putBoolean(PreferencesManager.PIN, false).apply();
+                            cache.update(login, null, new Date());
+                            mAuthorization.destroy();
+                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                            int resId = getActivity().getWindow().getDecorView().findViewById(android.R.id.content).getId();
+                            ft.replace(resId, LoginFragment.newInstance()).commit();
+                        }
+                    })
+                    .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
         } else {
             if (v.getId() == R.id.pinFragment_ibClear) {
                 pclPinPoints.onPinClear();
@@ -216,7 +230,7 @@ public class PinCodeFragment extends BaseFragment
 
                     cache.update(login, pinDigits, new Date());
                     Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
-                    Intent i = new Intent(getContext(), SettingActivity.class);
+                    Intent i = new Intent(getContext(), LoginActivity.class);
                     startActivity(i);
                     getActivity().finish();
                     Toast.makeText(getContext(), "Вход по пин-коду активирован", Toast.LENGTH_SHORT).show();
@@ -244,18 +258,13 @@ public class PinCodeFragment extends BaseFragment
             if (log.equals(login)) {
                 BasicUser user = cache.read(log);
                 Authorization.getInstance().setUser(user);
-                AuthorizationCache authorizationCache = new AuthorizationCache(getContext());
-                authorizationCache.update(log, savedPinDigits, new Date());
+                cache.update(log, savedPinDigits, new Date());
             }
         }
         getApplication().onAuthorized();
-        if (getActivity() instanceof LoginActivity) {
-            Intent intent = new Intent(getContext(), RouteListActivity.class);
-            startActivity(intent);
-        } else {
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
-        }
-        Objects.requireNonNull(getActivity()).finish();
+        Intent intent = new Intent(getContext(), RouteListActivity.class);
+        startActivity(intent);
+
     }
 
     private void fingerPrintActivate(ImageButton imageButton) {

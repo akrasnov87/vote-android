@@ -65,10 +65,9 @@ public class LoginFragment extends BaseFragment
     private BasicUser mBasicUser;
     private ProgressBar mProgressBar;
 
-    public static LoginFragment newInstance(boolean isPinForgotten) {
+    public static LoginFragment newInstance() {
         LoginFragment loginFragment = new LoginFragment();
         Bundle args = new Bundle();
-        args.putBoolean(Names.PIN, isPinForgotten);
         loginFragment.setArguments(args);
         return loginFragment;
     }
@@ -87,19 +86,20 @@ public class LoginFragment extends BaseFragment
 
         new ServerExistsAsyncTask(this)
                 .execute(NetworkUtil.isNetworkAvailable(Objects.requireNonNull(getContext())));
-
-        if (!Objects.requireNonNull(getArguments()).getBoolean(Names.PIN) && mBasicUser != null) {
+        String pin = "";
+        if(mBasicUser!=null) {
             AuthorizationCache cache = new AuthorizationCache(getContext());
-            String pin = cache.readPin(mBasicUser.getCredentials().login);
-            if (!pin.isEmpty()) {
-                PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-            } else {
-                if (mAuthorization.isAutoSignIn()) {
-                    singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
-                }
+            pin = cache.readPin(mBasicUser.getCredentials().login);
+        }
+        if (!pin.isEmpty()) {
+            PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+        } else {
+            if (mAuthorization.isAutoSignIn()) {
+                singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
             }
         }
+
 
     }
 
@@ -121,7 +121,6 @@ public class LoginFragment extends BaseFragment
 
         TextView tvVersion = v.findViewById(R.id.auth_version);
         tvVersion.setText(getString(R.string.versionShort, getVersion()));
-        TextView tvBackToPin = v.findViewById(R.id.auth_pin);
 
         mProgressBar = v.findViewById(R.id.auth_progress);
 
@@ -135,30 +134,7 @@ public class LoginFragment extends BaseFragment
         btnSignIn.setOnClickListener(this);
         tvVersion.setOnClickListener(this);
 
-        if (Objects.requireNonNull(getArguments()).getBoolean(Names.PIN)) {
-            tvBackToPin.setVisibility(View.VISIBLE);
-            tvBackToPin.setOnClickListener(this);
-            btnSignIn.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                public void onGlobalLayout() {
-                    btnSignIn.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    int[] locations = new int[2];
-                    btnSignIn.getLocationOnScreen(locations);
-                    int btnLocation = locations[1];
-                    Display display = Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int screenHeight = size.y;
-                    int toastPosition = (screenHeight - btnLocation - btnSignIn.getHeight()) / 2;
-                    Toast toast = Toast.makeText(getContext(), "Введите логин и пароль. Пин-код будет сброшен", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, toastPosition);
-                    toast.show();
-                }
-            });
-
-        }
-
-        UiUtil.setNoSpaces(new EditText[] { etLogin, etPassword });
+        UiUtil.setNoSpaces(new EditText[]{etLogin, etPassword});
 
         return v;
     }
@@ -315,14 +291,6 @@ public class LoginFragment extends BaseFragment
                 }
                 etPassword.setSelection(etPassword.getText().length());
                 break;
-
-            case R.id.auth_pin:
-                String pin = new AuthorizationCache(getContext()).readPin(mBasicUser.getCredentials().login);
-                if (!pin.isEmpty()) {
-                    PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-                }
-                break;
         }
     }
 
@@ -368,8 +336,8 @@ public class LoginFragment extends BaseFragment
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if(v instanceof EditText) {
-            String str = ((EditText)v).getText().toString();
+        if (v instanceof EditText) {
+            String str = ((EditText) v).getText().toString();
 
             switch (v.getId()) {
                 case R.id.auth_login:

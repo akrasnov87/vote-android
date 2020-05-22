@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/contentColor"
+    android:clickable="true"
+    android:focusable="true">
 
     <ProgressBar
         android:id="@+id/auth_progress"
@@ -172,17 +175,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/size_xxs_8"
         android:layout_marginBottom="@dimen/size_xxs_8">
-
-        <TextView
-            android:id="@+id/auth_pin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/back_to_pin"
-            android:drawableStart="@drawable/ic_arrow_back_dark_24dp"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/auth_version"
