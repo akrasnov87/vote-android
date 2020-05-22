@@ -9,13 +9,10 @@ import androidx.fragment.app.Fragment;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
-import ru.mobnius.vote.ui.fragment.IPinDeactivated;
 import ru.mobnius.vote.ui.fragment.LoginFragment;
-import ru.mobnius.vote.utils.NetworkUtil;
 
 
-public class LoginActivity extends SingleFragmentActivity implements IPinDeactivated {
+public class LoginActivity extends SingleFragmentActivity{
 
     public static Intent getIntent(Context context) {
         return new Intent(context, LoginActivity.class);
@@ -66,10 +63,5 @@ public class LoginActivity extends SingleFragmentActivity implements IPinDeactiv
         }
 
         return null;
-    }
-
-    @Override
-    public void onPinDeactivated() {
-
     }
 }
