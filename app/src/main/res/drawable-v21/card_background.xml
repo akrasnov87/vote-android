@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
 android:color="@color/gray_light">
-<item >
+<item android:id="@android:id/mask">
     <shape>
         <solid android:color="#FFFFFF"/>
         <corners android:radius="10dp"/>

@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager.authorization;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -189,6 +190,7 @@ public class Authorization {
         mAuthorizationCache.clear(true);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class AuthAsyncTask extends AsyncTask<String, Void, AuthorizationMeta> {
 
         private BasicCredentials mCredentials;

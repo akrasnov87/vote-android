@@ -1,5 +1,6 @@
 package ru.mobnius.vote.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -74,7 +75,6 @@ public class PinCodeFragment extends BaseFragment
         return pinCodeFragment;
     }
 
-
     @Override
     public int getExceptionCode() {
         return IExceptionCode.PIN_CODE;
@@ -145,7 +145,7 @@ public class PinCodeFragment extends BaseFragment
             button.setOnClickListener(this);
         }
 
-        if (mAuthorization.isAutoSignIn()&&!isCreateMode&& Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (mAuthorization.isAutoSignIn() && !isCreateMode && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             fingerPrintActivate(ibFingerPrint);
 
         }
@@ -216,9 +216,10 @@ public class PinCodeFragment extends BaseFragment
 
                     cache.update(login, pinDigits, new Date());
                     Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+                    Intent i = new Intent(getContext(), SettingActivity.class);
+                    startActivity(i);
                     getActivity().finish();
-                    Intent intent = new Intent(getContext(), SettingActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(getContext(), "Вход по пин-коду активирован", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getContext(), "Пин-коды не совпадают, порпобуйте еще раз", Toast.LENGTH_SHORT).show();
@@ -248,8 +249,12 @@ public class PinCodeFragment extends BaseFragment
             }
         }
         getApplication().onAuthorized();
-        Intent intent = new Intent(getContext(), RouteListActivity.class);
-        startActivity(intent);
+        if (getActivity() instanceof LoginActivity) {
+            Intent intent = new Intent(getContext(), RouteListActivity.class);
+            startActivity(intent);
+        } else {
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
         Objects.requireNonNull(getActivity()).finish();
     }
 

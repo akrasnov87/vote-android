@@ -99,18 +99,16 @@ public class PointListActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.route_and_point_setSort:
-                item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
-                if (mPreferencesManager.getSort()) {
-                    PreferencesManager.getInstance().getSharedPreferences().edit().
-                            putBoolean(PreferencesManager.POINT_SORT_PREFS, false).apply();
-                } else {
-                    PreferencesManager.getInstance().getSharedPreferences().edit().
-                            putBoolean(PreferencesManager.POINT_SORT_PREFS, true).apply();
-                }
-                mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
-                break;
+        if (item.getItemId() == R.id.route_and_point_setSort) {
+            item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
+            if (mPreferencesManager.getSort()) {
+                PreferencesManager.getInstance().getSharedPreferences().edit().
+                        putBoolean(PreferencesManager.POINT_SORT_PREFS, false).apply();
+            } else {
+                PreferencesManager.getInstance().getSharedPreferences().edit().
+                        putBoolean(PreferencesManager.POINT_SORT_PREFS, true).apply();
+            }
+            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         }
         return super.onOptionsItemSelected(item);
     }

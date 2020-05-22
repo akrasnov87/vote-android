@@ -2,6 +2,7 @@ package ru.mobnius.vote.data.manager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,11 +13,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
+import ru.mobnius.vote.ui.activity.RouteListActivity;
+import ru.mobnius.vote.ui.activity.SettingActivity;
+import ru.mobnius.vote.ui.fragment.IPinCodeEnabledListener;
+import ru.mobnius.vote.ui.fragment.PinCodeFragment;
 
 /**
  * Базовое activity для приложения
  */
-public abstract class BaseActivity extends ExceptionInterceptActivity {
+public abstract class BaseActivity extends ExceptionInterceptActivity implements IPinCodeEnabledListener {
 
     private boolean doubleBackToExitPressedOnce = false;
     private boolean mIsBackToExist;
@@ -45,15 +53,17 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         onExceptionIntercept();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-
+        MobniusApplication application = (MobniusApplication) getApplication();
+        application.addPinCodeEnabledListener(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            String[] permissions = new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION };
+            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             mPermissionLength = permissions.length;
 
             ActivityCompat.requestPermissions(this,
@@ -63,7 +73,8 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
         if (requestCode == REQUEST_PERMISSIONS) {
             if (grantResults.length == mPermissionLength) {
@@ -88,7 +99,7 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     @Override
     public void onBackPressed() {
-        if(isBackToExist()) {
+        if (isBackToExist()) {
             if (doubleBackToExitPressedOnce) {
                 finishAffinity();
                 finish();
@@ -123,5 +134,21 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton("OK", null).show();
+    }
+
+    @Override
+    public void onPinCodeEnabled() {
+        Authorization mAuthorization = Authorization.getInstance();
+        BasicUser mBasicUser = mAuthorization.getLastAuthUser();
+        AuthorizationCache cache = new AuthorizationCache(this);
+        String pin = cache.readPin(mBasicUser.getCredentials().login);
+        if (!pin.isEmpty()) {
+            PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
+            getSupportFragmentManager().beginTransaction().add(getLayoutResId(), fragment).commit();
+        }
+    }
+
+    private int getLayoutResId() {
+        return getWindow().getDecorView().findViewById(android.R.id.content).getId();
     }
 }

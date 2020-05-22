@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class ExistsAsync extends AsyncTask<Void, String, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
