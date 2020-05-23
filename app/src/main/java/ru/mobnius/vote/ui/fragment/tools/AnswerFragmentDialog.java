@@ -6,10 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 
+import ru.mobnius.vote.data.manager.BaseDialogFragment;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.ui.data.OnAnswerListener;
 
-abstract class AnswerFragmentDialog<T> extends DialogFragment {
+abstract class AnswerFragmentDialog<T> extends BaseDialogFragment {
     private OnAnswerListener mAnswerListener;
     private final Answer mAnswer;
     private final String mCommand;

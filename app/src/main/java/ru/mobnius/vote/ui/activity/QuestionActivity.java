@@ -48,6 +48,8 @@ public class QuestionActivity extends BaseFormActivity
     private String pointID;
     private long mCurrentQuestionID;
 
+    private MenuItem mActionGeo;
+
     /**
      * Создание нового результата
      *
@@ -83,6 +85,8 @@ public class QuestionActivity extends BaseFormActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_choice_document, menu);
+        mActionGeo = menu.findItem(R.id.choiceDocument_Geo);
+        mActionGeo.setVisible(!isDone());
         actionMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }

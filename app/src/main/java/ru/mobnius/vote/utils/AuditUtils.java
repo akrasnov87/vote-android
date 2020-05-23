@@ -18,7 +18,7 @@ public class AuditUtils {
      * @param message сообщение
      * @param type тип сообщения
      */
-    public static void write(Context context, String message, String type, Level level){
+    public static void write(String message, String type, Level level) {
         DaoSession daoSession = ru.mobnius.vote.data.manager.DataManager.getInstance().getDaoSession();
 
         Audits audit = new Audits();

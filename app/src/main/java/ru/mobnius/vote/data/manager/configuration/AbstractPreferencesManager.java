@@ -12,10 +12,8 @@ import ru.mobnius.vote.data.Logger;
 public abstract class AbstractPreferencesManager {
 
     private SharedPreferences sharedPreferences;
-    private final String mPreferenceName;
 
     AbstractPreferencesManager(Context context, String preferenceName){
-        mPreferenceName = preferenceName;
         sharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
@@ -142,28 +140,12 @@ public abstract class AbstractPreferencesManager {
         return DefaultPreferencesManager.getInstance().hasValue(key);
     }
 
-    protected int getDefaultIntValue(String key, int defaultValue){
-        if(hasDefaultValue(key)){
-            return DefaultPreferencesManager.getInstance().getIntValue(key, defaultValue);
-        }
-
-        return PreferencesManager.getInstance().getIntValue(key, defaultValue);
-    }
-
     boolean getDefaultBooleanValue(String key){
         if(hasDefaultValue(key)){
             return DefaultPreferencesManager.getInstance().getBooleanValue(key, false);
         }
 
         return PreferencesManager.getInstance().getBooleanValue(key, false);
-    }
-
-    protected String getDefaultStringValue(String key, String defaultValue){
-        if(hasDefaultValue(key)){
-            return DefaultPreferencesManager.getInstance().getStringValue(key, defaultValue);
-        }
-
-        return PreferencesManager.getInstance().getStringValue(key, defaultValue);
     }
 
     /**
@@ -177,9 +159,5 @@ public abstract class AbstractPreferencesManager {
 
     public void destroy() {
         sharedPreferences = null;
-    }
-
-    public String getPreferenceName() {
-        return mPreferenceName;
     }
 }

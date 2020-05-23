@@ -54,23 +54,6 @@ class MultipartUtility {
     }
 
     /**
-     * Adds a form field to the request
-     *
-     * @param name  field name
-     * @param value field value
-     */
-    public void addFormField(String name, String value) {
-        writer.append("--").append(boundary).append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"").append(name).append("\"")
-                .append(LINE_FEED);
-        writer.append("Content-Type: text/plain; charset=").append(charset).append(
-                LINE_FEED);
-        writer.append(LINE_FEED);
-        writer.append(value).append(LINE_FEED);
-        writer.flush();
-    }
-
-    /**
      * Добавление файла
      * @param fieldName имя
      * @param buffer массив байтов
@@ -91,17 +74,6 @@ class MultipartUtility {
 
         outputStream.flush();
         writer.append(LINE_FEED);
-        writer.flush();
-    }
-
-    /**
-     * Adds a header field to the request.
-     *
-     * @param name  - name of the header field
-     * @param value - value of the header field
-     */
-    public void addHeaderField(String name, String value) {
-        writer.append(name).append(": ").append(value).append(LINE_FEED);
         writer.flush();
     }
 

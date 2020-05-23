@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Answer;
 
 /**
@@ -55,5 +56,10 @@ public class CommentDialogFragment extends AnswerFragmentDialog<String> implemen
     @Override
     public void onClick(View v) {
         onAnswerListener(Objects.requireNonNull(etComment.getText()).toString());
+    }
+
+    @Override
+    public int getExceptionCode() {
+        return IExceptionCode.COMMENT_DIALOG;
     }
 }

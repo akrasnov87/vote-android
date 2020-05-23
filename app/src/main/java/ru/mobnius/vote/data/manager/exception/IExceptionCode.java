@@ -78,4 +78,6 @@ public interface IExceptionCode {
     int SETTING = 36;
     int SERVICE = 37;
     int STATISTIC = 38;
+    int COMMENT_DIALOG = 39;
+    int CONTACT_DIALOG = 40;
 }

@@ -53,15 +53,15 @@ class AuthorizationRequestUtil {
                 try {
                     return convertResponseToMeta(responseText);
                 } catch (Exception formatExc) {
-                    return new AuthorizationMeta(Meta.ERROR_SERVER, "Ошибка в преобразовании ответа на авторизацию.", formatExc.getMessage());
+                    return new AuthorizationMeta(Meta.ERROR_SERVER, "Ошибка в преобразовании ответа на авторизацию.");
                 }
             } catch (Exception innerErr) {
-                return new AuthorizationMeta(Meta.ERROR_SERVER, "Ошибка создания запроса на авторизацию.", innerErr.getMessage());
+                return new AuthorizationMeta(Meta.ERROR_SERVER, "Ошибка создания запроса на авторизацию.");
             } finally {
                 urlConnection.disconnect();
             }
         } catch (Exception e) {
-            return new AuthorizationMeta(Meta.ERROR_SERVER, "Общая ошибка авторизации.", e.getMessage());
+            return new AuthorizationMeta(Meta.ERROR_SERVER, "Общая ошибка авторизации.");
         }
     }
 

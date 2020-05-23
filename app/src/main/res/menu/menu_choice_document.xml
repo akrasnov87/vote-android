@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
+        android:id="@+id/choiceDocument_Geo"
         android:title="@string/geo"
         android:icon="@drawable/ic_gps_off_24px"
         app:showAsAction="never"

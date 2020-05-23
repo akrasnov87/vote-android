@@ -47,21 +47,6 @@ public class PackageReadUtils {
     }
 
     /**
-     * Получение файла по имени
-     * @param name имя
-     * @return возарщается файл
-     */
-    public FileBinary getFile(String name) throws Exception {
-        FileBinary[] files = getFiles();
-        for(FileBinary file : files){
-            if(file.name.equals(name)){
-                return file;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Чтение информации о переданных данных
      * @return запросы
      */

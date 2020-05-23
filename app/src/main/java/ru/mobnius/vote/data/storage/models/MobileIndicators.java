@@ -12,6 +12,7 @@ import org.greenrobot.greendao.DaoException;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
+@SuppressWarnings("unused")
 @Entity(nameInDb = "ad_mobile_indicators")
 public class MobileIndicators implements IEntityTo {
 

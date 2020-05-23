@@ -203,7 +203,7 @@ public class AuthorizationCache {
             }
             json.put("time", DateUtil.convertDateToString(time));
             json.put("token", user.getCredentials().getToken());
-String t =json.toString();
+
             bw.write(json.toString());
             bw.close();
             result = true;

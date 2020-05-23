@@ -22,7 +22,6 @@ import ru.mobnius.vote.utils.SqlUpdateFromJSONObject;
  */
 public abstract class ServerSidePackage implements IServerSidePackage {
     private boolean deleteRecordBeforeAppend = false;
-    private FileBinary[] mFileBinary;
 
     /**
      * Устанавливает параметр удаление записей при добавлении информации в БД
@@ -130,9 +129,6 @@ public abstract class ServerSidePackage implements IServerSidePackage {
 
             if(!rpcResult.method.equals("Query") && !rpcResult.method.equals("Select")){
                 return  PackageResult.fail("Метод результата " + tableName + " должен быть Query. Текущее значение " + rpcResult.method, null);
-            }
-            if(tableName.equals("cd_routes")) {
-                int i = 2+ 2;
             }
 
             db.beginTransaction();

@@ -10,7 +10,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-@SuppressWarnings("StringEquality")
+@SuppressWarnings({"StringEquality", "unused"})
 @Entity(nameInDb = "cd_userinroutes")
 class UserInRoutes {
 

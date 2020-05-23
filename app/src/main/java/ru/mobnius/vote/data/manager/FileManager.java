@@ -92,30 +92,12 @@ public class FileManager {
     }
 
     /**
-     * Каталог с файлами
-     *
-     * @return возвращается путь к папке
-     */
-    public File getFilesFolder() {
-        return getRootCatalog(FILES);
-    }
-
-    /**
      * каталог для хранения временных файлов изображений
      *
      * @return возвращается путь к папке
      */
     public File getTempPictureFolder() {
         return getRootCatalog(TEMP_PICTURES);
-    }
-
-    /**
-     * каталог для хранения кэшированных изображений
-     *
-     * @return возвращается путь к папке
-     */
-    public File getCaches() {
-        return getRootCatalog(CACHES);
     }
 
     /**

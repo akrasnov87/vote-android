@@ -83,11 +83,6 @@ public abstract class Transfer {
         protocolVersion = version;
         this.synchronization = synchronization;
         this.tid = tid;
-
-        /**
-         * имя выполняемой команды
-         */
-        String transferName = getClass().getSimpleName();
     }
 
     /**

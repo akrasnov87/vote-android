@@ -37,14 +37,6 @@ public class TableQuery {
     }
 
     /**
-     * Создание объекта
-     * @param action таблицы
-     */
-    public TableQuery (String action) {
-        this(action, null, "");
-    }
-
-    /**
      * Преобразование в RPC запрос
      * @param limit лимит
      * @param filters фильтрация
