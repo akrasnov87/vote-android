@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.Property;
 
 import org.greenrobot.greendao.annotation.Generated;
 
+@SuppressWarnings("unused")
 @Entity(nameInDb = "ss_status_schemas")
 class StatusSchemas {
 

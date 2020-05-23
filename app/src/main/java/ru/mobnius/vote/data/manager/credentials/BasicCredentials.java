@@ -35,10 +35,6 @@ public class BasicCredentials {
         return "Token " + new String(bytesEncoded);
     }
 
-    public boolean isEqualsPassword(String password) {
-        return this.password.equals(password);
-    }
-
     /**
      * Метод для чтения токен
      * @param token токен авторизации

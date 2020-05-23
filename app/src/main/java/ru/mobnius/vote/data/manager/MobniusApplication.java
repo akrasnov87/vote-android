@@ -89,7 +89,7 @@ public class MobniusApplication extends android.app.Application implements IExce
 
         DataManager.createInstance(daoSession);
 
-        AuditUtils.write(this, "", AuditUtils.ON_AUTH, AuditUtils.Level.HIGH);
+        AuditUtils.write("", AuditUtils.ON_AUTH, AuditUtils.Level.HIGH);
         if (SocketManager.getInstance() != null)
             SocketManager.getInstance().destroy();
 
@@ -108,7 +108,7 @@ public class MobniusApplication extends android.app.Application implements IExce
      */
     public void unAuthorized(boolean clearUserAuthorization) {
 
-        AuditUtils.write(this, "", AuditUtils.UN_AUTH, AuditUtils.Level.HIGH);
+        AuditUtils.write("", AuditUtils.UN_AUTH, AuditUtils.Level.HIGH);
 
         serviceManager.stopMyService();
 

@@ -19,11 +19,6 @@ public class AuthorizationMeta extends Meta {
      */
     private final Integer mUserId;
 
-    /**
-     * Полный текст ошибки
-     */
-    private String mFullMessage;
-
     public AuthorizationMeta(int status, String message, String token, String claims, Integer userId) {
         super(status, message);
 
@@ -32,10 +27,8 @@ public class AuthorizationMeta extends Meta {
         mUserId = userId;
     }
 
-    public AuthorizationMeta(int status, String message, String fullMessage) {
+    public AuthorizationMeta(int status, String message) {
         this(status, message, null, null, null);
-
-        mFullMessage = fullMessage;
     }
 
     public String getToken() {
@@ -48,9 +41,5 @@ public class AuthorizationMeta extends Meta {
 
     public Integer getUserId() {
         return mUserId;
-    }
-
-    public String getFullMessage() {
-        return mFullMessage;
     }
 }

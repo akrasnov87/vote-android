@@ -538,19 +538,6 @@ public class DataManager {
         }
     }
 
-    public boolean isWait(String routeId) {
-        Routes routes = daoSession.getRoutesDao().load(routeId);
-        try {
-            Date dateStart = DateUtil.convertStringToDate(routes.d_date_start);
-            Date dateEnd = DateUtil.convertStringToDate(routes.d_date_end);
-            Date date = new Date();
-            return dateStart.getTime() < date.getTime() &&
-                    dateEnd.getTime() > date.getTime();
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
     /**
      * Список вопросов
      * @return получить список вопросов

@@ -21,10 +21,6 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private boolean mIsBackToExist;
 
-    public void setBackToExist(boolean backToExist) {
-        mIsBackToExist = backToExist;
-    }
-
     private final int REQUEST_PERMISSIONS = 1;
     private int mPermissionLength = 0;
 

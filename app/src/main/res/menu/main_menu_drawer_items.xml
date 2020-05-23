@@ -3,28 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_sync"
-            android:icon="@drawable/ic_sync_gray_24dp"
-            android:title="@string/synchronization" />
+    <item android:title="@string/main">
+        <menu>
+            <item
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_sync_gray_24dp"
+                android:title="@string/synchronization" />
 
-        <item
-            android:id="@+id/nav_statistic"
-            android:icon="@drawable/ic_show_chart_black_24dp"
-            android:title="@string/statistic" />
+            <item
+                android:id="@+id/nav_statistic"
+                android:icon="@drawable/ic_show_chart_black_24dp"
+                android:title="@string/statistic" />
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/settings" />
-    </group>
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings" />
 
-    <group>
-        <item
-            android:id="@+id/nav_exit"
-            android:icon="@drawable/ic_exit_gray_24dp"
-            android:title="@string/exit" />
-    </group>
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_exit_gray_24dp"
+                android:title="@string/exit" />
+        </menu>
+    </item>
 
 </menu>

@@ -33,7 +33,6 @@ public class SocketManager {
     private final static String EVENT_MAIL_FROM = "mailer-from";
     private final static String EVENT_GROUP_MAIL_FROM = "mailer-group-from";
     private static SocketManager socketManager;
-    private ISocketNotification mSocketNotification;
 
     private Socket socket;
     private boolean isRegistry;

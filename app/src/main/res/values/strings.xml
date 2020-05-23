@@ -74,4 +74,6 @@
     <string name="reset">Сбросить</string>
     <string name="route_filter">Фильтрация домов</string>
     <string name="drop_pin_code">Сбросить пин-код</string>
+    <string name="other">Прочее</string>
+    <string name="main">Главное</string>
 </resources>

@@ -39,7 +39,7 @@ public class GeoManager implements LocationListener, Serializable {
         }
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         assert locationManager != null;
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
     }
 
     public double getLatitude() {

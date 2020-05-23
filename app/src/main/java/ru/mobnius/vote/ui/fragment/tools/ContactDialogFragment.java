@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
@@ -92,5 +93,10 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
 
     private void updateContactUI() {
         mEmptyView.setVisibility(mContacts.size() > 0 ? TextView.GONE : TextView.VISIBLE);
+    }
+
+    @Override
+    public int getExceptionCode() {
+        return IExceptionCode.CONTACT_DIALOG;
     }
 }

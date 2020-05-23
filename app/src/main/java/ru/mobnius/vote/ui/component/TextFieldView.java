@@ -27,7 +27,6 @@ public class TextFieldView extends LinearLayout {
         String valueText = a.getString(R.styleable.TextFieldView_fieldText);
         a.recycle();
         setOrientation(LinearLayout.VERTICAL);
-        //setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -44,10 +43,6 @@ public class TextFieldView extends LinearLayout {
 
     public TextFieldView(Context context) {
         this(context, null);
-    }
-
-    public void setFieldLabel(String value){
-        tvFieldLabel.setText(value);
     }
 
     public void setFieldText(String value){

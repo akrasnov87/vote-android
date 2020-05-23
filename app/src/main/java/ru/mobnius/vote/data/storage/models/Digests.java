@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Property;
 
+@SuppressWarnings("unused")
 @Entity(nameInDb = "sd_digests")
 class Digests {
     /**

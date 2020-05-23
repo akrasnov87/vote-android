@@ -20,23 +20,11 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         super();
     }
 
-    public void setFragment(Fragment fragment) {
-        mFragment = fragment;
-    }
-
-    public Fragment getFragment() {
-        return mFragment;
-    }
-
-    private int getLayoutResId() {
-        return R.layout.master_container;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(getLayoutResId());
+        setContentView(R.layout.master_container);
         FragmentManager fm = getSupportFragmentManager();
 
         mFragment = fm.findFragmentById(R.id.single_fragment_container);
