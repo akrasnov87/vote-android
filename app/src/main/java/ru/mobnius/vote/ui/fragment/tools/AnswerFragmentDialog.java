@@ -17,10 +17,6 @@ abstract class AnswerFragmentDialog<T> extends BaseDialogFragment {
     private final T mInput;
     private final boolean mIsDone;
 
-    public T getInput() {
-        return mInput;
-    }
-
     AnswerFragmentDialog(Answer answer, String command, T input, boolean isDone) {
         mInput = input;
         mCommand = command;

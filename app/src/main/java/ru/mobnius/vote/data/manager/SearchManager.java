@@ -44,7 +44,7 @@ public abstract class SearchManager<T> extends FilterManager<T> {
 
         try {
             for (FilterItem filterItem : getItems()) {
-                Field field = item.getClass().getField(filterItem.getName());
+                Field field = item.getClass().getDeclaredField(filterItem.getName());
 
                 String valueStr = String.valueOf(field.get(item)).toLowerCase();
                 String valueFilter = filterItem.getValue().toLowerCase();
