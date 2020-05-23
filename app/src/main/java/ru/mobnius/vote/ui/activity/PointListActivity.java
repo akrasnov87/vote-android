@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
@@ -53,20 +54,21 @@ public class PointListActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_point);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        mPreferencesManager = PreferencesManager.getInstance();
+
         routeId = getIntent().getStringExtra(Names.ROUTE_ID);
         mDataManager = DataManager.getInstance();
         mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);
         mRecyclerView = findViewById(R.id.fPoint_rvPoints);
-
+        mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
-        mPreferencesManager = PreferencesManager.getInstance();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         int donePoints = mDataManager.getCountDonePoints(routeId);
         if (donePoints > 0) {
             Routes routeItem = mDataManager.getDaoSession().getRoutesDao().load(routeId);
@@ -108,6 +110,10 @@ public class PointListActivity extends BaseActivity
                         putBoolean(PreferencesManager.POINT_SORT_PREFS, true).apply();
             }
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
+        }
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

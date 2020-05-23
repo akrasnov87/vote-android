@@ -41,6 +41,6 @@ public class PointHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
-        mContext.startActivity(QuestionActivity.newIntent(mContext, mItem.routeId, mItem.id));
+        mContext.startActivity(QuestionActivity.newIntent(mContext, mItem));
     }
 }

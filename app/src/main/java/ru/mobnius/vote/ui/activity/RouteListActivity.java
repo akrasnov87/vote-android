@@ -135,7 +135,6 @@ public class RouteListActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public int getExceptionCode() {
         return IExceptionCode.MAIN;

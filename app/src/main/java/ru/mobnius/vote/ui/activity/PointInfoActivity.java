@@ -21,6 +21,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.component.TextFieldView;
 import ru.mobnius.vote.ui.model.PointInfo;
+import ru.mobnius.vote.utils.StringUtil;
 
 /**
  * Экран вывода информации о точке
@@ -35,6 +36,8 @@ public class PointInfoActivity extends BaseActivity
 
     private TextFieldView tfvNotice;
     private TextFieldView tfvAddress;
+
+    private PointInfo mPointInfo;
 
     public static Intent newIntent(Context context, String id) {
         Intent intent = new Intent(context, PointInfoActivity.class);
@@ -62,10 +65,12 @@ public class PointInfoActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
 
-        PointInfo pointInfo = DataManager.getInstance().getPointInfo(mPointID);
-
-        tfvNotice.setFieldText(pointInfo.getNotice());
-        tfvAddress.setFieldText(pointInfo.getAddress() + " д. " + pointInfo.getSubscrNumber());
+        mPointInfo = DataManager.getInstance().getPointInfo(mPointID);
+        if(!StringUtil.isEmptyOrNull(mPointInfo.getNotice())) {
+            tfvNotice.setFieldText(mPointInfo.getNotice());
+            tfvNotice.setVisibility(View.VISIBLE);
+        }
+        tfvAddress.setFieldText(mPointInfo.getAddress() + " кв. " + mPointInfo.getSubscrNumber());
 
         boolean done = DataManager.getInstance().getPointState(mPointID).isDone();
         if (done) {
@@ -133,7 +138,7 @@ public class PointInfoActivity extends BaseActivity
         adb.setNegativeButton(getResources().getString(R.string.no), listener);
 
         AlertDialog alert = adb.create();
-        alert.setTitle("Сбросить результаты обхода по квартире?");
+        alert.setTitle(String.format("Сбросить результаты обхода по квартире %s?", mPointInfo.getSubscrNumber()));
         alert.show();
     }
 }

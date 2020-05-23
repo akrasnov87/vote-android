@@ -45,10 +45,10 @@ public class VoteItemFragment extends BaseFragment
      * @param exclusionAnswerID идентификатор существ. ответа
      */
     @Override
-    public void onQuestionBind(long questionID, long exclusionAnswerID) {
+    public void onQuestionBind(long questionID, long exclusionAnswerID, long lastAnswerId) {
         DataManager dataManager = DataManager.getInstance();
 
-        rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(questionID), exclusionAnswerID));
+        rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(questionID), exclusionAnswerID, lastAnswerId));
         rvButtons.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Question question = dataManager.getQuestion(questionID);

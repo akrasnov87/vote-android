@@ -35,6 +35,8 @@ import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
+import ru.mobnius.vote.ui.model.PointInfo;
+import ru.mobnius.vote.ui.model.PointItem;
 
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
@@ -53,13 +55,14 @@ public class QuestionActivity extends BaseFormActivity
     /**
      * Создание нового результата
      *
-     * @param routeId маршрут, Routes
-     * @param pointId точка маршрута, Points
+     * @param pointItem точка маршрута
      */
-    public static Intent newIntent(Context context, String routeId, String pointId) {
+    public static Intent newIntent(Context context, PointItem pointItem) {
         Intent intent = new Intent(context, QuestionActivity.class);
-        intent.putExtra(Names.POINT_ID, pointId);
-        intent.putExtra(Names.ROUTE_ID, routeId);
+        intent.putExtra(Names.POINT_ID, pointItem.id);
+        intent.putExtra(Names.ROUTE_ID, pointItem.routeId);
+        intent.putExtra(Names.NAME, pointItem.subscrNumber);
+        intent.putExtra(Names.ADDRESS, pointItem.routeName);
         return intent;
     }
 
@@ -71,11 +74,14 @@ public class QuestionActivity extends BaseFormActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         pointID = getIntent().getStringExtra(Names.POINT_ID);
         routeID = getIntent().getStringExtra(Names.ROUTE_ID);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra(Names.NAME));
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle(getIntent().getStringExtra(Names.ADDRESS));
 
         mDocumentManager = new DocumentManager(this);
         mVoteManager = new VoteManager();
@@ -118,7 +124,7 @@ public class QuestionActivity extends BaseFormActivity
         }
 
         Question question = DataManager.getInstance().getQuestions()[0];
-        onShowQuestion(question.id);
+        onShowQuestion(question.id, -1);
     }
 
     @Override
@@ -191,11 +197,13 @@ public class QuestionActivity extends BaseFormActivity
     public void onBackPressed() {
         long lastQuestionID = isDone() ? mVoteManager.getPrevQuestionID(mCurrentQuestionID) : mVoteManager.getLastQuestionID();
         if (lastQuestionID > 0) {
+            long lastAnswerId = -1;
             if (!isDone()) {
+                lastAnswerId = mVoteManager.getQuestionAnswer(lastQuestionID);
                 // если вопрос ранее не задавался, то удаляем из стэка последний
                 mVoteManager.removeQuestion(lastQuestionID);
             }
-            onShowQuestion(lastQuestionID);
+            onShowQuestion(lastQuestionID, lastAnswerId);
         } else {
             super.onBackPressed();
         }
@@ -241,10 +249,10 @@ public class QuestionActivity extends BaseFormActivity
      * Вывод вопроса
      * @param questionID иден. вопроса
      */
-    private void onShowQuestion(long questionID) {
+    private void onShowQuestion(long questionID, long lastAnswerId) {
         mCurrentQuestionID = questionID;
         long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
-        getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID);
+        getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID, lastAnswerId);
     }
 
     /**
@@ -278,7 +286,7 @@ public class QuestionActivity extends BaseFormActivity
             VoteItemFragment fragment = VoteItemFragment.createInstance();
             fragmentManager.beginTransaction().
                     replace(R.id.single_fragment_container, fragment).commitNow();
-            onShowQuestion(answer.f_next_question);
+            onShowQuestion(answer.f_next_question, -1);
         }
     }
 

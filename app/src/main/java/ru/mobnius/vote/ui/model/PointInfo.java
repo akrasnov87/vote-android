@@ -31,12 +31,16 @@ public class PointInfo {
     /**
      * Адрес
      */
-    private final String mAddress;
+    private String mAddress;
 
     private String mNotice;
 
     public String getAddress() {
         return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
     }
 
     public String getFio() {

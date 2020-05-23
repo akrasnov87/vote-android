@@ -8,4 +8,5 @@ public interface Names {
     String ROUTE_ID = "route_id";
     String PIN = "pin";
     String LOGIN = "login";
+    String ADDRESS = "address";
 }

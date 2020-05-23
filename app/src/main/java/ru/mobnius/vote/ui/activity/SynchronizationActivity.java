@@ -93,6 +93,7 @@ public class SynchronizationActivity extends BaseActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
+            return true;
         }
 
         if(item.getItemId() == R.id.action_sync_log) {

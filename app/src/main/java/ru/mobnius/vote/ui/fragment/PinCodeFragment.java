@@ -103,7 +103,7 @@ public class PinCodeFragment extends BaseFragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.pin_code_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_pin_code, container, false);
         pclPinPoints = v.findViewById(R.id.pinFragment_pclTop);
         pclPinPoints.setPinChangeListener(this);
         pclPinPoints.setCheckPinListener(this);

@@ -310,7 +310,7 @@ public class DataManager {
 
                 Routes route = point.getRoute();
                 if(route != null) {
-                    pointItem.routeName = route.c_notice;
+                    pointItem.routeName = route.c_number;
                     pointItem.routeTypeName = route.getType().c_name;
                 }
 
@@ -413,6 +413,7 @@ public class DataManager {
             if(registrPts != null) {
                 PointInfo info = new PointInfo(registrPts);
                 info.setNotice(point.c_info);
+                info.setAddress(point.getRoute().c_number);
                 return info;
             }
         }

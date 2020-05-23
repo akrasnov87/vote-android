@@ -46,13 +46,11 @@
         </activity>
         <activity
             android:name=".ui.activity.PointListActivity"
-            android:label="Квартиры"
-            android:parentActivityName=".ui.activity.RouteListActivity" />
+            android:label="Квартиры" />
 
         <activity
             android:name=".ui.activity.SynchronizationActivity"
-            android:label="@string/synchronization"
-            android:parentActivityName=".ui.activity.RouteListActivity" />
+            android:label="@string/synchronization" />
         <activity
         android:name=".ui.activity.QuestionActivity" />
         <activity
@@ -60,8 +58,7 @@
             android:label="@string/general_info"/>
 
         <activity android:name=".ui.activity.StatisticActivity"
-            android:label="@string/statistic"
-            android:parentActivityName=".ui.activity.RouteListActivity" />
+            android:label="@string/statistic" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

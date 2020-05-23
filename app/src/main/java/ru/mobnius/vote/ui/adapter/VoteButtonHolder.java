@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,16 +15,18 @@ import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 /**
  * кнопка с вариантом ответа
  */
-public class VoteButtonHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class VoteButtonHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
 
     private final Button mButton;
     private final Answer[] mAnswers;
     private final OnClickVoteItemListener mListener;
     private final long mExclusionAnswerID;
+    private final long mLastAnswerId;
 
-    public VoteButtonHolder(@NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID) {
+    public VoteButtonHolder(@NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID, long lastAnswerId) {
         super(itemView);
-
+        mLastAnswerId = lastAnswerId;
         mExclusionAnswerID = exclusionAnswerID;
         mListener = listener;
         mAnswers = answers;
@@ -35,6 +38,14 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder implements View.On
     public void bind(Answer answer, Context context) {
         if(mExclusionAnswerID == answer.id) {
             mButton.setBackgroundColor(context.getResources().getColor(R.color.toolbarBgColor));
+        }
+
+        if(mLastAnswerId > 0) {
+            if(mLastAnswerId == answer.id) {
+                mButton.setTypeface(null, Typeface.BOLD);
+            }
+        } else{
+            mButton.setTypeface(null, Typeface.NORMAL);
         }
         mButton.setText(answer.c_text);
     }

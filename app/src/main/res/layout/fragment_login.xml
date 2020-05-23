@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/AppTheme.AltBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/auth_no_internet"
+        android:text="@string/no_internet"
+        android:layout_alignParentTop="true"
+        tools:visibility="visible"
+        style="@style/AppTheme.ErrorText"/>
+
+    <TextView
+        android:id="@+id/auth_no_server"
+        android:text="@string/no_server_connection"
+        android:layout_below="@id/auth_no_internet"
+        tools:visibility="visible"
+        style="@style/AppTheme.ErrorText"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/auth_version"
+        android:layout_below="@id/auth_no_server">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_s_24"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/size_s_24">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/auth_login_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toTopOf="@id/auth_password_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/auth_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:textSize="22sp"
+                        android:textColorHint="@color/colorPrimary"
+                        android:hint="@string/login"
+                        android:inputType="textAutoComplete"
+                        tools:ignore="Autofill" />
+
+                    <ImageButton
+                        android:id="@+id/auth_login_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/auth_login"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="5dp"
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_clear_text_24dp"
+                        android:visibility="gone"
+                        android:contentDescription="@string/clear" />
+
+                </RelativeLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/auth_password_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/auth_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:textColorHint="@color/colorPrimary"
+                        android:textSize="22sp"
+                        android:inputType="textPassword"
+                        tools:ignore="Autofill" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/auth_password"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/auth_password_show"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            app:srcCompat="@drawable/ic_visibility_outlined_24dp"
+                            android:visibility="gone"
+                            android:contentDescription="@string/show_password" />
+
+                        <ImageButton
+                            android:id="@+id/auth_password_clear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            app:srcCompat="@drawable/ic_clear_text_24dp"
+                            android:visibility="gone"
+                            android:contentDescription="@string/clear" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/auth_sign_in"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_s_24"
+                android:enabled="false"
+                android:text="@string/enter"
+                android:textSize="22sp"
+                android:padding="@dimen/size_s_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/auth_password_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/auth_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/auth_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/size_xxs_8"
+        android:layout_marginBottom="@dimen/size_xxs_8"
+        android:textSize="16sp"
+        android:layout_gravity="end"
+        android:clickable="true"
+        android:focusable="true"
+        tools:text="Версия: 4.2.0.520" />
+
+</RelativeLayout>

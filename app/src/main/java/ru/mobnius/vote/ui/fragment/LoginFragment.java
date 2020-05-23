@@ -98,7 +98,7 @@ public class LoginFragment extends BaseFragment
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_authorization, container, false);
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
 
         etLogin = v.findViewById(R.id.auth_login);
         tilLogin = v.findViewById(R.id.auth_login_view);
