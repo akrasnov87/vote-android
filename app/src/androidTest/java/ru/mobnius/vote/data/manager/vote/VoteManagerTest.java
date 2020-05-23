@@ -13,7 +13,7 @@ public class VoteManagerTest extends ManagerGenerate {
 
     private VoteManager mVoteManager;
 
-    public static Question getQuestion(int id, String text, String description) {
+    private static Question getQuestion(int id, String text, String description) {
         Question question = new Question();
         question.c_title = text;
         question.c_text = description;
@@ -23,7 +23,7 @@ public class VoteManagerTest extends ManagerGenerate {
         return question;
     }
 
-    public static Answer getAnswer(int id, String text, long question, long nextQuestion, String action) {
+    private static Answer getAnswer(int id, String text, long question, long nextQuestion, String action) {
         Answer answer = new Answer();
         answer.id = (long)id;
         answer.c_action = action;

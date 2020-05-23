@@ -2,13 +2,10 @@ package ru.mobnius.vote.data.manager.configuration;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PreferencesManager extends AbstractPreferencesManager {
 
     // фильтр
-    public static final String ROUTE_FILTER_PREFS = "ROUTE_FILTER_PREFS";
+    private static final String ROUTE_FILTER_PREFS = "ROUTE_FILTER_PREFS";
 
     // сортировка
     public static final String POINT_SORT_PREFS = "POINT_SORT_PREFS";
@@ -25,11 +22,11 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static PreferencesManager getInstance(){
         return preferencesManager;
     }
-    public static PreferencesManager createInstance(Context context, String preferenceName){
-        return preferencesManager = new PreferencesManager(context, preferenceName);
+    public static void createInstance(Context context, String preferenceName){
+        preferencesManager = new PreferencesManager(context, preferenceName);
     }
 
-    protected PreferencesManager(Context context, String preferenceName){
+    private PreferencesManager(Context context, String preferenceName){
         super(context, preferenceName);
     }
 

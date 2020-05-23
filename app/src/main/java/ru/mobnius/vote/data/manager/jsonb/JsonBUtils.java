@@ -13,7 +13,7 @@ import java.util.List;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.utils.StringUtil;
 
-public class JsonBUtils {
+class JsonBUtils {
 
     /**
      * Преобразование объекта в JSON

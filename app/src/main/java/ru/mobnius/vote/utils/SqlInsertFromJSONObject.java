@@ -11,9 +11,9 @@ import java.util.Iterator;
  * Класс для обработки JSONObject и создания из него SQL запроса на добавление записи
  */
 public class SqlInsertFromJSONObject{
-    final String params;
-    final String tableName;
-    final String[] fields;
+    private final String params;
+    private final String tableName;
+    private final String[] fields;
 
     /**
      * Конструктор
@@ -52,8 +52,8 @@ public class SqlInsertFromJSONObject{
      */
     public String convertToQuery(boolean appendField){
         StringBuilder builder = new StringBuilder();
-        for(int i =0; i < fields.length; i++){
-            builder.append(fields[i] + ",");
+        for (String field : fields) {
+            builder.append(field).append(",");
         }
         String strAppendField = "";
         if(appendField){
@@ -88,7 +88,6 @@ public class SqlInsertFromJSONObject{
     /**
      * колонка доступна или нет
      *
-     * @param abstractDao
      * @param columnName  имя колонки
      * @return true - колонка доступна в модели
      */

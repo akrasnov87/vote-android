@@ -3,7 +3,7 @@ package ru.mobnius.vote.data.manager.synchronization;
 /**
  * Справочник сущности
  */
-public class EntityDictionary extends Entity{
+class EntityDictionary extends Entity{
 
     /**
      * Конструктор

@@ -24,13 +24,13 @@ public class QueryData {
     public String select;
 
     @Expose
-    public String query;
+    public final String query;
 
     @Expose
-    public int page;
+    public final int page;
 
     @Expose
-    public int start;
+    public final int start;
 
     @Expose
     public int limit;

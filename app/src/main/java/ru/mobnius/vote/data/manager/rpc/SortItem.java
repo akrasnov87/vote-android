@@ -25,8 +25,8 @@ public class SortItem {
     }
 
     @Expose
-    public String property;
+    private final String property;
 
     @Expose
-    public String direction;
+    public final String direction;
 }

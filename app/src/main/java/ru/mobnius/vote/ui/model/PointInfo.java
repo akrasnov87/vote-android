@@ -21,17 +21,17 @@ public class PointInfo {
     /**
      * Номер ЛС
      */
-    private String mSubscrNumber;
+    private final String mSubscrNumber;
 
     /**
      * ФИО потребителя
      */
-    private String mFio;
+    private final String mFio;
 
     /**
      * Адрес
      */
-    private String mAddress;
+    private final String mAddress;
 
     private String mNotice;
 

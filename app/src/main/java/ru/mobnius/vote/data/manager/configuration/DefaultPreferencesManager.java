@@ -19,7 +19,7 @@ public class DefaultPreferencesManager extends AbstractPreferencesManager {
         preferencesManager = new DefaultPreferencesManager(context, preferenceName);
     }
 
-    protected DefaultPreferencesManager(Context context, String preferenceName){
+    DefaultPreferencesManager(Context context, String preferenceName){
         super(context, preferenceName);
     }
 }

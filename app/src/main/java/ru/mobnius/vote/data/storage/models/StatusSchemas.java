@@ -9,32 +9,32 @@ import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "ss_status_schemas")
-public class StatusSchemas {
+class StatusSchemas {
 
     /**
      * Признак отключенной записи
      */
     @Expose
-    public long b_disabled;
+    private long b_disabled;
 
     /**
      * Конечный статус
      */
     @Expose
-    public long f_end;
+    private long f_end;
 
     /**
      * Начальный статус
      */
     @Expose
-    public long f_start;
+    private long f_start;
 
     /**
      * Идентификатор
      */
     @Id
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     @Generated(hash = 1278845539)
     public StatusSchemas(long b_disabled, long f_end, long f_start, Long id) {

@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 
-public class BitmapUtil {
+class BitmapUtil {
     public final static int QUALITY_120p = 120;
     public final static int QUALITY_240p = 240;
     public final static int QUALITY_480p = 480;
@@ -44,7 +44,7 @@ public class BitmapUtil {
 
     // Scale and maintain aspect ratio given a desired width
     // BitmapScale.scaleToFitWidth(bitmap, 100);
-    public static Bitmap scaleToFitWidth(Bitmap b, int width)
+    private static Bitmap scaleToFitWidth(Bitmap b, int width)
     {
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);

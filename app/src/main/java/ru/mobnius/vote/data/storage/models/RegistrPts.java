@@ -25,10 +25,10 @@ public class RegistrPts {
     public String c_device;
 
     @Expose
-    public String jb_tel;
+    private String jb_tel;
 
     @Expose
-    public String jb_email;
+    private String jb_email;
 
     @Expose
     public String c_fio;
@@ -43,13 +43,13 @@ public class RegistrPts {
      * Широта
      */
     @Expose
-    public double n_latitude;
+    private double n_latitude;
 
     /**
      * Долгота
      */
     @Expose
-    public double n_longitude;
+    private double n_longitude;
 
     /**
      * Отделение
@@ -60,7 +60,7 @@ public class RegistrPts {
      * Отделение
      */
     @ToOne(joinProperty = "f_division")
-    public Divisions division;
+    private Divisions division;
 
     /**
      * Участок
@@ -71,21 +71,21 @@ public class RegistrPts {
      * Участок
      */
     @ToOne(joinProperty = "f_subdivision")
-    public SubDivisions subdivision;
+    private SubDivisions subdivision;
 
     /**
      * Пользователь
      */
     @Expose
-    public long f_user;
+    private long f_user;
     /**
      * Пользователь
      */
     @ToOne(joinProperty = "f_user")
-    public Users user;
+    private Users user;
 
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

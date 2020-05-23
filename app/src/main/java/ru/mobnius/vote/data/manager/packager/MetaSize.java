@@ -52,7 +52,7 @@ public class MetaSize {
     /**
      * Тип пакета
      */
-    public String type;
+    private final String type;
 
     public MetaSize(int metaSize, int status, String type) {
         this.metaSize = metaSize;

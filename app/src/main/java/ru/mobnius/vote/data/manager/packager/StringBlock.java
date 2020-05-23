@@ -24,13 +24,13 @@ public class StringBlock {
      * блок данных для отправки
      */
     @Expose
-    public RPCItem[] to;
+    public final RPCItem[] to;
 
     /**
      * блок данных для получения
      */
     @Expose
-    public RPCItem[] from;
+    public final RPCItem[] from;
 
     public String toJsonString() {
         Gson json = new GsonBuilder().serializeNulls().excludeFieldsWithoutExposeAnnotation().create();

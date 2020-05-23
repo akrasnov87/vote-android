@@ -37,7 +37,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public class ExistsAsync extends AsyncTask<Void, String, Boolean> {
+    class ExistsAsync extends AsyncTask<Void, String, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean serverExists = false;

@@ -7,16 +7,14 @@ public class Network {
 
     public Network(boolean onLine, boolean socket) {
         this.onLine = onLine;
-        this.socket = socket;
+        /**
+         * доступно сокет соединение или нет
+         */
     }
 
     /**
      * доступ к сети интернета
      */
-    public boolean onLine;
+    public final boolean onLine;
 
-    /**
-     * доступно сокет соединение или нет
-     */
-    public boolean socket;
 }

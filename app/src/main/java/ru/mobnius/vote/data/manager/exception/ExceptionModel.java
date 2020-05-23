@@ -27,24 +27,24 @@ public class ExceptionModel {
     }
 
     @Expose
-    private String id;
+    private final String id;
 
     /**
      * Текст сообщения об ошибке
      */
     @Expose
-    private String message;
+    private final String message;
 
     @Expose
-    private int code;
+    private final int code;
 
     @Expose
-    private String group;
+    private final String group;
 
     /**
      * Дата возникновения ошибки
      */
-    private Date date;
+    private final Date date;
 
     private ExceptionModel(Date date, String message, String group, int code) {
         this.id = DateUtil.convertDateToString(date);
@@ -66,17 +66,16 @@ public class ExceptionModel {
         return id;
     }
 
-    public int getCode() {
+    private int getCode() {
         return code;
     }
 
-    public String getGroup() {
+    private String getGroup() {
         return group;
     }
 
     /**
      * Имя файла для хранения исключения
-     * @return
      */
     public String getFileName(){
         return String.format("%s.exc", this.id);

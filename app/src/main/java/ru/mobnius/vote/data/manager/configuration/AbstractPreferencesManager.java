@@ -11,10 +11,10 @@ import ru.mobnius.vote.data.Logger;
 
 public abstract class AbstractPreferencesManager {
 
-    protected SharedPreferences sharedPreferences;
-    private String mPreferenceName;
+    private SharedPreferences sharedPreferences;
+    private final String mPreferenceName;
 
-    protected AbstractPreferencesManager(Context context, String preferenceName){
+    AbstractPreferencesManager(Context context, String preferenceName){
         mPreferenceName = preferenceName;
         sharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
@@ -89,21 +89,21 @@ public abstract class AbstractPreferencesManager {
      * @param key ключ
      * @return true - настройка доступна
      */
-    protected boolean hasValue(String key){
+    boolean hasValue(String key){
         return getSharedPreferences().contains(key);
     }
 
-    protected boolean isUpdateInt(String key, int value){
+    private boolean isUpdateInt(String key, int value){
         int intValue = getIntValue(key, Integer.MIN_VALUE);
         return intValue != value;
     }
 
-    protected boolean isUpdateBoolean(String key, boolean value){
+    private boolean isUpdateBoolean(String key, boolean value){
         boolean booleanValue = getBooleanValue(key, false);
         return booleanValue != value;
     }
 
-    protected boolean isUpdateString(String key, String value){
+    boolean isUpdateString(String key, String value){
         String stringValue = getStringValue(key, null);
         return stringValue == null || !stringValue.equals(value);
     }
@@ -138,7 +138,7 @@ public abstract class AbstractPreferencesManager {
         return getSharedPreferences().getInt(key, defaultValue);
     }
 
-    public boolean hasDefaultValue(String key){
+    private boolean hasDefaultValue(String key){
         return DefaultPreferencesManager.getInstance().hasValue(key);
     }
 
@@ -150,7 +150,7 @@ public abstract class AbstractPreferencesManager {
         return PreferencesManager.getInstance().getIntValue(key, defaultValue);
     }
 
-    protected boolean getDefaultBooleanValue(String key){
+    boolean getDefaultBooleanValue(String key){
         if(hasDefaultValue(key)){
             return DefaultPreferencesManager.getInstance().getBooleanValue(key, false);
         }

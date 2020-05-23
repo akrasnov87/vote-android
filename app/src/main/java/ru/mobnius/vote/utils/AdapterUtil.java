@@ -14,6 +14,7 @@ class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
+    @SuppressWarnings("SameParameterValue")
     static int getAdapterItemPosition(SimpleAdapter adapter, long id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override
@@ -30,6 +31,7 @@ class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
+    @SuppressWarnings("SameParameterValue")
     static int getAdapterItemPosition(SimpleAdapter adapter, int id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override
@@ -46,6 +48,7 @@ class AdapterUtil {
      * @param id      идентификатор записи
      * @return позиция
      */
+    @SuppressWarnings("SameParameterValue")
     static int getAdapterItemPosition(SimpleAdapter adapter, String id) {
         return getAdapterItemPosition(adapter, id, new IAdapterItemPosition() {
             @Override

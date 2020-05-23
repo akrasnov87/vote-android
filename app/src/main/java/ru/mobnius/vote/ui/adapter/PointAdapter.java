@@ -16,8 +16,8 @@ import ru.mobnius.vote.ui.model.PointItem;
 
 public class PointAdapter extends RecyclerView.Adapter<PointHolder> {
 
-    private List<PointItem> mPointsList;
-    private Context mContext;
+    private final List<PointItem> mPointsList;
+    private final Context mContext;
 
     public PointAdapter(Context context, List<PointItem> pointItems) {
         mPointsList = pointItems;

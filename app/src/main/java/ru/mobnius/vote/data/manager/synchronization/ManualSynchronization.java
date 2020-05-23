@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager.synchronization;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ import ru.mobnius.vote.utils.PackageReadUtils;
  */
 public class ManualSynchronization extends WebSocketSynchronization {
 
+    @SuppressLint("StaticFieldLeak")
     private static ManualSynchronization manualSynchronization;
 
     public static ManualSynchronization getInstance(boolean zip){
@@ -52,7 +54,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         }
     }
 
-    public String totalTid;
+    private String totalTid;
     public String dictionaryTid;
 
     /**
@@ -60,7 +62,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
      * @param session сессия для подключения к БД
      * @param fileManager файловый менеджер
      */
-    protected ManualSynchronization(DaoSession session, FileManager fileManager, boolean zip) {
+    ManualSynchronization(DaoSession session, FileManager fileManager, boolean zip) {
         super(session, "MANUAL_SYNCHRONIZATION", zip);
         oneOnlyMode = true;
         serverSidePackage = new FullServerSidePackage();

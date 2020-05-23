@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 
+@SuppressWarnings("StringEquality")
 @Entity(nameInDb = "cd_user_points")
 public class UserPoints implements IEntityTo {
 
@@ -23,7 +24,7 @@ public class UserPoints implements IEntityTo {
     public String fn_point;
 
     @ToOne(joinProperty = "fn_point")
-    public Points point;
+    private Points point;
 
     /**
      * Пользователь
@@ -32,9 +33,9 @@ public class UserPoints implements IEntityTo {
     public long fn_user;
 
     @ToOne(joinProperty = "fn_user")
-    public Users user;
+    private Users user;
 
-    public String c_user;
+    private String c_user;
 
     /**
      * Маршрут
@@ -43,7 +44,7 @@ public class UserPoints implements IEntityTo {
     public String fn_route;
 
     @ToOne(joinProperty = "fn_route")
-    public Routes route;
+    private Routes route;
 
     /**
      * тип
@@ -55,7 +56,7 @@ public class UserPoints implements IEntityTo {
     public String jb_tel;
 
     @Expose
-    public String jb_email;
+    private String jb_email;
 
     /**
      * Широта
@@ -73,13 +74,13 @@ public class UserPoints implements IEntityTo {
      * Примечание
      */
     @Expose
-    public String c_notice;
+    private String c_notice;
 
     /**
      * Подтверждено
      */
     @Expose
-    public boolean b_check;
+    private boolean b_check;
 
     @Expose
     public String jb_data;
@@ -88,7 +89,7 @@ public class UserPoints implements IEntityTo {
      * дата проверки
      */
     @Expose
-    public String d_date_check;
+    private String d_date_check;
 
 
     /**
@@ -97,7 +98,7 @@ public class UserPoints implements IEntityTo {
     @Expose
     public String d_date;
 
-    public String dx_created;
+    private String dx_created;
 
     /**
      * Тип операции надл объектом
@@ -107,7 +108,7 @@ public class UserPoints implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
@@ -117,12 +118,12 @@ public class UserPoints implements IEntityTo {
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

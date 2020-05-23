@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.manager.packager.PackageUtil;
  */
 public class PackageReadUtils {
     private byte[] all;
-    private boolean isZip = false;
+    private final boolean isZip;
 
     /**
      * конструктор

@@ -11,49 +11,49 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
 @Entity(nameInDb = "pd_userindivisions")
-public class UserInDivisions {
+class UserInDivisions {
 
     /**
      * Идентификатор
      */
     @Id
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     /**
      * Отделение
      */
     @Expose
-    public long f_division;
+    private long f_division;
     /**
      * Отделение
      */
     @ToOne(joinProperty = "f_division")
-    public Divisions division;
+    private Divisions division;
 
     /**
      * Участок
      */
     @Expose
-    public long f_subdivision;
+    private long f_subdivision;
     /**
      * Участок
      */
     @ToOne(joinProperty = "f_subdivision")
-    public SubDivisions subdivision;
+    private SubDivisions subdivision;
 
     /**
      * Пользователь
      */
     @Expose
-    public long f_user;
+    private long f_user;
     /**
      * Пользователь
      */
     @ToOne(joinProperty = "f_user")
-    public Users user;
+    private Users user;
 
-    public boolean sn_delete;
+    private boolean sn_delete;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

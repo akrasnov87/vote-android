@@ -46,7 +46,7 @@ public class MyService extends BaseService {
     /**
      * таймер для отправки служебных данных
      */
-    private Timer mServiceSyncTimer;
+    private final Timer mServiceSyncTimer;
     /**
      * таймер для сбора телеметрии
      */
@@ -126,9 +126,7 @@ public class MyService extends BaseService {
 
     @Override
     public void onDestroy() {
-        if(mServiceSyncTimer != null) {
-            mServiceSyncTimer.cancel();
-        }
+        mServiceSyncTimer.cancel();
         if(mLocationManager != null) {
             mLocationManager.removeUpdates(mTrackingLocationListener);
         }
@@ -168,6 +166,7 @@ public class MyService extends BaseService {
         // отправляем информаци на сервер
         if(socketManager != null && socketManager.isRegistered()){
             try {
+                //noinspection RedundantCast
                 socketManager.getSocket().emit("deviceinfo", (Object) MailManager.send(new DeviceMail(mobileDevices)));
             }catch (Exception e){
                 Logger.error(e);

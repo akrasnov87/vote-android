@@ -29,7 +29,7 @@ public abstract class ItemsManager<K, V> {
      *
      * @param key ключ
      */
-    public ItemsManager(String key) {
+    ItemsManager(String key) {
         mKey = key;
         mDate = DateUtil.convertDateToString(new Date());
         mItems = new ArrayList<>(3);
@@ -41,7 +41,7 @@ public abstract class ItemsManager<K, V> {
      * @param key         ключ
      * @param deSerialize строка для обработки
      */
-    public ItemsManager(String key, String deSerialize) {
+    ItemsManager(String key, String deSerialize) {
         this(key);
         deSerialize(deSerialize);
     }
@@ -77,7 +77,7 @@ public abstract class ItemsManager<K, V> {
      * @param name наименование
      * @return Элемент
      */
-    public K getItem(String name) {
+    K getItem(String name) {
         for (K item : mItems) {
             if (((IItemManager)item).getName().equals(name)) {
                 return item;
@@ -109,7 +109,7 @@ public abstract class ItemsManager<K, V> {
      *
      * @param value входной текст
      */
-    public void deSerialize(String value) {
+    private void deSerialize(String value) {
         try {
             JSONObject jsonObject = new JSONObject(value);
             this.mKey = jsonObject.getString("mKey");
@@ -141,7 +141,6 @@ public abstract class ItemsManager<K, V> {
      * Дата создания/формирования настройки
      *
      * @return Дата создания
-     * @throws ParseException
      */
     public Date getDate() throws ParseException {
         return DateUtil.convertStringToDate(mDate);

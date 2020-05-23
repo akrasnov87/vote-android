@@ -63,7 +63,7 @@ public class TransferResult {
      * @param message текст сообщения
      * @return результат отправки
      */
-    public static TransferResult error(String message){
+    private static TransferResult error(String message){
         TransferResult result = new TransferResult();
 
         Data d = new Data();

@@ -9,8 +9,8 @@ import ru.mobnius.vote.data.service.MyService;
 /**
  * Управление серсисами приложения
  */
-public class ServiceManager {
-    private Context context;
+class ServiceManager {
+    private final Context context;
     private Intent myIntent;
 
     public ServiceManager(Context context){
@@ -22,7 +22,7 @@ public class ServiceManager {
      * запуск сервиса по отправке информации на сервер
      * @param serviceInterval интервал передачи служебных данных на сервер
      */
-    public void startMyService(int serviceInterval, int timeout, int accuracy, int power, int telemetryInterval, boolean sdCardMemoryUsage) {
+    private void startMyService(int serviceInterval, int timeout, int accuracy, int power, int telemetryInterval, boolean sdCardMemoryUsage) {
         if(myIntent != null){
             stopMyService();
         }

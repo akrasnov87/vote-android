@@ -19,7 +19,7 @@ public class Divisions {
      * Код отделения (филиала)
      */
     @Expose
-    public String c_dep_code;
+    private String c_dep_code;
 
     /**
      * Наименование
@@ -31,12 +31,12 @@ public class Divisions {
      * Вышестоящее отделение
      */
     @Expose
-    public long f_division;
+    private long f_division;
     /**
      * Вышестоящее отделение
      */
     @ToOne(joinProperty = "f_division")
-    public Divisions division;
+    private Divisions division;
 
     /**
      * Идентификатор
@@ -49,13 +49,13 @@ public class Divisions {
      * Код
      */
     @Expose
-    public long n_code;
+    private long n_code;
 
     /**
      * отключено
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

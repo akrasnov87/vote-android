@@ -15,17 +15,17 @@ public class DownloadTransfer extends Transfer {
     /**
      * слушатель загрузки данных на клиент
      */
-    DownloadTransfer.DownloadListener downloadListener;
+    private DownloadTransfer.DownloadListener downloadListener;
 
     /**
      * массив байтов с загруженными данными
      */
-    byte[] downloadBytes;
+    private byte[] downloadBytes;
 
     /**
      * текущая позиция при загрузке на клиент
      */
-    int downloadPosition = 0;
+    private int downloadPosition = 0;
     private Date dtStart;
 
     public DownloadTransfer(ISynchronization synchronization, Socket socket, String version, Activity context, String tid) {
@@ -93,7 +93,7 @@ public class DownloadTransfer extends Transfer {
          * @param tid            идентификатор транзакции
          * @param statusCallback статус
          */
-        public DownloadListener(ISynchronization synchronization, Activity activity, String tid, DownloadTransfer transfer, ITransferStatusCallback statusCallback) {
+        DownloadListener(ISynchronization synchronization, Activity activity, String tid, DownloadTransfer transfer, ITransferStatusCallback statusCallback) {
             super(synchronization, activity, tid, transfer, statusCallback);
         }
 

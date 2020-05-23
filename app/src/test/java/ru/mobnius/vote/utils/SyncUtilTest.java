@@ -14,23 +14,4 @@ public class SyncUtilTest {
         assertNull(params[1]);
     }
 
-    @Test
-    public void getResetTidSqlQuery() {
-    }
-
-    @Test
-    public void resetTid() {
-    }
-
-    @Test
-    public void updateTid() {
-    }
-
-    @Test
-    public void updateBlockTid() {
-    }
-
-    @Test
-    public void updateTid1() {
-    }
 }

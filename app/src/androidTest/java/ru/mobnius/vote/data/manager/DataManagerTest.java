@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
@@ -16,7 +15,6 @@ import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.storage.models.Divisions;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
-import ru.mobnius.vote.data.storage.models.ResultTypes;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
 import ru.mobnius.vote.data.storage.models.RouteStatuses;

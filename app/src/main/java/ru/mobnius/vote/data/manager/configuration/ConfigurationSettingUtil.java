@@ -21,7 +21,6 @@ public class ConfigurationSettingUtil {
     /**
      * Преобразование значения настройки в Integer
      * @param configurationSetting настройка
-     * @return
      */
     public static Integer getIntegerValue(ConfigurationSetting configurationSetting) {
         if(configurationSetting != null && configurationSetting.type.equals(ConfigurationSetting.INTEGER)) {
@@ -37,7 +36,6 @@ public class ConfigurationSettingUtil {
     /**
      * Преобразование значения настройки в Double
      * @param configurationSetting настройка
-     * @return
      */
     public static Double getDoubleValue(ConfigurationSetting configurationSetting) {
         if(configurationSetting != null && configurationSetting.type.equals(ConfigurationSetting.REAL)) {
@@ -53,7 +51,6 @@ public class ConfigurationSettingUtil {
     /**
      * Преобразование значения настройки в String
      * @param configurationSetting настройка
-     * @return
      */
     public static String getStringValue(ConfigurationSetting configurationSetting) {
         if(configurationSetting != null && configurationSetting.type.equals(ConfigurationSetting.TEXT)) {
@@ -65,7 +62,6 @@ public class ConfigurationSettingUtil {
     /**
      * Преобразование значения настройки в Boolean
      * @param configurationSetting настройка
-     * @return
      */
     public static Boolean getBooleanValue(ConfigurationSetting configurationSetting) {
         if(configurationSetting != null && configurationSetting.value != null && configurationSetting.type.equals(ConfigurationSetting.BOOLEAN)) {

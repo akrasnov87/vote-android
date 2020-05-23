@@ -27,7 +27,7 @@ public class RequestManager {
     /**
      * время на проверку подключения к серверу в милисекундах
      */
-    public final static int SERVER_CONNECTION_TIMEOUT = 3000;
+    private final static int SERVER_CONNECTION_TIMEOUT = 3000;
 
     public final static String KEY_VERSION = "VERSION";
     public final static String KEY_DB_VERSION = "DB_VERSION";
@@ -41,7 +41,7 @@ public class RequestManager {
      * @return возвращается строка если возникла ошибка, либо объект RPCResult[]
      * @throws IOException общая ошибка
      */
-    public static RPCResult[] rpc(String baseUrl, String token, byte[] postData) throws IOException {
+    private static RPCResult[] rpc(String baseUrl, String token, byte[] postData) throws IOException {
         URL url = new URL(baseUrl + "/rpc");
         RPCResult[] rpcResults = null;
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -115,7 +115,7 @@ public class RequestManager {
      * @param data данные
      * @return возвращается строка если возникла ошибка, либо объект RPCResult[]
      */
-    public static RPCResult[] rpc(String baseUrl, String token, String action, String method, Object data) throws IOException {
+    private static RPCResult[] rpc(String baseUrl, String token, String action, String method, Object data) throws IOException {
         RPCItem item = new RPCItem();
         item.action = action;
         item.method = method;

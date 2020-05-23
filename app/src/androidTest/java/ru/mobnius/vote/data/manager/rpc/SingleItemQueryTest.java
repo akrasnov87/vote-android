@@ -19,11 +19,11 @@ public class SingleItemQueryTest {
         assertEquals(str, "{\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[{\"extension\":\".md\",\"name\":\"readme.md\"}]}");
     }
 
-    class Path {
-        String name;
-        String extension;
+    static class Path {
+        final String name;
+        final String extension;
 
-        public Path(String name, String extension) {
+        Path(String name, String extension) {
             this.name = name;
             this.extension = extension;
         }

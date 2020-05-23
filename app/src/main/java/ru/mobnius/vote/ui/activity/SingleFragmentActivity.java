@@ -28,7 +28,7 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         return mFragment;
     }
 
-    protected int getLayoutResId() {
+    private int getLayoutResId() {
         return R.layout.master_container;
     }
 

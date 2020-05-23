@@ -12,12 +12,6 @@
     <color name="secondaryTextColor">#828282</color>
     <color name="contentColor">#FFFFFF</color>
 
-    <color name="referred">#828282</color>
-    <color name="in_progress">#F2994A</color>
-    <color name="done">#4877BE</color>
-    <color name="over_due">#EB5757</color>
-    <color name="approved">#1CAF3E</color>
-    <color name="canceled">#333333</color>
     <color name="gray">#5d5d5d</color>
     <color name="gray_light">#9c9c9c</color>
     <color name="black">#000000</color>
@@ -25,7 +19,5 @@
     <color name="document_text">#2b78bf</color>
     <color name="document_created_text">#53AB78</color>
     <color name="label_light_gray">#98a6b1</color>
-    <color name="title_color">#8194a3</color>
     <color name="disabled_color">#bac4cb</color>
-    <color name="disabled_primary_color">#a3b0b9</color>
 </resources>

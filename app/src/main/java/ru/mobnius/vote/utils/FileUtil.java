@@ -9,9 +9,7 @@ import java.io.File;
 public class FileUtil {
     /**
      *
-     * @param context
      * @param documentFolder Environment.DIRECTORY_PICTURES | Environment.DIRECTORY_DOCUMENTS
-     * @return
      */
     @SuppressWarnings({"deprecation"})
     public static File getRoot(Context context, String documentFolder) {

@@ -27,10 +27,10 @@ import ru.mobnius.vote.utils.NetworkUtil;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
-public class TelemetryTimerTask extends TimerTask {
-    private Context mContext;
-    private DaoSession mDaoSession;
-    private long mUserId;
+class TelemetryTimerTask extends TimerTask {
+    private final Context mContext;
+    private final DaoSession mDaoSession;
+    private final long mUserId;
 
     public TelemetryTimerTask(Context context, DaoSession daoSession, long userId) {
         mContext = context;

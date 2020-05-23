@@ -2,7 +2,7 @@ package ru.mobnius.vote.data.manager.exception;
 
 import java.util.List;
 
-public interface IExceptionManager {
+interface IExceptionManager {
     /**
      * Список исключений возникших в моб. приложении
      * @return список

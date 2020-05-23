@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import ru.mobnius.vote.data.Meta;
 
-public class AuthorizationRequestUtil {
+class AuthorizationRequestUtil {
     private final String mUrl;
 
     /**
@@ -76,7 +76,7 @@ public class AuthorizationRequestUtil {
         String token = null;
         Integer userId = null;
         String claims = null;
-        String message = null;
+        String message;
 
         try {
             JSONObject jsonObject = new JSONObject(response);

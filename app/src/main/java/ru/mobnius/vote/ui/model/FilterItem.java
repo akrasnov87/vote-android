@@ -14,7 +14,7 @@ public class FilterItem implements ItemsManager.IItemManager {
      * Имя фильтра
      */
     @Expose
-    private String mName;
+    private final String mName;
 
     /**
      * Тип фильтра. Выбирается один из параметров:
@@ -24,7 +24,7 @@ public class FilterItem implements ItemsManager.IItemManager {
      * - ConfigurationSetting.BOOLEAN
      */
     @Expose
-    private String mType;
+    private final String mType;
 
     /**
      * Значение

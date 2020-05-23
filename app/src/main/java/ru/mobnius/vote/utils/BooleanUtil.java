@@ -1,6 +1,6 @@
 package ru.mobnius.vote.utils;
 
-public class BooleanUtil {
+class BooleanUtil {
     /**
      * Является ли значение boolean переменной
      * @param value входное значение
@@ -8,7 +8,7 @@ public class BooleanUtil {
      */
     public static boolean isBooleanValue(String value) {
         String lowerCase = value.toLowerCase();
-        return lowerCase == "true" || lowerCase == "false";
+        return lowerCase.equals("true") || lowerCase.equals("false");
     }
 
     /**

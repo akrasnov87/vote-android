@@ -22,7 +22,7 @@ import ru.mobnius.vote.data.storage.models.Answer;
 public class CommentDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener {
     private EditText etComment;
     private Button btnDone;
-    private String mInput;
+    private final String mInput;
 
     public CommentDialogFragment(Answer answer, String input, boolean isDone) {
         super(answer, Command.COMMENT, input, isDone);

@@ -156,7 +156,7 @@ public class RouteListActivity extends BaseActivity implements
         }
     }
 
-    public void updateList(boolean isFilter) {
+    private void updateList(boolean isFilter) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
         btnSync.setVisibility(routes.size() == 0 ? View.VISIBLE : View.GONE);
 

@@ -36,7 +36,7 @@ public abstract class ServerSidePackage implements IServerSidePackage {
      * Удалять записи при добавлении информации в БД
      * @return true - все записи из таблицы будут удалены
      */
-    public boolean getDeleteRecordBeforeAppend(){
+    private boolean getDeleteRecordBeforeAppend(){
         return deleteRecordBeforeAppend;
     }
 

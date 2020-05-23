@@ -34,7 +34,7 @@ public class TransferZipResultTest {
         TransferResult result = TransferResult.readResult(object);
 
         Assert.assertEquals(result.code, 200);
-        Assert.assertEquals(result.meta.processed, false);
-        Assert.assertEquals(result.data.success, true);
+        Assert.assertFalse(result.meta.processed);
+        Assert.assertTrue(result.data.success);
     }
 }

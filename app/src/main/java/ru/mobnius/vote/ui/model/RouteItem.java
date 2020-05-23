@@ -2,8 +2,6 @@ package ru.mobnius.vote.ui.model;
 
 import java.util.Date;
 
-import ru.mobnius.vote.data.manager.DataManager;
-
 public class RouteItem {
     /**
      * идентификатор

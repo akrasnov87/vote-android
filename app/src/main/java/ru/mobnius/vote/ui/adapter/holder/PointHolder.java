@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.ui.activity.QuestionActivity;
-import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.model.PointItem;
 
 public class PointHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
-    private Context mContext;
-    private TextView tvDeviceNumber;
+    private final Context mContext;
+    private final TextView tvDeviceNumber;
     private PointItem mItem;
 
     public PointHolder(Context context, @NonNull View itemView) {

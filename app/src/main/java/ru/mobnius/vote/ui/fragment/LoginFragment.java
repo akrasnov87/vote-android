@@ -1,17 +1,13 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,9 +20,6 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Objects;
-
-import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
@@ -85,7 +78,7 @@ public class LoginFragment extends BaseFragment
         super.onResume();
 
         new ServerExistsAsyncTask(this)
-                .execute(NetworkUtil.isNetworkAvailable(Objects.requireNonNull(getContext())));
+                .execute(NetworkUtil.isNetworkAvailable(requireContext()));
         String pin = "";
         if(mBasicUser!=null) {
             AuthorizationCache cache = new AuthorizationCache(getContext());
@@ -93,7 +86,7 @@ public class LoginFragment extends BaseFragment
         }
         if (!pin.isEmpty()) {
             PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
         } else {
             if (mAuthorization.isAutoSignIn()) {
                 singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
@@ -140,7 +133,7 @@ public class LoginFragment extends BaseFragment
     }
 
     private void onVersionClick() {
-        String versionName = VersionUtil.getVersionName(Objects.requireNonNull(getContext()));
+        String versionName = VersionUtil.getVersionName(requireContext());
         String status = "неизвестен";
         switch (new Version().getVersionParts(versionName)[2]) {
             case 0:
@@ -165,11 +158,11 @@ public class LoginFragment extends BaseFragment
      * @return версия
      */
     private String getVersion() {
-        String versionName = VersionUtil.getVersionName(Objects.requireNonNull(getContext()));
+        String versionName = VersionUtil.getVersionName(requireContext());
         if (new Version().getVersionParts(versionName)[2] == Version.PRODUCTION) {
             return VersionUtil.getShortVersionName(getContext());
         } else {
-            return VersionUtil.getVersionName(getContext());
+            return VersionUtil.getVersionName(requireContext());
         }
     }
 
@@ -182,7 +175,7 @@ public class LoginFragment extends BaseFragment
 
         Intent intent = new Intent(getContext(), RouteListActivity.class);
         startActivity(intent);
-        Objects.requireNonNull(getActivity()).finish();
+        requireActivity().finish();
     }
 
     private void failAuthorized(String message) {
@@ -255,7 +248,7 @@ public class LoginFragment extends BaseFragment
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
         }
-        if (NetworkUtil.isNetworkAvailable(Objects.requireNonNull(getContext()))) {
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
             onSignOnline(login, password);
         } else {
             onSignOffline(login, password);

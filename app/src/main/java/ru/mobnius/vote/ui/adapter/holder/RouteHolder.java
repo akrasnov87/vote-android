@@ -22,13 +22,13 @@ import ru.mobnius.vote.utils.DateUtil;
 public class RouteHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
-    private TextView tvRouteName;
-    private TextView tvType;
-    private TextView tvPointCount;
-    private TextView tvEndDate;
-    private ProgressBar mProgress;
+    private final TextView tvRouteName;
+    private final TextView tvType;
+    private final TextView tvPointCount;
+    private final TextView tvEndDate;
+    private final ProgressBar mProgress;
 
-    private Context mContext;
+    private final Context mContext;
 
     private RouteItem mRouteItem;
 

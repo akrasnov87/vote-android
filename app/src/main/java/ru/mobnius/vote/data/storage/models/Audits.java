@@ -212,7 +212,7 @@ public class Audits implements IEntityTo {
      * Идентификатор
      */
     @Id(autoincrement = true)
-    public Long id;
+    private Long id;
 
     /**
      * Пользователь
@@ -224,7 +224,7 @@ public class Audits implements IEntityTo {
      * Пользователь
      */
     @ToOne(joinProperty = "fn_user")
-    public Users user;
+    private Users user;
 
     /**
      * Дата события
@@ -248,7 +248,7 @@ public class Audits implements IEntityTo {
      * Имя приложение
      */
     @Expose
-    public String c_app_name;
+    private String c_app_name;
 
     /**
      * Тип операции надл объектом
@@ -258,12 +258,12 @@ public class Audits implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
      */
-    public boolean isSynchronization;
+    private boolean isSynchronization;
 
     /**
      * идентификатор транзакции
@@ -275,7 +275,7 @@ public class Audits implements IEntityTo {
      */
     public String blockTid;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

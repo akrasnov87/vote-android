@@ -13,13 +13,13 @@ public class FileBinary {
     /**
      * имя файла
      */
-    public String name;
+    public final String name;
     /**
      * ключ файла
      */
-    public String key;
+    public final String key;
     /**
      * Массив байтов
      */
-    public byte[] bytes;
+    public final byte[] bytes;
 }

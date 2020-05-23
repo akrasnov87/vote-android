@@ -2,6 +2,8 @@ package ru.mobnius.vote.data.manager.credentials;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BasicUserUnitTest {
@@ -12,8 +14,8 @@ public class BasicUserUnitTest {
         assertTrue(u.userInRole("user"));
         assertTrue(u.userInRole("master"));
         assertTrue(u.userInRole("admin"));
-        assertTrue(!u.userInRole("filer"));
+        assertFalse(u.userInRole("filer"));
 
-        assertTrue(1 == u.getUserId());
+        assertEquals(1, (long) u.getUserId());
     }
 }

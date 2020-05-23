@@ -30,7 +30,7 @@ public class ConfigurationSettingUtilTest {
         ConfigurationSetting configurationSetting = new ConfigurationSetting("real", "2.52", "label real", "summary real", ConfigurationSetting.REAL);
         Double aDouble = ConfigurationSettingUtil.getDoubleValue(configurationSetting);
         assertNotNull(aDouble);
-        assertEquals(aDouble.doubleValue(), 2.52, 0);
+        assertEquals(aDouble, 2.52, 0);
 
         configurationSetting.value = "test";
         aDouble = ConfigurationSettingUtil.getDoubleValue(configurationSetting);
@@ -56,11 +56,11 @@ public class ConfigurationSettingUtilTest {
         Boolean aBoolean = ConfigurationSettingUtil.getBooleanValue(configurationSetting);
 
         assertNotNull(aBoolean);
-        assertTrue(aBoolean.booleanValue());
+        assertTrue(aBoolean);
 
         configurationSetting.value = "0";
         aBoolean = ConfigurationSettingUtil.getBooleanValue(configurationSetting);
-        assertFalse(aBoolean.booleanValue());
+        assertFalse(aBoolean);
 
         configurationSetting.value = "5";
         aBoolean = ConfigurationSettingUtil.getBooleanValue(configurationSetting);

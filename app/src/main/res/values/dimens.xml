@@ -7,16 +7,10 @@
     <dimen name="medium_font_size">14sp</dimen>
     <dimen name="small_font_size">12sp</dimen>
 
-    <dimen name="space_large">16dp</dimen>
-    <dimen name="space_high">8dp</dimen>
-    <dimen name="space_medium">4dp</dimen>
-
-    <dimen name="separate_line_1">1dp</dimen>
     <dimen name="size_xxxs_4">4dp</dimen>
     <dimen name="size_xxs_8">8dp</dimen>
     <dimen name="size_xs_16">16dp</dimen>
     <dimen name="size_s_24">24dp</dimen>
-    <dimen name="size_m_32">32dp</dimen>
     <dimen name="size_l_56">56dp</dimen>
     <dimen name="size_xl_72">72dp</dimen>
     <dimen name="size_xxxl_176">176dp</dimen>

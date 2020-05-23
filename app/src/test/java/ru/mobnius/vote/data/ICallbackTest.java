@@ -17,7 +17,7 @@ public class ICallbackTest {
         });
     }
 
-    private class MyTestManager {
+    private static class MyTestManager {
         void onCall(final ICallback callback) {
             Meta meta = new Meta(Meta.OK, "");
             callback.onResult(meta);

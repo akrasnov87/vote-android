@@ -2,7 +2,7 @@ package ru.mobnius.vote.data;
 
 
 
-public abstract class BaseViewModel<T>  {
+abstract class BaseViewModel<T>  {
 
     private T mModel;
 

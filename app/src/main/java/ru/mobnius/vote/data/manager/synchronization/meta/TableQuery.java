@@ -9,24 +9,18 @@ public class TableQuery {
     /**
      * имя таблицы для обработки
      */
-    public String action;
+    private final String action;
 
     /**
      * псевдоним action
      */
-    public String alias;
+    private final String alias;
 
     /**
      * список полей которые требуется получить от сервера
      */
-    public String select = "";
+    private final String select;
 
-    /**
-     *
-     * @param action
-     * @param alias псевдоним
-     * @param select
-     */
     public TableQuery(String action, String alias, String select) {
         this.action = action;
         this.alias = alias;
@@ -37,7 +31,6 @@ public class TableQuery {
      * Создание объекта
      * @param action таблицы
      * @param select выборка полей
-     * @return объект TableQuery
      */
     public TableQuery (String action, String select) {
         this(action, null, select);
@@ -46,7 +39,6 @@ public class TableQuery {
     /**
      * Создание объекта
      * @param action таблицы
-     * @return объект TableQuery
      */
     public TableQuery (String action) {
         this(action, null, "");

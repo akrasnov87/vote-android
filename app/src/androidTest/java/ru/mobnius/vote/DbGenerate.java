@@ -12,10 +12,10 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
  * Вспомогательный класс для работы с БД
  */
 public abstract class DbGenerate {
-    private Context mContext;
-    private DaoSession mDaoSession;
+    private final Context mContext;
+    private final DaoSession mDaoSession;
 
-    public DbGenerate() {
+    protected DbGenerate() {
         String dbName = getClass().getName();
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         mDaoSession = new DaoMaster(new DbOpenHelper(mContext, dbName).getWritableDb()).newSession();
@@ -29,11 +29,11 @@ public abstract class DbGenerate {
      * получение ссылки на подключение к БД
      * @return объект DaoSession
      */
-    public DaoSession getDaoSession() {
+    protected DaoSession getDaoSession() {
         return mDaoSession;
     }
 
-    public Context getContext() {
+    protected Context getContext() {
         return mContext;
     }
 }

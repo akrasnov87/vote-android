@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 
 import org.greenrobot.greendao.DaoException;
 
+@SuppressWarnings("StringEquality")
 @Entity(nameInDb = "cd_points")
 public class Points {
 
@@ -26,7 +27,7 @@ public class Points {
     public String f_registr_pts;
 
     @ToOne(joinProperty = "f_registr_pts")
-    public RegistrPts registrPts;
+    private RegistrPts registrPts;
 
     /**
      * Маршрут
@@ -35,7 +36,7 @@ public class Points {
     public String f_route;
 
     @ToOne(joinProperty = "f_route")
-    public Routes route;
+    private Routes route;
 
     /**
      * Примечание
@@ -50,11 +51,11 @@ public class Points {
     public String c_info;
 
     @Expose
-    public String jb_data;
+    private String jb_data;
 
-    public String dx_created;
+    private String dx_created;
 
-    public int n_order;
+    private int n_order;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

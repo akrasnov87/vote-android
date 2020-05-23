@@ -221,88 +221,88 @@ public class Users implements IEntityTo {
     @Id
     @Expose
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     /**
      * Родитель
      */
-    public long f_parent;
+    private long f_parent;
 
     @ToOne(joinProperty = "f_parent")
-    public Users parent;
+    private Users parent;
 
     /**
      * Логин
      */
     @Expose
-    public String c_login;
+    private String c_login;
 
     /**
      * Имя
      */
     @Expose
-    public String c_firstname;
+    private String c_firstname;
 
     /**
      * Фамилия
      */
     @Expose
-    public String c_lastname;
+    private String c_lastname;
 
     /**
      * Отчество
      */
     @Expose
-    public String c_patronymic;
+    private String c_patronymic;
 
     /**
      * Адрес эл. почты
      */
     @Expose
-    public String c_email;
+    private String c_email;
 
     /**
      * Телефон
      */
     @Expose
-    public String c_tel;
+    private String c_tel;
 
     /**
      * Описание
      */
     @Expose
-    public String c_description;
+    private String c_description;
 
     /**
      * Отключен
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /**
      * Тип операции надл объектом
      */
-    public String objectOperationType;
+    private String objectOperationType;
 
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
      */
-    public boolean isSynchronization;
+    private boolean isSynchronization;
 
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

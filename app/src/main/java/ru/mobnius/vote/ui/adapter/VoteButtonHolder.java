@@ -16,10 +16,10 @@ import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
  */
 public class VoteButtonHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private Button mButton;
-    private Answer[] mAnswers;
-    private OnClickVoteItemListener mListener;
-    private long mExclusionAnswerID;
+    private final Button mButton;
+    private final Answer[] mAnswers;
+    private final OnClickVoteItemListener mListener;
+    private final long mExclusionAnswerID;
 
     public VoteButtonHolder(@NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID) {
         super(itemView);

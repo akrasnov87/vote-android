@@ -7,8 +7,6 @@ public class DeviceMail extends BaseMail {
         super();
 
         mGroup = "manager";
-        this.mDevice = mobileDevices;
     }
 
-    public MobileDevices mDevice;
 }

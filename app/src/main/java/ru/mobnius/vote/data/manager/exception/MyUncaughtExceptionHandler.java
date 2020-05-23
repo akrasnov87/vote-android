@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager.exception;
 
+import androidx.annotation.NonNull;
 import android.content.Context;
 import android.util.Log;
 
@@ -20,11 +21,10 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
 
     private final String group;
     private final int code;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      *
-     * @param oldHandler
      * @param group группа исключения IExceptionGroup
      * @param code код исключения IExceptionCode
      */
@@ -36,7 +36,7 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) {
+    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
         try {
             if(!intercept) {
                 Log.d(TAG, "Перехвачено исключение от группы " + group + ", код " + ExceptionUtils.codeToString(code));

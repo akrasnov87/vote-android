@@ -13,7 +13,6 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/navigationDrawer_ivUserPhoto"
         android:layout_width="@dimen/size_xl_72"
         android:layout_height="@dimen/size_xl_72"
         android:contentDescription="@string/userProfile"
@@ -22,7 +21,6 @@
         android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/navigationDrawer_tvUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/contentColor"

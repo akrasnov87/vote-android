@@ -25,11 +25,11 @@ public class ExceptionUtils {
      */
     public static String codeToString(int code) {
         String number = String.valueOf(code);
-        String fill = "";
+        StringBuilder fill = new StringBuilder();
         for(int i = number.length(); i < 3; i++){
-            fill += "0";
+            fill.append("0");
         }
-        return String.format("%s%s", fill, number);
+        return String.format("%s%s", fill.toString(), number);
     }
 
     /**

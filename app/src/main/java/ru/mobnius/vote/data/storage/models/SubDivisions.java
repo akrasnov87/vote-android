@@ -28,7 +28,7 @@ public class SubDivisions {
      * Отделение
      */
     @ToOne(joinProperty = "f_division")
-    public Divisions division;
+    private Divisions division;
 
     /**
      * Идентификатор
@@ -41,13 +41,13 @@ public class SubDivisions {
      * Код
      */
     @Expose
-    public long n_code;
+    private long n_code;
 
     /**
      * отключено
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

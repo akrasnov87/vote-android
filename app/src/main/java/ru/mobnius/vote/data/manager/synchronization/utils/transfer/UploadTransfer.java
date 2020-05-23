@@ -17,7 +17,7 @@ public class UploadTransfer extends Transfer {
     /**
      * слушатель загрузки данных на сервер
      */
-    UploadTransfer.UploadListener uploadListener;
+    private UploadTransfer.UploadListener uploadListener;
 
     /**
      * массив байтов который требуется передать на сервер
@@ -104,7 +104,7 @@ public class UploadTransfer extends Transfer {
          * @param instance        текущий экземпляр передачи данных
          * @param statusCallback  статус
          */
-        public UploadListener(ISynchronization synchronization, Activity activity, String tid, UploadTransfer instance, ITransferStatusCallback statusCallback) {
+        UploadListener(ISynchronization synchronization, Activity activity, String tid, UploadTransfer instance, ITransferStatusCallback statusCallback) {
             super(synchronization, activity, tid, instance, statusCallback);
         }
 

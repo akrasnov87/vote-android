@@ -16,8 +16,8 @@ import ru.mobnius.vote.ui.model.RouteItem;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteHolder> {
 
-    private Context mContext;
-    private List<RouteItem> mRouteItems;
+    private final Context mContext;
+    private final List<RouteItem> mRouteItems;
 
     public RouteAdapter(Context context, List<RouteItem> items) {
         mContext = context;

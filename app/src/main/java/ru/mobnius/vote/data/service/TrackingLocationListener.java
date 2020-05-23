@@ -17,10 +17,10 @@ import ru.mobnius.vote.data.storage.models.Tracking;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
 
-public class TrackingLocationListener implements LocationListener {
-    private DaoSession mDaoSession;
-    private Context mContext;
-    private long mUserId;
+class TrackingLocationListener implements LocationListener {
+    private final DaoSession mDaoSession;
+    private final Context mContext;
+    private final long mUserId;
 
     private static final String TRACK_ONLINE = "online";
     private static final String TRACK_OFFLINE = "offline";
@@ -54,6 +54,7 @@ public class TrackingLocationListener implements LocationListener {
         // отправляем текущее местоположение пользователя
         SocketManager socketManager = SocketManager.getInstance();
         if(socketManager != null && socketManager.isRegistered()) {
+            //noinspection RedundantCast
             socketManager.getSocket().emit("tracking", (Object) MailManager.send(new GeoMail(tracking)));
         }
 

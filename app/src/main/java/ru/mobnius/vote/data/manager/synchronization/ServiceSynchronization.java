@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager.synchronization;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import java.util.UUID;
@@ -22,6 +23,7 @@ import ru.mobnius.vote.utils.PackageReadUtils;
  */
 public class ServiceSynchronization extends WebSocketSynchronization {
 
+    @SuppressLint("StaticFieldLeak")
     private static ServiceSynchronization serviceSynchronization;
 
     public static ServiceSynchronization getInstance(boolean zip) {
@@ -36,7 +38,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
      * конструктор
      * @param session сессия для подключения к БД
      */
-    protected ServiceSynchronization(DaoSession session, boolean zip){
+    ServiceSynchronization(DaoSession session, boolean zip){
         super(session, "SERVICE_SYNCHRONIZATION", zip);
 
         serverSidePackage = new ToServerOnly();

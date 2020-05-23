@@ -6,7 +6,7 @@ import ru.mobnius.vote.data.storage.models.Tracking;
 
 public class GeoMail extends BaseMail {
 
-    public GeoMail(double latitude, double longitude, String date) {
+    private GeoMail(double latitude, double longitude, String date) {
         super();
         mGroup = "manager";
 
@@ -20,9 +20,9 @@ public class GeoMail extends BaseMail {
     }
 
     @Expose
-    public double mLatitude;
+    private final double mLatitude;
     @Expose
-    public double mLongitude;
+    private final double mLongitude;
     @Expose
-    public String mDate;
+    private final String mDate;
 }

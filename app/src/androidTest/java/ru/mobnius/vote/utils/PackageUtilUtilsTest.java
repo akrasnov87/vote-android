@@ -15,7 +15,7 @@ import ru.mobnius.vote.data.manager.rpc.SingleItemQuery;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
 public class PackageUtilUtilsTest {
@@ -43,7 +43,7 @@ public class PackageUtilUtilsTest {
         assertEquals(metaSize.status, 0);
 
         MetaPackage metaPackage = packageReadUtils.getMeta();
-        assertTrue(!metaPackage.id.isEmpty());
+        assertFalse(metaPackage.id.isEmpty());
         //assertEquals(metaPackage.stringSize, 285);
         assertEquals(metaPackage.binarySize, 63);
         assertEquals(metaPackage.attachments.length, 3);
@@ -67,7 +67,7 @@ public class PackageUtilUtilsTest {
         packageCreateUtils.destroy();
     }
 
-    class Info{
+    static class Info{
         String name;
     }
 }

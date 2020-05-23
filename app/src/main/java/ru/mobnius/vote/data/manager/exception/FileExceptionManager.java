@@ -21,11 +21,11 @@ import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.utils.FileUtil;
 
 public class FileExceptionManager implements IExceptionManager, IFileExceptionManager {
-    private Context mContext;
+    private final Context mContext;
     /**
      * Папка для хранения исключений
      */
-    public static final String EXCEPTION_FOLDER = "exceptions";
+    private static final String EXCEPTION_FOLDER = "exceptions";
     private static IFileExceptionManager fileExceptionManager = null;
 
     public static IFileExceptionManager getInstance(Context context) {
@@ -48,12 +48,14 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
     public void writeBytes(String fileName, byte[] bytes) {
         File dir = getRootCatalog();
         if(!dir.exists()){
-            dir.mkdirs();
+            if(!dir.mkdirs()) {
+                Logger.error(new Exception("Ошибка создания каталога"));
+            }
         }
 
         File file = new File(dir, fileName);
 
-        FileOutputStream outputStream = null;
+        FileOutputStream outputStream;
         try {
             outputStream = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream (outputStream);
@@ -70,7 +72,7 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
         File dir = getRootCatalog();
         File file = new File(dir, fileName);
         if(file.exists()){
-            FileInputStream inputStream = null;
+            FileInputStream inputStream;
             try {
                 inputStream = new FileInputStream(file);
                 BufferedInputStream bis = new BufferedInputStream (inputStream);
@@ -130,7 +132,9 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
             for (File child : Objects.requireNonNull(fileOrDirectory.listFiles()))
                 deleteRecursive(child);
 
-        fileOrDirectory.delete();
+        if(!fileOrDirectory.delete()) {
+            Logger.error(new Exception("Ошибка удаление каталога"));
+        }
     }
 
     @Override

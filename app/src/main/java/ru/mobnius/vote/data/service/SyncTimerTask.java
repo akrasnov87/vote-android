@@ -10,7 +10,7 @@ import ru.mobnius.vote.data.manager.synchronization.ServiceSynchronization;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 
-public class SyncTimerTask extends TimerTask {
+class SyncTimerTask extends TimerTask {
     @Override
     public void run() {
         ServiceSynchronization serviceSynchronization = ServiceSynchronization.getInstance(PreferencesManager.ZIP_CONTENT);

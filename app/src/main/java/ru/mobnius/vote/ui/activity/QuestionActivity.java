@@ -39,7 +39,7 @@ import ru.mobnius.vote.ui.BaseFormActivity;
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
 
-    public static String TAG = "QUESTIONS";
+    private static final String TAG = "QUESTIONS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
     private DocumentManager mDocumentManager;
@@ -51,10 +51,8 @@ public class QuestionActivity extends BaseFormActivity
     /**
      * Создание нового результата
      *
-     * @param context
      * @param routeId маршрут, Routes
      * @param pointId точка маршрута, Points
-     * @return
      */
     public static Intent newIntent(Context context, String routeId, String pointId) {
         Intent intent = new Intent(context, QuestionActivity.class);
@@ -128,16 +126,14 @@ public class QuestionActivity extends BaseFormActivity
      * Обработчик получения координат
      *
      * @param status    статус сигнала: GeoListener.NONE, GeoListener.NORMAL, GeoListener.GOOD
-     * @param latitude
-     * @param longitude
      */
     @Override
     public void onLocationStatusChange(int status, double latitude, double longitude) {
         Log.d(TAG, "Статус: " + status);
 
         if (actionMenu != null) {
-            int icon = -1;
-            String message = "";
+            int icon;
+            String message;
             switch (status) {
                 case GeoManager.GeoListener.NONE:
                     icon = R.drawable.ic_gps_off_24px;

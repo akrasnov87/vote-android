@@ -15,7 +15,7 @@ public class PackageResult {
     /**
      * Результат
      */
-    public Object result;
+    private Object result;
 
     /**
      * Положительный результат

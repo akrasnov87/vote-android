@@ -84,7 +84,7 @@ public class ServerSidePackageUtilTest extends DbGenerate {
         result.meta.success = false;
         result.meta.msg = "Test";
         packageResult = sidePackage.to(getDaoSession(), result, tid);
-        Assert.assertTrue(!packageResult.success);
+        Assert.assertFalse(packageResult.success);
     }
 
     @Test
@@ -193,7 +193,7 @@ public class ServerSidePackageUtilTest extends DbGenerate {
         Assert.assertEquals(t.fn_user, tracking2.fn_user);
     }
 
-    class MyServerSidePackageUtil extends ServerSidePackage {
+    static class MyServerSidePackageUtil extends ServerSidePackage {
 
     }
 }

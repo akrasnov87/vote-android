@@ -19,7 +19,6 @@ import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
-import ru.mobnius.vote.data.storage.models.ResultTypes;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
@@ -42,7 +41,7 @@ import ru.mobnius.vote.utils.StringUtil;
  * вспомогательные функции для получения данных от БД Sqlite
  */
 public class DataManager {
-    private DaoSession daoSession;
+    private final DaoSession daoSession;
 
     private static DataManager dataManager;
 

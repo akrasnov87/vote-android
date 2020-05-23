@@ -12,10 +12,10 @@ import ru.mobnius.vote.data.storage.FieldNames;
  * Класс для обработки JSONObject и создания из него SQL запроса на обновление записи
  */
 public class SqlUpdateFromJSONObject {
-    final String params;
-    final String tableName;
-    final String[] fields;
-    final String pkColumn;
+    private final String params;
+    private final String tableName;
+    private final String[] fields;
+    private final String pkColumn;
 
     /**
      * Конструктор
@@ -37,7 +37,7 @@ public class SqlUpdateFromJSONObject {
             if(fieldName.equals(pkColumn)){
                 continue;
             }
-            builder.append(fieldName + "  = ?, ");
+            builder.append(fieldName).append("  = ?, ");
 
         }
         fields = tempFields.toArray(new String[0]);
@@ -68,12 +68,12 @@ public class SqlUpdateFromJSONObject {
 
         Object pk = null;
 
-        for(int i =0; i < fields.length; i++){
-            if(pkColumn.equals(fields[i])){
-                pk = object.get(fields[i]);
+        for (String field : fields) {
+            if (pkColumn.equals(field)) {
+                pk = object.get(field);
                 continue;
             }
-            values.add(object.get(fields[i]));
+            values.add(object.get(field));
         }
 
         values.add(pk);

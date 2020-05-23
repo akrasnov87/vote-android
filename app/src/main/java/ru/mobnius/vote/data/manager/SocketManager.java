@@ -29,9 +29,9 @@ public class SocketManager {
     /**
      * Событие не авторизации
      */
-    public final static String EVENT_NOT_AUTH = "not_auth";
-    public final static String EVENT_MAIL_FROM = "mailer-from";
-    public final static String EVENT_GROUP_MAIL_FROM = "mailer-group-from";
+    private final static String EVENT_NOT_AUTH = "not_auth";
+    private final static String EVENT_MAIL_FROM = "mailer-from";
+    private final static String EVENT_GROUP_MAIL_FROM = "mailer-group-from";
     private static SocketManager socketManager;
     private ISocketNotification mSocketNotification;
 
@@ -184,7 +184,7 @@ public class SocketManager {
     /**
      * Закрытие подключения
      */
-    public void close(){
+    private void close(){
         if(socket != null) {
             socket.off();
             socket.close();

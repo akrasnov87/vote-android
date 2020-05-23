@@ -70,17 +70,17 @@ public class DefaultPreferencesManagerTest {
         assert set != null;
         Assert.assertEquals(set.value, "value");
 
-        Assert.assertEquals(preferencesManager.hasValue(configurationSetting.key), true);
-        Assert.assertEquals(preferencesManager.hasValue("FAKE"), false);
+        Assert.assertTrue(preferencesManager.hasValue(configurationSetting.key));
+        Assert.assertFalse(preferencesManager.hasValue("FAKE"));
 
-        Assert.assertEquals(preferencesManager.isUpdateString("MBL_C_VALUE", "value"), false);
-        Assert.assertEquals(preferencesManager.isUpdateString("MBL_C_VALUE", "value2"), true);
+        Assert.assertFalse(preferencesManager.isUpdateString("MBL_C_VALUE", "value"));
+        Assert.assertTrue(preferencesManager.isUpdateString("MBL_C_VALUE", "value2"));
 
         Assert.assertEquals(preferencesManager.getIntValue("MBL_N_VALUE", 0), 1);
         Assert.assertEquals(preferencesManager.getIntValue("MBL_N_VALUE2", 1), 1);
 
         Assert.assertEquals(preferencesManager.getStringValue("MBL_C_VALUE", ""), "value");
-        Assert.assertEquals(preferencesManager.getBooleanValue("MBL_B_VALUE", false), true);
+        Assert.assertTrue(preferencesManager.getBooleanValue("MBL_B_VALUE", false));
         preferencesManager.clear();
     }
 

@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.mobnius.vote.R;
 
 public class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private EditText etName;
-    private EditText etPhone;
+    private final EditText etName;
+    private final EditText etPhone;
 
-    private OnContactItemListener mListener;
-    private ContactHolder.OnContactChange mContactChange;
+    private final OnContactItemListener mListener;
+    private final ContactHolder.OnContactChange mContactChange;
 
     public ContactHolder(@NonNull View itemView, OnContactItemListener listener, ContactHolder.OnContactChange onContactChange) {
         super(itemView);

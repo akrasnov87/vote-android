@@ -9,34 +9,34 @@ import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "pd_roles")
-public class Roles {
+class Roles {
 
     /**
      * Идентификатор
      */
     @Id
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     /**
      * Наименование
      */
     @Expose
-    public String c_name;
+    private String c_name;
 
     /**
      * Описание роли
      */
     @Expose
-    public String c_description;
+    private String c_description;
 
     /**
      * Приоритет
      */
     @Expose
-    public long n_weight;
+    private long n_weight;
 
-    public boolean sn_delete;
+    private boolean sn_delete;
 
     @Generated(hash = 177554464)
     public Roles(Long id, String c_name, String c_description, long n_weight,

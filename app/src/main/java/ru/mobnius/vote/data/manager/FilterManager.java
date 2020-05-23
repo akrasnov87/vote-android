@@ -22,7 +22,7 @@ public abstract class FilterManager<T> extends ItemsManager<FilterItem, String> 
      *
      * @param key ключ
      */
-    public FilterManager(String key) {
+    FilterManager(String key) {
         super(key);
     }
 
@@ -32,7 +32,7 @@ public abstract class FilterManager<T> extends ItemsManager<FilterItem, String> 
      * @param key         ключ
      * @param deSerialize строка для обработки
      */
-    public FilterManager(String key, String deSerialize) {
+    FilterManager(String key, String deSerialize) {
         super(key, deSerialize);
     }
 
@@ -133,7 +133,7 @@ public abstract class FilterManager<T> extends ItemsManager<FilterItem, String> 
         return mItems.toArray(new FilterItem[0]);
     }
 
-    public interface IFilterCallback<T> {
+    interface IFilterCallback<T> {
         /**
          * Обработчик фильтрации записи
          *

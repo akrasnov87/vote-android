@@ -12,7 +12,6 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 public class SyncUtil {
     /**
      * объект для сброса параметров транзакции
-     * @return
      */
     public static Object[] getResetTidParams(){
         Object[] params = new Object[2];
@@ -26,7 +25,7 @@ public class SyncUtil {
      * @param tableName имя таблицы
      * @return sql-запрос
      */
-    public static String getResetTidSqlQuery(String tableName){
+    private static String getResetTidSqlQuery(String tableName){
         return "update " + tableName + " set "+ FieldNames.TID +" = ?, "+ FieldNames.BLOCK_TID +" = ?";
     }
 
@@ -89,7 +88,6 @@ public class SyncUtil {
      * @param tid идентификатор транзакции
      * @param blockTid идентификатор транзакции
      * @param operationType тип операции
-     * @return возвращается результат обработки
      */
     public static void updateBlockTid(ISynchronization context, String tableName, String tid, String blockTid, String operationType){
         DaoSession daoSession = context.getDaoSession();

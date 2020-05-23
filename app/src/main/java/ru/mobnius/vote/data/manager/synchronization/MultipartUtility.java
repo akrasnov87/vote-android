@@ -18,7 +18,7 @@ import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
  * вспомогательный класс для передачи данных на сервер
  * Применяется только для тестирования синхронизации
  */
-public class MultipartUtility {
+class MultipartUtility {
     private final String boundary;
     private static final String LINE_FEED = "\r\n";
     private HttpURLConnection httpConn;

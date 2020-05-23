@@ -27,7 +27,7 @@ public class RouteStatuses {
      * Краткое наименование
      */
     @Expose
-    public String c_short_name;
+    private String c_short_name;
 
     /**
      * Идентификатор
@@ -40,19 +40,19 @@ public class RouteStatuses {
      * Код
      */
     @Expose
-    public long n_code;
+    private long n_code;
 
     /**
      * Приоритет статуса(чем больше число тем выше статус)
      */
     @Expose
-    public long n_order;
+    private long n_order;
 
     /**
      * отключено
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     @Generated(hash = 1085664331)
     public RouteStatuses(String c_const, String c_name, String c_short_name,

@@ -57,7 +57,7 @@ public class LoginActivity extends SingleFragmentActivity{
      * Получение обработчика изменения сети
      * @return обработчик
      */
-    public MobniusApplication getNetworkChangeListener() {
+    private MobniusApplication getNetworkChangeListener() {
         if(getApplication() instanceof OnNetworkChangeListener){
             return (MobniusApplication) getApplication();
         }

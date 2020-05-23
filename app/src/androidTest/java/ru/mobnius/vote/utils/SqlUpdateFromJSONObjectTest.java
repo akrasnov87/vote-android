@@ -30,7 +30,7 @@ public class SqlUpdateFromJSONObjectTest {
         query = insert.convertToQuery(true);
         Assert.assertEquals(query, "UPDATE users set name  = ?, age  = ? where id = ? and (OBJECT_OPERATION_TYPE = ? OR OBJECT_OPERATION_TYPE = ?)");
         values = insert.getValues(jsonObject, true);
-        Assert.assertEquals(values[3] , null);
+        Assert.assertNull(values[3]);
         Assert.assertEquals(values[4] , "");
     }
 }

@@ -20,10 +20,10 @@ public class SingleItemQuery {
      * дополнительные параметры. Применяется для вызова одиночных метод
      */
     @Expose
-    private Object[] params;
+    private final Object[] params;
 
     @Expose
-    public int limit;
+    private final int limit;
 
     public String toJsonString() {
         Gson gson = new Gson();

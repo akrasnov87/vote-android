@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
+@SuppressWarnings("StringEquality")
 @Entity(nameInDb = "cd_route_history")
 public class RouteHistory implements IEntityTo {
 
@@ -31,7 +32,7 @@ public class RouteHistory implements IEntityTo {
     public long fn_status;
 
     @ToOne(joinProperty = "fn_status")
-    public RouteStatuses status;
+    private RouteStatuses status;
 
     /**
      * Задание
@@ -40,7 +41,7 @@ public class RouteHistory implements IEntityTo {
     public String fn_route;
 
     @ToOne(joinProperty = "fn_route")
-    public Routes route;
+    private Routes route;
 
     /**
      * Пользователь
@@ -49,7 +50,7 @@ public class RouteHistory implements IEntityTo {
     public long fn_user;
 
     @ToOne(joinProperty = "fn_user")
-    public Users user;
+    private Users user;
 
     /**
      * Идентификатор
@@ -66,7 +67,7 @@ public class RouteHistory implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
@@ -76,14 +77,14 @@ public class RouteHistory implements IEntityTo {
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

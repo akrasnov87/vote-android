@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
+@SuppressWarnings("StringEquality")
 @Entity(nameInDb = "cd_results")
 public class Results implements IEntityTo {
     /**
@@ -22,7 +23,7 @@ public class Results implements IEntityTo {
     public String fn_route;
 
     @ToOne(joinProperty = "fn_route")
-    public UserPoints route;
+    private UserPoints route;
 
     @Expose
     public String fn_point;
@@ -34,7 +35,7 @@ public class Results implements IEntityTo {
     public String fn_user_point;
 
     @ToOne(joinProperty = "fn_user_point")
-    public UserPoints userPoint;
+    private UserPoints userPoint;
 
     /**
      * Тип результата
@@ -55,7 +56,7 @@ public class Results implements IEntityTo {
     public long fn_question;
 
     @ToOne(joinProperty = "fn_question")
-    public Question question;
+    private Question question;
 
     /**
      * Пользователь
@@ -64,7 +65,7 @@ public class Results implements IEntityTo {
     public long fn_answer;
 
     @ToOne(joinProperty = "fn_answer")
-    public Answer answer;
+    private Answer answer;
 
     /**
      * Дата события
@@ -95,7 +96,7 @@ public class Results implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
@@ -105,17 +106,17 @@ public class Results implements IEntityTo {
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
     @Expose
     public String jb_data;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

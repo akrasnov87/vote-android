@@ -1,5 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 
@@ -13,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.utils.FileUtil;
 
@@ -24,17 +26,17 @@ public class FileManager {
     /**
      * папка для хранение вложений
      */
-    public static final String ATTACHMENTS = "attachments";
+    private static final String ATTACHMENTS = "attachments";
 
     /**
      * папка для хранение файлов
      */
-    public static final String FILES = "files";
+    private static final String FILES = "files";
 
     /**
      * папка для временных изображений
      */
-    public static final String TEMP_PICTURES = "temp";
+    private static final String TEMP_PICTURES = "temp";
 
     /**
      * папка для хранения миниатюрок
@@ -42,8 +44,9 @@ public class FileManager {
     public static final String CACHES = "thumbs";
 
     private final BasicCredentials credentials;
+    @SuppressLint("StaticFieldLeak")
     private static FileManager fileManager;
-    private Context context;
+    private final Context context;
 
     /**
      * Конструктор
@@ -127,7 +130,9 @@ public class FileManager {
 
         File dir = getRootCatalog(folder);
         if (!dir.exists()) {
-            dir.mkdirs();
+            if(!dir.mkdirs()) {
+                Logger.error(new Exception("Ошибка создания каталога"));
+            }
         }
 
         File file = new File(dir, fileName);
@@ -222,7 +227,9 @@ public class FileManager {
             for (File child : Objects.requireNonNull(fileOrDirectory.listFiles()))
                 deleteRecursive(child);
 
-        fileOrDirectory.delete();
+        if(!fileOrDirectory.delete()) {
+            Logger.error(new Exception("Ошибка удаление каталога"));
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -69,11 +70,15 @@ public class MobniusApplication extends android.app.Application implements IExce
         // создаем директории для хранения изображений
         File dir = fileManager.getTempPictureFolder();
         if (!dir.exists()) {
-            dir.mkdirs();
+            if(!dir.mkdirs()) {
+                Logger.error(new Exception("Ошибка создания каталога"));
+            }
         }
         dir = fileManager.getAttachmentsFolder();
         if (!dir.exists()) {
-            dir.mkdirs();
+            if(!dir.mkdirs()) {
+                Logger.error(new Exception("Ошибка создания каталога"));
+            }
         }
 
         DaoSession daoSession = new DaoMaster(new DbOpenHelper(this, credentials.login + ".db").getWritableDb()).newSession();

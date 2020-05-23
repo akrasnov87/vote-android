@@ -34,9 +34,8 @@ public class AuthUtil {
      * Проверка шаблона сообщения
      *
      * @param template шаблон
-     * @return
      */
-    public static boolean isValidTemplate(String template) {
+    private static boolean isValidTemplate(String template) {
         int count = -1;
         int i = -1;
         do {

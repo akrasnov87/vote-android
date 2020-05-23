@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -68,8 +67,8 @@ public class SettingActivity extends BaseActivity {
             Preference.OnPreferenceChangeListener,
             Preference.OnPreferenceClickListener {
 
-        private String debugSummary = "Режим отладки: %s";
-        private String pinSummary = "Авторизация по пину: %s";
+        private final String debugSummary = "Режим отладки: %s";
+        private final String pinSummary = "Авторизация по пину: %s";
         private int clickToVersion = 0;
 
         private Preference pVersion;
@@ -106,7 +105,7 @@ public class SettingActivity extends BaseActivity {
         public void onResume() {
             super.onResume();
 
-            pVersion.setSummary(VersionUtil.getVersionName(Objects.requireNonNull(getActivity())));
+            pVersion.setSummary(VersionUtil.getVersionName(requireActivity()));
 
             spDebug.setSummary(String.format(debugSummary, PreferencesManager.getInstance().isDebug() ? "включен" : "отключен"));
             spDebug.setChecked(PreferencesManager.getInstance().isDebug());
@@ -147,6 +146,7 @@ public class SettingActivity extends BaseActivity {
                     break;
 
                 case PreferencesManager.GENERATED_ERROR:
+                    //noinspection ResultOfMethodCallIgnored
                     Integer.parseInt("Проверка обработки ошибок");
                     break;
             }
@@ -173,7 +173,7 @@ public class SettingActivity extends BaseActivity {
                     if (pinValue) {
                         // TODO 21.05.2020: нужно передалать на активити
                         PinCodeFragment fragment = PinCodeFragment.newInstance(null, user.getCredentials().login);
-                        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                     } else {
                         cache.update(user.getCredentials().login, "", new Date());
                     }

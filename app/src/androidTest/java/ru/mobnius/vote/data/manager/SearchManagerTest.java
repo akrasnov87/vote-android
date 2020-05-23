@@ -39,9 +39,9 @@ public class SearchManagerTest {
         assertEquals(results.length, 3);
     }
 
-    class PeopleSearchManager extends SearchManager<People> {
+    static class PeopleSearchManager extends SearchManager<People> {
 
-        public PeopleSearchManager(String key) {
+        PeopleSearchManager(String key) {
             super(key);
         }
 
@@ -62,17 +62,17 @@ public class SearchManagerTest {
         }
     }
 
-    class People {
+    static class People {
         public People() {}
-        public People(String name, int age, boolean male, double money) {
+        People(String name, int age, boolean male, double money) {
             this.name = name;
             this.age = age;
             this.isMale = male;
             this.money = money;
         }
-        public String name;
-        public int age;
-        public boolean isMale;
-        public double money;
+        String name;
+        int age;
+        boolean isMale;
+        double money;
     }
 }

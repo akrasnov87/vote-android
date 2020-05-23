@@ -15,11 +15,11 @@ public class FilterItem {
     public final static String OPERATOR_MORE_EQUAL = ">=";
 
     @Expose
-    public String property;
+    private final String property;
     @Expose
-    public Object value;
+    private final Object value;
     @Expose
-    public String operator;
+    public final String operator;
 
     /**
      *

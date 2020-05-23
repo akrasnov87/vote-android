@@ -4,7 +4,7 @@ import android.location.Location;
 
 import java.util.Date;
 
-public class LocationUtil {
+class LocationUtil {
     /**
      * Создание объекта Location
      * @param n_longitude долгота

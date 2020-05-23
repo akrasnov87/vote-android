@@ -1,6 +1,6 @@
 package ru.mobnius.vote.data.manager;
 
-public interface ISocketNotification {
+interface ISocketNotification {
     /**
      * Обработчик сообщений
      * @param type тип сообщения

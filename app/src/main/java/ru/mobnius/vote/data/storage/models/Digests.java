@@ -8,43 +8,43 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Property;
 
 @Entity(nameInDb = "sd_digests")
-public class Digests {
+class Digests {
     /**
      * Идентификатор
      */
     @Id
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     /**
      * версия
      */
     @Expose
-    public String c_version;
+    private String c_version;
 
     /**
      * Описание изменения
      */
     @Expose
-    public String c_description;
+    private String c_description;
 
     /**
      * филиал
      */
     @Expose
-    public long f_division;
+    private long f_division;
 
     /**
      * имя приложения
      */
     @Expose
-    public String c_app_name;
+    private String c_app_name;
 
     /**
      * скрыт
      */
     @Expose
-    public boolean b_hidden;
+    private boolean b_hidden;
 
     @Generated(hash = 1812362365)
     public Digests(Long id, String c_version, String c_description, long f_division,

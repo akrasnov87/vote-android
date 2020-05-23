@@ -29,7 +29,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
 
     @Before
     public void setUp(){
-        synchronization = new ServiceSynchronizationTest.MySynchronization(getDaoSession(), getCredentials());
+        synchronization = new MySynchronization(getDaoSession(), getCredentials());
     }
 
     @After
@@ -37,7 +37,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
         synchronization.getDaoSession().getTrackingDao().deleteAll();
     }
 
-    void generateData(){
+    private void generateData(){
         tracking = new ArrayList<>();
         for(int i =0; i < 10; i++) {
             Tracking tracking = new Tracking();
@@ -110,11 +110,11 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
         synchronization.destroy();
     }
 
-    class MySynchronization extends ServiceSynchronization {
+    static class MySynchronization extends ServiceSynchronization {
 
-        private BasicCredentials mCredentials;
+        private final BasicCredentials mCredentials;
 
-        public MySynchronization(DaoSession daoSession, BasicCredentials credentials) {
+        MySynchronization(DaoSession daoSession, BasicCredentials credentials) {
             super(daoSession, PreferencesManager.ZIP_CONTENT);
             mCredentials = credentials;
         }

@@ -7,7 +7,7 @@ import ru.mobnius.vote.utils.DateUtil;
 /**
  * Элемент массива
  */
-public class JsonBItem {
+class JsonBItem {
     public String c_key;
     public String c_value;
     public String d_created;

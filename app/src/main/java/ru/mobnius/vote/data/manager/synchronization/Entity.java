@@ -42,7 +42,7 @@ public class Entity implements IEntity {
     /**
      * является справочником
      */
-    protected boolean isDictionary = false;
+    boolean isDictionary = false;
 
     /**
      * Обработка завершена или нет
@@ -73,7 +73,7 @@ public class Entity implements IEntity {
      * @param to разрешена отправка данных на сервер
      * @param from разрешена возможность получения данных с сервера
      */
-    public Entity(String tableName, boolean to, boolean from){
+    Entity(String tableName, boolean to, boolean from){
         this.tableName = tableName;
         this.to = to;
         this.from = from;

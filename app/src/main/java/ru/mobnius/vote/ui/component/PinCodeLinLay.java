@@ -22,8 +22,8 @@ public class PinCodeLinLay extends LinearLayout {
     private ImageView secondImage;
     private ImageView thirdImage;
     private ImageView fourthImage;
-    private Drawable filledPinPointImage;
-    private Drawable emptyPinPointImage;
+    private final Drawable filledPinPointImage;
+    private final Drawable emptyPinPointImage;
     private int pinnedPoints;
 
     public static final int PIN_CODE_LENGTH = 4;

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
@@ -47,7 +48,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * имя синхронизации
      */
-    private String name;
+    private final String name;
 
     /**
      * статус при завершения синхронизации
@@ -57,29 +58,29 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * Список сущностей участвующих в синхронизации
      */
-    private ArrayList<Entity> entities;
+    private final ArrayList<Entity> entities;
 
     /**
      * Обработчик реузльтат синхронизации
      */
-    protected IProgress progressListener;
+    IProgress progressListener;
 
     /**
      * ОБработчик результата от сервера
      */
-    protected IServerSidePackage serverSidePackage;
+    IServerSidePackage serverSidePackage;
 
     /**
      * обработка RPC по одной записи.
      * Устанавливается true если в результате запроса возникает ошибка и нужно определить какая запись в этом виновата.
      */
-    protected boolean oneOnlyMode = false;
+    boolean oneOnlyMode = false;
     /**
      * Запущен ли процесс синхронизации
      */
-    protected boolean isRunning = false;
+    private boolean isRunning = false;
 
-    private boolean zip;
+    private final boolean zip;
 
     public boolean isZip() {
         return zip;
@@ -91,7 +92,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param name имя
      * @param zip сжатие данных при синхронизации
      */
-    protected BaseSynchronization(DaoSession session, String name, boolean zip) {
+    BaseSynchronization(DaoSession session, String name, boolean zip) {
         this.session = session;
         this.zip = zip;
         entities = new ArrayList<>();
@@ -118,7 +119,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Изменение статуса завершения синхронизации
      * @param status статус завершения синхронизации
      */
-    protected void changeFinishStatus(FinishStatus status){
+    void changeFinishStatus(FinishStatus status){
         finishStatus = status;
     }
 
@@ -143,7 +144,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * получение активного экрана
      * @return Activity
      */
-    public Activity getActivity(){
+    Activity getActivity(){
         return this.activity;
     }
 
@@ -179,7 +180,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Добавление сущности для обработки
      * @param entity сущность
      */
-    protected void addEntity(Entity entity){
+    void addEntity(Entity entity){
         entities.add(entity);
     }
 
@@ -201,7 +202,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Список сущностей которые обрабатываются
      * @return список
      */
-    public List<Entity> getEntities(){
+    List<Entity> getEntities(){
         return Arrays.asList(entities.toArray(new Entity[0]));
     }
 
@@ -222,7 +223,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param operationType тип операции
      * @return возвращается массив данных
      */
-    protected List getRecords(String tableName, String tid, String operationType){
+    private List getRecords(String tableName, String tid, String operationType){
         Collection<AbstractDao<?, ?>> collections = getDaoSession().getAllDaos();
         for(AbstractDao<?, ?> abstractDao : collections){
             if(abstractDao.getTablename().equals(tableName)) {
@@ -267,7 +268,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param tid список валидных идентификаторов пакета
      * @param bytes массив байтов
      */
-    protected void processingPackage(String[] tid, byte[] bytes){
+    void processingPackage(String[] tid, byte[] bytes){
         onProgress(IProgressStep.PACKAGE_CREATE, "", null);
         PackageReadUtils utils = new PackageReadUtils(bytes, isZip());
         try{
@@ -293,10 +294,10 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param tableName имя сущности
      * @param tid идентификатор транзакции
      */
-    protected void processingPackageTo(PackageCreateUtils utils, String tableName, String tid){
-        Object[] createRecords = getRecords(tableName, tid, DbOperationType.CREATED).toArray();
-        Object[] updateRecords = getRecords(tableName, tid, DbOperationType.UPDATED).toArray();
-        Object[] removeRecords = getRecords(tableName, tid, DbOperationType.REMOVED).toArray();
+    void processingPackageTo(PackageCreateUtils utils, String tableName, String tid){
+        Object[] createRecords = Objects.requireNonNull(getRecords(tableName, tid, DbOperationType.CREATED)).toArray();
+        Object[] updateRecords = Objects.requireNonNull(getRecords(tableName, tid, DbOperationType.UPDATED)).toArray();
+        Object[] removeRecords = Objects.requireNonNull(getRecords(tableName, tid, DbOperationType.REMOVED)).toArray();
 
         if (createRecords.length > 0 || updateRecords.length > 0 || removeRecords.length > 0) {
             if(oneOnlyMode) {
@@ -358,7 +359,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param message текст сообщения
      * @param tid идентификатор транзакции
      */
-    protected void onProgress(int step, String message, String tid){
+    void onProgress(int step, String message, String tid){
         if(progressListener != null){
             progressListener.onProgress(this, step, message, tid);
         }
@@ -392,7 +393,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param tableName имя таблицы
      * @return Возвращается текущая сущность
      */
-    protected Entity getEntity(String tableName){
+    Entity getEntity(String tableName){
         Entity result = null;
         for(Entity entity: entities){
             if(entity.tableName.equals(tableName)){
@@ -407,7 +408,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Возвращается список идентификатор пакетов
      * @return массив идентификатор
      */
-    protected String[] getCollectionTid(){
+    String[] getCollectionTid(){
         String[] results = new String[entities.size()];
         int i = 0;
         for(Entity e : entities){
@@ -437,7 +438,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Завершена ли обработка сущностей (пакетов)
      * @return возвращается статус завершения
      */
-    protected boolean isEntityFinished(){
+    boolean isEntityFinished(){
         for(Entity entity : entities){
             if(!entity.finished){
                 return false;
@@ -450,7 +451,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Обновление статуса finished у entity
      * @param tid идентификатор пакета
      */
-    protected void updateFinishedByEntity(String tid){
+    private void updateFinishedByEntity(String tid){
         for(Entity entity : entities){
             if(entity.tid.equals(tid)){
                 entity.setFinished();
@@ -482,7 +483,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * удаление объекта
      */
-    public void destroy(){
+    void destroy(){
         stop();
         progressListener = null;
         if(activity != null) {

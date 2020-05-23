@@ -8,7 +8,7 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 
 public abstract class BaseMail {
 
-    public BaseMail() {
+    BaseMail() {
         mFrom = Authorization.getInstance().getUser().getCredentials().login;
     }
 
@@ -16,7 +16,7 @@ public abstract class BaseMail {
     public String mGroup;
 
     @Expose
-    public String mFrom;
+    private final String mFrom;
 
     @Expose
     public String mTo;

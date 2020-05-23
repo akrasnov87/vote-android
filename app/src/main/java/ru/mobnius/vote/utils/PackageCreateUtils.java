@@ -20,7 +20,7 @@ public class PackageCreateUtils {
     private ArrayList<ru.mobnius.vote.data.manager.rpc.RPCItem> to;
     private ArrayList<ru.mobnius.vote.data.manager.rpc.RPCItem> from;
     private BinaryBlock binaryBlock;
-    private boolean isZip;
+    private final boolean isZip;
 
     /**
      * очитка объекта
@@ -129,7 +129,7 @@ public class PackageCreateUtils {
      * @param transaction выполнять пакет в одно транзакции
      * @return возвращается массив байтов
      */
-    public byte[] generatePackage(String tid, boolean transaction) throws IOException {
+    private byte[] generatePackage(String tid, boolean transaction) throws IOException {
         return generatePackage(tid, "", transaction);
     }
 

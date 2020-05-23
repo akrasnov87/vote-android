@@ -8,50 +8,50 @@ import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "cs_result_types")
-public class ResultTypes {
+class ResultTypes {
 
     /**
      * Идентификатор
      */
     @Id
     @Property(nameInDb = "id")
-    public Long id;
+    private Long id;
 
     /**
      * Код
      */
     @Expose
-    public long n_code;
+    private long n_code;
 
     /**
      * Наименование
      */
     @Expose
-    public String c_name;
+    private String c_name;
 
     /**
      * Краткое наименование
      */
     @Expose
-    public String c_short_name;
+    private String c_short_name;
 
     /**
      * Константа
      */
     @Expose
-    public String c_const;
+    private String c_const;
 
     /**
      * отключено
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /**
      * сортировка
      */
     @Expose
-    public int n_order;
+    private int n_order;
 
     @Generated(hash = 1902891936)
     public ResultTypes(Long id, long n_code, String c_name, String c_short_name,

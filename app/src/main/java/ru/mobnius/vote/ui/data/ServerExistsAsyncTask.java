@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.manager.RequestManager;
 
 public class ServerExistsAsyncTask extends AsyncTask<Boolean, String, Boolean> {
 
-    private OnNetworkChangeListener mListener;
+    private final OnNetworkChangeListener mListener;
 
     public ServerExistsAsyncTask(OnNetworkChangeListener listener) {
         mListener = listener;

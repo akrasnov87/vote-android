@@ -61,7 +61,7 @@ public class Routes {
     public long f_type;
 
     @ToOne(joinProperty = "f_type")
-    public RouteTypes type;
+    private RouteTypes type;
 
     /**
      * Идентификатор
@@ -71,9 +71,9 @@ public class Routes {
     public String id;
 
     @Expose
-    public String jb_data;
+    private String jb_data;
 
-    public String dx_created;
+    private String dx_created;
 
     public int n_count;
 

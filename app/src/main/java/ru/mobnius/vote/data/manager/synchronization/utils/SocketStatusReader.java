@@ -4,7 +4,7 @@ package ru.mobnius.vote.data.manager.synchronization.utils;
  * чтение статусной информации у сокета
  */
 public class SocketStatusReader {
-    private String name;
+    private final String name;
 
     /**
      * Наименование статуса
@@ -14,7 +14,7 @@ public class SocketStatusReader {
         return name;
     }
 
-    private String[] params;
+    private final String[] params;
 
     /**
      * Параметры переданные со статусом

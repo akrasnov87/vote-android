@@ -302,14 +302,14 @@ public class MobileIndicators implements IEntityTo {
      * Пользователь
      */
     @ToOne(joinProperty = "fn_user")
-    public Users user;
+    private Users user;
 
     /**
      * Идентификатор
      */
     @Id
     @Expose
-    public String id;
+    private String id;
 
     /**
      * Уровень заряда батареи
@@ -339,7 +339,7 @@ public class MobileIndicators implements IEntityTo {
      * Смещение времени
      */
     @Expose
-    public long n_time;
+    private long n_time;
 
     /**
      * Размер используемой внутренней памяти
@@ -362,29 +362,29 @@ public class MobileIndicators implements IEntityTo {
     /**
      * Тип операции надл объектом
      */
-    public String objectOperationType;
+    private String objectOperationType;
 
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
      */
-    public boolean isSynchronization;
+    private boolean isSynchronization;
 
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

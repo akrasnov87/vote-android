@@ -1,6 +1,6 @@
 package ru.mobnius.vote.utils;
 
-public class IntUtil {
+class IntUtil {
     /**
      * Преобразование в int
      * @param value значение

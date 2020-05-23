@@ -9,18 +9,18 @@ import androidx.fragment.app.DialogFragment;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.ui.data.OnAnswerListener;
 
-public abstract class AnswerFragmentDialog<T> extends DialogFragment {
+abstract class AnswerFragmentDialog<T> extends DialogFragment {
     private OnAnswerListener mAnswerListener;
-    private Answer mAnswer;
-    private String mCommand;
-    private T mInput;
-    private boolean mIsDone;
+    private final Answer mAnswer;
+    private final String mCommand;
+    private final T mInput;
+    private final boolean mIsDone;
 
     public T getInput() {
         return mInput;
     }
 
-    public AnswerFragmentDialog(Answer answer, String command, T input, boolean isDone) {
+    AnswerFragmentDialog(Answer answer, String command, T input, boolean isDone) {
         mInput = input;
         mCommand = command;
         mAnswer = answer;
@@ -36,13 +36,13 @@ public abstract class AnswerFragmentDialog<T> extends DialogFragment {
         }
     }
 
-    protected void onAnswerListener(T result) {
+    void onAnswerListener(T result) {
         if(mAnswerListener != null) {
             mAnswerListener.onAnswerCommand(mCommand, mAnswer, result);
         }
     }
 
-    public boolean isDone() {
+    boolean isDone() {
         return mIsDone;
     }
 }

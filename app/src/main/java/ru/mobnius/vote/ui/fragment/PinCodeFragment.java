@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import ru.mobnius.vote.Names;
@@ -36,7 +35,6 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
-import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
@@ -167,8 +165,8 @@ public class PinCodeFragment extends BaseFragment
                                     putBoolean(PreferencesManager.PIN, false).apply();
                             cache.update(login, null, new Date());
                             mAuthorization.destroy();
-                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                            int resId = getActivity().getWindow().getDecorView().findViewById(android.R.id.content).getId();
+                            FragmentTransaction ft = requireActivity().getSupportFragmentManager().beginTransaction();
+                            int resId = requireActivity().getWindow().getDecorView().findViewById(android.R.id.content).getId();
                             ft.replace(resId, LoginFragment.newInstance()).commit();
                         }
                     })
@@ -229,10 +227,10 @@ public class PinCodeFragment extends BaseFragment
                 if (pinDigits.equals(tempPin)) {
 
                     cache.update(login, pinDigits, new Date());
-                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+                    requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                     Intent i = new Intent(getContext(), LoginActivity.class);
                     startActivity(i);
-                    getActivity().finish();
+                    requireActivity().finish();
                     Toast.makeText(getContext(), "Вход по пин-коду активирован", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -268,11 +266,11 @@ public class PinCodeFragment extends BaseFragment
     }
 
     private void fingerPrintActivate(ImageButton imageButton) {
-        BiometricManager manager = BiometricManager.from(Objects.requireNonNull(getActivity()));
+        BiometricManager manager = BiometricManager.from(requireActivity());
         if (manager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
             imageButton.setVisibility(View.VISIBLE);
-            Executor executor = ContextCompat.getMainExecutor(Objects.requireNonNull(getContext()));
-            final BiometricPrompt biometricPrompt = new BiometricPrompt(getActivity(),
+            Executor executor = ContextCompat.getMainExecutor(requireContext());
+            final BiometricPrompt biometricPrompt = new BiometricPrompt(requireActivity(),
                     executor, new BiometricPrompt.AuthenticationCallback() {
                 @Override
                 public void onAuthenticationError(int errorCode,

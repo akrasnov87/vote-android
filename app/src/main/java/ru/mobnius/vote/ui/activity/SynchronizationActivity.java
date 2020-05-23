@@ -140,7 +140,7 @@ public class SynchronizationActivity extends BaseActivity
     /**
      * остановка выполнения синхронизации
      */
-    void stop() {
+    private void stop() {
         for (String tid : mTransferFragments.keySet()) {
             removeSynchronizationPart(tid);
         }
@@ -298,8 +298,6 @@ public class SynchronizationActivity extends BaseActivity
 
     /**
      * удаление фрагмента для вывода progressbar
-     *
-     * @param tid
      */
     private void removeSynchronizationPart(String tid) {
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();

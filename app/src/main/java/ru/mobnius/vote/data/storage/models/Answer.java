@@ -35,7 +35,7 @@ public class Answer {
      * Вышестоящее отделение
      */
     @ToOne(joinProperty = "f_question")
-    public Question question;
+    private Question question;
 
     /**
      * имя приложения
@@ -47,7 +47,7 @@ public class Answer {
      * Вышестоящее отделение
      */
     @ToOne(joinProperty = "f_next_question")
-    public Question next_question;
+    private Question next_question;
 
     /**
      * скрыт

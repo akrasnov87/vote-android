@@ -1,8 +1,6 @@
 package ru.mobnius.vote.ui.fragment.tools;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,9 @@ import java.util.ArrayList;
 import ru.mobnius.vote.R;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implements ContactHolder.OnContactChange {
-    private ContactHolder.OnContactItemListener mListener;
-    private Context mContext;
-    private ArrayList<ContactItem> mContacts;
+    private final ContactHolder.OnContactItemListener mListener;
+    private final Context mContext;
+    private final ArrayList<ContactItem> mContacts;
 
     public ContactAdapter(Context context, ArrayList<ContactItem> contacts, ContactHolder.OnContactItemListener listener) {
         mContacts = contacts;

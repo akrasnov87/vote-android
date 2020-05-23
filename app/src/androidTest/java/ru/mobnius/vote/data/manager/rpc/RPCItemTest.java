@@ -36,7 +36,7 @@ public class RPCItemTest {
 
     @Test
     public void toJsonString() {
-        AndroidInfo info = new AndroidInfo( "Android");
+        AndroidInfo info = new AndroidInfo("Android");
 
         RPCItem query = new RPCItem();
         query.action = "setting";
@@ -116,12 +116,13 @@ public class RPCItemTest {
         assertEquals(jsonString, "{\"action\":\"cd_settings\",\"data\":[[{\"name\":\"test\"}]],\"method\":\"Delete\",\"tid\":0,\"type\":\"rpc\"}");
     }
 
-    class AndroidInfo {
-        public AndroidInfo(String name) {
+    static class AndroidInfo {
+        AndroidInfo(String name) {
             this.name = name;
         }
 
         @Expose
+        final
         String name;
     }
 }

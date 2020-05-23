@@ -26,7 +26,7 @@ import ru.mobnius.vote.utils.StringUtil;
  */
 public class AuthorizationCache {
 
-    private Context context;
+    private final Context context;
     private final String PART_FILENAME = ".credentials";
 
     /**

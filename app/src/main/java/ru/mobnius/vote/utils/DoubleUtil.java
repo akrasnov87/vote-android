@@ -1,6 +1,6 @@
 package ru.mobnius.vote.utils;
 
-public class DoubleUtil {
+class DoubleUtil {
     /**
      * Преобразование значение в строку
      * @param value значение

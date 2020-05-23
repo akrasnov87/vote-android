@@ -24,5 +24,5 @@ public class StringMail extends BaseMail {
     }
 
     @Expose
-    public String mBody;
+    private final String mBody;
 }

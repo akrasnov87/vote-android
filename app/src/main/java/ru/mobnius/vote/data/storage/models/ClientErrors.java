@@ -57,7 +57,7 @@ public class ClientErrors implements IEntityTo {
     @Expose
     public String jb_data;
 
-    public String dx_date;
+    private String dx_date;
 
     /**
      * Тип операции надл объектом
@@ -67,22 +67,22 @@ public class ClientErrors implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
      */
-    public boolean isSynchronization;
+    private boolean isSynchronization;
 
     /**
      * идентификатор транзакции
      */
-    public String tid;
+    private String tid;
 
     /**
      * идентификатор блока
      */
-    public String blockTid;
+    private String blockTid;
 
     @Generated(hash = 267717397)
     public ClientErrors(String id, String c_message, String c_code,

@@ -37,7 +37,7 @@ public class ClaimsUtil {
         return false;
     }
 
-    private class Claims {
+    private static class Claims {
         /**
          * наименование роли
          */

@@ -20,7 +20,7 @@ public abstract class Transfer {
     /**
      * размер передоваемых данных
      */
-    private final int CHUNK = 1 * 128; // TODO: должно быть вычисляемым
+    private final int CHUNK = 1024;
 
     /**
      * вычисленный размер блоков для передачи за секунду
@@ -30,32 +30,32 @@ public abstract class Transfer {
     /**
      * интервал в течении которого происходят вычисления
      */
-    public static final int INTERVAL = 250;
+    static final int INTERVAL = 250;
 
     /**
      * Подключение через websocket
      */
-    Socket socket;
+    final Socket socket;
 
     /**
      * версия протокола синхронизации
      */
-    String protocolVersion;
+    final String protocolVersion;
 
     /**
      * текущая активность
      */
-    Activity context;
+    final Activity context;
 
     /**
      * слушатель "регистрации" пользователя на сервере
      */
-    TransferRegistryListener transferRegistryListener;
+    private TransferRegistryListener transferRegistryListener;
 
     /**
      * слушатель потери соединения с сервером
      */
-    TransferDisconnectListener transferDisconnectListener;
+    private TransferDisconnectListener transferDisconnectListener;
 
     /**
      * обработчик обратного вызова
@@ -65,14 +65,9 @@ public abstract class Transfer {
     /**
      * идентификатор транзакции
      */
-    String tid;
+    final String tid;
 
-    /**
-     * имя выполняемой команды
-     */
-    String transferName;
-
-    protected ISynchronization synchronization;
+    final ISynchronization synchronization;
 
     /**
      * конструктор
@@ -82,20 +77,23 @@ public abstract class Transfer {
      * @param context интерфейс
      * @param tid идентификатор транзакции
      */
-    public Transfer(ISynchronization synchronization, Socket socket, String version, Activity context, String tid){
+    Transfer(ISynchronization synchronization, Socket socket, String version, Activity context, String tid){
         this.socket = socket;
         this.context = context;
         protocolVersion = version;
         this.synchronization = synchronization;
         this.tid = tid;
 
-        transferName = getClass().getSimpleName();
+        /**
+         * имя выполняемой команды
+         */
+        String transferName = getClass().getSimpleName();
     }
 
     /**
      * Настройка слушителя отсуствия соединения с сервером
      */
-    protected void disconnectListener(){
+    void disconnectListener(){
         removeDisconnectListener();
 
         transferDisconnectListener = new TransferDisconnectListener(context, tid, this, callback);
@@ -126,7 +124,7 @@ public abstract class Transfer {
      * Размер блока для отправки на сервер
      * @return возвращается размер
      */
-    protected int getChunk(){
+    int getChunk(){
         if(STATUS_TRANSFER_SPEED){
             return CHUNK;
         }else {
@@ -138,7 +136,7 @@ public abstract class Transfer {
      * обновление размера блока
      * @param chunk размер блока
      */
-    protected void updateChunk(long chunk){
+    void updateChunk(long chunk){
         if(chunk > 0){
             calcChunk = chunk;
         }else{
@@ -177,7 +175,7 @@ public abstract class Transfer {
          * @param tid            идентификатор транзакции
          * @param statusCallback статус
          */
-        public TransferRegistryListener(Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback) {
+        TransferRegistryListener(Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback) {
             super(synchronization, activity, tid, transfer, statusCallback);
         }
 
@@ -203,7 +201,7 @@ public abstract class Transfer {
          * @param tid            идентификатор транзакции
          * @param statusCallback статус
          */
-        public TransferDisconnectListener(Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback) {
+        TransferDisconnectListener(Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback) {
             super(synchronization, activity, tid, transfer, statusCallback);
         }
 

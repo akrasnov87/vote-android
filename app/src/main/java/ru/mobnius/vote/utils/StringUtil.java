@@ -28,7 +28,7 @@ public class StringUtil {
      * @return строка
      */
     public static String getSize(long size) {
-        String s = "";
+        String s;
         double kb = (double) size / 1024;
         double mb = kb / 1024;
         double gb = mb / 1024;
@@ -92,9 +92,9 @@ public class StringUtil {
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
             for (byte aMessageDigest : messageDigest) {
-                String h = Integer.toHexString(0xFF & aMessageDigest);
+                StringBuilder h = new StringBuilder(Integer.toHexString(0xFF & aMessageDigest));
                 while (h.length() < 2)
-                    h = "0" + h;
+                    h.insert(0, "0");
                 hexString.append(h);
             }
             return hexString.toString();

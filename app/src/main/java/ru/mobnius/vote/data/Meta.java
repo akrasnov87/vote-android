@@ -7,8 +7,8 @@ public class Meta {
     public static final int ERROR_SERVER = 500;
     public static final int NOT_AUTHORIZATION = 401;
 
-    private int mStatus;
-    private String mMessage;
+    private final int mStatus;
+    private final String mMessage;
 
     public Meta(int status, String message) {
         mStatus = status;

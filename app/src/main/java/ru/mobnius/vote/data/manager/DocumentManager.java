@@ -21,8 +21,8 @@ import ru.mobnius.vote.utils.StringUtil;
  * Управление документами
  */
 public class DocumentManager {
-    private long mUserId;
-    private OnVoteListener mVoteListener;
+    private final long mUserId;
+    private final OnVoteListener mVoteListener;
 
     public DocumentManager(OnVoteListener context) {
         mVoteListener = context;
@@ -108,7 +108,6 @@ public class DocumentManager {
 
     /**
      * Сохранения результата опроса
-     * @param listener
      */
     public void saveVote(OnVoteListener listener) {
         // тут нужно создать userpoint

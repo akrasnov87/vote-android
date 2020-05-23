@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.storage.models.Results;
  * Для сохранения состояния
  */
 public class VoteManager implements Serializable {
-    private List<Vote> mList;
+    private final List<Vote> mList;
 
     public VoteManager() {
         mList = new ArrayList<>();
@@ -50,7 +50,6 @@ public class VoteManager implements Serializable {
 
     /**
      * Идентификтаор последнего вопроса
-     * @return
      */
     public long getLastQuestionID() {
         if(mList.size() > 0) {
@@ -63,7 +62,6 @@ public class VoteManager implements Serializable {
     /**
      * Предыдущий вопрос
      * @param currentQuestionID идентификатор текущего вопроса
-     * @return
      */
     public long getPrevQuestionID(long currentQuestionID) {
         if(mList.size() > 0) {
@@ -82,7 +80,6 @@ public class VoteManager implements Serializable {
     /**
      * Доступен ли вопрос
      * @param questionID идентификтаор вопроса
-     * @return
      */
     public boolean isQuestionExists(long questionID) {
         if(mList.size() > 0) {
@@ -99,7 +96,6 @@ public class VoteManager implements Serializable {
     /**
      * Вернуть ответ на вопрос
      * @param questionID идентификтаор вопроса
-     * @return
      */
     public long getQuestionAnswer(long questionID) {
         if(mList.size() > 0) {
@@ -117,7 +113,6 @@ public class VoteManager implements Serializable {
      * Доступность ответа
      * @param questionID вопрос
      * @param answer ответ
-     * @return
      */
     public boolean isAnswerExists(long questionID, long answer) {
         if(mList.size() > 0) {
@@ -133,7 +128,6 @@ public class VoteManager implements Serializable {
 
     /**
      * Получение списка результатов
-     * @return
      */
     public Vote[] getList() {
         return mList.toArray(new Vote[0]);
@@ -188,7 +182,6 @@ public class VoteManager implements Serializable {
     /**
      * Получение номера телефона
      * @param questionId идентификатор вопроса
-     * @return
      */
     public String getTel(long questionId) {
         if(mList.size() > 0) {
@@ -204,7 +197,6 @@ public class VoteManager implements Serializable {
     /**
      * Получение комментария
      * @param questionId идентификатор вопроса
-     * @return
      */
     public String getComment(long questionId) {
         if(mList.size() > 0) {

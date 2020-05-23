@@ -20,12 +20,12 @@ public class TransferListener implements Emitter.Listener {
     public static final int END = 4;
     public static final int ERROR = 5;
 
-    Activity activity;
-    String tid;
-    ITransferStatusCallback statusCallback;
-    Transfer transfer;
-    private ISynchronization synchronization;
-    protected Date iterationStartTime;
+    private final Activity activity;
+    final String tid;
+    private final ITransferStatusCallback statusCallback;
+    final Transfer transfer;
+    private final ISynchronization synchronization;
+    private Date iterationStartTime;
 
     /**
      * конструктор
@@ -34,7 +34,7 @@ public class TransferListener implements Emitter.Listener {
      * @param tid идентификатор транзакции
      * @param statusCallback статус
      */
-    public TransferListener(ISynchronization synchronization, Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback){
+    TransferListener(ISynchronization synchronization, Activity activity, String tid, Transfer transfer, ITransferStatusCallback statusCallback){
         this.activity = activity;
         this.tid = tid;
         this.statusCallback = statusCallback;
@@ -46,7 +46,7 @@ public class TransferListener implements Emitter.Listener {
      * Время начала итерации
      * @return время
      */
-    public Date getIterationStartTime(){
+    Date getIterationStartTime(){
         return iterationStartTime == null ? new Date() : iterationStartTime;
     }
 
@@ -54,22 +54,22 @@ public class TransferListener implements Emitter.Listener {
         onHandler(START, tid, transfer, null);
     }
 
-    public void onRestart(){
+    void onRestart(){
         onHandler(RESTART, tid, transfer, null);
     }
 
-    public void onPercent(double percent, TransferSpeed speed, long lastTime, TransferData transferData) {
+    void onPercent(double percent, TransferSpeed speed, long lastTime, TransferData transferData) {
         iterationStartTime = new Date();
         TransferProgress progress = TransferProgress.getInstance(percent, speed, transferData, lastTime);
 
         onHandler(PERCENT, tid, transfer, progress);
     }
 
-    public void onStop(){
+    void onStop(){
         onHandler(STOP, tid, transfer, null);
     }
 
-    public void onEnd(byte[] bytes){
+    void onEnd(byte[] bytes){
         onPercent(100,
                 TransferSpeed.getInstance(transfer.getChunk(), new Date().getTime() - getIterationStartTime().getTime()),
                 0,
@@ -81,7 +81,7 @@ public class TransferListener implements Emitter.Listener {
      * обработчик ошибок
      * @param message текст сообщения
      */
-    public void onError(final String message){
+    void onError(final String message){
         onHandler(ERROR, tid, transfer, message);
     }
 
@@ -139,7 +139,7 @@ public class TransferListener implements Emitter.Listener {
      * @param percent процент выполнения
      * @return время в милисекундах
      */
-    protected long getLastTime(Date dtStart, int percent){
+    long getLastTime(Date dtStart, int percent){
         if(percent == 0)
             percent = 1;
         // прошло время с начала запуска

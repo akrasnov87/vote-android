@@ -13,10 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.R;
@@ -24,8 +21,7 @@ import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
 public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener, ContactHolder.OnContactItemListener {
-    private ArrayList<ContactItem> mContacts;
-    private RecyclerView mRecyclerView;
+    private final ArrayList<ContactItem> mContacts;
     private ContactAdapter mContactAdapter;
     private TextView mEmptyView;
 
@@ -42,10 +38,10 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_contact, container, false);
-        mRecyclerView = v.findViewById(R.id.fContact_rvItems);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = v.findViewById(R.id.fContact_rvItems);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mContactAdapter = new ContactAdapter(getActivity(), mContacts, this);
-        mRecyclerView.setAdapter(mContactAdapter);
+        recyclerView.setAdapter(mContactAdapter);
         ImageButton btnAdd = v.findViewById(R.id.fContact_btnAdd);
         btnAdd.setOnClickListener(this);
 

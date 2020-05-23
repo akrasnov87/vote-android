@@ -23,8 +23,7 @@ public class TransferSpeed {
         return speed;
     }
 
-    @Override
-    public String toString() {
+    public String toTransferBaseString() {
         return StringUtil.getSize((1000 * chunk) / time) + "\\сек.";
     }
 }

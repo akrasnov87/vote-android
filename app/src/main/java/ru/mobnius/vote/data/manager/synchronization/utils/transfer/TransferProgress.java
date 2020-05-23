@@ -52,6 +52,6 @@ public class TransferProgress {
         Date date = new Date(time);
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss", new Locale("ru", "RU"));
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return "~" + formatter.format(date) + "(" + speed.toString() + ")";
+        return "~" + formatter.format(date) + "(" + speed.toTransferBaseString() + ")";
     }
 }

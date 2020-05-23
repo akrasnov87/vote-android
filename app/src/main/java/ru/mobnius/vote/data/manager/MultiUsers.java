@@ -11,7 +11,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Служебный класс для работы с приложением несколькими пользователями
  */
-public class MultiUsers {
+class MultiUsers {
     private final Context mContext;
 
     public MultiUsers(Context context) {

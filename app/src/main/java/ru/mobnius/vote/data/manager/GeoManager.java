@@ -25,7 +25,7 @@ public class GeoManager implements LocationListener, Serializable {
     private int locations;
 
     private GeoListener mGeoListener;
-    private LocationManager locationManager;
+    private final LocationManager locationManager;
 
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
     public GeoManager(Context context, int count, double latitude, double longitude) {
@@ -52,7 +52,6 @@ public class GeoManager implements LocationListener, Serializable {
 
     /**
      * Точность
-     * @return
      */
     public int getAccuracy() {
         return locations;

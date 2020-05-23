@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <item android:id="@+id/choiceDocument_Info.signal"
+    <item
         android:title="@string/geo"
         android:icon="@drawable/ic_gps_off_24px"
         app:showAsAction="never"

@@ -26,7 +26,7 @@ public class Question {
      * Описание изменения
      */
     @Expose
-    public String c_description;
+    private String c_description;
 
     /**
      * имя приложения

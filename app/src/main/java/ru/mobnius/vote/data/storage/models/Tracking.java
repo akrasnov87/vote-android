@@ -234,14 +234,14 @@ public class Tracking implements IEntityTo {
      * Исполнитель
      */
     @ToOne(joinProperty = "fn_user")
-    public Users user;
+    private Users user;
 
     /**
      * Идентификатор
      */
     @Id
     @Expose
-    public String id;
+    private String id;
 
     /**
      * Широта
@@ -263,12 +263,12 @@ public class Tracking implements IEntityTo {
     /**
      * Запись была удалена или нет
      */
-    public boolean isDelete;
+    private boolean isDelete;
 
     /**
      * Была произведена синхронизация или нет
      */
-    public boolean isSynchronization;
+    private boolean isSynchronization;
 
     /**
      * идентификатор транзакции
@@ -280,7 +280,7 @@ public class Tracking implements IEntityTo {
      */
     public String blockTid;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

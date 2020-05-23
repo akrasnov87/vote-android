@@ -2,7 +2,7 @@ package ru.mobnius.vote.data.manager.zip;
 
 public class ZipResult {
 
-    private byte[] origin;
+    private final byte[] origin;
 
     private byte[] compress;
     private double k;
@@ -13,7 +13,7 @@ public class ZipResult {
 
     public ZipResult getResult(byte[] compress){
         this.compress = compress;
-        k = (compress.length * 100) / this.origin.length;
+        k = (double) (compress.length * 100) / this.origin.length;
         return this;
     }
 

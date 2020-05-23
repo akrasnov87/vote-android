@@ -21,19 +21,19 @@ public class PointTypes {
      * Код
      */
     @Expose
-    public long n_code;
+    private long n_code;
 
     /**
      * Наименование
      */
     @Expose
-    public String c_name;
+    private String c_name;
 
     /**
      * Краткое наименование
      */
     @Expose
-    public String c_short_name;
+    private String c_short_name;
 
     /**
      * Константа
@@ -45,13 +45,13 @@ public class PointTypes {
      * отключено
      */
     @Expose
-    public boolean b_disabled;
+    private boolean b_disabled;
 
     /**
      * сортировка
      */
     @Expose
-    public int n_order;
+    private int n_order;
 
     @Generated(hash = 1313352481)
     public PointTypes(Long id, long n_code, String c_name, String c_short_name,

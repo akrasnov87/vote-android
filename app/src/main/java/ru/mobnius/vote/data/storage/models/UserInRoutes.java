@@ -10,41 +10,42 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
+@SuppressWarnings("StringEquality")
 @Entity(nameInDb = "cd_userinroutes")
-public class UserInRoutes {
+class UserInRoutes {
 
     /**
      * Является главным
      */
     @Expose
-    public boolean b_main;
+    private boolean b_main;
 
     /**
      * Задание
      */
     @Expose
-    public String f_route;
+    private String f_route;
 
     @ToOne(joinProperty = "f_route")
-    public Routes route;
+    private Routes route;
 
     /**
      * Пользователь
      */
     @Expose
-    public long f_user;
+    private long f_user;
 
     @ToOne(joinProperty = "f_user")
-    public Users user;
+    private Users user;
 
     /**
      * Идентифиактор
      */
     @Id
     @Expose
-    public String id;
+    private String id;
 
-    public String dx_created;
+    private String dx_created;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

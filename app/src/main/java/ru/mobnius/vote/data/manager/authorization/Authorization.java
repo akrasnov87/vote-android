@@ -21,8 +21,8 @@ import ru.mobnius.vote.utils.ClaimsUtil;
 public class Authorization {
     private static final String INSPECTOR_CLAIM = "inspector";
 
-    private AuthorizationCache mAuthorizationCache;
-    private AuthorizationRequestUtil mRequestUtil;
+    private final AuthorizationCache mAuthorizationCache;
+    private final AuthorizationRequestUtil mRequestUtil;
     private AuthAsyncTask mAuthAsyncTask;
 
     private ICallback mICallback;

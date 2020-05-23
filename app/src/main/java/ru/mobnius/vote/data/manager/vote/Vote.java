@@ -1,8 +1,8 @@
 package ru.mobnius.vote.data.manager.vote;
 
 public class Vote {
-    public long answerId;
-    public long questionId;
+    public final long answerId;
+    public final long questionId;
 
     private String mComment;
     private String mJbTel;

@@ -37,8 +37,8 @@ public class ManualSynchronizationTest extends ManagerGenerate {
     }
 
     public static class MySynchronization extends ManualSynchronization {
-        private BasicCredentials mCredentials;
-        public MySynchronization(DaoSession daoSession, FileManager fileManager, BasicCredentials credentials) {
+        private final BasicCredentials mCredentials;
+        MySynchronization(DaoSession daoSession, FileManager fileManager, BasicCredentials credentials) {
             super(daoSession, fileManager, PreferencesManager.ZIP_CONTENT);
             dictionaryTid = UUID.randomUUID().toString();
             addEntity(new EntityDictionary(SubDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));

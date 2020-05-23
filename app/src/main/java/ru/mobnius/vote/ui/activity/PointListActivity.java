@@ -30,7 +30,6 @@ import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
-import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
@@ -118,7 +117,7 @@ public class PointListActivity extends BaseActivity
         return IExceptionCode.POINTS;
     }
 
-    public void searchResult(String query) {
+    private void searchResult(String query) {
         if (query.equals(JsonUtil.EMPTY)) {
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         } else {

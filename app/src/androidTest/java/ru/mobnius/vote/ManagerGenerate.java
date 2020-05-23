@@ -7,10 +7,10 @@ import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
 public abstract class ManagerGenerate extends DbGenerate {
-    private DataManager mDataManager;
-    private FileManager mFileManager;
+    private final DataManager mDataManager;
+    private final FileManager mFileManager;
 
-    public ManagerGenerate() {
+    protected ManagerGenerate() {
         super();
 
         mDataManager = DataManager.createInstance(getDaoSession());
@@ -23,7 +23,7 @@ public abstract class ManagerGenerate extends DbGenerate {
         return mDataManager;
     }
 
-    public FileManager getFileManager() {
+    protected FileManager getFileManager() {
         return mFileManager;
     }
 
@@ -35,7 +35,7 @@ public abstract class ManagerGenerate extends DbGenerate {
         return new BasicCredentials("inspector", "inspector0");
     }
 
-    public static BasicUser getBasicUser() {
+    protected static BasicUser getBasicUser() {
         return new BasicUser(getCredentials(), 4, ".inspector.");
     }
 }

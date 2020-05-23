@@ -43,9 +43,9 @@ public class TableQueryTest {
         return gson.toJson(object);
     }
 
-    class MyObject {
-        public String name;
-        public MyObject(String name) {
+    static class MyObject {
+        final String name;
+        MyObject(String name) {
             this.name = name;
         }
     }
