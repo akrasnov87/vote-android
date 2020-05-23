@@ -16,11 +16,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
     private final ContactHolder.OnContactItemListener mListener;
     private final Context mContext;
     private final ArrayList<ContactItem> mContacts;
+    private boolean mIsDone;
 
-    public ContactAdapter(Context context, ArrayList<ContactItem> contacts, ContactHolder.OnContactItemListener listener) {
+    public ContactAdapter(Context context, ArrayList<ContactItem> contacts, boolean isDone, ContactHolder.OnContactItemListener listener) {
         mContacts = contacts;
         mContext = context;
         mListener = listener;
+        mIsDone = isDone;
     }
     @NonNull
     @Override
@@ -32,7 +34,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
 
     @Override
     public void onBindViewHolder(@NonNull ContactHolder holder, int position) {
-        holder.bindItem(mContacts.get(position));
+        holder.bindItem(mContacts.get(position), mIsDone);
     }
 
     @Override

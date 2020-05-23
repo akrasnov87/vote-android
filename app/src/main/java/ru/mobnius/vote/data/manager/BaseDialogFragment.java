@@ -1,8 +1,12 @@
 package ru.mobnius.vote.data.manager;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.Objects;
 
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;

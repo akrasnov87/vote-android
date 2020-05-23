@@ -21,7 +21,8 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.utils.JsonUtil;
 
-public class ContactDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener, ContactHolder.OnContactItemListener {
+public class ContactDialogFragment extends AnswerFragmentDialog<String>
+        implements View.OnClickListener, ContactHolder.OnContactItemListener {
     private final ArrayList<ContactItem> mContacts;
     private ContactAdapter mContactAdapter;
     private TextView mEmptyView;
@@ -41,14 +42,16 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String> implemen
         View v = inflater.inflate(R.layout.dialog_fragment_contact, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.fContact_rvItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mContactAdapter = new ContactAdapter(getActivity(), mContacts, this);
+        boolean isDone = isDone();
+        mContactAdapter = new ContactAdapter(getActivity(), mContacts, isDone, this);
         recyclerView.setAdapter(mContactAdapter);
+
         ImageButton btnAdd = v.findViewById(R.id.fContact_btnAdd);
         btnAdd.setOnClickListener(this);
 
         Button btnDone = v.findViewById(R.id.fContact_btnDone);
         btnDone.setOnClickListener(this);
-        if(isDone()) {
+        if(isDone) {
             btnDone.setText("ОК");
             btnAdd.setVisibility(Button.GONE);
         }

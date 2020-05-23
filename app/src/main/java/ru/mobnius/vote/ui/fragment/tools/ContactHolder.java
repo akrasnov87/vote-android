@@ -14,6 +14,7 @@ import ru.mobnius.vote.R;
 public class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final EditText etName;
     private final EditText etPhone;
+    private ImageButton btnDelete;
 
     private final OnContactItemListener mListener;
     private final ContactHolder.OnContactChange mContactChange;
@@ -27,12 +28,16 @@ public class ContactHolder extends RecyclerView.ViewHolder implements View.OnCli
 
         etPhone = itemView.findViewById(R.id.itemContact_etPhone);
 
-        ImageButton btnDelete = itemView.findViewById(R.id.itemContact_btnDelete);
+        btnDelete = itemView.findViewById(R.id.itemContact_btnDelete);
         btnDelete.setOnClickListener(this);
     }
 
-    public void bindItem(ContactItem contact) {
-        etName.setText(contact.c_key);
+    public void bindItem(ContactItem contact, boolean isDone) {
+        btnDelete.setVisibility(isDone ? View.GONE : View.VISIBLE);
+
+        etName.setText(contact.c_value);
+        etName.setEnabled(!isDone);
+
         etName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -51,7 +56,9 @@ public class ContactHolder extends RecyclerView.ViewHolder implements View.OnCli
             }
         });
 
-        etPhone.setText(contact.c_value);
+        etPhone.setText(contact.c_key);
+        etPhone.setEnabled(!isDone);
+
         etPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
