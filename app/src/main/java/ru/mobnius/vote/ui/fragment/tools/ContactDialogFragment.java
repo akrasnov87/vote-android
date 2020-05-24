@@ -28,7 +28,7 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String>
     private TextView mEmptyView;
 
     public ContactDialogFragment(Answer answer, String input, boolean isDone) {
-        super(answer, Command.CONTACT, input, isDone);
+        super(answer, Command.CONTACT, isDone);
         if (!isDone()) {
             mContacts = new ArrayList<>();
         } else {

@@ -96,9 +96,6 @@ public class Authorization {
     public void onSignIn(String login, String password, int mode, ICallback callback) {
         mICallback = callback;
         if(mode == ONLINE) {
-            if(mAuthAsyncTask != null) {
-                mAuthAsyncTask.cancel(true);
-            }
             mAuthAsyncTask = new AuthAsyncTask();
             mAuthAsyncTask.execute(login, password);
         } else {

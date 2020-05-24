@@ -10,6 +10,26 @@
         app:summary="Общая информация о приложении" />
 
     <PreferenceCategory
+        android:icon="@drawable/ic_settings_remote_24dp"
+        android:summary="Серверные настройки"
+        android:title="Администрирование">
+        <Preference
+            android:key="MBL_BG_SYNC_INTERVAL"
+            android:summary="Интервал синхронизации фоновых данных"
+            android:title="Синхронизация" />
+
+        <Preference
+            android:key="MBL_TRACK_INTERVAL"
+            android:summary="Интервал получения гео-данных"
+            android:title="Трекинг" />
+
+        <Preference
+            android:key="MBL_TELEMETRY_INTERVAL"
+            android:summary="Интервал сбора показаний мобильного устройства"
+            android:title="Телеметрия" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:icon="@drawable/ic_pin_icon_24dp"
         android:summary="Настройки авторизации"
         android:title="Авторизация">

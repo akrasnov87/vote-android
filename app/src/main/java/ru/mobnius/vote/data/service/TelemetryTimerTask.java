@@ -62,9 +62,9 @@ class TelemetryTimerTask extends TimerTask {
 
         StatFs stat2 = new StatFs(Environment.getDataDirectory().getPath());
         mobileIndicators.n_phone_memory = stat2.getTotalBytes();
-        Logger.debug("Total MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_phone_memory));
+        //Logger.debug("Total MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_phone_memory));
         mobileIndicators.n_used_phone_memory = stat2.getAvailableBytes();
-        Logger.debug("Available MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_used_phone_memory));
+        //Logger.debug("Available MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_used_phone_memory));
         String state = Environment.getExternalStorageState();
         if (MyService.SD_CARD_MEMORY_USAGE && Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -72,9 +72,9 @@ class TelemetryTimerTask extends TimerTask {
                 long[] externalSdCardSize = getExternalSdCardSize();
 
                 mobileIndicators.n_sd_card_memory = externalSdCardSize[0];
-                Logger.debug("SD Total MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_sd_card_memory));
+                //Logger.debug("SD Total MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_sd_card_memory));
                 mobileIndicators.n_used_sd_card_memory = externalSdCardSize[1];
-                Logger.debug("SD Available MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_used_sd_card_memory));
+                //Logger.debug("SD Available MB : " + Formatter.formatFileSize(mContext, mobileIndicators.n_used_sd_card_memory));
             }
         }
 

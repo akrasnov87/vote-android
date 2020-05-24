@@ -148,6 +148,14 @@ public abstract class AbstractPreferencesManager {
         return PreferencesManager.getInstance().getBooleanValue(key, false);
     }
 
+    int getDefaultIntValue(String key){
+        if(hasDefaultValue(key)) {
+            return DefaultPreferencesManager.getInstance().getIntValue(key, -1);
+        }
+
+        return PreferencesManager.getInstance().getIntValue(key, -1);
+    }
+
     /**
      * Очистка настроек
      */

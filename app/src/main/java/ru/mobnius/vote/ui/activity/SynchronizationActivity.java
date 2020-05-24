@@ -41,6 +41,7 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListe
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
 import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
+import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 public class SynchronizationActivity extends BaseActivity
@@ -122,14 +123,17 @@ public class SynchronizationActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.sync_start:
                 if (NetworkUtil.isNetworkAvailable(this)) {
+                    AuditUtils.write("Синхронизация в online", AuditUtils.SYNC, AuditUtils.Level.HIGH);
                     availableNetwork();
                     tvLogs.setText("");
                     start();
                 } else {
+                    AuditUtils.write("Синхронизация в offline", AuditUtils.SYNC, AuditUtils.Level.HIGH);
                     tvError.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.sync_stop:
+                AuditUtils.write("Принудительное завершение синхронизации", AuditUtils.SYNC, AuditUtils.Level.HIGH);
                 stop();
                 btnStart.setEnabled(true);
                 btnStart.setTextColor(Color.BLACK);
@@ -243,6 +247,7 @@ public class SynchronizationActivity extends BaseActivity
                 @Override
                 public void onError(ISynchronization synchronization, int step, String message, String tid) {
                     tvLogs.append(Html.fromHtml("<font color='#FF0000'>" + message + "</font><br />"));
+                    AuditUtils.write(message, AuditUtils.SYNC_ERROR, AuditUtils.Level.HIGH);
                     alert(message);
                 }
             });

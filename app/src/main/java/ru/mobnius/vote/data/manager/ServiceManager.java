@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.service.MyService;
 
 /**
@@ -41,7 +42,7 @@ class ServiceManager {
      * запуск сервиса по отправке информации на сервер
      */
     public void startMyService() {
-        this.startMyService(MyService.SYNC_INTERVAL, MyService.TRACK_TIMEOUT_NUMBER, Criteria.ACCURACY_FINE, Criteria.POWER_HIGH, MyService.TELEMETRY_INTERVAL_NUMBER, true);
+        this.startMyService(PreferencesManager.getInstance().getSyncInterval(), PreferencesManager.getInstance().getTrackingInterval(), Criteria.ACCURACY_FINE, Criteria.POWER_HIGH, PreferencesManager.getInstance().getTelemetryInterval(), true);
     }
 
     /**

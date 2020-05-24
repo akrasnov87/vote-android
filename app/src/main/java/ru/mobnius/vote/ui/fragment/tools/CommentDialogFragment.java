@@ -26,7 +26,7 @@ public class CommentDialogFragment extends AnswerFragmentDialog<String> implemen
     private final String mInput;
 
     public CommentDialogFragment(Answer answer, String input, boolean isDone) {
-        super(answer, Command.COMMENT, input, isDone);
+        super(answer, Command.COMMENT, isDone);
         mInput = input == null ? "" : input;
     }
 

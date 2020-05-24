@@ -54,13 +54,6 @@ public class MyService extends BaseService {
     private LocationManager mLocationManager;
     private TrackingLocationListener mTrackingLocationListener;
 
-    /**
-     * Значение по умолчанию для задержка перед получением следующей координаты
-     */
-    public final static int TRACK_TIMEOUT_NUMBER = 10 * 1000;
-    public final static int SYNC_INTERVAL = 60 * 1000;
-    public final static int TELEMETRY_INTERVAL_NUMBER = 60 * 1000;
-
     public MyService() {
         mServiceSyncTimer = new Timer();
         telemetryTimer = new Timer();
@@ -89,7 +82,7 @@ public class MyService extends BaseService {
               Интервал отправки служебных данных на сервер
              */
 
-            int serviceInterval = intent.getIntExtra(SYNC_SERVICE, SYNC_INTERVAL);
+            int serviceInterval = intent.getIntExtra(SYNC_SERVICE, PreferencesManager.getInstance().getSyncInterval());
 
             mServiceSyncTimer.schedule(new SyncTimerTask(), 0, serviceInterval);
         }
@@ -100,7 +93,7 @@ public class MyService extends BaseService {
         if(intent != null) {
             mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             mTrackingLocationListener = new TrackingLocationListener(getDaoSession(), getBaseContext(), Integer.parseInt(getBasicUser().getUserId().toString()));
-            int timeout = intent.getIntExtra(TRACK_TIMEOUT, TRACK_TIMEOUT_NUMBER);
+            int timeout = intent.getIntExtra(TRACK_TIMEOUT, PreferencesManager.getInstance().getTrackingInterval());
             int accuracy = intent.getIntExtra(TRACK_ACCURACY, Criteria.ACCURACY_FINE);
             int power = intent.getIntExtra(TRACK_POWER, Criteria.POWER_HIGH);
 
@@ -113,11 +106,10 @@ public class MyService extends BaseService {
     }
 
     private void runTelemetry(Intent intent) {
-        Logger.debug("Запуск сервиса MobileIndicators");
         writeDeviceInfo();
 
         if(intent != null) {
-            int telemetryInterval = intent.getIntExtra(MyService.TELEMETRY_INTERVAL, MyService.TELEMETRY_INTERVAL_NUMBER);
+            int telemetryInterval = intent.getIntExtra(MyService.TELEMETRY_INTERVAL, PreferencesManager.getInstance().getTelemetryInterval());
             MyService.SD_CARD_MEMORY_USAGE = intent.getBooleanExtra(MyService.TELEMETRY_MEMORY, MyService.SD_CARD_MEMORY_USAGE);
 
             telemetryTimer.schedule(new TelemetryTimerTask(getBaseContext(), getDaoSession(), Integer.parseInt(getBasicUser().getUserId().toString())), 0, telemetryInterval);

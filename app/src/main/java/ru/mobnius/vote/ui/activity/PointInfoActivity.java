@@ -21,6 +21,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.component.TextFieldView;
 import ru.mobnius.vote.ui.model.PointInfo;
+import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.StringUtil;
 
 /**
@@ -102,6 +103,7 @@ public class PointInfoActivity extends BaseActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == DialogInterface.BUTTON_POSITIVE) {
+                    AuditUtils.write(mPointID, AuditUtils.RESET_APPARTAMENT, AuditUtils.Level.HIGH);
                     DataManager.getInstance().removeVoteResult(mPointID);
                     setResult(Activity.RESULT_OK);
                     finish();

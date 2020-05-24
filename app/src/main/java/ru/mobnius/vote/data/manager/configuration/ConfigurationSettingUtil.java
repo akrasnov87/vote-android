@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
@@ -124,8 +125,8 @@ public class ConfigurationSettingUtil {
                 }
 
                 configurationSettings.add(configurationSetting);
-            }catch (JSONException ignore) {
-
+            }catch (JSONException e) {
+                Logger.error(e);
             }
         }
 

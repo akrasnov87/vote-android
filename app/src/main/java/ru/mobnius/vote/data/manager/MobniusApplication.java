@@ -46,6 +46,8 @@ public class MobniusApplication extends android.app.Application implements IExce
     public void onCreate() {
         super.onCreate();
         onExceptionIntercept();
+        Logger.setContext(getApplicationContext());
+
         DefaultPreferencesManager.createInstance(this, DefaultPreferencesManager.NAME);
         serviceManager = new ServiceManager(this);
 

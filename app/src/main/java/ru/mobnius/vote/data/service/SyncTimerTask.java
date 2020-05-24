@@ -32,7 +32,7 @@ class SyncTimerTask extends TimerTask {
 
             @Override
             public void onError(ISynchronization synchronization, int step, String message, String tid) {
-                Logger.debug(message);
+
             }
 
             @Override

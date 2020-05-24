@@ -130,15 +130,10 @@ public class SocketManager {
             }
         });
 
-        socket.on(EVENT_NOT_AUTH, new Emitter.Listener(){
+        socket.on(EVENT_NOT_AUTH, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject jsonObject = (JSONObject) args[0];
-                try {
-                    Logger.debug(jsonObject.getJSONObject("data").getString("msg"));
-                } catch (JSONException ignored) {
 
-                }
             }
         });
 

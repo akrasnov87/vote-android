@@ -16,7 +16,11 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public final static String APP_VERSION = "MBL_APP_VERSION";
     public static final String DEBUG = "MBL_DEBUG";
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
-    public static final String PIN= "MBL_PIN";
+    public static final String PIN = "MBL_PIN";
+
+    public static final String MBL_BG_SYNC_INTERVAL = "MBL_BG_SYNC_INTERVAL";
+    public static final String MBL_TRACK_INTERVAL = "MBL_TRACK_INTERVAL";
+    public static final String MBL_TELEMETRY_INTERVAL = "MBL_TELEMETRY_INTERVAL";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -60,5 +64,17 @@ public class PreferencesManager extends AbstractPreferencesManager {
      */
     public void setSort(boolean value) {
         getSharedPreferences().edit().putBoolean(PreferencesManager.POINT_SORT_PREFS, value).apply();
+    }
+
+    public int getSyncInterval() {
+        return getDefaultIntValue(MBL_BG_SYNC_INTERVAL);
+    }
+
+    public int getTrackingInterval() {
+        return getDefaultIntValue(MBL_TRACK_INTERVAL);
+    }
+
+    public int getTelemetryInterval() {
+        return getDefaultIntValue(MBL_TELEMETRY_INTERVAL);
     }
 }

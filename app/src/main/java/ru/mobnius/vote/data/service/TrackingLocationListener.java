@@ -58,12 +58,12 @@ class TrackingLocationListener implements LocationListener {
             socketManager.getSocket().emit("tracking", (Object) MailManager.send(new GeoMail(tracking)));
         }
 
-        Logger.debug(location.getLatitude() + ":" + location.getLongitude());
+        //Logger.debug(location.getLatitude() + ":" + location.getLongitude());
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Logger.debug("Network provider: " + provider + "(" + status + ")");
+        //Logger.debug("Network provider: " + provider + "(" + status + ")");
     }
 
     @Override

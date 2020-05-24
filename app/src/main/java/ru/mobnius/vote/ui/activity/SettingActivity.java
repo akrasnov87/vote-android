@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -25,6 +26,7 @@ import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
 import ru.mobnius.vote.ui.fragment.PinCodeFragment;
+import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.VersionUtil;
 
 /**
@@ -86,6 +88,15 @@ public class SettingActivity extends BaseActivity {
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.pref);
+
+            Preference syncInterval = findPreference(PreferencesManager.MBL_BG_SYNC_INTERVAL);
+            syncInterval.setSummary(String.format("Интервал синхронизации фоновых данных: %s", PreferencesManager.getInstance().getSyncInterval()));
+
+            Preference trackingInterval = findPreference(PreferencesManager.MBL_TRACK_INTERVAL);
+            trackingInterval.setSummary(String.format("Интервал получения гео-данных: %s", PreferencesManager.getInstance().getTrackingInterval()));
+
+            Preference telemetryInterval = findPreference(PreferencesManager.MBL_TELEMETRY_INTERVAL);
+            telemetryInterval.setSummary(String.format("Интервал сбора показаний мобильного устройства: %s", PreferencesManager.getInstance().getTelemetryInterval()));
 
             pVersion = findPreference(PreferencesManager.APP_VERSION);
             Objects.requireNonNull(pVersion).setOnPreferenceClickListener(this);
@@ -167,12 +178,12 @@ public class SettingActivity extends BaseActivity {
 
                 case PreferencesManager.PIN:
                     boolean pinValue = Boolean.parseBoolean(String.valueOf(newValue));
+                    AuditUtils.write(String.format(pinSummary, pinValue ? "включена" : "отключена"), AuditUtils.PREF_PIN, AuditUtils.Level.HIGH);
                     spPin.setSummary(String.format(pinSummary, pinValue ? "включена" : "отключена"));
                     PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, pinValue).apply();
                     AuthorizationCache cache = new AuthorizationCache(getContext());
                     BasicUser user = Authorization.getInstance().getLastAuthUser();
                     if (pinValue) {
-                        // TODO 21.05.2020: нужно передалать на активити
                         PinCodeFragment fragment = PinCodeFragment.newInstance(null, user.getCredentials().login);
                         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                     } else {

@@ -35,8 +35,8 @@ import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
-import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.utils.AuditUtils;
 
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
@@ -121,6 +121,8 @@ public class QuestionActivity extends BaseFormActivity
             List<Results> results = dataManager.getPointResults(pointID);
             // задание ранее выполнялось
             mVoteManager.importFromResult(results.toArray(new Results[0]));
+        } else {
+            AuditUtils.write(pointID, AuditUtils.VOTE, AuditUtils.Level.LOW);
         }
 
         Question question = DataManager.getInstance().getQuestions()[0];
@@ -237,6 +239,7 @@ public class QuestionActivity extends BaseFormActivity
      * Завершение опроса
      */
     private void onVoteFinish() {
+        AuditUtils.write(pointID, AuditUtils.VOTED, AuditUtils.Level.LOW);
         mDocumentManager.saveVote(this);
         finish();
     }
