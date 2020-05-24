@@ -9,4 +9,5 @@ public interface Names {
     String PIN = "pin";
     String LOGIN = "login";
     String ADDRESS = "address";
+    String UPDATE_URL = "/upload/version-file";
 }

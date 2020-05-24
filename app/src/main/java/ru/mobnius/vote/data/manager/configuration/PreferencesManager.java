@@ -9,7 +9,7 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     // сортировка
     public static final String POINT_SORT_PREFS = "POINT_SORT_PREFS";
-
+    public final static String SERVER_APP_VERSION = "SERVER_APP_VERSION";
     public final static boolean ZIP_CONTENT = true;
     public final static String SYNC_PROTOCOL = "v1";
     public final static String MAILER_PROTOCOL = "v1";

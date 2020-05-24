@@ -1,7 +1,10 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,11 +15,16 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
+import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.MobniusApplication;
+import ru.mobnius.vote.data.manager.RequestManager;
+import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -75,6 +83,7 @@ public class SettingActivity extends BaseActivity {
         private int clickToVersion = 0;
 
         private Preference pVersion;
+        private Preference pServerVersion;
         private SwitchPreference spDebug;
         private SwitchPreference spPin;
         private Preference pCreateError;
@@ -88,6 +97,10 @@ public class SettingActivity extends BaseActivity {
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.pref);
+
+            pServerVersion = findPreference(PreferencesManager.SERVER_APP_VERSION);
+            Objects.requireNonNull(pServerVersion).setOnPreferenceClickListener(this);
+
 
             Preference syncInterval = findPreference(PreferencesManager.MBL_BG_SYNC_INTERVAL);
             Objects.requireNonNull(syncInterval).setSummary(String.format("Интервал синхронизации фоновых данных: %s мин.", PreferencesManager.getInstance().getSyncInterval() / 60000));
@@ -124,6 +137,8 @@ public class SettingActivity extends BaseActivity {
 
             spPin.setSummary(String.format(pinSummary, PreferencesManager.getInstance().isPinAuth() ? "включена" : "отключена"));
             spPin.setChecked(PreferencesManager.getInstance().isPinAuth());
+
+            new ServerAppVersionAsyncTask().execute();
         }
 
         @Override
@@ -192,6 +207,56 @@ public class SettingActivity extends BaseActivity {
                     break;
             }
             return true;
+        }
+
+        @SuppressLint("StaticFieldLeak")
+        private class ServerAppVersionAsyncTask extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    return RequestManager.version(MobniusApplication.getBaseUrl());
+                } catch (IOException e) {
+                    return "0.0.0.0";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                if (pServerVersion != null) {
+                    if(!s.equals("0.0.0.0")) {
+
+                        Version mVersion = new Version();
+                        String currentVersion = VersionUtil.getVersionName(requireActivity());
+                        Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
+                        Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
+
+                        if(serverDate.getTime() > currentDate.getTime()
+                                && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
+                            pServerVersion.setVisible(true);
+                            pServerVersion.setSummary("Доступна новая версия " + s);
+                            pServerVersion.setIntent(new Intent().setAction(Intent.ACTION_VIEW).setData(
+                                    Uri.parse(MobniusApplication.getBaseUrl() + Names.UPDATE_URL)));
+
+                            if (pVersion != null) {
+                                pVersion.setSummary(VersionUtil.getVersionName(requireActivity()));
+                            }
+                        } else {
+                            pServerVersion.setVisible(false);
+                            if (pVersion != null) {
+                                pVersion.setSummary("Установлена последняя версия " + VersionUtil.getVersionName(requireActivity()));
+                            }
+                        }
+                    } else {
+                        pServerVersion.setVisible(false);
+                        if (pVersion != null) {
+                            pVersion.setSummary("Установлена последняя версия " + VersionUtil.getVersionName(requireActivity()));
+                        }
+                    }
+                }
+            }
         }
     }
 }

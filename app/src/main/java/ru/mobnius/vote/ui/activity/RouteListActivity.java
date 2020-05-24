@@ -1,7 +1,11 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -20,18 +24,25 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
+import ru.mobnius.vote.data.manager.RequestManager;
+import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.VersionUtil;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -81,6 +92,8 @@ public class RouteListActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
         invalidateOptionsMenu();
+
+        new ServerAppVersionAsyncTask().execute();
     }
 
     @Override
@@ -170,6 +183,43 @@ public class RouteListActivity extends BaseActivity implements
             rvHouses.setAdapter(new RouteAdapter(this, undoneRoutes));
         } else {
             rvHouses.setAdapter(new RouteAdapter(this, routes));
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class ServerAppVersionAsyncTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                return RequestManager.version(MobniusApplication.getBaseUrl());
+            } catch (IOException e) {
+                return "0.0.0.0";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Version mVersion = new Version();
+            String currentVersion = VersionUtil.getVersionName(getBaseContext());
+            Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
+            Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
+
+            if(serverDate.getTime() > currentDate.getTime()
+                    && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
+                // тут доступно новая версия
+                Snackbar.make(rvHouses, "Доступна новая версия " + s, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = Names.UPDATE_URL;
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                }).show();
+            }
         }
     }
 }

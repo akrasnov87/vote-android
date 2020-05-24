@@ -171,4 +171,36 @@ public class RequestManager {
 
         return hashMap;
     }
+
+    /**
+     * Проверка на доступность подключения к серверу приложения
+     *
+     * @return возвращается строка если возникла ошибка, либо объект ServerExists
+     * @throws IOException общая ошибка
+     */
+    public static String version(String baseUrl) throws IOException {
+        URL url = new URL(baseUrl + "/upload/version");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setConnectTimeout(SERVER_CONNECTION_TIMEOUT);
+
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            Scanner s = new Scanner(in).useDelimiter("\\A");
+            String result = s.hasNext() ? s.next() : "";
+            try {
+                JSONObject object = new JSONObject(result);
+                return object.getString("version");
+            } catch (Exception formatExc) {
+                Logger.error(formatExc);
+            }
+        } catch (Exception e) {
+            Logger.error(e);
+        } finally {
+            urlConnection.disconnect();
+        }
+
+        return "0.0.0.0";
+    }
 }
