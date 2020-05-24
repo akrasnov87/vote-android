@@ -3,6 +3,7 @@ package ru.mobnius.vote.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
@@ -40,7 +42,11 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListener;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
+import ru.mobnius.vote.data.storage.models.Points;
+import ru.mobnius.vote.data.storage.models.PointsDao;
+import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
+import ru.mobnius.vote.ui.model.PointState;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.NetworkUtil;
 
@@ -61,6 +67,7 @@ public class SynchronizationActivity extends BaseActivity
     private Button btnStop;
     private TextView tvLogs;
     private TextView tvError;
+    private Button btnSyncAppartament;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,9 +82,18 @@ public class SynchronizationActivity extends BaseActivity
         tvLogs = findViewById(R.id.sync_logs);
         btnStart = findViewById(R.id.sync_start);
         btnStop = findViewById(R.id.sync_stop);
+        btnSyncAppartament = findViewById(R.id.sync_appartament);
 
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
+        btnSyncAppartament.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        new LocaleDataAsyncTask().execute();
     }
 
     @Override
@@ -85,7 +101,12 @@ public class SynchronizationActivity extends BaseActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_synchronization, menu);
         MenuItem eye = menu.findItem(R.id.action_sync_log);
-        eyeStatus(eye, PreferencesManager.getInstance().isDebug());
+        if(PreferencesManager.getInstance().isDebug()) {
+            eye.setVisible(true);
+            eyeStatus(eye, PreferencesManager.getInstance().isDebug());
+        } else {
+            eye.setVisible(false);
+        }
 
         return true;
     }
@@ -121,8 +142,13 @@ public class SynchronizationActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.sync_start:
+            case R.id.sync_appartament:
                 if (NetworkUtil.isNetworkAvailable(this)) {
+                    if(v.getId() == R.id.sync_appartament) {
+                        v.setVisibility(View.GONE);
+                    }
                     AuditUtils.write("Синхронизация в online", AuditUtils.SYNC, AuditUtils.Level.HIGH);
                     availableNetwork();
                     tvLogs.setText("");
@@ -138,6 +164,7 @@ public class SynchronizationActivity extends BaseActivity
                 btnStart.setEnabled(true);
                 btnStart.setTextColor(Color.BLACK);
                 btnStop.setVisibility(View.GONE);
+                btnSyncAppartament.setVisibility(View.GONE);
                 break;
         }
     }
@@ -321,5 +348,33 @@ public class SynchronizationActivity extends BaseActivity
         btnStop.setVisibility(View.VISIBLE);
         btnStart.setEnabled(false);
         btnStart.setTextColor(getResources().getColor(R.color.gray_light));
+    }
+
+    public class LocaleDataAsyncTask extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            int pointCount = 0;
+            List<Points> points = DataManager.getInstance().getDaoSession().getPointsDao().loadAll();
+            for(Points point : points) {
+                PointState pointState = DataManager.getInstance().getPointState(point.id);
+                if(!pointState.isSync()) {
+                    pointCount++;
+                }
+            }
+            return pointCount;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            if(integer > 0) {
+                btnSyncAppartament.setVisibility(View.VISIBLE);
+                btnSyncAppartament.setText(String.format("Сохранить %s квартир на сервере", integer));
+            } else {
+                btnSyncAppartament.setVisibility(View.GONE);
+            }
+        }
     }
 }

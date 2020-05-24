@@ -334,6 +334,7 @@ public class DataManager {
      */
     public PointState getPointState(String pointId) {
         PointState pointState = new PointState();
+
         if(daoSession.getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(pointId)).count() > 0) {
             pointState.setDone(true);
         }
@@ -345,7 +346,6 @@ public class DataManager {
             if(userPoint.isSynchronization) {
                 List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
                 for(Results result : results) {
-
                     Answer answer = result.getAnswer();
                     if(answer != null) {
                         pointState.setBgColor(answer.c_color);
@@ -361,9 +361,7 @@ public class DataManager {
             }
         }
 
-        if(userPoints.size() > 0) {
-            pointState.setSync(true);
-        }
+        pointState.setSync(true);
         return pointState;
     }
 

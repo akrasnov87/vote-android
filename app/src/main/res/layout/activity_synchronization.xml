@@ -6,18 +6,28 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <TextView
-        android:id="@+id/sync_error"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/sync_appartament"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorFail"
-        android:padding="@dimen/size_s_24"
-        android:text="@string/network_error"
-        android:textColor="@color/contentColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
         tools:visibility="visible"
+        android:background="@color/colorFail"
+        android:textColor="@color/contentColor"
+        android:padding="@dimen/size_xs_16"
+        tools:text="Сохранить 6 квартир на сервере."/>
+
+    <TextView
+        android:id="@+id/sync_error"
+        android:text="@string/network_error"
+        tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/AppTheme.ErrorText"/>
 
     <LinearLayout
         android:id="@+id/sync_progress"

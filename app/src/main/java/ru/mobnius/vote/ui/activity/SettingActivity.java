@@ -90,13 +90,13 @@ public class SettingActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.pref);
 
             Preference syncInterval = findPreference(PreferencesManager.MBL_BG_SYNC_INTERVAL);
-            syncInterval.setSummary(String.format("Интервал синхронизации фоновых данных: %s", PreferencesManager.getInstance().getSyncInterval()));
+            Objects.requireNonNull(syncInterval).setSummary(String.format("Интервал синхронизации фоновых данных: %s мин.", PreferencesManager.getInstance().getSyncInterval() / 60000));
 
             Preference trackingInterval = findPreference(PreferencesManager.MBL_TRACK_INTERVAL);
-            trackingInterval.setSummary(String.format("Интервал получения гео-данных: %s", PreferencesManager.getInstance().getTrackingInterval()));
+            Objects.requireNonNull(trackingInterval).setSummary(String.format("Интервал получения гео-данных: %s мин.", PreferencesManager.getInstance().getTrackingInterval() / 60000));
 
             Preference telemetryInterval = findPreference(PreferencesManager.MBL_TELEMETRY_INTERVAL);
-            telemetryInterval.setSummary(String.format("Интервал сбора показаний мобильного устройства: %s", PreferencesManager.getInstance().getTelemetryInterval()));
+            Objects.requireNonNull(telemetryInterval).setSummary(String.format("Интервал сбора показаний мобильного устройства: %s мин.", PreferencesManager.getInstance().getTelemetryInterval() / 60000));
 
             pVersion = findPreference(PreferencesManager.APP_VERSION);
             Objects.requireNonNull(pVersion).setOnPreferenceClickListener(this);
