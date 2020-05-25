@@ -16,6 +16,11 @@
 
         <item name="buttonStyle">@style/AppTheme.Dialog.ButtonStyle</item>
         <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
+        <item name="snackbarStyle">@style/snackbar</item>
+    </style>
+
+    <style name="snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+        <item name="android:background">@drawable/snackbar_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">

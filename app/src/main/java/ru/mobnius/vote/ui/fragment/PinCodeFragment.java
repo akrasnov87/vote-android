@@ -326,6 +326,4 @@ public class PinCodeFragment extends BaseFragment
     public interface IPinEnableComplete {
         void onPinActivated();
     }
-
-
 }
