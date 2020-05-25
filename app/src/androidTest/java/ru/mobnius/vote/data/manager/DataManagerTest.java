@@ -45,6 +45,7 @@ public class DataManagerTest extends ManagerGenerate {
         dataManager = DataManager.createInstance(getDaoSession());
         BasicCredentials credentials = new BasicCredentials("inspector", "");
         fileManager = FileManager.createInstance(credentials, getContext());
+        fileManager.clearUserFolder();
 
         RouteTypes routeType = new RouteTypes();
         routeType.id = (long)1;
@@ -230,7 +231,7 @@ public class DataManagerTest extends ManagerGenerate {
         getDaoSession().getPointsDao().insert(points);
 
         assertFalse(dataManager.getPointState(threePointId).isDone());
-        assertFalse(dataManager.getPointState(threePointId).isSync());
+        assertTrue(dataManager.getPointState(threePointId).isSync());
 
         assertTrue(dataManager.getPointState(secondPointId).isDone());
         assertTrue(dataManager.getPointState(secondPointId).isSync());

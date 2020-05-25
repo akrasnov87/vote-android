@@ -101,7 +101,7 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
     @Override
     public void deleteFile(String fileName) {
         File dir = getRootCatalog();
-        if(!dir.exists()){
+        if(!dir.exists()) {
             Logger.error(new Exception("Корневая директория " + EXCEPTION_FOLDER + " не найдена."));
             return;
         }

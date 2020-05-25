@@ -47,12 +47,12 @@ public class VoteButtonAdapter extends RecyclerView.Adapter<VoteButtonHolder> {
     public VoteButtonHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.vote_button_item, parent, false);
-        return new VoteButtonHolder(mContext, view, mAnswers, mListener, mExclusionAnswerID, mLastAnswerId);
+        return new VoteButtonHolder(view, mAnswers, mListener, mExclusionAnswerID, mLastAnswerId);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VoteButtonHolder holder, int position) {
-        holder.bind(mAnswers[position], mContext);
+        holder.bind(mAnswers[position]);
     }
 
     @Override

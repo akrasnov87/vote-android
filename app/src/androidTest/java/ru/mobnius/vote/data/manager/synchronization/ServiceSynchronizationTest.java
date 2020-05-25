@@ -30,6 +30,7 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
     @Before
     public void setUp(){
         synchronization = new MySynchronization(getDaoSession(), getCredentials());
+        synchronization.getDaoSession().getTrackingDao().deleteAll();
     }
 
     @After

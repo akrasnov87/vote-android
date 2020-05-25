@@ -43,7 +43,7 @@ public class Logger {
      */
     public static void error(String description, Exception e) {
         String exceptionString = StringUtil.exceptionToString(e) + description;
-        Log.e(TAG, exceptionString);
+        Log.d(TAG, exceptionString);
         ExceptionModel exceptionModel = ExceptionModel.getInstance(new Date(), exceptionString, IExceptionGroup.NONE, IExceptionCode.ALL);
         FileExceptionManager.getInstance(sContext).writeBytes(exceptionModel.getFileName(), exceptionModel.toString().getBytes());
 
