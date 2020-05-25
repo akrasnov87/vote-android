@@ -40,7 +40,7 @@ import ru.mobnius.vote.utils.VersionUtil;
 /**
  * Настройки
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements PinCodeFragment.IPinEnableComplete {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SettingActivity.class);
@@ -195,13 +195,13 @@ public class SettingActivity extends BaseActivity {
                     boolean pinValue = Boolean.parseBoolean(String.valueOf(newValue));
                     AuditUtils.write(String.format(pinSummary, pinValue ? "включена" : "отключена"), AuditUtils.PREF_PIN, AuditUtils.Level.HIGH);
                     spPin.setSummary(String.format(pinSummary, pinValue ? "включена" : "отключена"));
-                    PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, pinValue).apply();
                     AuthorizationCache cache = new AuthorizationCache(getContext());
                     BasicUser user = Authorization.getInstance().getLastAuthUser();
                     if (pinValue) {
                         PinCodeFragment fragment = PinCodeFragment.newInstance(null, user.getCredentials().login);
                         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
                     } else {
+                        PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, false).apply();
                         cache.update(user.getCredentials().login, "", new Date());
                     }
                     break;
@@ -258,5 +258,9 @@ public class SettingActivity extends BaseActivity {
                 }
             }
         }
+    }
+    @Override
+    public void onPinActivated() {
+        PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, true).apply();
     }
 }

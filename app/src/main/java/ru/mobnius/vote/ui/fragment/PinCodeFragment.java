@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -57,6 +58,7 @@ public class PinCodeFragment extends BaseFragment
 
     private AuthorizationCache cache;
     private Authorization mAuthorization;
+    private IPinEnableComplete mIPinEnableComplete;
 
     public static PinCodeFragment newInstance(String pin, String login) {
         PinCodeFragment pinCodeFragment;
@@ -78,6 +80,14 @@ public class PinCodeFragment extends BaseFragment
     @Override
     public int getExceptionCode() {
         return IExceptionCode.PIN_CODE;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof IPinEnableComplete) {
+            mIPinEnableComplete = (IPinEnableComplete) context;
+        }
     }
 
     @Override
@@ -225,7 +235,9 @@ public class PinCodeFragment extends BaseFragment
                 Toast.makeText(getContext(), "Подтвердите пин-код", Toast.LENGTH_SHORT).show();
             } else {
                 if (pinDigits.equals(tempPin)) {
-
+                    if (mIPinEnableComplete != null) {
+                        mIPinEnableComplete.onPinActivated();
+                    }
                     cache.update(login, pinDigits, new Date());
                     requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                     Intent i = new Intent(getContext(), LoginActivity.class);
@@ -309,6 +321,10 @@ public class PinCodeFragment extends BaseFragment
                 }
             });
         }
+    }
+
+    public interface IPinEnableComplete {
+        void onPinActivated();
     }
 
 
