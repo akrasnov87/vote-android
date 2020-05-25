@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,7 +8,6 @@
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="colorError">@color/colorError</item>
         <item name="colorBackgroundFloating">@color/colorFloating</item>
-
         <item name="android:windowBackground">@color/colorSecondaryText</item>
 
         <item name="android:textColorHint">@color/colorHint</item>
@@ -16,11 +15,7 @@
 
         <item name="buttonStyle">@style/AppTheme.Dialog.ButtonStyle</item>
         <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
-        <item name="snackbarStyle">@style/snackbar</item>
-    </style>
 
-    <style name="snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
-        <item name="android:background">@drawable/snackbar_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">

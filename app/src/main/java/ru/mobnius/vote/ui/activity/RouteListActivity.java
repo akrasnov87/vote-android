@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -218,10 +219,11 @@ public class RouteListActivity extends BaseActivity implements
             Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
             Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
 
-            if(serverDate.getTime() > currentDate.getTime()
+            if(serverDate.getTime() < currentDate.getTime()
                     && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
                 // тут доступно новая версия
-                Snackbar.make(rvHouses, "Доступна новая версия " + s, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
+                String message = "Доступна новая версия"  + s;
+                Snackbar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String url = MobniusApplication.getBaseUrl() + Names.UPDATE_URL;
