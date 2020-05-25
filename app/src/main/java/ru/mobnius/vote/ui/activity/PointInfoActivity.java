@@ -115,13 +115,11 @@ public class PointInfoActivity extends BaseActivity
     private void resetButtonColor(int status) {
         switch (status) {
             case 0: // FINISH_CREATED
-                btnReset.setBackgroundColor(getResources().getColor(R.color.disabled_color));
                 btnReset.setText("Сбросить");
                 btnReset.setEnabled(false);
                 break;
 
             case 1: // FINISH_DONED
-                btnReset.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
                 btnReset.setText("Сбросить");
                 btnReset.setEnabled(true);
                 break;
