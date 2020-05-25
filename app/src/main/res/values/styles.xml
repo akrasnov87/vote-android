@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -9,7 +9,6 @@
         <item name="colorError">@color/colorError</item>
         <item name="colorBackgroundFloating">@color/colorFloating</item>
         <item name="android:windowBackground">@color/colorSecondaryText</item>
-
         <item name="android:textColorHint">@color/colorHint</item>
         <item name="android:textColorSecondary">@color/colorHintDark</item>
 
