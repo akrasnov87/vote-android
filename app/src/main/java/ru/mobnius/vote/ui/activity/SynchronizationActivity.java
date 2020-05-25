@@ -1,8 +1,8 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -43,8 +43,6 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListe
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
 import ru.mobnius.vote.data.storage.models.Points;
-import ru.mobnius.vote.data.storage.models.PointsDao;
-import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
 import ru.mobnius.vote.ui.model.PointState;
 import ru.mobnius.vote.utils.AuditUtils;
@@ -75,8 +73,6 @@ public class SynchronizationActivity extends BaseActivity
         setContentView(R.layout.activity_synchronization);
 
         mTransferFragments = new HashMap<>();
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         tvError = findViewById(R.id.sync_error);
         tvLogs = findViewById(R.id.sync_logs);
@@ -113,11 +109,6 @@ public class SynchronizationActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-
         if(item.getItemId() == R.id.action_sync_log) {
             eyeStatus(item, tvLogs.getVisibility() == View.GONE);
         }
@@ -162,7 +153,6 @@ public class SynchronizationActivity extends BaseActivity
                 AuditUtils.write("Принудительное завершение синхронизации", AuditUtils.SYNC, AuditUtils.Level.HIGH);
                 stop();
                 btnStart.setEnabled(true);
-                btnStart.setTextColor(Color.BLACK);
                 btnStop.setVisibility(View.GONE);
                 btnSyncAppartament.setVisibility(View.GONE);
                 break;
@@ -228,7 +218,6 @@ public class SynchronizationActivity extends BaseActivity
                         if (success.size() == 0) {
                             btnStop.setVisibility(View.GONE);
                             btnStart.setEnabled(true);
-                            btnStart.setTextColor(Color.BLACK);
                         }
                         tvLogs.setMovementMethod(ScrollingMovementMethod.getInstance());
                     }
@@ -347,9 +336,9 @@ public class SynchronizationActivity extends BaseActivity
         }
         btnStop.setVisibility(View.VISIBLE);
         btnStart.setEnabled(false);
-        btnStart.setTextColor(getResources().getColor(R.color.gray_light));
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class LocaleDataAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         @Override

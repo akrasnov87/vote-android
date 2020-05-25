@@ -96,11 +96,11 @@ public class SynchronizationPartFragment extends Fragment {
         switch (type) {
             case TransferListener.STOP:
             case TransferListener.ERROR:
-                colorStateList = getResources().getColorStateList(R.color.colorFail);
+                colorStateList = getResources().getColorStateList(R.color.colorSecondary);
                 break;
 
             default:
-                colorStateList = getResources().getColorStateList(R.color.colorSuccess);
+                colorStateList = getResources().getColorStateList(R.color.colorFloating);
                 break;
         }
 

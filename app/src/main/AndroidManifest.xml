@@ -27,6 +27,16 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
+
+        <activity
+            android:name="ru.mobnius.vote.ui.activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.activity.RouteListActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -37,20 +47,13 @@
             android:label="@string/settings" />
 
         <activity
-            android:name="ru.mobnius.vote.ui.activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.activity.PointListActivity"
             android:label="Квартиры" />
 
         <activity
             android:name=".ui.activity.SynchronizationActivity"
-            android:label="@string/synchronization" />
+            android:label="@string/synchronization"
+            android:parentActivityName=".ui.activity.RouteListActivity"/>
         <activity
         android:name=".ui.activity.QuestionActivity" />
         <activity

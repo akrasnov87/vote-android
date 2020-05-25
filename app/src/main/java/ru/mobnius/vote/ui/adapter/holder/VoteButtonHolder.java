@@ -1,9 +1,10 @@
-package ru.mobnius.vote.ui.adapter;
+package ru.mobnius.vote.ui.adapter.holder;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +24,11 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder
     private final OnClickVoteItemListener mListener;
     private final long mExclusionAnswerID;
     private final long mLastAnswerId;
+    private Context mContext;
 
-    public VoteButtonHolder(@NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID, long lastAnswerId) {
+    public VoteButtonHolder(Context context, @NonNull View itemView, Answer[] answers, OnClickVoteItemListener listener, long exclusionAnswerID, long lastAnswerId) {
         super(itemView);
+        mContext = context;
         mLastAnswerId = lastAnswerId;
         mExclusionAnswerID = exclusionAnswerID;
         mListener = listener;
@@ -37,15 +40,15 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder
 
     public void bind(Answer answer, Context context) {
         if(mExclusionAnswerID == answer.id) {
-            mButton.setBackgroundColor(context.getResources().getColor(R.color.toolbarBgColor));
+            mButton.setBackgroundResource(R.drawable.button_success_state);
+        } else {
+            mButton.setBackgroundResource(R.drawable.button_state);
         }
 
         if(mLastAnswerId > 0) {
             if(mLastAnswerId == answer.id) {
-                mButton.setTypeface(null, Typeface.BOLD);
+                mButton.setBackgroundResource(R.drawable.button_accent_state);
             }
-        } else{
-            mButton.setTypeface(null, Typeface.NORMAL);
         }
         mButton.setText(answer.c_text);
     }

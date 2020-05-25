@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="@dimen/size_xxxs_4">
+    android:padding="8dp">
 
-    <LinearLayout
-        android:layout_weight="1"
+    <EditText
+        style="@style/AppTheme.EditTextStyle"
+        android:id="@+id/contact_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:hint="@string/fio"
+        android:inputType="text"
+        android:textSize="@dimen/medium_text_size"
+        tools:ignore="Autofill"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/contact_item_remove"/>
 
-        <EditText
-            android:id="@+id/itemContact_etName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/fio"
-            android:inputType="text"
-            android:textSize="@dimen/very_large_font_size"
-            tools:ignore="Autofill" />
-
-        <EditText
-            android:id="@+id/itemContact_etPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:textSize="@dimen/very_large_font_size"
-            tools:ignore="Autofill" />
-
-    </LinearLayout>
+    <EditText
+        style="@style/AppTheme.EditTextStyle"
+        android:id="@+id/contact_item_tel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:textSize="@dimen/medium_text_size"
+        tools:ignore="Autofill"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_item_name"
+        app:layout_constraintEnd_toStartOf="@id/contact_item_remove"/>
 
     <ImageButton
         android:background="@drawable/ic_delete_black_24dp"
-        android:id="@+id/itemContact_btnDelete"
+        android:id="@+id/contact_item_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_record"
-        android:layout_marginStart="@dimen/size_xxs_8"
-        android:contentDescription="@string/delete_record" />
+        android:contentDescription="@string/delete_record"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

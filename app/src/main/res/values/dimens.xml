@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- font size -->
-    <dimen name="very_large_font_size">20sp</dimen>
-    <dimen name="large_font_size">18sp</dimen>
-    <dimen name="high_font_size">16sp</dimen>
-    <dimen name="medium_font_size">14sp</dimen>
-    <dimen name="small_font_size">12sp</dimen>
 
-    <dimen name="size_xxxs_4">4dp</dimen>
     <dimen name="size_xxs_8">8dp</dimen>
     <dimen name="size_xs_16">16dp</dimen>
     <dimen name="size_s_24">24dp</dimen>
     <dimen name="size_l_56">56dp</dimen>
-    <dimen name="size_xl_72">72dp</dimen>
     <dimen name="size_xxxl_176">176dp</dimen>
 
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="high_text_size">20sp</dimen>
 </resources>

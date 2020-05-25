@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,8 +36,8 @@ public class CommentDialogFragment extends AnswerFragmentDialog<String> implemen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup
             container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_comment, container, false);
-        btnDone = v.findViewById(R.id.fComment_btnDone);
-        etComment = v.findViewById(R.id.fComment_etComment);
+        btnDone = v.findViewById(R.id.comment_done);
+        etComment = v.findViewById(R.id.comment_text);
         btnDone.setOnClickListener(this);
 
         return v;
@@ -45,6 +46,8 @@ public class CommentDialogFragment extends AnswerFragmentDialog<String> implemen
     @Override
     public void onStart() {
         super.onStart();
+
+        Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(getDialog())).getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         etComment.setText(mInput);
         if(isDone()) {

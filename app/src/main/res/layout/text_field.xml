@@ -6,16 +6,14 @@ xmlns:tools="http://schemas.android.com/tools">
         android:id="@+id/text_field_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/label_light_gray"
-        android:textSize="12sp"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/small_text_size"
         tools:text="Телофонные номера"/>
 
     <TextView
         android:id="@+id/text_field_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginEnd="@dimen/size_s_24"
+        android:textSize="@dimen/medium_text_size"
         tools:text="+79278421477 - Александр, +79278421478 - дом. тел." />
-
 </merge>

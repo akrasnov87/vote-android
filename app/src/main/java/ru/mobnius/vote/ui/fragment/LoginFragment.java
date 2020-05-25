@@ -51,8 +51,6 @@ public class LoginFragment extends BaseFragment
     private ImageButton ibLoginClear;
     private ImageButton ibPasswordClear;
     private ImageButton ibShowPassword;
-    private TextInputLayout tilLogin;
-    private TextInputLayout tilPassword;
     private EditText etPassword;
     private Button btnSignIn;
     private BasicUser mBasicUser;
@@ -92,8 +90,6 @@ public class LoginFragment extends BaseFragment
                 singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
             }
         }
-
-
     }
 
     @Override
@@ -101,9 +97,7 @@ public class LoginFragment extends BaseFragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
         etLogin = v.findViewById(R.id.auth_login);
-        tilLogin = v.findViewById(R.id.auth_login_view);
         etPassword = v.findViewById(R.id.auth_password);
-        tilPassword = v.findViewById(R.id.auth_password_view);
         tvNetwork = v.findViewById(R.id.auth_no_internet);
         tvServer = v.findViewById(R.id.auth_no_server);
 
@@ -301,27 +295,16 @@ public class LoginFragment extends BaseFragment
         String password = etPassword.getText().toString();
 
         if (etLogin.isFocused()) {
-            tilLogin.setError(String.format(AuthUtil.minLength(login), getString(R.string.login)));
-            if (s.toString().isEmpty()) {
-                ibLoginClear.setVisibility(View.GONE);
-            } else {
-                if (etLogin.hasFocus()) {
-                    ibLoginClear.setVisibility(View.VISIBLE);
-                }
-            }
+            String msg = AuthUtil.minLength(login);
+            etLogin.setError(msg.isEmpty() ? null : msg);
+            ibLoginClear.setVisibility(login.isEmpty() ? View.GONE : View.VISIBLE);
         }
 
         if (etPassword.isFocused()) {
-            tilPassword.setError(String.format(AuthUtil.minLength(password), getString(R.string.password)));
-            if (s.toString().isEmpty()) {
-                ibPasswordClear.setVisibility(View.GONE);
-                ibShowPassword.setVisibility(View.GONE);
-            } else {
-                if (etPassword.hasFocus()) {
-                    ibPasswordClear.setVisibility(View.VISIBLE);
-                    ibShowPassword.setVisibility(View.VISIBLE);
-                }
-            }
+            String msg = AuthUtil.minLength(password);
+            etPassword.setError(msg.isEmpty() ? null : msg);
+            ibPasswordClear.setVisibility(password.isEmpty() ? View.GONE : View.VISIBLE);
+            ibShowPassword.setVisibility(password.isEmpty() ? View.GONE : View.VISIBLE);
         }
 
         btnSignIn.setEnabled(AuthUtil.isButtonEnable(login, password));

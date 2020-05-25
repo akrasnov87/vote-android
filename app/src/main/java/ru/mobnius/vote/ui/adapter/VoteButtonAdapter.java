@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.storage.models.Answer;
+import ru.mobnius.vote.ui.adapter.holder.VoteButtonHolder;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 
 public class VoteButtonAdapter extends RecyclerView.Adapter<VoteButtonHolder> {
@@ -48,7 +47,7 @@ public class VoteButtonAdapter extends RecyclerView.Adapter<VoteButtonHolder> {
     public VoteButtonHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.vote_button_item, parent, false);
-        return new VoteButtonHolder(view, mAnswers, mListener, mExclusionAnswerID, mLastAnswerId);
+        return new VoteButtonHolder(mContext, view, mAnswers, mListener, mExclusionAnswerID, mLastAnswerId);
     }
 
     @Override

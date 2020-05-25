@@ -121,7 +121,7 @@ public class PointInfoActivity extends BaseActivity
                 break;
 
             case 1: // FINISH_DONED
-                btnReset.setBackgroundColor(getResources().getColor(R.color.colorFail));
+                btnReset.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
                 btnReset.setText("Сбросить");
                 btnReset.setEnabled(true);
                 break;

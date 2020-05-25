@@ -52,7 +52,7 @@ public class PointListActivity extends BaseActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_point);
+        setContentView(R.layout.activity_point_list);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mPreferencesManager = PreferencesManager.getInstance();

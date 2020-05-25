@@ -22,7 +22,7 @@ public class PointHolder extends RecyclerView.ViewHolder
         super(itemView);
 
         mContext = context;
-        tvDeviceNumber = itemView.findViewById(R.id.itemPoint_tvDeviceNumber);
+        tvDeviceNumber = itemView.findViewById(R.id.itemPoint_appartamentNumber);
 
         itemView.setOnClickListener(this);
     }
@@ -33,9 +33,9 @@ public class PointHolder extends RecyclerView.ViewHolder
         tvDeviceNumber.setText(point.deviceNumber);
 
         if(point.done) {
-            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.document_created_text));
+            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSuccess));
         } else {
-            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
     }
 

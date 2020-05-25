@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/size_xxxl_176"
-    android:background="@drawable/side_nav_bar"
-    android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/size_xs_16"
-    android:paddingTop="@dimen/size_xs_16"
-    android:paddingRight="@dimen/size_xs_16"
-    android:paddingBottom="@dimen/size_xs_16"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    style="@style/AppTheme.PopupOverlay">
 
     <ImageView
-        android:layout_width="@dimen/size_xl_72"
-        android:layout_height="@dimen/size_xl_72"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:contentDescription="@string/userProfile"
-        android:paddingTop="@dimen/size_xs_16"
-        app:srcCompat="@mipmap/ic_logo_round"
+        android:paddingTop="16dp"
+        android:background="@mipmap/ic_logo_round"
         android:scaleType="centerCrop"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/contentColor"
         android:text="@string/appName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textColor="@color/colorHintDark"
+        android:textSize="@dimen/small_text_size"/>
 
-
+    <TextView
+        android:id="@+id/app_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorSecondaryText"
+        tools:text="Иванов Иван Иванович"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:textSize="@dimen/medium_text_size" />
 
 </LinearLayout>

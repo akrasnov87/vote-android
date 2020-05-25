@@ -1,77 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/contact_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal">
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/contentColor"
-            android:textSize="@dimen/very_large_font_size"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/high_text_size"
             android:padding="@dimen/size_xxs_8"
             android:text="@string/contact_data"
             android:layout_weight="1"/>
 
         <ImageButton
-            android:id="@+id/fContact_btnAdd"
+            android:id="@+id/contact_add"
             android:background="@drawable/ic_add_white_24dp"
-            android:padding="@dimen/size_xs_16"
+            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/size_xxs_8"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/add_contact"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fContact_rvItems"
+        android:id="@+id/contact_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_xxs_8" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_title"
+        app:layout_constraintBottom_toTopOf="@id/contact_done"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
-        android:id="@+id/fContact_emptyView"
+        android:id="@+id/contact_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
         android:gravity="center"
         tools:visibility="visible"
-        android:textSize="@dimen/large_font_size"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:textSize="@dimen/medium_text_size"
         android:text="@string/contact_lost"
-        android:layout_marginBottom="@dimen/size_xxs_8"
-        android:layout_marginTop="@dimen/size_xxs_8"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contact_done"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_l_56"
-        android:layout_marginEnd="@dimen/size_xxs_8">
+    <Button
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:id="@+id/contact_done"
+        android:text="@string/save"
+        style="@style/AppTheme.ButtonStyle"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:background="@android:color/transparent"
-            android:textColor="@color/black"
-            android:id="@+id/fContact_btnDone"
-            android:text="@string/save"
-            android:textSize="@dimen/high_font_size"
-            android:layout_marginEnd="@dimen/size_xxs_8"
-            android:layout_marginBottom="@dimen/size_xxs_8"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

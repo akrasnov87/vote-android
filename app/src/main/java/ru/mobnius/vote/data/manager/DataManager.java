@@ -28,10 +28,12 @@ import ru.mobnius.vote.data.storage.models.RouteTypes;
 import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.data.storage.models.UserPoints;
 import ru.mobnius.vote.data.storage.models.UserPointsDao;
+import ru.mobnius.vote.data.storage.models.Users;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.PointState;
+import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.DateUtil;
@@ -582,6 +584,16 @@ public class DataManager {
                 }
             }
         }
+    }
+
+    public ProfileItem getProfile() {
+        Users user = daoSession.getUsersDao().load(Authorization.getInstance().getUser().getUserId());
+        if(user != null) {
+            ProfileItem item = new ProfileItem();
+            item.fio = user.getFullName();
+            return item;
+        }
+        return null;
     }
 
     public void destroy() {

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -41,6 +42,7 @@ import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
+import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.VersionUtil;
 
@@ -74,6 +76,15 @@ public class RouteListActivity extends BaseActivity implements
         navigationView.setNavigationItemSelectedListener(this);
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView tvDescription = headerLayout.findViewById(R.id.app_description);
+        ProfileItem profile = DataManager.getInstance().getProfile();
+        if(profile != null) {
+            tvDescription.setText(profile.fio);
+            tvDescription.setVisibility(View.VISIBLE);
+        } else {
+            tvDescription.setVisibility(View.GONE);
+        }
         Toolbar toolbar = findViewById(R.id.mainMenu_Toolbar);
         setSupportActionBar(toolbar);
 
@@ -213,7 +224,7 @@ public class RouteListActivity extends BaseActivity implements
                 Snackbar.make(rvHouses, "Доступна новая версия " + s, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String url = Names.UPDATE_URL;
+                        String url = MobniusApplication.getBaseUrl() + Names.UPDATE_URL;
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AppTheme.AltBackground"
     android:clickable="true"
     android:focusable="true">
 
@@ -17,8 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
-
-
     </ru.mobnius.vote.ui.component.PinCodeLinLay>
 
     <LinearLayout
@@ -32,7 +29,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_s_24"
@@ -40,8 +36,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnOne"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -51,8 +47,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnTwo"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -62,8 +58,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnThree"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:text="@string/_3"
@@ -73,7 +69,6 @@
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_s_24"
@@ -81,8 +76,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnFour"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -92,8 +87,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnFive"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -103,8 +98,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnSix"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:text="@string/_6"
@@ -114,7 +109,6 @@
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_s_24"
@@ -122,8 +116,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnSeven"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -133,8 +127,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnEight"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:layout_marginEnd="@dimen/size_s_24"
@@ -144,8 +138,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnNine"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:text="@string/_9"
@@ -173,8 +167,8 @@
 
             <Button
                 android:id="@+id/pinFragment_btnZero"
-                android:background="@drawable/pin_round_button"
-                android:textColor="@color/contentColor"
+                android:background="@drawable/button_round_state"
+                android:textColor="@color/colorSecondaryText"
                 android:layout_width="@dimen/size_l_56"
                 android:layout_height="@dimen/size_l_56"
                 android:text="@string/_0"
@@ -184,14 +178,16 @@
             <ImageButton
                 android:id="@+id/pinFragment_ibClear"
                 android:gravity="end"
-                android:layout_width="@dimen/size_l_56"
-                android:layout_height="@dimen/size_l_56"
-                android:background="@drawable/backspace_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginStart="11dp"
+                android:background="@drawable/button_backspace_state"
                 android:scaleType="centerInside"
                 android:contentDescription="@string/to_simple_authorization" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -200,7 +196,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/drop_pin_code"
-        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

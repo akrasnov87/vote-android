@@ -40,14 +40,11 @@ public class PinCodeLinLay extends LinearLayout {
         assert inflater != null;
         View rootView = inflater.inflate(R.layout.pin_code_lin, this, false);
         this.addView(rootView);
-        firstImage = findViewById(R.id.pinCodeLin_ivFirst);
-        secondImage = findViewById(R.id.pinCodeLin_ivSecond);
-        thirdImage = findViewById(R.id.pinCodeLin_ivThird);
-        fourthImage = findViewById(R.id.pinCodeLin_ivFourth);
+        firstImage = findViewById(R.id.pinCodeLin_first);
+        secondImage = findViewById(R.id.pinCodeLin_second);
+        thirdImage = findViewById(R.id.pinCodeLin_third);
+        fourthImage = findViewById(R.id.pinCodeLin_fourth);
     }
-
-
-
 
     public void setPinnedPoints() {
         pinnedPoints++;

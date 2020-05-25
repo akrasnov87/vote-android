@@ -42,8 +42,8 @@
         <item quantity="other">%1$d заданий</item>
     </plurals>
     <string name="geo">Получение geo-данных</string>
-    <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
-    <string name="no_server_connection">НЕТ СОЕДИНЕНИЯ С СЕРВЕРОМ</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="no_server_connection">Нет соединение с сервером</string>
     <string name="apartment_count">Всего квартир: %s</string>
     <string name="apartment_open">Открытых квартир: %s</string>
     <string name="signs_received">Количество собранных подписей: %s</string>

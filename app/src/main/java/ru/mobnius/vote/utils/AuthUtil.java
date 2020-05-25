@@ -15,7 +15,7 @@ public class AuthUtil {
         if (field.length() >= MIN_LENGTH) {
             return "";
         } else {
-            return "Минимальная длина поля %s должна быть " + MIN_LENGTH + " символа (ов).";
+            return "Минимальная длина должна быть " + MIN_LENGTH + " символа (ов).";
         }
     }
 

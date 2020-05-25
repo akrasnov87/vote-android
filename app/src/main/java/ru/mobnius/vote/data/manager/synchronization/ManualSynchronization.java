@@ -16,7 +16,6 @@ import ru.mobnius.vote.data.manager.synchronization.utils.FullServerSidePackage;
 import ru.mobnius.vote.data.manager.synchronization.utils.PackageResult;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
-import ru.mobnius.vote.data.storage.models.DigestsDao;
 import ru.mobnius.vote.data.storage.models.DivisionsDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
@@ -84,7 +83,6 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(new EntityDictionary(AnswerDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(QuestionDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RolesDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(DigestsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(DigestsDao.Properties.C_app_name.name, "android")));
         addEntity(new EntityDictionary(UserInDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(UserInDivisionsDao.Properties.F_user.name, getUserID())));
 
         addEntity(Entity.createInstance(RoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());

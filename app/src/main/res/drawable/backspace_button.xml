@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/contentColor"
-    >
-    <item android:drawable="@drawable/ic_backspace_button_24_dp"
-        android:gravity="center">
-    </item>
-</layer-list>

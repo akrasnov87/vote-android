@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AppTheme.AltBackground"
     android:clickable="true"
     android:focusable="true">
 
@@ -14,14 +13,14 @@
         android:text="@string/no_internet"
         android:layout_alignParentTop="true"
         tools:visibility="visible"
-        style="@style/AppTheme.ErrorText"/>
+        style="@style/AppTheme.TextView.Error"/>
 
     <TextView
         android:id="@+id/auth_no_server"
         android:text="@string/no_server_connection"
         android:layout_below="@id/auth_no_internet"
         tools:visibility="visible"
-        style="@style/AppTheme.ErrorText"/>
+        style="@style/AppTheme.TextView.Error"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,110 +35,84 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/size_s_24">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/auth_login_view"
-                android:layout_width="match_parent"
+            <!-- логин -->
+            <EditText
+                android:id="@+id/auth_login"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/high_text_size"
+                android:hint="@string/login"
+                android:inputType="textAutoComplete"
+                tools:ignore="Autofill"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/auth_login_clear"/>
+
+            <ImageButton
+                android:id="@+id/auth_login_clear"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:layout_constraintBottom_toTopOf="@id/auth_password_view"
+                android:background="@drawable/ic_clear_text_24dp"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:contentDescription="@string/clear"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/auth_login"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/auth_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:textSize="22sp"
-                        android:textColorHint="@color/colorPrimary"
-                        android:hint="@string/login"
-                        android:inputType="textAutoComplete"
-                        tools:ignore="Autofill" />
-
-                    <ImageButton
-                        android:id="@+id/auth_login_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/auth_login"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_margin="5dp"
-                        android:background="@null"
-                        app:srcCompat="@drawable/ic_clear_text_24dp"
-                        android:visibility="gone"
-                        android:contentDescription="@string/clear" />
-
-                </RelativeLayout>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/auth_password_view"
+            <!-- пароль -->
+            <EditText
+                android:id="@+id/auth_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:hint="@string/password"
+                android:textSize="@dimen/high_text_size"
+                android:inputType="textPassword"
+                tools:ignore="Autofill"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                app:layout_constraintTop_toBottomOf="@id/auth_login"
+                app:layout_constraintEnd_toStartOf="@id/auth_password_show"/>
 
-                    <EditText
-                        android:id="@+id/auth_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/password"
-                        android:textColorHint="@color/colorPrimary"
-                        android:textSize="22sp"
-                        android:inputType="textPassword"
-                        tools:ignore="Autofill" />
+            <ImageButton
+                android:id="@+id/auth_password_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_visibility_outlined_24dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/show_password"
+                app:layout_constraintStart_toEndOf="@id/auth_password"
+                app:layout_constraintTop_toTopOf="@id/auth_password"
+                app:layout_constraintEnd_toStartOf="@id/auth_password_clear"
+                app:layout_constraintBottom_toBottomOf="@id/auth_password" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/auth_password"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/auth_password_show"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            app:srcCompat="@drawable/ic_visibility_outlined_24dp"
-                            android:visibility="gone"
-                            android:contentDescription="@string/show_password" />
-
-                        <ImageButton
-                            android:id="@+id/auth_password_clear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            app:srcCompat="@drawable/ic_clear_text_24dp"
-                            android:visibility="gone"
-                            android:contentDescription="@string/clear" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/auth_password_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_clear_text_24dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:contentDescription="@string/clear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/auth_password"
+                app:layout_constraintBottom_toBottomOf="@id/auth_password"/>
 
             <Button
                 android:id="@+id/auth_sign_in"
-                style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_s_24"
                 android:enabled="false"
                 android:text="@string/enter"
-                android:textSize="22sp"
+                android:textSize="@dimen/medium_text_size"
                 android:padding="@dimen/size_s_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/auth_password_view" />
+                style="@style/AppTheme.ButtonStyle"
+                app:layout_constraintTop_toBottomOf="@id/auth_password"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,8 +122,8 @@
         android:id="@+id/auth_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/auth_version"
@@ -160,7 +133,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/size_xxs_8"
         android:layout_marginBottom="@dimen/size_xxs_8"
-        android:textSize="16sp"
+        android:textSize="@dimen/small_text_size"
         android:layout_gravity="end"
         android:clickable="true"
         android:focusable="true"

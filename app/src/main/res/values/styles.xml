@@ -4,31 +4,55 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorBackground">@android:color/white</item>
-        <item name="android:textSize">@dimen/medium_font_size</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="colorAccent">@color/document_text</item>
+        <item name="colorAccent">@color/colorSecondary</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorBackgroundFloating">@color/colorFloating</item>
+
+        <item name="android:windowBackground">@color/colorSecondaryText</item>
+
+        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:textColorSecondary">@color/colorHintDark</item>
+
+        <item name="buttonStyle">@style/AppTheme.Dialog.ButtonStyle</item>
+        <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorSecondaryText</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@drawable/side_nav_bar</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:gravity">bottom</item>
+    </style>
 
     <!--Стиль для родительского layout отдельного ряда в RecyclerView (item_something.xml)-->
+    <style name="AppTheme.Dialog.ButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
-    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+    <style name="AppTheme.ButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@drawable/button_state_selector
-        </item><!--Селектор цвета кнопки в зависимости от состояния (setEnabled)-->
-        <item name="android:textColor">@drawable/button_text_state_selector
-        </item><!--Селектор цвета текста кнопки в зависимости от состояния (setEnabled)-->
+        <item name="android:background">@drawable/button_state</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="AppTheme.Button.AccentStyle" parent="AppTheme.ButtonStyle">
+        <item name="android:background">@drawable/button_accent_state</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
+    <style name="AppTheme.EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
     <!--Стили для TextView-->
@@ -39,33 +63,33 @@
     </style>
 
     <style name="TextViewMainText" parent="TextViewBase">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:layout_marginTop">@dimen/size_s_24</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">@dimen/high_text_size</item>
     </style>
 
     <style name="TextViewLabelText" parent="TextViewBase">
-        <item name="android:textColor">#495660</item>
-        <item name="android:layout_marginTop">@dimen/size_xxs_8</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
     </style>
 
-    <style name="AppTheme.AltBackground">
-        <item name="android:background">@color/contentColor</item>
+    <style name="AppTheme.TextView">
+
     </style>
 
-    <style name="AppTheme.Background">
-        <item name="android:background">@color/main_background</item>
+    <style name="AppTheme.NavigationItemView" parent="TextAppearance.AppCompat.Light.SearchResult.Subtitle">
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:textColor">@color/colorHint</item>
     </style>
 
-    <style name="AppTheme.ErrorText">
-        <item name="android:background">@color/colorFail</item>
+    <style name="AppTheme.TextView.Error">
         <item name="android:visibility">gone</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorError</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
         <item name="android:padding">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="textAllCaps">true</item>
     </style>
 
 </resources>

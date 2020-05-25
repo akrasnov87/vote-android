@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:padding="8dp">
 
     <Button
         android:id="@+id/sync_appartament"
@@ -16,9 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
         tools:visibility="visible"
-        android:background="@color/colorFail"
-        android:textColor="@color/contentColor"
-        android:padding="@dimen/size_xs_16"
+        style="@style/AppTheme.Button.AccentStyle"
         tools:text="Сохранить 6 квартир на сервере."/>
 
     <TextView
@@ -27,7 +26,7 @@
         tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/AppTheme.ErrorText"/>
+        style="@style/AppTheme.TextView.Error"/>
 
     <LinearLayout
         android:id="@+id/sync_progress"
@@ -52,7 +51,7 @@
 
     <Button
         android:id="@+id/sync_start"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/AppTheme.ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start"
@@ -61,7 +60,7 @@
 
     <Button
         android:id="@+id/sync_stop"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/AppTheme.ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"

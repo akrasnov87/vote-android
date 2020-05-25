@@ -24,11 +24,11 @@ public class ContactHolder extends RecyclerView.ViewHolder implements View.OnCli
         mListener = listener;
         mContactChange = onContactChange;
 
-        etName = itemView.findViewById(R.id.itemContact_etName);
+        etName = itemView.findViewById(R.id.contact_item_name);
 
-        etPhone = itemView.findViewById(R.id.itemContact_etPhone);
+        etPhone = itemView.findViewById(R.id.contact_item_tel);
 
-        btnDelete = itemView.findViewById(R.id.itemContact_btnDelete);
+        btnDelete = itemView.findViewById(R.id.contact_item_remove);
         btnDelete.setOnClickListener(this);
     }
 
