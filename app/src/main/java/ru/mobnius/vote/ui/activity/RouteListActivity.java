@@ -43,6 +43,7 @@ import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
+import ru.mobnius.vote.ui.component.MySnackbar;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.VersionUtil;
@@ -219,11 +220,11 @@ public class RouteListActivity extends BaseActivity implements
             Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
             Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
 
-            if(serverDate.getTime() < currentDate.getTime()
-                    && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
+            if(serverDate.getTime() < currentDate.getTime()){
+                    //&& (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
                 // тут доступно новая версия
                 String message = "Доступна новая версия"  + s;
-                Snackbar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
+                MySnackbar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String url = MobniusApplication.getBaseUrl() + Names.UPDATE_URL;
