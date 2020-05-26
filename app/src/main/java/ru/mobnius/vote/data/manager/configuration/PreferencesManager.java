@@ -42,6 +42,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(PIN);
     }
 
+    public void setPinAuth(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, value).apply();
+    }
+
     public boolean getFilter() {
         return getDefaultBooleanValue(ROUTE_FILTER_PREFS);
     }

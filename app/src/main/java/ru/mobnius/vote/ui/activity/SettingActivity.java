@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -24,7 +23,6 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
-import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -40,7 +38,7 @@ import ru.mobnius.vote.utils.VersionUtil;
 /**
  * Настройки
  */
-public class SettingActivity extends BaseActivity implements PinCodeFragment.IPinEnableComplete {
+public class SettingActivity extends BaseActivity implements PinCodeFragment.OnPinEnableComplete {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SettingActivity.class);
@@ -228,13 +226,7 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.IPi
                 if (pServerVersion != null) {
                     if(!s.equals("0.0.0.0")) {
 
-                        Version mVersion = new Version();
-                        String currentVersion = VersionUtil.getVersionName(requireActivity());
-                        Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
-                        Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
-
-                        if(serverDate.getTime() > currentDate.getTime()
-                                && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
+                        if(VersionUtil.isUpgradeVersion(requireActivity(), s)) {
                             pServerVersion.setVisible(true);
                             pServerVersion.setSummary("Доступна новая версия " + s);
                             pServerVersion.setIntent(new Intent().setAction(Intent.ACTION_VIEW).setData(
@@ -259,8 +251,9 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.IPi
             }
         }
     }
+
     @Override
     public void onPinActivated() {
-        PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, true).apply();
+        PreferencesManager.getInstance().setPinAuth(true);
     }
 }

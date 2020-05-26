@@ -58,7 +58,7 @@ public class PinCodeFragment extends BaseFragment
 
     private AuthorizationCache cache;
     private Authorization mAuthorization;
-    private IPinEnableComplete mIPinEnableComplete;
+    private OnPinEnableComplete mOnPinEnableComplete;
 
     public static PinCodeFragment newInstance(String pin, String login) {
         PinCodeFragment pinCodeFragment;
@@ -85,8 +85,8 @@ public class PinCodeFragment extends BaseFragment
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof IPinEnableComplete) {
-            mIPinEnableComplete = (IPinEnableComplete) context;
+        if (context instanceof OnPinEnableComplete) {
+            mOnPinEnableComplete = (OnPinEnableComplete) context;
         }
     }
 
@@ -235,8 +235,8 @@ public class PinCodeFragment extends BaseFragment
                 Toast.makeText(getContext(), "Подтвердите пин-код", Toast.LENGTH_SHORT).show();
             } else {
                 if (pinDigits.equals(tempPin)) {
-                    if (mIPinEnableComplete != null) {
-                        mIPinEnableComplete.onPinActivated();
+                    if (mOnPinEnableComplete != null) {
+                        mOnPinEnableComplete.onPinActivated();
                     }
                     cache.update(login, pinDigits, new Date());
                     requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
@@ -323,7 +323,7 @@ public class PinCodeFragment extends BaseFragment
         }
     }
 
-    public interface IPinEnableComplete {
+    public interface OnPinEnableComplete {
         void onPinActivated();
     }
 }

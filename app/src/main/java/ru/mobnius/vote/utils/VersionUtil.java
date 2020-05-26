@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import java.util.Date;
+
+import ru.mobnius.vote.data.manager.Version;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
+
 /**
  * Вспомогательная утилита для работы версией
  */
@@ -33,5 +38,21 @@ public class VersionUtil {
         String version = getVersionName(context);
         String[] data = version.split("\\.");
         return data[0] + "." + data[1];
+    }
+
+    /**
+     * Проверка на обновление версии
+     * @param context контекст
+     * @param newVersion новая версия на сервере
+     * @return обновлять версию или нет
+     */
+    public static boolean isUpgradeVersion(Context context, String newVersion) {
+        Version mVersion = new Version();
+        String currentVersion = VersionUtil.getVersionName(context);
+        Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
+        Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, newVersion);
+
+        return serverDate.getTime() > currentDate.getTime()
+                && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug());
     }
 }

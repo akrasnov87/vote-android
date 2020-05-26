@@ -103,11 +103,9 @@ public class PointListActivity extends BaseActivity
         if (item.getItemId() == R.id.route_and_point_setSort) {
             item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
             if (mPreferencesManager.getSort()) {
-                PreferencesManager.getInstance().getSharedPreferences().edit().
-                        putBoolean(PreferencesManager.POINT_SORT_PREFS, false).apply();
+                PreferencesManager.getInstance().setSort(false);
             } else {
-                PreferencesManager.getInstance().getSharedPreferences().edit().
-                        putBoolean(PreferencesManager.POINT_SORT_PREFS, true).apply();
+                PreferencesManager.getInstance().setSort(true);
             }
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         }

@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ru.mobnius.vote.Names;
@@ -39,11 +37,10 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
-import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
-import ru.mobnius.vote.ui.component.MySnackbar;
+import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.VersionUtil;
@@ -215,16 +212,10 @@ public class RouteListActivity extends BaseActivity implements
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            Version mVersion = new Version();
-            String currentVersion = VersionUtil.getVersionName(getBaseContext());
-            Date currentDate = mVersion.getBuildDate(Version.BIRTH_DAY, currentVersion);
-            Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, s);
-
-            if(serverDate.getTime() < currentDate.getTime()){
-                    //&& (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug())) {
+            if(VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
                 // тут доступно новая версия
                 String message = "Доступна новая версия"  + s;
-                MySnackbar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
+                MySnackBar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String url = MobniusApplication.getBaseUrl() + Names.UPDATE_URL;
