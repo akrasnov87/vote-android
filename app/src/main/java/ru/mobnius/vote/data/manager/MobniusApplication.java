@@ -63,8 +63,9 @@ public class MobniusApplication extends android.app.Application implements IExce
 
     /**
      * обработчик авторизации пользователя
+     * @param type тип авторизации
      */
-    public void onAuthorized() {
+    public void onAuthorized(int type) {
         BasicCredentials credentials = Authorization.getInstance().getUser().getCredentials();
         PreferencesManager.createInstance(this, credentials.login);
         FileManager fileManager = FileManager.createInstance(credentials, this);
@@ -86,12 +87,14 @@ public class MobniusApplication extends android.app.Application implements IExce
         DaoSession daoSession = new DaoMaster(new DbOpenHelper(this, credentials.login + ".db").getWritableDb()).newSession();
 
         // enable debug for SQL Queries
-        QueryBuilder.LOG_SQL = true;
-        QueryBuilder.LOG_VALUES = true;
+        if(PreferencesManager.getInstance().isDebug()) {
+            QueryBuilder.LOG_SQL = true;
+            QueryBuilder.LOG_VALUES = true;
+        }
 
         DataManager.createInstance(daoSession);
 
-        AuditUtils.write("", AuditUtils.ON_AUTH, AuditUtils.Level.HIGH);
+        AuditUtils.write(String.valueOf(type), AuditUtils.ON_AUTH, AuditUtils.Level.HIGH);
         if (SocketManager.getInstance() != null)
             SocketManager.getInstance().destroy();
 

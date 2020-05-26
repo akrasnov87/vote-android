@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -53,6 +54,10 @@ public class RouteListActivity extends BaseActivity implements
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
     private Button btnSync;
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, RouteListActivity.class);
+    }
 
     public RouteListActivity() {
         super(true);

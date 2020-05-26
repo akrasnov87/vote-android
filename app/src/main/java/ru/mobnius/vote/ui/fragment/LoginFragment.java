@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -24,15 +25,19 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
 
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
+import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -77,17 +82,14 @@ public class LoginFragment extends BaseFragment
 
         new ServerExistsAsyncTask(this)
                 .execute(NetworkUtil.isNetworkAvailable(requireContext()));
-        String pin = "";
-        if(mBasicUser!=null) {
-            AuthorizationCache cache = new AuthorizationCache(getContext());
-            pin = cache.readPin(mBasicUser.getCredentials().login);
-        }
-        if (!pin.isEmpty()) {
-            PinCodeFragment fragment = PinCodeFragment.newInstance(pin, mBasicUser.getCredentials().login);
-            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
-        } else {
-            if (mAuthorization.isAutoSignIn()) {
+
+        if (mAuthorization.isAutoSignIn()) {
+            String login = mBasicUser.getCredentials().login;
+            PreferencesManager.createInstance(getApplication().getApplicationContext(), login);
+            if(PreferencesManager.getInstance().isDebug()) {
                 singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
+            } else {
+                etLogin.setText(mBasicUser.getCredentials().login);
             }
         }
     }
@@ -124,6 +126,24 @@ public class LoginFragment extends BaseFragment
         UiUtil.setNoSpaces(new EditText[]{etLogin, etPassword});
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (getNetworkChangeListener() != null) {
+            getNetworkChangeListener().addNetworkChangeListener(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (getNetworkChangeListener() != null) {
+            getNetworkChangeListener().removeNetworkChangeListener(this);
+        }
     }
 
     private void onVersionClick() {
@@ -165,7 +185,7 @@ public class LoginFragment extends BaseFragment
     }
 
     private void onAuthorized() {
-        getApplication().onAuthorized();
+        getApplication().onAuthorized(LoginActivity.LOGIN);
 
         Intent intent = new Intent(getContext(), RouteListActivity.class);
         startActivity(intent);
@@ -346,5 +366,17 @@ public class LoginFragment extends BaseFragment
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
+    }
+
+    /**
+     * Получение обработчика изменения сети
+     * @return обработчик
+     */
+    private MobniusApplication getNetworkChangeListener() {
+        if(getApplication() instanceof OnNetworkChangeListener){
+            return (MobniusApplication) getApplication();
+        }
+
+        return null;
     }
 }

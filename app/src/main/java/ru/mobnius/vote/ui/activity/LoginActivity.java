@@ -2,66 +2,68 @@ package ru.mobnius.vote.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 
+import java.util.Objects;
+
+import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.MobniusApplication;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.LoginFragment;
 
 
-public class LoginActivity extends SingleFragmentActivity{
+public class LoginActivity extends BaseActivity {
+
+    public final static int LOGIN = 0;
+    public final static int PIN = 1;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, LoginActivity.class);
     }
 
-    private LoginFragment mLoginFragment;
+    public static void setLoginFragment(AppCompatActivity context) {
+        context.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.single_fragment_container, LoginFragment.newInstance())
+                .commit();
+        Objects.requireNonNull(context.getSupportActionBar()).setSubtitle(null);
+    }
 
     public LoginActivity() {
         super(true);
     }
 
     @Override
-    protected Fragment createFragment() {
-        mLoginFragment = LoginFragment.newInstance();
-        return mLoginFragment;
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.master_container);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
+        String pin = "";
 
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().addNetworkChangeListener(mLoginFragment);
+        if(basicUser != null) {
+            AuthorizationCache cache = new AuthorizationCache(this);
+            pin = cache.readPin(basicUser.getCredentials().login);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().removeNetworkChangeListener(mLoginFragment);
+        if (!pin.isEmpty()) {
+            SettingActivity.setPinCodeFragment(this, pin, "Авторизация по пин-кода");
+        } else {
+            setLoginFragment(this);
         }
     }
 
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
-    }
-
-    /**
-     * Получение обработчика изменения сети
-     * @return обработчик
-     */
-    private MobniusApplication getNetworkChangeListener() {
-        if(getApplication() instanceof OnNetworkChangeListener){
-            return (MobniusApplication) getApplication();
-        }
-
-        return null;
     }
 }

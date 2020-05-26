@@ -176,7 +176,7 @@
                 android:layout_marginEnd="@dimen/size_s_24"/>
 
             <ImageButton
-                android:id="@+id/pinFragment_ibClear"
+                android:id="@+id/pin_clear"
                 android:gravity="end"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -192,7 +192,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/pinFragment_tvForgotPin"
+        android:id="@+id/pin_forgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/drop_pin_code"

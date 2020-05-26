@@ -30,10 +30,11 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         mFragment = fm.findFragmentById(R.id.single_fragment_container);
         if (mFragment == null) {
             mFragment = createFragment();
-
+            if(mFragment != null) {
                 fm.beginTransaction()
                         .add(R.id.single_fragment_container, mFragment)
                         .commit();
+            }
         }
     }
 

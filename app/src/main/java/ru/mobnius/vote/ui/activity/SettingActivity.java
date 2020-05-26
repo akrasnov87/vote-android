@@ -1,6 +1,7 @@
 package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -38,7 +42,22 @@ import ru.mobnius.vote.utils.VersionUtil;
 /**
  * Настройки
  */
-public class SettingActivity extends BaseActivity implements PinCodeFragment.OnPinEnableComplete {
+public class SettingActivity extends BaseActivity {
+
+    public static void setPinCodeFragment(AppCompatActivity context, String pin, String title) {
+        BasicUser user = Authorization.getInstance().getLastAuthUser();
+        PinCodeFragment fragment = PinCodeFragment.newInstance(pin, user.getCredentials().login);
+        context.getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).addToBackStack(null).commit();
+        Objects.requireNonNull(context.getSupportActionBar()).setSubtitle(title);
+    }
+
+    public static void setPrefFragment(AppCompatActivity context) {
+        context.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.single_fragment_container, new PrefFragment())
+                .commit();
+        Objects.requireNonNull(context.getSupportActionBar()).setSubtitle(null);
+    }
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SettingActivity.class);
@@ -49,29 +68,18 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.master_container);
 
-        replacePrefFragment();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        setPrefFragment(this);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (getSupportFragmentManager().findFragmentById(R.id.single_fragment_container) instanceof PinCodeFragment) {
-                replacePrefFragment();
-                getSupportActionBar().setSubtitle(null);
-            } else {
-                onBackPressed();
-                return true;
-            }
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void replacePrefFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.single_fragment_container, new PrefFragment())
-                .commit();
     }
 
     @Override
@@ -79,8 +87,8 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
         return IExceptionCode.SETTING;
     }
 
-    public static class PrefFragment extends PreferenceFragmentCompat implements
-            IExceptionIntercept,
+    public static class PrefFragment extends PreferenceFragmentCompat
+            implements IExceptionIntercept,
             Preference.OnPreferenceChangeListener,
             Preference.OnPreferenceClickListener {
 
@@ -201,14 +209,13 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
                     boolean pinValue = Boolean.parseBoolean(String.valueOf(newValue));
                     AuditUtils.write(String.format(pinSummary, pinValue ? "включена" : "отключена"), AuditUtils.PREF_PIN, AuditUtils.Level.HIGH);
                     spPin.setSummary(String.format(pinSummary, pinValue ? "включена" : "отключена"));
-                    AuthorizationCache cache = new AuthorizationCache(getContext());
-                    BasicUser user = Authorization.getInstance().getLastAuthUser();
+
                     if (pinValue) {
-                        PinCodeFragment fragment = PinCodeFragment.newInstance(null, user.getCredentials().login);
-                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).commit();
+                        SettingActivity.setPinCodeFragment((AppCompatActivity)requireActivity(), null, "Установка пин-кода");
                     } else {
-                        PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.PIN, false).apply();
-                        cache.update(user.getCredentials().login, "", new Date());
+                        BasicUser user = Authorization.getInstance().getLastAuthUser();
+                        new AuthorizationCache(requireActivity()).update(user.getCredentials().login, "", new Date());
+                        PreferencesManager.getInstance().setPinAuth(false);
                     }
                     break;
             }
@@ -258,10 +265,5 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
                 }
             }
         }
-    }
-
-    @Override
-    public void onPinActivated() {
-        PreferencesManager.getInstance().setPinAuth(true);
     }
 }

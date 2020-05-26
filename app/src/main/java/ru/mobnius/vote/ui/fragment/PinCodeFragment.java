@@ -1,9 +1,7 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,15 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import ru.mobnius.vote.Names;
@@ -37,7 +34,6 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
-import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
@@ -48,19 +44,14 @@ public class PinCodeFragment extends BaseFragment
     private PinCodeLinLay pclPinPoints;
 
     private String pinDigits;
-    private String savedPinDigits;
     private String tempPin;
-    private String login;
 
-    private boolean isCreateMode;
     private int confirmPin;
 
     private List<Button> mButtonList;
     private ImageButton ibClear;
 
     private AuthorizationCache cache;
-    private Authorization mAuthorization;
-    private OnPinEnableComplete mOnPinEnableComplete;
 
     public static PinCodeFragment newInstance(String pin, String login) {
         PinCodeFragment pinCodeFragment;
@@ -79,33 +70,31 @@ public class PinCodeFragment extends BaseFragment
         return pinCodeFragment;
     }
 
+    private boolean hasPin() {
+        return requireArguments().containsKey(Names.PIN);
+    }
+
+    private String getPin() {
+        return requireArguments().getString(Names.PIN);
+    }
+
+    private String getLogin() {
+        return requireArguments().getString(Names.LOGIN);
+    }
+
     @Override
     public int getExceptionCode() {
         return IExceptionCode.PIN_CODE;
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnPinEnableComplete) {
-            mOnPinEnableComplete = (OnPinEnableComplete) context;
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            if (getArguments().containsKey(Names.PIN)) {
-                savedPinDigits = getArguments().getString(Names.PIN);
-                isCreateMode = false;
-            } else {
-                isCreateMode = true;
-                confirmPin = 0;
-            }
-            login = getArguments().getString(Names.LOGIN);
+
+        if (!hasPin()) {
+            confirmPin = 0;
         }
-        mAuthorization = Authorization.getInstance();
+
         cache = new AuthorizationCache(getContext());
         pinDigits = "";
         mButtonList = new ArrayList<>();
@@ -120,13 +109,10 @@ public class PinCodeFragment extends BaseFragment
         pclPinPoints.setPinChangeListener(this);
         pclPinPoints.setCheckPinListener(this);
         pclPinPoints.setFocusChangeListener(this);
-        if (getActivity() instanceof SettingActivity) {
-            AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-            appCompatActivity.getSupportActionBar().setSubtitle("Установка пин-кода");
-        }
-        TextView tvForgotPin = v.findViewById(R.id.pinFragment_tvForgotPin);
 
-        ibClear = v.findViewById(R.id.pinFragment_ibClear);
+        TextView tvForgotPin = v.findViewById(R.id.pin_forgot);
+
+        ibClear = v.findViewById(R.id.pin_clear);
         ImageButton ibFingerPrint = v.findViewById(R.id.pinFragment_ibFingerPrint);
 
         Button btnOne = v.findViewById(R.id.pinFragment_btnOne);
@@ -152,7 +138,8 @@ public class PinCodeFragment extends BaseFragment
         mButtonList.add(btnZero);
         mButtonList.add(btnOne);
         ibClear.setOnClickListener(this);
-        if (isCreateMode) {
+
+        if (!hasPin()) {
             tvForgotPin.setVisibility(View.GONE);
         }
         tvForgotPin.setOnClickListener(this);
@@ -160,7 +147,7 @@ public class PinCodeFragment extends BaseFragment
             button.setOnClickListener(this);
         }
 
-        if (mAuthorization.isAutoSignIn() && !isCreateMode && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Authorization.getInstance().isAutoSignIn() && hasPin() && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             fingerPrintActivate(ibFingerPrint);
 
         }
@@ -169,32 +156,25 @@ public class PinCodeFragment extends BaseFragment
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.pinFragment_tvForgotPin) {
+        if (v.getId() == R.id.pin_forgot) {
             new AlertDialog.Builder(getContext()).setTitle("Сброс пин-кода")
                     .setMessage("Сбросить пин-код и авторизоаться через логин и пароль?")
                     .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            PreferencesManager.createInstance(getApplication().getApplicationContext(), login);
-                            PreferencesManager.getInstance().getSharedPreferences().edit().
-                                    putBoolean(PreferencesManager.PIN, false).apply();
-                            cache.update(login, null, new Date());
-                            mAuthorization.destroy();
-                            FragmentTransaction ft = requireActivity().getSupportFragmentManager().beginTransaction();
-                            int resId = requireActivity().getWindow().getDecorView().findViewById(android.R.id.content).getId();
-                            ft.replace(resId, LoginFragment.newInstance()).commit();
+                            PreferencesManager.createInstance(getApplication().getApplicationContext(), getLogin());
+                            PreferencesManager.getInstance().setPinAuth(false);
+                            cache.update(getLogin(), "", new Date());
+                            Authorization.getInstance().destroy();
+
+                            startActivity(LoginActivity.getIntent(requireContext()));
                         }
                     })
-                    .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setNegativeButton("Нет", null)
                     .create().show();
 
         } else {
-            if (v.getId() == R.id.pinFragment_ibClear) {
+            if (v.getId() == R.id.pin_clear) {
                 pclPinPoints.onPinClear();
             } else {
                 Button btn = (Button) v;
@@ -226,8 +206,8 @@ public class PinCodeFragment extends BaseFragment
         }
         ibClear.setClickable(false);
 
-        if (!isCreateMode) {
-            if (savedPinDigits.equals(pinDigits)) {
+        if (hasPin()) {
+            if (getPin().equals(pinDigits)) {
                 onAuthorize();
                 return;
             } else {
@@ -240,16 +220,11 @@ public class PinCodeFragment extends BaseFragment
                 Toast.makeText(getContext(), "Подтвердите пин-код", Toast.LENGTH_SHORT).show();
             } else {
                 if (pinDigits.equals(tempPin)) {
-                    if (mOnPinEnableComplete != null) {
-                        mOnPinEnableComplete.onPinActivated();
-                    }
-                    cache.update(login, pinDigits, new Date());
-                    requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                    Intent i = new Intent(getContext(), LoginActivity.class);
-                    startActivity(i);
-                    requireActivity().finish();
-                    Toast.makeText(getContext(), "Вход по пин-коду активирован", Toast.LENGTH_SHORT).show();
+                    PreferencesManager.getInstance().setPinAuth(true);
 
+                    cache.update(getLogin(), pinDigits, new Date());
+                    Toast.makeText(getContext(), "Вход по пин-коду активирован", Toast.LENGTH_SHORT).show();
+                    startActivity(LoginActivity.getIntent(requireContext()));
                 } else {
                     Toast.makeText(getContext(), "Пин-коды не совпадают, порпобуйте еще раз", Toast.LENGTH_SHORT).show();
                     confirmPin = 0;
@@ -268,18 +243,12 @@ public class PinCodeFragment extends BaseFragment
     }
 
     private void onAuthorize() {
-        String[] names = cache.getNames();
-        for (String log : names) {
-            if (log.equals(login)) {
-                BasicUser user = cache.read(log);
-                Authorization.getInstance().setUser(user);
-                cache.update(log, savedPinDigits, new Date());
-            }
-        }
-        getApplication().onAuthorized();
-        Intent intent = new Intent(getContext(), RouteListActivity.class);
-        startActivity(intent);
+        BasicUser user = cache.read(getLogin());
+        Authorization.getInstance().setUser(user);
+        cache.update(user.getCredentials().login, getPin(), new Date());
 
+        getApplication().onAuthorized(LoginActivity.PIN);
+        startActivity(RouteListActivity.getIntent(getContext()));
     }
 
     private void fingerPrintActivate(ImageButton imageButton) {
@@ -293,15 +262,20 @@ public class PinCodeFragment extends BaseFragment
                 public void onAuthenticationError(int errorCode,
                                                   @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
+
+                    if(errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                        requireActivity().finishAffinity();
+                        requireActivity().finish();
+                        requireActivity().onBackPressed();
+                    }
                 }
 
                 @Override
-                public void onAuthenticationSucceeded(
-                        @NonNull BiometricPrompt.AuthenticationResult result) {
+                public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
+
                     onAuthorize();
-                    Toast.makeText(getContext(),
-                            "Вы авторизовались", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Вы авторизовались", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -326,9 +300,5 @@ public class PinCodeFragment extends BaseFragment
                 }
             });
         }
-    }
-
-    public interface OnPinEnableComplete {
-        void onPinActivated();
     }
 }

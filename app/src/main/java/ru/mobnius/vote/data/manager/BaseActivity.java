@@ -88,12 +88,14 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     @Override
     public void onBackPressed() {
         if (isBackToExist()) {
+
             if (doubleBackToExitPressedOnce) {
                 finishAffinity();
                 finish();
                 super.onBackPressed();
                 return;
             }
+
             doubleBackToExitPressedOnce = true;
 
             Toast.makeText(this, getString(R.string.signOutMessage), Toast.LENGTH_LONG).show();
