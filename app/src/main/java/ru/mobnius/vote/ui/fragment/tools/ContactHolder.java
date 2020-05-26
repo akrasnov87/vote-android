@@ -14,7 +14,7 @@ import ru.mobnius.vote.R;
 public class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final EditText etName;
     private final EditText etPhone;
-    private ImageButton btnDelete;
+    private final ImageButton btnDelete;
 
     private final OnContactItemListener mListener;
     private final ContactHolder.OnContactChange mContactChange;

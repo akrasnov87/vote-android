@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import ru.mobnius.vote.Names;

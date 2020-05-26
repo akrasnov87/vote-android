@@ -9,7 +9,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 
 import org.greenrobot.greendao.DaoException;
 
-@SuppressWarnings("StringEquality")
+@SuppressWarnings({"unused", "StringEquality"})
 @Entity(nameInDb = "cd_points")
 public class Points {
 

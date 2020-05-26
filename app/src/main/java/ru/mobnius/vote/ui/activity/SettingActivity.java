@@ -1,7 +1,6 @@
 package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -51,7 +48,7 @@ public class SettingActivity extends BaseActivity {
         Objects.requireNonNull(context.getSupportActionBar()).setSubtitle(title);
     }
 
-    public static void setPrefFragment(AppCompatActivity context) {
+    private static void setPrefFragment(AppCompatActivity context) {
         context.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.single_fragment_container, new PrefFragment())

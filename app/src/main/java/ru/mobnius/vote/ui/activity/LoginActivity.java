@@ -6,15 +6,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 
 import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
-import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
-import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
@@ -31,7 +28,7 @@ public class LoginActivity extends BaseActivity {
         return new Intent(context, LoginActivity.class);
     }
 
-    public static void setLoginFragment(AppCompatActivity context) {
+    private static void setLoginFragment(AppCompatActivity context) {
         context.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.single_fragment_container, LoginFragment.newInstance())

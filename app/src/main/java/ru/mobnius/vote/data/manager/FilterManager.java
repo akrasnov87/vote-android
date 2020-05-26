@@ -4,13 +4,7 @@ package ru.mobnius.vote.data.manager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.util.Date;
-
-import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
 import ru.mobnius.vote.ui.model.FilterItem;
-import ru.mobnius.vote.utils.DateUtil;
 
 /**
  * управление фильтрами

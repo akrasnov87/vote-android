@@ -22,7 +22,6 @@ class MultipartUtility {
     private final String boundary;
     private static final String LINE_FEED = "\r\n";
     private HttpURLConnection httpConn;
-    private final String charset;
     private OutputStream outputStream;
     private PrintWriter writer;
 
@@ -35,7 +34,6 @@ class MultipartUtility {
      */
     public MultipartUtility(String requestURL, BasicCredentials basicCredentials)
             throws IOException {
-        this.charset = "utf-8";
 
         // creates a unique boundary based on time stamp
         boundary = "===" + System.currentTimeMillis() + "===";

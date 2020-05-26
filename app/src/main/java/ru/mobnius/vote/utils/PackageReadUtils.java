@@ -1,7 +1,5 @@
 package ru.mobnius.vote.utils;
 
-
-import ru.mobnius.vote.data.manager.packager.FileBinary;
 import ru.mobnius.vote.data.manager.packager.MetaSize;
 import ru.mobnius.vote.data.manager.packager.PackageUtil;
 
@@ -36,14 +34,6 @@ public class PackageReadUtils {
      */
     public ru.mobnius.vote.data.manager.packager.MetaPackage getMeta() throws Exception {
         return PackageUtil.readMeta(all, isZip);
-    }
-
-    /**
-     * чтение блока с бинарными данными
-     * @return массив данных
-     */
-    public FileBinary[] getFiles() throws Exception {
-        return PackageUtil.readBinaryBlock(all, isZip).getFiles();
     }
 
     /**

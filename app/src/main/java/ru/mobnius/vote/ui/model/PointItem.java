@@ -12,7 +12,6 @@ public class PointItem {
     public String routeId;
     public String fio;
     public String color = "#000000";
-    public String bgColor = "#ffffff";
     public String houseNumber;
 
     /**

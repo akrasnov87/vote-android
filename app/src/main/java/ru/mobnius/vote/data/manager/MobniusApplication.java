@@ -19,18 +19,15 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
-import ru.mobnius.vote.data.manager.packager.MetaSize;
-import ru.mobnius.vote.data.manager.packager.PackageUtil;
 import ru.mobnius.vote.data.storage.DbOpenHelper;
 import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
-public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener, ISocketNotification{
+public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
-    private List<ISocketNotification> mSocketNotificationListener;
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";
@@ -99,7 +96,7 @@ public class MobniusApplication extends android.app.Application implements IExce
             SocketManager.getInstance().destroy();
 
         SocketManager socketManager = SocketManager.createInstance(getBaseUrl(), credentials, HardwareUtil.getIMEI(this));
-        socketManager.open(this);
+        socketManager.open();
 
         serviceManager.startMyService();
 
@@ -180,80 +177,6 @@ public class MobniusApplication extends android.app.Application implements IExce
     public void removeNetworkChangeListener(OnNetworkChangeListener change) {
         if (mNetworkChangeListener != null) {
             mNetworkChangeListener.remove(change);
-        }
-    }
-
-    /**
-     * Подписаться для добавления обработчика. Делать это в событии onStart
-     *
-     * @param notification обработчик
-     */
-    public void addNotificationListener(ISocketNotification notification) {
-        if (mSocketNotificationListener == null) {
-            mSocketNotificationListener = new ArrayList<>();
-        }
-
-        mSocketNotificationListener.add(notification);
-    }
-
-    /**
-     * Подписаться для удаление обработчика. Делать это в событии onStop
-     *
-     * @param notification обработчик
-     */
-    public void removeNotificationListener(ISocketNotification notification) {
-        if (mSocketNotificationListener != null) {
-            mSocketNotificationListener.remove(notification);
-        }
-    }
-
-    @Override
-    public void onNotificationMessage(String type, byte[] buffer) {
-
-        try {
-            MetaSize metaSize = PackageUtil.readSize(buffer);
-            if (metaSize.status == MetaSize.UN_DELIVERED) {
-                // не доставлено
-                onNotificationUnDelivered(buffer);
-                return;
-            }
-            if (metaSize.status == MetaSize.DELIVERED) {
-                // доставлено
-                onNotificationDelivered(buffer);
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        //StringMail mail = StringMail.getInstance(buffer);
-
-        //NotificationManager notificationManager = new NotificationManager(Authorization.getInstance().getUser().getCredentials().getToken());
-        //notificationManager.sendMessage("Hello", "server", "");
-
-        if (mSocketNotificationListener != null) {
-            for (ISocketNotification notification : mSocketNotificationListener) {
-                notification.onNotificationMessage(type, buffer);
-            }
-        }
-    }
-
-    @Override
-    public void onNotificationDelivered(byte[] buffer) {
-        if (mSocketNotificationListener != null) {
-            for (ISocketNotification notification : mSocketNotificationListener) {
-                notification.onNotificationDelivered(buffer);
-            }
-        }
-    }
-
-    @Override
-    public void onNotificationUnDelivered(byte[] buffer) {
-        if (mSocketNotificationListener != null) {
-            for (ISocketNotification notification : mSocketNotificationListener) {
-                notification.onNotificationUnDelivered(buffer);
-            }
         }
     }
 }

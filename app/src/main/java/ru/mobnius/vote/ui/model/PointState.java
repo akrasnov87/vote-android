@@ -16,7 +16,6 @@ public class PointState {
     private boolean mSync;
 
     private String mColor;
-    private String mBgColor;
 
     public boolean isDone() {
         return mDone;
@@ -40,13 +39,5 @@ public class PointState {
 
     public void setColor(String color) {
         mColor = color;
-    }
-
-    public String getBgColor() {
-        return mBgColor;
-    }
-
-    public void setBgColor(String bgColor) {
-        mBgColor = bgColor;
     }
 }

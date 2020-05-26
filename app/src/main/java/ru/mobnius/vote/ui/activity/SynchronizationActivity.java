@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
@@ -339,7 +338,7 @@ public class SynchronizationActivity extends BaseActivity
     }
 
     @SuppressLint("StaticFieldLeak")
-    public class LocaleDataAsyncTask extends AsyncTask<Void, Void, Integer> {
+    class LocaleDataAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         @Override
         protected Integer doInBackground(Void... voids) {

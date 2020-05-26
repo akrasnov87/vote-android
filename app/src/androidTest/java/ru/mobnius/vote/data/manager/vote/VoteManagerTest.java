@@ -13,10 +13,10 @@ public class VoteManagerTest extends ManagerGenerate {
 
     private VoteManager mVoteManager;
 
-    private static Question getQuestion(int id, String text, String description) {
+    private static Question getQuestion(int id, String text) {
         Question question = new Question();
         question.c_title = text;
-        question.c_text = description;
+        question.c_text = "";
         question.id = (long)id;
         question.n_order = id;
 
@@ -40,10 +40,10 @@ public class VoteManagerTest extends ManagerGenerate {
         getDaoSession().getQuestionDao().deleteAll();
         getDaoSession().getAnswerDao().deleteAll();
 
-        getDaoSession().getQuestionDao().insert(getQuestion(1, "question 1", ""));
-        getDaoSession().getQuestionDao().insert(getQuestion(2, "question 2", ""));
-        getDaoSession().getQuestionDao().insert(getQuestion(3, "question 3", ""));
-        getDaoSession().getQuestionDao().insert(getQuestion(4, "question 4", ""));
+        getDaoSession().getQuestionDao().insert(getQuestion(1, "question 1"));
+        getDaoSession().getQuestionDao().insert(getQuestion(2, "question 2"));
+        getDaoSession().getQuestionDao().insert(getQuestion(3, "question 3"));
+        getDaoSession().getQuestionDao().insert(getQuestion(4, "question 4"));
 
         getDaoSession().getAnswerDao().insert(getAnswer(1, "answer 1", 1, 2, "COMMENT"));
         getDaoSession().getAnswerDao().insert(getAnswer(2, "answer 2", 1, 3, "COMMENT"));

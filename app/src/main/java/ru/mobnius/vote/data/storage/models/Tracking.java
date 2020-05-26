@@ -15,7 +15,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-@SuppressWarnings("ALL")
+@SuppressWarnings("unused")
 @Entity(nameInDb = "ad_tracking")
 public class Tracking implements IEntityTo {
 

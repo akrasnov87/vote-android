@@ -17,27 +17,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
-import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
 
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
-import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -131,19 +125,13 @@ public class LoginFragment extends BaseFragment
     @Override
     public void onStart() {
         super.onStart();
-
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().addNetworkChangeListener(this);
-        }
+        getApplication().addNetworkChangeListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().removeNetworkChangeListener(this);
-        }
+        getApplication().removeNetworkChangeListener(this);
     }
 
     private void onVersionClick() {
@@ -366,17 +354,5 @@ public class LoginFragment extends BaseFragment
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
-    }
-
-    /**
-     * Получение обработчика изменения сети
-     * @return обработчик
-     */
-    private MobniusApplication getNetworkChangeListener() {
-        if(getApplication() instanceof OnNetworkChangeListener){
-            return (MobniusApplication) getApplication();
-        }
-
-        return null;
     }
 }

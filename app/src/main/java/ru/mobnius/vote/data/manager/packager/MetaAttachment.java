@@ -10,19 +10,19 @@ public class MetaAttachment {
      * размер вложения
      */
     @Expose
-    public final int size;
+    private final int size;
 
     /**
      * имя файла или относительный путь
      */
     @Expose
-    public final String name;
+    private final String name;
 
     /**
      * ключ вложения
      */
     @Expose
-    public final String key;
+    private final String key;
 
     /**
      * конструктор

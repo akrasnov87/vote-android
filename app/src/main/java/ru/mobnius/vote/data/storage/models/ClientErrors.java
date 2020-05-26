@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+@SuppressWarnings("unused")
 @Entity(nameInDb = "sd_client_errors")
 public class ClientErrors implements IEntityTo {
     /**

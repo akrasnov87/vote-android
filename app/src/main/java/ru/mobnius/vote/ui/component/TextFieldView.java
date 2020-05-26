@@ -14,7 +14,6 @@ import ru.mobnius.vote.R;
 
 public class TextFieldView extends LinearLayout {
 
-    private TextView tvFieldLabel;
     private TextView tvFieldText;
 
     public TextFieldView(Context context, @Nullable AttributeSet attrs) {
@@ -33,7 +32,7 @@ public class TextFieldView extends LinearLayout {
         assert inflater != null;
         inflater.inflate(R.layout.text_field, this, true);
 
-        tvFieldLabel = findViewById(R.id.text_field_label);
+        TextView tvFieldLabel = findViewById(R.id.text_field_label);
         tvFieldText = findViewById(R.id.text_field_value);
 
         tvFieldLabel.setText(labelText);

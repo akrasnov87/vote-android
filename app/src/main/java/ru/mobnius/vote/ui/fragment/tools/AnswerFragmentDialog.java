@@ -3,7 +3,6 @@ package ru.mobnius.vote.ui.fragment.tools;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 
 
 import ru.mobnius.vote.data.manager.BaseDialogFragment;

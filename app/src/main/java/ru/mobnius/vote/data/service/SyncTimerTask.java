@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.service;
 
 import java.util.TimerTask;
 
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.synchronization.IProgress;
 import ru.mobnius.vote.data.manager.synchronization.ISynchronization;

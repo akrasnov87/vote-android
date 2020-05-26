@@ -32,7 +32,7 @@ public class TableQueryTest {
     @Test
     public void toRPCSelect() {
         TableQuery tableQuery = new TableQuery("cd_settings", "");
-        RPCItem rpcItem = tableQuery.toRPCSelect(new MyObject("test"));
+        RPCItem rpcItem = tableQuery.toRPCSelect(new MyObject());
         rpcItem.tid = 0;
         String jsonString = toJsonString(rpcItem);
         assertEquals(jsonString, "{\"action\":\"cd_settings\",\"data\":[{\"limit\":"+BaseSynchronization.MAX_COUNT_IN_QUERY+",\"params\":[{\"name\":\"test\"}]}],\"method\":\"Select\",\"tid\":0,\"type\":\"rpc\"}");
@@ -45,8 +45,8 @@ public class TableQueryTest {
 
     static class MyObject {
         final String name;
-        MyObject(String name) {
-            this.name = name;
+        MyObject() {
+            this.name = "test";
         }
     }
 }

@@ -23,7 +23,7 @@ class ServiceManager {
      * запуск сервиса по отправке информации на сервер
      * @param serviceInterval интервал передачи служебных данных на сервер
      */
-    private void startMyService(int serviceInterval, int timeout, int accuracy, int power, int telemetryInterval, boolean sdCardMemoryUsage) {
+    private void startMyService(int serviceInterval, int timeout, int telemetryInterval) {
         if(myIntent != null){
             stopMyService();
         }
@@ -31,10 +31,10 @@ class ServiceManager {
         myIntent = new Intent(context, MyService.class);
         myIntent.putExtra(MyService.SYNC_SERVICE, serviceInterval);
         myIntent.putExtra(MyService.TRACK_TIMEOUT, timeout);
-        myIntent.putExtra(MyService.TRACK_ACCURACY, accuracy);
-        myIntent.putExtra(MyService.TRACK_POWER, power);
+        myIntent.putExtra(MyService.TRACK_ACCURACY, Criteria.ACCURACY_FINE);
+        myIntent.putExtra(MyService.TRACK_POWER, Criteria.POWER_HIGH);
         myIntent.putExtra(MyService.TELEMETRY_INTERVAL, telemetryInterval);
-        myIntent.putExtra(MyService.TELEMETRY_MEMORY, sdCardMemoryUsage);
+        myIntent.putExtra(MyService.TELEMETRY_MEMORY, true);
         context.startService(myIntent);
     }
 
@@ -42,7 +42,7 @@ class ServiceManager {
      * запуск сервиса по отправке информации на сервер
      */
     public void startMyService() {
-        this.startMyService(PreferencesManager.getInstance().getSyncInterval(), PreferencesManager.getInstance().getTrackingInterval(), Criteria.ACCURACY_FINE, Criteria.POWER_HIGH, PreferencesManager.getInstance().getTelemetryInterval(), true);
+        this.startMyService(PreferencesManager.getInstance().getSyncInterval(), PreferencesManager.getInstance().getTrackingInterval(), PreferencesManager.getInstance().getTelemetryInterval());
     }
 
     /**
