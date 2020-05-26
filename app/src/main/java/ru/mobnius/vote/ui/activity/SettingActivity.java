@@ -49,21 +49,29 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.master_container);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.single_fragment_container, new PrefFragment())
-                .commit();
-
+        replacePrefFragment();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
+            if (getSupportFragmentManager().findFragmentById(R.id.single_fragment_container) instanceof PinCodeFragment) {
+                replacePrefFragment();
+                getSupportActionBar().setSubtitle(null);
+            } else {
+                onBackPressed();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void replacePrefFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.single_fragment_container, new PrefFragment())
+                .commit();
     }
 
     @Override
@@ -224,9 +232,9 @@ public class SettingActivity extends BaseActivity implements PinCodeFragment.OnP
                 super.onPostExecute(s);
 
                 if (pServerVersion != null) {
-                    if(!s.equals("0.0.0.0")) {
+                    if (!s.equals("0.0.0.0")) {
 
-                        if(VersionUtil.isUpgradeVersion(requireActivity(), s)) {
+                        if (VersionUtil.isUpgradeVersion(requireActivity(), s)) {
                             pServerVersion.setVisible(true);
                             pServerVersion.setSummary("Доступна новая версия " + s);
                             pServerVersion.setIntent(new Intent().setAction(Intent.ACTION_VIEW).setData(

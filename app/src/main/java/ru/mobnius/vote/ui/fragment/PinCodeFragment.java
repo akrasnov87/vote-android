@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
@@ -36,6 +37,7 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
+import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
@@ -118,7 +120,10 @@ public class PinCodeFragment extends BaseFragment
         pclPinPoints.setPinChangeListener(this);
         pclPinPoints.setCheckPinListener(this);
         pclPinPoints.setFocusChangeListener(this);
-
+        if (getActivity() instanceof SettingActivity) {
+            AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+            appCompatActivity.getSupportActionBar().setSubtitle("Установка пин-кода");
+        }
         TextView tvForgotPin = v.findViewById(R.id.pinFragment_tvForgotPin);
 
         ibClear = v.findViewById(R.id.pinFragment_ibClear);
