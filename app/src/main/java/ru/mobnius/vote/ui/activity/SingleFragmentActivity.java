@@ -10,12 +10,6 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 
 public abstract class SingleFragmentActivity extends BaseActivity {
 
-    private Fragment mFragment;
-
-    public SingleFragmentActivity(boolean backToExist) {
-        super(backToExist);
-    }
-
     public SingleFragmentActivity() {
         super();
     }
@@ -27,14 +21,12 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         setContentView(R.layout.master_container);
         FragmentManager fm = getSupportFragmentManager();
 
-        mFragment = fm.findFragmentById(R.id.single_fragment_container);
-        if (mFragment == null) {
-            mFragment = createFragment();
-            if(mFragment != null) {
-                fm.beginTransaction()
-                        .add(R.id.single_fragment_container, mFragment)
-                        .commit();
-            }
+        Fragment fragment = fm.findFragmentById(R.id.single_fragment_container);
+        if (fragment == null) {
+            fragment = createFragment();
+            fm.beginTransaction()
+                    .add(R.id.single_fragment_container, fragment)
+                    .commit();
         }
     }
 
