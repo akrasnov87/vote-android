@@ -1,7 +1,5 @@
 package ru.mobnius.vote.data.manager;
 
-import com.squareup.okhttp.Route;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -314,8 +312,8 @@ public class DataManagerTest extends ManagerGenerate {
         getDaoSession().getSubDivisionsDao().insert(subDivision);
 
         RegistrPts registrPts = new RegistrPts();
-        registrPts.c_subscr = "111-111";
-        registrPts.c_device = "ПУ-111";
+        registrPts.c_appartament_num = "111-111";
+        registrPts.c_house_num = "ПУ-111";
         registrPts.c_address = "адрес";
         registrPts.id = UUID.randomUUID().toString();
         registrPts.c_fio = "Иванов Иван Иванович";
@@ -337,7 +335,7 @@ public class DataManagerTest extends ManagerGenerate {
         PointInfo info = dataManager.getPointInfo(point.id);
         assertNotNull(info);
 
-        assertEquals(info.getSubscrNumber(), registrPts.c_subscr);
+        assertEquals(info.getAppartament(), registrPts.c_appartament_num);
         //assertEquals(info.getAddress(), registrPts.c_address);
         assertEquals(info.getFio(), registrPts.c_fio);
 

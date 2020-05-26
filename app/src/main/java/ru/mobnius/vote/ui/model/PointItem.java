@@ -2,8 +2,8 @@ package ru.mobnius.vote.ui.model;
 
 public class PointItem {
     public String id;
-    public String subscrNumber;
-    public String deviceNumber;
+    public int appartamentNumber;
+    public String appartament;
     public String address;
     public String notice;
     public String info;
@@ -13,6 +13,7 @@ public class PointItem {
     public String fio;
     public String color = "#000000";
     public String bgColor = "#ffffff";
+    public String houseNumber;
 
     /**
      * Было выполнено или нет

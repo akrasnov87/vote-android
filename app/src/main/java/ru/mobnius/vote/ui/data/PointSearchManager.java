@@ -17,10 +17,6 @@ public class PointSearchManager extends SearchManager<PointItem> {
         super(KEY);
     }
 
-    public PointSearchManager(String deSerialize) {
-        super(KEY, deSerialize);
-    }
-
     @Override
     public PointItem[] toFilters(PointItem[] items) {
         List<PointItem> results = new ArrayList<>();
@@ -36,8 +32,7 @@ public class PointSearchManager extends SearchManager<PointItem> {
     public PointItem[] toFilters(PointItem[] items, String text) {
 
         mItems.clear();
-        addItem(new FilterItem("deviceNumber", text));
-        addItem(new FilterItem("subscrNumber", text));
+        addItem(new FilterItem("appartament", text));
 
         List<PointItem> results = new ArrayList<>();
         for(PointItem item : items) {

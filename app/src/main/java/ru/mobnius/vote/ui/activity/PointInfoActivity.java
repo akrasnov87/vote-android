@@ -71,7 +71,7 @@ public class PointInfoActivity extends BaseActivity
             tfvNotice.setFieldText(mPointInfo.getNotice());
             tfvNotice.setVisibility(View.VISIBLE);
         }
-        tfvAddress.setFieldText(mPointInfo.getAddress() + " кв. " + mPointInfo.getSubscrNumber());
+        tfvAddress.setFieldText(mPointInfo.getAddress() + " кв. " + mPointInfo.getAppartament());
 
         boolean done = DataManager.getInstance().getPointState(mPointID).isDone();
         if (done) {
@@ -138,7 +138,7 @@ public class PointInfoActivity extends BaseActivity
         adb.setNegativeButton(getResources().getString(R.string.no), listener);
 
         AlertDialog alert = adb.create();
-        alert.setTitle(String.format("Сбросить результаты обхода по квартире %s?", mPointInfo.getSubscrNumber()));
+        alert.setTitle(String.format("Сбросить результаты обхода по квартире %s?", mPointInfo.getAppartament()));
         alert.show();
     }
 }

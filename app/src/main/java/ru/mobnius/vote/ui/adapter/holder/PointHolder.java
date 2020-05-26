@@ -30,7 +30,7 @@ public class PointHolder extends RecyclerView.ViewHolder
     public void bindPoints(PointItem point) {
         mItem = point;
 
-        tvDeviceNumber.setText(point.deviceNumber);
+        tvDeviceNumber.setText(point.appartament);
 
         if(point.done) {
             tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSuccess));

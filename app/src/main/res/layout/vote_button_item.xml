@@ -6,8 +6,8 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/voteButtonItem"
-        style="@style/AppTheme.ButtonStyle"
+        android:id="@+id/vote_button_item"
+        style="@style/AppTheme.ButtonStyle.Alt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Открыли дверь"

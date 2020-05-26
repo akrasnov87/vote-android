@@ -302,12 +302,13 @@ public class DataManager {
                 RegistrPts registrPts = point.getRegistrPts();
                 if(registrPts != null) {
                     pointItem.address = registrPts.c_address;
-                    pointItem.deviceNumber = registrPts.c_device;
+                    pointItem.appartament = registrPts.c_appartament_num;
                     pointItem.fio = registrPts.c_fio;
                     pointItem.info = point.c_info;
                     pointItem.notice = point.c_notice;
-                    pointItem.subscrNumber = registrPts.c_subscr;
+                    pointItem.appartamentNumber = registrPts.n_appartament_num;
                     pointItem.routeId = point.f_route;
+                    pointItem.houseNumber = registrPts.c_house_num;
                 }
 
                 Routes route = point.getRoute();

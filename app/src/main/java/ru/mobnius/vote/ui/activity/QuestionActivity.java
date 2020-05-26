@@ -61,8 +61,8 @@ public class QuestionActivity extends BaseFormActivity
         Intent intent = new Intent(context, QuestionActivity.class);
         intent.putExtra(Names.POINT_ID, pointItem.id);
         intent.putExtra(Names.ROUTE_ID, pointItem.routeId);
-        intent.putExtra(Names.NAME, pointItem.subscrNumber);
-        intent.putExtra(Names.ADDRESS, pointItem.routeName);
+        intent.putExtra(Names.NAME, pointItem.appartament);
+        intent.putExtra(Names.ADDRESS, String.format("%s д. %s", pointItem.address, pointItem.houseNumber));
         return intent;
     }
 

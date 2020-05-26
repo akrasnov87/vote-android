@@ -11,6 +11,7 @@
     <color name="colorSecondaryLight">#ff4569</color>
     <color name="colorError">#f44336</color>
     <color name="colorFloating">#651fff</color>
+    <color name="colorFloatingLight">#834bff</color>
 
     <color name="colorHintDark">#435761</color>
     <color name="colorHint">#7f97a2</color>

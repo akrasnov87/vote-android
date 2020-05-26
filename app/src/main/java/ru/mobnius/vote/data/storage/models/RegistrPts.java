@@ -19,10 +19,16 @@ public class RegistrPts {
     public String id;
 
     @Expose
-    public String c_subscr;
+    public String c_appartament_num;
 
     @Expose
-    public String c_device;
+    public int n_appartament_num;
+
+    @Expose
+    public String c_house_num;
+
+    @Expose
+    public int n_house_num;
 
     @Expose
     private String jb_tel;
@@ -95,14 +101,16 @@ public class RegistrPts {
     @Generated(hash = 690484894)
     private transient RegistrPtsDao myDao;
 
-    @Generated(hash = 1848869894)
-    public RegistrPts(String id, String c_subscr, String c_device, String jb_tel,
-            String jb_email, String c_fio, String c_address, double n_latitude,
-            double n_longitude, long f_division, long f_subdivision, long f_user,
-            boolean b_disabled) {
+    @Generated(hash = 835053125)
+    public RegistrPts(String id, String c_appartament_num, int n_appartament_num,
+            String c_house_num, int n_house_num, String jb_tel, String jb_email,
+            String c_fio, String c_address, double n_latitude, double n_longitude,
+            long f_division, long f_subdivision, long f_user, boolean b_disabled) {
         this.id = id;
-        this.c_subscr = c_subscr;
-        this.c_device = c_device;
+        this.c_appartament_num = c_appartament_num;
+        this.n_appartament_num = n_appartament_num;
+        this.c_house_num = c_house_num;
+        this.n_house_num = n_house_num;
         this.jb_tel = jb_tel;
         this.jb_email = jb_email;
         this.c_fio = c_fio;
@@ -127,20 +135,36 @@ public class RegistrPts {
         this.id = id;
     }
 
-    public String getC_subscr() {
-        return this.c_subscr;
+    public String getC_appartament_num() {
+        return this.c_appartament_num;
     }
 
-    public void setC_subscr(String c_subscr) {
-        this.c_subscr = c_subscr;
+    public void setC_appartament_num(String c_appartament_num) {
+        this.c_appartament_num = c_appartament_num;
     }
 
-    public String getC_device() {
-        return this.c_device;
+    public int getN_appartament_num() {
+        return this.n_appartament_num;
     }
 
-    public void setC_device(String c_device) {
-        this.c_device = c_device;
+    public void setN_appartament_num(int n_appartament_num) {
+        this.n_appartament_num = n_appartament_num;
+    }
+
+    public String getC_house_num() {
+        return this.c_house_num;
+    }
+
+    public void setC_house_num(String c_house_num) {
+        this.c_house_num = c_house_num;
+    }
+
+    public int getN_house_num() {
+        return this.n_house_num;
+    }
+
+    public void setN_house_num(int n_house_num) {
+        this.n_house_num = n_house_num;
     }
 
     public String getJb_tel() {

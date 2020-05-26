@@ -13,7 +13,7 @@ public class PointInfo {
      * @param registrPts учетный показатель
      */
     public PointInfo(RegistrPts registrPts) {
-        mSubscrNumber = registrPts.c_subscr;
+        mAppartament = registrPts.c_appartament_num;
         mFio = registrPts.c_fio;
         mAddress = registrPts.c_address;
     }
@@ -21,7 +21,7 @@ public class PointInfo {
     /**
      * Номер ЛС
      */
-    private final String mSubscrNumber;
+    private final String mAppartament;
 
     /**
      * ФИО потребителя
@@ -47,8 +47,8 @@ public class PointInfo {
         return mFio;
     }
 
-    public String getSubscrNumber() {
-        return mSubscrNumber;
+    public String getAppartament() {
+        return mAppartament;
     }
 
     public String getNotice() {

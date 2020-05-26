@@ -29,7 +29,7 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder
         mListener = listener;
         mAnswers = answers;
 
-        mButton = itemView.findViewById(R.id.voteButtonItem);
+        mButton = itemView.findViewById(R.id.vote_button_item);
         mButton.setOnClickListener(this);
     }
 
@@ -37,7 +37,7 @@ public class VoteButtonHolder extends RecyclerView.ViewHolder
         if(mExclusionAnswerID == answer.id) {
             mButton.setBackgroundResource(R.drawable.button_success_state);
         } else {
-            mButton.setBackgroundResource(R.drawable.button_state);
+            mButton.setBackgroundResource(R.drawable.button_state_alt);
         }
 
         if(mLastAnswerId > 0) {

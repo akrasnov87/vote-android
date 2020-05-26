@@ -105,7 +105,7 @@ public class PointListActivity extends BaseActivity
             if (mPreferencesManager.getSort()) {
                 PreferencesManager.getInstance().setSort(false);
             } else {
-                PreferencesManager.getInstance().setSort(true);
+                PreferencesManager.getInstance().setSort(false);
             }
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         }
