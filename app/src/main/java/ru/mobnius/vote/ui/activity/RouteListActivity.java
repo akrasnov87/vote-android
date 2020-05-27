@@ -214,7 +214,8 @@ public class RouteListActivity extends BaseActivity implements
                     .setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                            getBaseContext().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                            RouteListActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                         }
                     })
                     .setCancelable(false)
