@@ -34,6 +34,13 @@
             android:key="MBL_TELEMETRY_INTERVAL"
             android:summary="Интервал сбора показаний мобильного устройства"
             android:title="Телеметрия" />
+
+        <SwitchPreference
+            android:enabled="false"
+            android:key="MBL_GEO_CHECK"
+            android:summary="отключена"
+            android:title="Проверка включения гео-данных" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

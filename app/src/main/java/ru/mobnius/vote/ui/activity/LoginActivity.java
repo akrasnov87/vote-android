@@ -20,7 +20,7 @@ import ru.mobnius.vote.ui.fragment.LoginFragment;
 import ru.mobnius.vote.utils.LocationChecker;
 
 
-public class LoginActivity extends BaseActivity implements LocationChecker.ICheckLocationAvailable {
+public class LoginActivity extends BaseActivity {
 
     public final static int LOGIN = 0;
     public final static int PIN = 1;
@@ -44,24 +44,7 @@ public class LoginActivity extends BaseActivity implements LocationChecker.IChec
     @Override
     protected void onResume() {
         super.onResume();
-        LocationChecker.start(this);
-    }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.master_container);
-
-
-    }
-
-    @Override
-    public int getExceptionCode() {
-        return IExceptionCode.LOGIN;
-    }
-
-    @Override
-    public void onLocationAvailable() {
         BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
         String pin = "";
         if(basicUser != null) {
@@ -73,5 +56,16 @@ public class LoginActivity extends BaseActivity implements LocationChecker.IChec
         } else {
             setLoginFragment(this);
         }
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.master_container);
+    }
+
+    @Override
+    public int getExceptionCode() {
+        return IExceptionCode.LOGIN;
     }
 }

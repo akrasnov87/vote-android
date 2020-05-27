@@ -38,18 +38,23 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.VersionUtil;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener,
-        DialogInterface.OnClickListener {
+        DialogInterface.OnClickListener,
+        LocationChecker.OnLocationAvailable {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
@@ -109,6 +114,8 @@ public class RouteListActivity extends BaseActivity implements
         invalidateOptionsMenu();
 
         new ServerAppVersionAsyncTask().execute();
+
+        LocationChecker.start(this);
     }
 
     @Override
@@ -199,6 +206,11 @@ public class RouteListActivity extends BaseActivity implements
         } else {
             rvHouses.setAdapter(new RouteAdapter(this, routes));
         }
+    }
+
+    @Override
+    public void onLocationAvailable() {
+
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -17,9 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
@@ -30,14 +27,12 @@ import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
 
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
-import ru.mobnius.vote.ui.activity.SettingActivity;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -185,11 +180,16 @@ public class LoginFragment extends BaseFragment
     }
 
     private void onAuthorized() {
-        getApplication().onAuthorized(LoginActivity.LOGIN);
+        new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+            @Override
+            public void onConfigurationLoaded(boolean configRefreshed) {
+                getApplication().onAuthorized(LoginActivity.LOGIN);
 
-        Intent intent = new Intent(getContext(), RouteListActivity.class);
-        startActivity(intent);
-        requireActivity().finish();
+                Intent intent = new Intent(getContext(), RouteListActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        }).execute();
     }
 
     private void failAuthorized(String message) {

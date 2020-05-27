@@ -195,14 +195,14 @@ public class Authorization {
         @Override
         protected AuthorizationMeta doInBackground(String... strings) {
             mCredentials = new BasicCredentials(strings[0], strings[1]);
-            try {
+            /*try {
                 List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(mCredentials);
                 if (configurationSettings != null) {
                     DefaultPreferencesManager.getInstance().updateSettings(configurationSettings);
                 }
             }catch (Exception ignore) {
 
-            }
+            }*/
 
             return mRequestUtil.request(mCredentials.login, mCredentials.password);
         }

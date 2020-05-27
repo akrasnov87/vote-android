@@ -98,6 +98,7 @@ public class SettingActivity extends BaseActivity {
 
         private Preference pVersion;
         private Preference pServerVersion;
+        private SwitchPreference spGeoCheck;
         private SwitchPreference spDebug;
         private SwitchPreference spPin;
         private Preference pCreateError;
@@ -115,7 +116,6 @@ public class SettingActivity extends BaseActivity {
             pServerVersion = findPreference(PreferencesManager.SERVER_APP_VERSION);
             Objects.requireNonNull(pServerVersion).setOnPreferenceClickListener(this);
 
-
             Preference syncInterval = findPreference(PreferencesManager.MBL_BG_SYNC_INTERVAL);
             Objects.requireNonNull(syncInterval).setSummary(String.format("Интервал синхронизации фоновых данных: %s мин.", PreferencesManager.getInstance().getSyncInterval() / 60000));
 
@@ -131,6 +131,9 @@ public class SettingActivity extends BaseActivity {
             spDebug = findPreference(PreferencesManager.DEBUG);
             Objects.requireNonNull(spDebug).setEnabled(PreferencesManager.getInstance().isDebug());
             spDebug.setOnPreferenceChangeListener(this);
+
+            spGeoCheck = findPreference(PreferencesManager.MBL_GEO_CHECK);
+            Objects.requireNonNull(spGeoCheck).setOnPreferenceChangeListener(this);
 
             spPin = findPreference(PreferencesManager.PIN);
             Objects.requireNonNull(spPin).setOnPreferenceChangeListener(this);
@@ -151,6 +154,9 @@ public class SettingActivity extends BaseActivity {
 
             spPin.setSummary(String.format(pinSummary, PreferencesManager.getInstance().isPinAuth() ? "включена" : "отключена"));
             spPin.setChecked(PreferencesManager.getInstance().isPinAuth());
+
+            spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
+            spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
 
             new ServerAppVersionAsyncTask().execute();
         }

@@ -54,7 +54,8 @@
             android:label="@string/synchronization"
             android:parentActivityName=".ui.activity.RouteListActivity"/>
         <activity
-        android:name=".ui.activity.QuestionActivity" />
+            android:name=".ui.activity.QuestionActivity" />
+
         <activity
             android:name=".ui.activity.PointInfoActivity"
             android:label="@string/general_info"/>

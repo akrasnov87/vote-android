@@ -1,19 +1,17 @@
 package ru.mobnius.vote.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.provider.Settings;
 
-import androidx.appcompat.app.AlertDialog;
-
-import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 
-
 public class LocationChecker {
-    public static boolean start(ICheckLocationAvailable checker) {
+
+    public static boolean start(OnLocationAvailable checker) {
         final Context context = (Context) checker;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean isGPS_available = false;
@@ -33,8 +31,7 @@ public class LocationChecker {
         }
         boolean enabled = !isGPS_available && !isNetworkAvailable;
         if (enabled) {
-
-            new AlertDialog.Builder(context, R.style.MainDialogTheme)
+            new AlertDialog.Builder(context)
                     .setMessage("Для работы приложения необходимо включить доступ к геолокации")
                     .setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
                         @Override
@@ -44,11 +41,13 @@ public class LocationChecker {
                     })
                     .setCancelable(false)
                     .show();
-        }else {
+        } else {
             checker.onLocationAvailable();
-        }return enabled;
+        }
+        return enabled;
     }
-    public interface ICheckLocationAvailable{
+
+    public interface OnLocationAvailable {
         void onLocationAvailable();
     }
 }

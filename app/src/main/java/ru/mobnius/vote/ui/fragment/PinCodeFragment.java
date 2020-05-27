@@ -21,12 +21,12 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseFragment;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -247,8 +247,13 @@ public class PinCodeFragment extends BaseFragment
         Authorization.getInstance().setUser(user);
         cache.update(user.getCredentials().login, getPin(), new Date());
 
-        getApplication().onAuthorized(LoginActivity.PIN);
-        startActivity(RouteListActivity.getIntent(getContext()));
+        new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+            @Override
+            public void onConfigurationLoaded(boolean configRefreshed) {
+                getApplication().onAuthorized(LoginActivity.PIN);
+                startActivity(RouteListActivity.getIntent(getContext()));
+            }
+        }).execute();
     }
 
     private void fingerPrintActivate(ImageButton imageButton) {

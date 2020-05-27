@@ -1,8 +1,11 @@
 package ru.mobnius.vote.data.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
@@ -11,6 +14,8 @@ import java.util.List;
 
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
+import ru.mobnius.vote.data.manager.configuration.ConfigurationSettingUtil;
 import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
@@ -255,5 +260,42 @@ public class MobniusApplication extends android.app.Application implements IExce
                 notification.onNotificationUnDelivered(buffer);
             }
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static class ConfigurationAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        private OnConfigurationLoadedListener mListener;
+
+        public ConfigurationAsyncTask(OnConfigurationLoadedListener listener) {
+            mListener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if(Authorization.getInstance().isAuthorized()) {
+                BasicCredentials credentials = Authorization.getInstance().getLastAuthUser().getCredentials();
+
+                try {
+                    List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(credentials);
+                    if (configurationSettings != null) {
+                        return DefaultPreferencesManager.getInstance().updateSettings(configurationSettings);
+                    }
+                } catch (Exception ignore) {
+
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean value) {
+            mListener.onConfigurationLoaded(value);
+        }
+    }
+
+    public interface OnConfigurationLoadedListener {
+        void onConfigurationLoaded(boolean configRefreshed);
     }
 }

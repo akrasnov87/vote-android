@@ -19,6 +19,7 @@ public class AuditUtils {
     public final static String RESET_APPARTAMENT = "reset appartament";
     public final static String VOTED = "voted";
     public final static String VOTE = "vote";
+    public final static String GEO_CHECK = "geo check";
 
     /**
      * запись информации в базу данных

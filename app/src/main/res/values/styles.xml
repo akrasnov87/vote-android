@@ -16,6 +16,7 @@
         <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
 
     </style>
+
     <style name="MainDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/colorSecondaryText</item>
     </style>
