@@ -19,7 +19,7 @@ public class ManualSynchronizationTest extends ManagerGenerate {
 
     @Before
     public void setUp() {
-        synchronization = new MySynchronization(getDaoSession(), getFileManager(), getCredentials());
+        synchronization = new MySynchronization(getDaoSession(), getCredentials());
         synchronization.initEntities();
     }
 
@@ -37,8 +37,8 @@ public class ManualSynchronizationTest extends ManagerGenerate {
 
     public static class MySynchronization extends ManualSynchronization {
         private final BasicCredentials mCredentials;
-        MySynchronization(DaoSession daoSession, FileManager fileManager, BasicCredentials credentials) {
-            super(daoSession, fileManager, PreferencesManager.ZIP_CONTENT);
+        MySynchronization(DaoSession daoSession, BasicCredentials credentials) {
+            super(daoSession, PreferencesManager.ZIP_CONTENT);
             dictionaryTid = UUID.randomUUID().toString();
             addEntity(new EntityDictionary(SubDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));
             mCredentials = credentials;

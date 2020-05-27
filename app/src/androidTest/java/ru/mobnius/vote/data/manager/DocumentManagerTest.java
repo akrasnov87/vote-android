@@ -21,7 +21,6 @@ import static org.junit.Assert.*;
 
 public class DocumentManagerTest extends ManagerGenerate implements OnVoteListener {
     private DocumentManager mDocumentManager;
-    private FileManager fileManager;
     private String mPointId;
     private String mRouteId;
 
@@ -33,7 +32,6 @@ public class DocumentManagerTest extends ManagerGenerate implements OnVoteListen
         Authorization.createInstance(getContext(), getBaseUrl()).setUser(basicUser);
 
         mDocumentManager = new DocumentManager(this);
-        fileManager = FileManager.createInstance(basicUser.getCredentials(), getContext());
     }
 
     @After

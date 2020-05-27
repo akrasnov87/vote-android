@@ -36,13 +36,11 @@ import static org.junit.Assert.assertTrue;
 
 public class DataManagerTest extends ManagerGenerate {
     private DataManager dataManager;
-    private FileManager fileManager;
 
     @Before
     public void setUp() {
         dataManager = DataManager.createInstance(getDaoSession());
         BasicCredentials credentials = new BasicCredentials("inspector", "");
-        fileManager = FileManager.createInstance(credentials, getContext());
 
         RouteTypes routeType = new RouteTypes();
         routeType.id = (long)1;
