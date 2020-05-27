@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,10 +39,7 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
-import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
-import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
@@ -209,8 +207,19 @@ public class RouteListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLocationAvailable() {
-
+    public void onLocationAvailable(boolean enabled) {
+        if(!enabled) {
+            new AlertDialog.Builder(this)
+                    .setMessage("Для работы приложения необходимо включить доступ к геолокации")
+                    .setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            getBaseContext().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -4,13 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import java.util.List;
-
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
-import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
-import ru.mobnius.vote.data.manager.configuration.ConfigurationSettingUtil;
-import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.utils.ClaimsUtil;

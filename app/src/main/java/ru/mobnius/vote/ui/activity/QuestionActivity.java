@@ -10,12 +10,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.jar.Attributes;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.Names;

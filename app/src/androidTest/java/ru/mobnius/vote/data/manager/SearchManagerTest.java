@@ -65,9 +65,9 @@ public class SearchManagerTest {
             this.isMale = male;
             this.money = money;
         }
-        String name;
-        int age;
-        boolean isMale;
-        double money;
+        final String name;
+        final int age;
+        final boolean isMale;
+        final double money;
     }
 }

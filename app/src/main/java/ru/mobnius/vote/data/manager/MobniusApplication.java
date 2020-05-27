@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,7 +171,7 @@ public class MobniusApplication extends android.app.Application implements IExce
     @SuppressLint("StaticFieldLeak")
     public static class ConfigurationAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
-        private OnConfigurationLoadedListener mListener;
+        private final OnConfigurationLoadedListener mListener;
 
         public ConfigurationAsyncTask(OnConfigurationLoadedListener listener) {
             mListener = listener;

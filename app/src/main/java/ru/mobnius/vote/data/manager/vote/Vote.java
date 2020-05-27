@@ -3,8 +3,8 @@ package ru.mobnius.vote.data.manager.vote;
 import java.io.Serializable;
 
 public class Vote implements Serializable {
-    public long answerId;
-    public long questionId;
+    public final long answerId;
+    public final long questionId;
 
     private String mComment;
     private String mJbTel;

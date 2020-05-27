@@ -1,6 +1,5 @@
 package ru.mobnius.vote.ui.data;
 
-import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 

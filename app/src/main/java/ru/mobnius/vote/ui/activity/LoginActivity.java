@@ -17,7 +17,6 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.LoginFragment;
-import ru.mobnius.vote.utils.LocationChecker;
 
 
 public class LoginActivity extends BaseActivity {

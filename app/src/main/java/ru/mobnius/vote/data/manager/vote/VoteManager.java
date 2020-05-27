@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.storage.models.Results;
  * Для сохранения состояния
  */
 public class VoteManager implements Serializable {
-    private List<Vote> mList;
+    private final List<Vote> mList;
 
     public VoteManager() {
         mList = new ArrayList<>();
