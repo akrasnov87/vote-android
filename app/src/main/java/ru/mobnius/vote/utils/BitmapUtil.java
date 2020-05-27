@@ -7,13 +7,6 @@ import java.io.ByteArrayOutputStream;
 
 class BitmapUtil {
     public final static int QUALITY_120p = 120;
-    public final static int QUALITY_240p = 240;
-    public final static int QUALITY_480p = 480;
-    public final static int QUALITY_576p = 576;
-    public final static int QUALITY_720p = 720;
-    public final static int QUALITY_1080p = 1080;
-    public final static int QUALITY_4320p = 4320;
-
     public final static int IMAGE_QUALITY = 60;
 
     /**

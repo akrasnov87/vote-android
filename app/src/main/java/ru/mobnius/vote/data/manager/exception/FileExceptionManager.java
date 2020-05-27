@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.utils.FileUtil;
 
 public class FileExceptionManager implements IExceptionManager, IFileExceptionManager {
@@ -41,7 +40,7 @@ public class FileExceptionManager implements IExceptionManager, IFileExceptionMa
     }
 
     public File getRootCatalog() {
-        return new File(FileUtil.getRoot(mContext, Environment.DIRECTORY_DOCUMENTS), FileManager.APP_NAME + "/" + EXCEPTION_FOLDER);
+        return new File(FileUtil.getRoot(mContext, Environment.DIRECTORY_DOCUMENTS), EXCEPTION_FOLDER);
     }
 
     @Override

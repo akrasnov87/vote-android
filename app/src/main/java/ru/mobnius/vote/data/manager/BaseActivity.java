@@ -41,7 +41,6 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         onExceptionIntercept();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -110,10 +109,6 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    public DataManager getDataManager() {
-        return DataManager.getInstance();
     }
 
     private boolean isBackToExist() {

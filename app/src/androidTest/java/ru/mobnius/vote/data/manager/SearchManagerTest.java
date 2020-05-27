@@ -45,10 +45,6 @@ public class SearchManagerTest {
             super(key);
         }
 
-        public PeopleSearchManager(String key, String deSerialize) {
-            super(key, deSerialize);
-        }
-
         @Override
         public People[] toFilters(People[] items) {
             List<People> results = new ArrayList<>();
@@ -63,7 +59,6 @@ public class SearchManagerTest {
     }
 
     static class People {
-        public People() {}
         People(String name, int age, boolean male, double money) {
             this.name = name;
             this.age = age;

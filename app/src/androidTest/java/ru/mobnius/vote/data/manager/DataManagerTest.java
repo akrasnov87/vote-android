@@ -43,7 +43,6 @@ public class DataManagerTest extends ManagerGenerate {
         dataManager = DataManager.createInstance(getDaoSession());
         BasicCredentials credentials = new BasicCredentials("inspector", "");
         fileManager = FileManager.createInstance(credentials, getContext());
-        fileManager.clearUserFolder();
 
         RouteTypes routeType = new RouteTypes();
         routeType.id = (long)1;
@@ -394,6 +393,5 @@ public class DataManagerTest extends ManagerGenerate {
     @After
     public void tearDown() {
         getDaoSession().getRouteTypesDao().deleteAll();
-        fileManager.clearUserFolder();
     }
 }

@@ -14,11 +14,6 @@ public interface OnVoteListener extends GeoManager.GeoListener {
     VoteManager getVoteManager();
 
     /**
-     * Управление данными
-     */
-    DataManager getDataManager();
-
-    /**
      * Идент. маршрута
      */
     String getRouteId();

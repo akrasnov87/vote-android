@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.storage.models.DaoSession;

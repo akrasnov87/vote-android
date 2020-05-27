@@ -102,9 +102,11 @@ public class RPCResult {
                         } else {
                             records.records = new JSONObject[0];
                         }
-                    }catch (Exception e){
-                        String errorMessage = resultJSONObject.getString("records");
+                    }catch (Exception e) {
                         records.records = new JSONObject[0];
+                        result.meta = new RPCResultMeta();
+                        result.meta.success = false;
+                        result.meta.msg = resultJSONObject.getString("records");
                     }
                     result.result = records;
 

@@ -1,26 +1,19 @@
 package ru.mobnius.vote;
 
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
 public abstract class ManagerGenerate extends DbGenerate {
-    private final DataManager mDataManager;
     private final FileManager mFileManager;
 
     protected ManagerGenerate() {
         super();
 
-        mDataManager = DataManager.createInstance(getDaoSession());
+        DataManager.createInstance(getDaoSession());
         BasicCredentials credentials = getCredentials();
         mFileManager = FileManager.createInstance(credentials, getContext());
-    }
-
-
-    public DataManager getDataManager() {
-        return mDataManager;
     }
 
     protected FileManager getFileManager() {

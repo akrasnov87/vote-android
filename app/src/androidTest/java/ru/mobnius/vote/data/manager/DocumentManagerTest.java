@@ -41,7 +41,6 @@ public class DocumentManagerTest extends ManagerGenerate implements OnVoteListen
         getDaoSession().getResultsDao().deleteAll();
         getDaoSession().getUserPointsDao().deleteAll();
         getDaoSession().getPointTypesDao().deleteAll();
-        fileManager.clearUserFolder();
     }
 
     @Test

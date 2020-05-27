@@ -146,16 +146,6 @@ public class SocketManager {
     }
 
     /**
-     * Подключение к сокет серверу доступно
-     * @return true - подключение доступно
-     */
-    public boolean isConnected(){
-        if(socket!= null)
-            return socket.connected();
-        return false;
-    }
-
-    /**
      * Закрытие подключения
      */
     private void close(){

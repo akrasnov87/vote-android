@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
@@ -49,7 +48,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         if(manualSynchronization != null){
             return manualSynchronization;
         }else{
-            return manualSynchronization = new ManualSynchronization(DataManager.getInstance().getDaoSession(), FileManager.getInstance(), zip);
+            return manualSynchronization = new ManualSynchronization(DataManager.getInstance().getDaoSession(), zip);
         }
     }
 
@@ -59,9 +58,8 @@ public class ManualSynchronization extends WebSocketSynchronization {
     /**
      * конструктор
      * @param session сессия для подключения к БД
-     * @param fileManager файловый менеджер
      */
-    ManualSynchronization(DaoSession session, FileManager fileManager, boolean zip) {
+    ManualSynchronization(DaoSession session, boolean zip) {
         super(session, "MANUAL_SYNCHRONIZATION", zip);
         oneOnlyMode = true;
         serverSidePackage = new FullServerSidePackage();

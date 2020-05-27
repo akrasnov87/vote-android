@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,6 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.manager.FileManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -234,14 +232,6 @@ public class SynchronizationActivity extends BaseActivity
 
                 @Override
                 public void onStop(ISynchronization synchronization) {
-                    if (synchronization.getFinishStatus() == FinishStatus.SUCCESS) {
-
-                        try {
-                            FileManager.getInstance().deleteFolder(FileManager.CACHES);
-                        } catch (FileNotFoundException e) {
-                            Logger.error(e);
-                        }
-                    }
                     mTransferFragments.clear();
                 }
 

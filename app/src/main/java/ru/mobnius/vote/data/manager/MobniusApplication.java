@@ -70,21 +70,6 @@ public class MobniusApplication extends android.app.Application implements IExce
     public void onAuthorized(int type) {
         BasicCredentials credentials = Authorization.getInstance().getUser().getCredentials();
         PreferencesManager.createInstance(this, credentials.login);
-        FileManager fileManager = FileManager.createInstance(credentials, this);
-
-        // создаем директории для хранения изображений
-        File dir = fileManager.getTempPictureFolder();
-        if (!dir.exists()) {
-            if(!dir.mkdirs()) {
-                Logger.error(new Exception("Ошибка создания каталога"));
-            }
-        }
-        dir = fileManager.getAttachmentsFolder();
-        if (!dir.exists()) {
-            if(!dir.mkdirs()) {
-                Logger.error(new Exception("Ошибка создания каталога"));
-            }
-        }
 
         DaoSession daoSession = new DaoMaster(new DbOpenHelper(this, credentials.login + ".db").getWritableDb()).newSession();
 
@@ -124,7 +109,6 @@ public class MobniusApplication extends android.app.Application implements IExce
         } else {
             Authorization.getInstance().reset();
         }
-        FileManager.getInstance().destroy();
         SocketManager.getInstance().destroy();
         PreferencesManager.getInstance().destroy();
     }

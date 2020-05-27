@@ -595,10 +595,6 @@ public class DataManager {
         return null;
     }
 
-    public void destroy() {
-        dataManager = null;
-    }
-
     /**
      * Фильтрация маршрутов
      */

@@ -114,7 +114,7 @@ public class Entity implements IEntity {
      * @param select список
      * @return текущая сущность
      */
-    public Entity setSelect(String ...select){
+    public Entity setSelect(String ...select) {
         this.select = TextUtils.join(", ", select);
         return this;
     }
@@ -143,7 +143,7 @@ public class Entity implements IEntity {
      * @param filters фильтры
      * @return текущий объект
      */
-    public Entity setFilters(Object ...filters){
+    public Entity setFilters(Object ...filters) {
         this.filters = filters;
         return this;
     }

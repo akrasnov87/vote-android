@@ -75,7 +75,7 @@ public class DocumentManager {
         long userPointTypeId;
         String type = "STANDART";
 
-        List<PointTypes> pointTypes = mVoteListener.getDataManager().getDaoSession().getPointTypesDao().queryBuilder().where(PointTypesDao.Properties.C_const.eq(type)).list();
+        List<PointTypes> pointTypes = DataManager.getInstance().getDaoSession().getPointTypesDao().queryBuilder().where(PointTypesDao.Properties.C_const.eq(type)).list();
         if(pointTypes.size() > 0) {
             userPointTypeId = pointTypes.get(0).id;
         } else {
@@ -120,6 +120,6 @@ public class DocumentManager {
     }
 
     private DaoSession getDaoSession() {
-        return mVoteListener.getDataManager().getDaoSession();
+        return DataManager.getInstance().getDaoSession();
     }
 }
