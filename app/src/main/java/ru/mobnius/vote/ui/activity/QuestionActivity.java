@@ -50,8 +50,6 @@ public class QuestionActivity extends BaseFormActivity
     private String pointID;
     private long mCurrentQuestionID;
 
-    private MenuItem mActionGeo;
-
     /**
      * Создание нового результата
      *
@@ -67,13 +65,14 @@ public class QuestionActivity extends BaseFormActivity
     }
 
     @Override
-    protected Fragment createFragment() {
-        return VoteItemFragment.createInstance();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.master_container);
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .add(R.id.single_fragment_container, VoteItemFragment.createInstance())
+                .commit();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -91,8 +90,8 @@ public class QuestionActivity extends BaseFormActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_choice_document, menu);
-        mActionGeo = menu.findItem(R.id.choiceDocument_Geo);
-        mActionGeo.setVisible(!isDone());
+        MenuItem actionGeo = menu.findItem(R.id.choiceDocument_Geo);
+        actionGeo.setVisible(!isDone());
         actionMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }

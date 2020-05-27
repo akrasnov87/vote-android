@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import android.text.format.Formatter;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -17,7 +16,6 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.TimerTask;
 
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.MobileIndicators;
@@ -47,7 +45,7 @@ class TelemetryTimerTask extends TimerTask {
         assert manager != null;
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
-        mobileIndicators.b_isonline = NetworkUtil.requestStatus(mContext).onLine;
+        mobileIndicators.b_isonline = NetworkUtil.isNetworkAvailable(mContext);
         if(networkInfo != null) {
             mobileIndicators.c_network_type = Objects.requireNonNull(networkInfo).getSubtypeName();
         }

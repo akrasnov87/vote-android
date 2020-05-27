@@ -126,19 +126,13 @@ public class LoginFragment extends BaseFragment
     @Override
     public void onStart() {
         super.onStart();
-
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().addNetworkChangeListener(this);
-        }
+        getApplication().addNetworkChangeListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        if (getNetworkChangeListener() != null) {
-            getNetworkChangeListener().removeNetworkChangeListener(this);
-        }
+        getApplication().removeNetworkChangeListener(this);
     }
 
     private void onVersionClick() {
@@ -366,17 +360,5 @@ public class LoginFragment extends BaseFragment
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
-    }
-
-    /**
-     * Получение обработчика изменения сети
-     * @return обработчик
-     */
-    private MobniusApplication getNetworkChangeListener() {
-        if(getApplication() instanceof OnNetworkChangeListener){
-            return (MobniusApplication) getApplication();
-        }
-
-        return null;
     }
 }

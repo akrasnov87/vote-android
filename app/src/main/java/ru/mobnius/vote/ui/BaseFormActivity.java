@@ -9,10 +9,11 @@ import android.view.Menu;
 import androidx.annotation.NonNull;
 
 import java.util.Date;
-import ru.mobnius.vote.data.manager.GeoManager;
-import ru.mobnius.vote.ui.activity.SingleFragmentActivity;
 
-public abstract class BaseFormActivity extends SingleFragmentActivity
+import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.GeoManager;
+
+public abstract class BaseFormActivity extends BaseActivity
         implements GeoManager.GeoListener {
     private GeoManager mGeoManager;
 

@@ -296,7 +296,6 @@ public class DataManager {
                     pointItem.done = pointState.isDone();
                     pointItem.sync = pointState.isSync();
                     pointItem.color = pointState.getColor();
-                    pointItem.bgColor = pointState.getBgColor();
                 }
 
                 RegistrPts registrPts = point.getRegistrPts();
@@ -351,9 +350,8 @@ public class DataManager {
                 for(Results result : results) {
                     Answer answer = result.getAnswer();
                     if(answer != null) {
-                        pointState.setBgColor(answer.c_color);
+                        pointState.setColor(answer.c_color);
                     }
-                    pointState.setColor("#000000");
 
                     if(!result.isSynchronization) {
                         return pointState;

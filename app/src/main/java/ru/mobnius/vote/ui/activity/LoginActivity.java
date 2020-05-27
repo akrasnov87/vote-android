@@ -29,7 +29,7 @@ public class LoginActivity extends BaseActivity {
         return new Intent(context, LoginActivity.class);
     }
 
-    public static void setLoginFragment(AppCompatActivity context) {
+    private static void setLoginFragment(AppCompatActivity context) {
         context.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.single_fragment_container, LoginFragment.newInstance())

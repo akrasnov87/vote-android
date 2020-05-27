@@ -19,6 +19,7 @@ public class SingleItemQuery {
     /**
      * дополнительные параметры. Применяется для вызова одиночных метод
      */
+    @SuppressWarnings("MismatchedReadAndWriteOfArray")
     @Expose
     private final Object[] params;
 

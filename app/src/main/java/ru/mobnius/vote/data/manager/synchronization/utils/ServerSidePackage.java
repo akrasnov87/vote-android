@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-import ru.mobnius.vote.data.manager.packager.FileBinary;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
 import ru.mobnius.vote.data.storage.FieldNames;
 import ru.mobnius.vote.data.storage.models.DaoSession;

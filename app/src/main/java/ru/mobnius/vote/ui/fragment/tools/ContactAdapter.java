@@ -16,7 +16,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
     private final ContactHolder.OnContactItemListener mListener;
     private final Context mContext;
     private final ArrayList<ContactItem> mContacts;
-    private boolean mIsDone;
+    private final boolean mIsDone;
 
     public ContactAdapter(Context context, ArrayList<ContactItem> contacts, boolean isDone, ContactHolder.OnContactItemListener listener) {
         mContacts = contacts;

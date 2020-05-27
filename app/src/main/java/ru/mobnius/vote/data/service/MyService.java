@@ -11,13 +11,9 @@ import java.util.Date;
 import java.util.Timer;
 
 import ru.mobnius.vote.data.BaseService;
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DbOperationType;
-import ru.mobnius.vote.data.manager.MailManager;
-import ru.mobnius.vote.data.manager.SocketManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.data.manager.mail.DeviceMail;
 import ru.mobnius.vote.data.manager.synchronization.ServiceSynchronization;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.MobileDevices;
@@ -138,7 +134,7 @@ public class MyService extends BaseService {
     /**
      * записывает информацию об устройстве
      */
-    private void writeDeviceInfo(){
+    private void writeDeviceInfo() {
         DaoSession daoSession = getDaoSession();
         MobileDevices mobileDevices = new MobileDevices();
         mobileDevices.b_debug = PreferencesManager.getInstance().isDebug();
@@ -153,16 +149,5 @@ public class MyService extends BaseService {
 
         mobileDevices.setObjectOperationType(DbOperationType.CREATED);
         daoSession.getMobileDevicesDao().insert(mobileDevices);
-
-        SocketManager socketManager = SocketManager.getInstance();
-        // отправляем информаци на сервер
-        if(socketManager != null && socketManager.isRegistered()){
-            try {
-                //noinspection RedundantCast
-                socketManager.getSocket().emit("deviceinfo", (Object) MailManager.send(new DeviceMail(mobileDevices)));
-            }catch (Exception e){
-                Logger.error(e);
-            }
-        }
     }
 }

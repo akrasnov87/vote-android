@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import ru.mobnius.vote.data.Network;
-
 public class NetworkUtil {
 
     /**
@@ -25,17 +23,5 @@ public class NetworkUtil {
             isAvailable = true;
         }
         return isAvailable;
-    }
-
-    /**
-     * Запрашивает статус соединения с сетью
-     */
-    public static Network requestStatus(Context context){
-        ru.mobnius.vote.data.manager.SocketManager socketManager = ru.mobnius.vote.data.manager.SocketManager.getInstance();
-        boolean socket = false;
-        if(socketManager != null)
-            socket = socketManager.isConnected();
-
-        return new Network(NetworkUtil.isNetworkAvailable(context), socket);
     }
 }

@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import java.io.IOException;
 
 import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.data.Network;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 /**
@@ -18,13 +17,13 @@ import ru.mobnius.vote.utils.NetworkUtil;
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
     private Context mContext;
-    private Network mNetwork;
+    private boolean mIsOnline;
     private ExistsAsync mExistsAsync;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
-        mNetwork = NetworkUtil.requestStatus(context);
+        mIsOnline = NetworkUtil.isNetworkAvailable(context);
 
         if(context instanceof OnNetworkChangeListener) {
             if(mExistsAsync != null && !mExistsAsync.isCancelled()) {
@@ -41,7 +40,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean serverExists = false;
-            if(mNetwork.onLine) {
+            if(mIsOnline) {
                 try {
                     serverExists = RequestManager.exists(MobniusApplication.getBaseUrl()) != null;
                 } catch (IOException e) {
@@ -53,7 +52,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            ((OnNetworkChangeListener)mContext).onNetworkChange(mNetwork.onLine, aBoolean);
+            ((OnNetworkChangeListener)mContext).onNetworkChange(mIsOnline, aBoolean);
         }
     }
 }

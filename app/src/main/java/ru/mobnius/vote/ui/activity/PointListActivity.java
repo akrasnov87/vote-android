@@ -122,7 +122,7 @@ public class PointListActivity extends BaseActivity
     }
 
     private void searchResult(String query) {
-        if (query.equals(JsonUtil.EMPTY)) {
+        if (JsonUtil.isEmpty(query)) {
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         } else {
             PointSearchManager pointSearchManager = new PointSearchManager();

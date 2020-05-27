@@ -7,11 +7,7 @@ import android.os.Bundle;
 
 import java.util.Date;
 
-import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DbOperationType;
-import ru.mobnius.vote.data.manager.MailManager;
-import ru.mobnius.vote.data.manager.SocketManager;
-import ru.mobnius.vote.data.manager.mail.GeoMail;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Tracking;
 import ru.mobnius.vote.utils.DateUtil;
@@ -50,20 +46,11 @@ class TrackingLocationListener implements LocationListener {
         tracking.objectOperationType = DbOperationType.CREATED;
 
         mDaoSession.getTrackingDao().insert(tracking);
-
-        // отправляем текущее местоположение пользователя
-        SocketManager socketManager = SocketManager.getInstance();
-        if(socketManager != null && socketManager.isRegistered()) {
-            //noinspection RedundantCast
-            socketManager.getSocket().emit("tracking", (Object) MailManager.send(new GeoMail(tracking)));
-        }
-
-        //Logger.debug(location.getLatitude() + ":" + location.getLongitude());
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        //Logger.debug("Network provider: " + provider + "(" + status + ")");
+
     }
 
     @Override

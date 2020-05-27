@@ -14,7 +14,7 @@ public class SingleItemQueryTest {
 
     @Test
     public void toJsonString() {
-        SingleItemQuery item = new SingleItemQuery(new Path("readme.md", ".md"));
+        SingleItemQuery item = new SingleItemQuery(new Path());
         String str = item.toJsonString();
         assertEquals(str, "{\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[{\"extension\":\".md\",\"name\":\"readme.md\"}]}");
     }
@@ -23,9 +23,9 @@ public class SingleItemQueryTest {
         final String name;
         final String extension;
 
-        Path(String name, String extension) {
-            this.name = name;
-            this.extension = extension;
+        Path() {
+            this.name = "readme.md";
+            this.extension = ".md";
         }
     }
 }

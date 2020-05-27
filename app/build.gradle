@@ -1,3 +1,5 @@
+//noinspection DuplicatePlatformClasses
+//noinspection DuplicatePlatformClasses
 import java.text.DecimalFormat
 
 apply plugin: 'com.android.application'

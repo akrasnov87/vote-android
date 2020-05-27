@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
+@SuppressWarnings("unused")
 @Entity(nameInDb = "ed_registr_pts")
 public class RegistrPts {
     /**

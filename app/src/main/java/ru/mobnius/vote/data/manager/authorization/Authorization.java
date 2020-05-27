@@ -23,7 +23,6 @@ public class Authorization {
 
     private final AuthorizationCache mAuthorizationCache;
     private final AuthorizationRequestUtil mRequestUtil;
-    private AuthAsyncTask mAuthAsyncTask;
 
     private ICallback mICallback;
 
@@ -96,8 +95,8 @@ public class Authorization {
     public void onSignIn(String login, String password, int mode, ICallback callback) {
         mICallback = callback;
         if(mode == ONLINE) {
-            mAuthAsyncTask = new AuthAsyncTask();
-            mAuthAsyncTask.execute(login, password);
+            AuthAsyncTask authAsyncTask = new AuthAsyncTask();
+            authAsyncTask.execute(login, password);
         } else {
             BasicUser basicUser = mAuthorizationCache.read(login);
             if(basicUser != null) {

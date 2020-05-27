@@ -6,9 +6,6 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URISyntaxException;
 
 import ru.mobnius.vote.data.Logger;
@@ -30,8 +27,6 @@ public class SocketManager {
      * Событие не авторизации
      */
     private final static String EVENT_NOT_AUTH = "not_auth";
-    private final static String EVENT_MAIL_FROM = "mailer-from";
-    private final static String EVENT_GROUP_MAIL_FROM = "mailer-group-from";
     private static SocketManager socketManager;
 
     private Socket socket;
@@ -99,9 +94,8 @@ public class SocketManager {
 
     /**
      * Открытие подключения к серверу
-     * @param notification обработчик уведомлений
      */
-    public void open(final ISocketNotification notification) {
+    public void open() {
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -113,20 +107,6 @@ public class SocketManager {
             @Override
             public void call(Object... args) {
                 isRegistry = true;
-            }
-        });
-
-        socket.on(EVENT_MAIL_FROM, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                notification.onNotificationMessage(EVENT_MAIL_FROM, (byte[])args[0]);
-            }
-        });
-
-        socket.on(EVENT_GROUP_MAIL_FROM, new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                notification.onNotificationMessage(EVENT_GROUP_MAIL_FROM, (byte[])args[0]);
             }
         });
 

@@ -3,5 +3,6 @@
     <base-config cleartextTrafficPermitted="false" />
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">kes.it-serv.ru</domain>
+        <domain includeSubdomains="true">192.168.1.68</domain>
     </domain-config>
 </network-security-config>

@@ -29,7 +29,7 @@ public abstract class SearchManager<T> extends FilterManager<T> {
      * @param key         ключ
      * @param deSerialize строка для обработки
      */
-    protected SearchManager(String key, String deSerialize) {
+    SearchManager(String key, String deSerialize) {
         super(key, deSerialize);
     }
 

@@ -1,7 +1,5 @@
 package ru.mobnius.vote.utils;
 
-import android.content.Context;
-
 import java.util.Date;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;

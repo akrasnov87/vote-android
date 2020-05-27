@@ -19,7 +19,7 @@ import ru.mobnius.vote.R;
 public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
-    private boolean mIsBackToExist;
+    private final boolean mIsBackToExist;
 
     private final int REQUEST_PERMISSIONS = 1;
     private int mPermissionLength = 0;

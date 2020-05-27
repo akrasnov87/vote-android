@@ -82,21 +82,6 @@ public class PackageUtil {
     /**
      * Чтение блока со строковыми данными
      * @param bytes массив байтов
-     * @return объект с информацией о запросах
-     */
-    public static String readString(byte[] bytes, boolean zip) throws Exception {
-        MetaSize metaSize = PackageUtil.readSize(bytes);
-        MetaPackage aPackage = PackageUtil.readMeta(bytes, zip);
-        int start = MetaSize.MAX_LENGTH + metaSize.metaSize;
-        int end = start + aPackage.stringSize;
-        byte[] temp = Arrays.copyOfRange(bytes, start, end);
-
-        return getString(temp, zip);
-    }
-
-    /**
-     * Чтение блока со строковыми данными
-     * @param bytes массив байтов
      * @param blockName иям блока для обработки
      * @param zip архивирование
      * @return объект с информацией о запросах
@@ -110,38 +95,6 @@ public class PackageUtil {
 
         JSONObject obj = new JSONObject(getString(temp, zip));
         return RPCResult.createInstance(obj.getString(blockName));
-    }
-
-    /**
-     * Чтение блока с бинарными данными
-     * @param bytes массив байтов
-     * @param zip архивирование
-     * @return объект с информацией о вложених
-     */
-    public static BinaryBlock readBinaryBlock(byte[] bytes, boolean zip) throws Exception {
-        MetaSize metaSize = PackageUtil.readSize(bytes);
-        MetaPackage aPackage = PackageUtil.readMeta(bytes, zip);
-
-        int start = MetaSize.MAX_LENGTH + metaSize.metaSize + aPackage.stringSize;
-        int end = start + aPackage.binarySize;
-
-        BinaryBlock binaryBlock = new BinaryBlock();
-
-        if(start == end)
-            return binaryBlock;
-        else{
-            byte[] temp = Arrays.copyOfRange(bytes, start, end);
-            MetaAttachment[] attachments = aPackage.attachments;
-            int idx = 0;
-            for (MetaAttachment attachment : attachments) {
-                byte[] t = new byte[attachment.size];
-                System.arraycopy(temp, idx, t, 0, attachment.size);
-                idx += attachment.size;
-                binaryBlock.add(attachment.name, attachment.key, t);
-            }
-
-            return binaryBlock;
-        }
     }
 
     /**
