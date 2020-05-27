@@ -179,7 +179,7 @@ public class SettingActivity extends BaseActivity {
                 case PreferencesManager.APP_VERSION:
                     clickToVersion++;
                     if (clickToVersion >= 6) {
-                        PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.DEBUG, true).apply();
+                        PreferencesManager.getInstance().setDebug(true);
                         spDebug.setChecked(true);
                         spDebug.setEnabled(true);
                         pCreateError.setVisible(true);
@@ -204,7 +204,7 @@ public class SettingActivity extends BaseActivity {
                     boolean debugValue = Boolean.parseBoolean(String.valueOf(newValue));
                     spDebug.setSummary(String.format(debugSummary, debugValue ? "включен" : "отключен"));
                     spDebug.setEnabled(debugValue);
-                    PreferencesManager.getInstance().getSharedPreferences().edit().putBoolean(PreferencesManager.DEBUG, debugValue).apply();
+                    PreferencesManager.getInstance().setDebug(debugValue);
                     pCreateError.setVisible(debugValue);
                     break;
 

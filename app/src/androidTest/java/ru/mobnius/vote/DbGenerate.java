@@ -19,10 +19,6 @@ public abstract class DbGenerate {
         String dbName = getClass().getName();
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         mDaoSession = new DaoMaster(new DbOpenHelper(mContext, dbName).getWritableDb()).newSession();
-
-        // очистить все таблицы в БД можно еще вот так вот
-        //DaoMaster.dropAllTables(getDaoSession("").getDatabase(), true);
-        //DaoMaster.createAllTables(getDaoSession("").getDatabase(), true);
     }
 
     /**

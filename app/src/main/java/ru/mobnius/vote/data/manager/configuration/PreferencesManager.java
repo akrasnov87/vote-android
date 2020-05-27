@@ -39,6 +39,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(DEBUG);
     }
 
+    public void setDebug(boolean value) {
+        getSharedPreferences().edit().putBoolean(DEBUG, value).apply();
+    }
+
     public boolean isPinAuth() {
         return getDefaultBooleanValue(PIN);
     }
@@ -56,10 +60,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
     }
 
     public boolean isGeoCheck() { return getDefaultBooleanValue(MBL_GEO_CHECK); }
-
-    public void setGeoCheck(boolean value) {
-        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_GEO_CHECK, value).apply();
-    }
 
     /**
      * Устновка фильтра

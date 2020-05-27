@@ -2,6 +2,8 @@ package ru.mobnius.vote.utils;
 
 import java.util.Date;
 
+import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.storage.models.Audits;
@@ -25,12 +27,12 @@ public class AuditUtils {
      */
     public static void write(String message, String type, Level level) {
         boolean isDebug = PreferencesManager.getInstance().isDebug();
-        DaoSession daoSession = ru.mobnius.vote.data.manager.DataManager.getInstance().getDaoSession();
+        DaoSession daoSession = DataManager.getInstance().getDaoSession();
         if(!isDebug && level == Level.LOW) {
             return;
         }
         Audits audit = new Audits();
-        audit.objectOperationType = ru.mobnius.vote.data.manager.DbOperationType.CREATED;
+        audit.objectOperationType = DbOperationType.CREATED;
         audit.d_date = DateUtil.convertDateToString(new Date());
         audit.fn_user = Authorization.getInstance().getUser().getUserId();
         audit.c_type = type;
