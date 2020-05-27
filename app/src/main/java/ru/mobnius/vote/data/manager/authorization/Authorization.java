@@ -194,16 +194,11 @@ public class Authorization {
         @Override
         protected AuthorizationMeta doInBackground(String... strings) {
             mCredentials = new BasicCredentials(strings[0], strings[1]);
-            /*try {
-                List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(mCredentials);
-                if (configurationSettings != null) {
-                    DefaultPreferencesManager.getInstance().updateSettings(configurationSettings);
-                }
+            try {
+                return mRequestUtil.request(mCredentials.login, mCredentials.password);
             }catch (Exception ignore) {
-
-            }*/
-
-            return mRequestUtil.request(mCredentials.login, mCredentials.password);
+                return new AuthorizationMeta(Meta.ERROR_SERVER, "Ошибка авторизации");
+            }
         }
 
         @Override

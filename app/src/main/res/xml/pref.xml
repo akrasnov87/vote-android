@@ -15,12 +15,6 @@
         android:title="Администрирование">
 
         <Preference
-            android:key="SERVER_APP_VERSION"
-            android:summary="0.0.0.0"
-            android:title="Доступно обновление"
-            app:summary="Информация о доступном обновлении" />
-
-        <Preference
             android:key="MBL_BG_SYNC_INTERVAL"
             android:summary="Интервал синхронизации фоновых данных"
             android:title="Синхронизация" />
@@ -40,6 +34,12 @@
             android:key="MBL_GEO_CHECK"
             android:summary="отключена"
             android:title="Проверка включения гео-данных" />
+
+        <Preference
+            android:key="SERVER_APP_VERSION"
+            android:summary="0.0.0.0"
+            android:title="Доступно обновление"
+            app:summary="Информация о доступном обновлении" />
 
     </PreferenceCategory>
 
