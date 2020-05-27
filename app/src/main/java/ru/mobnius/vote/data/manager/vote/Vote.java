@@ -1,8 +1,10 @@
 package ru.mobnius.vote.data.manager.vote;
 
-public class Vote {
-    public final long answerId;
-    public final long questionId;
+import java.io.Serializable;
+
+public class Vote implements Serializable {
+    public long answerId;
+    public long questionId;
 
     private String mComment;
     private String mJbTel;

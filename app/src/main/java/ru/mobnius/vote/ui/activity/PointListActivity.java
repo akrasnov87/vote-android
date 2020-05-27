@@ -102,11 +102,7 @@ public class PointListActivity extends BaseActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.route_and_point_setSort) {
             item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
-            if (mPreferencesManager.getSort()) {
-                PreferencesManager.getInstance().setSort(false);
-            } else {
-                PreferencesManager.getInstance().setSort(false);
-            }
+            PreferencesManager.getInstance().setSort(!mPreferencesManager.getSort());
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         }
         if (item.getItemId() == android.R.id.home) {

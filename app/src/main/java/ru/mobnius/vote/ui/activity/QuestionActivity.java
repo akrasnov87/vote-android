@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.jar.Attributes;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.Names;
@@ -41,6 +42,10 @@ import ru.mobnius.vote.utils.AuditUtils;
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
 
+    private static final String ANSWER_ID = "answer_id";
+    private static final String QUESTION_ID = "question_id";
+    private static final String VOTE = "vote";
+
     private static final String TAG = "QUESTIONS";
     private Menu actionMenu;
     private VoteManager mVoteManager;
@@ -49,6 +54,7 @@ public class QuestionActivity extends BaseFormActivity
     private String routeID;
     private String pointID;
     private long mCurrentQuestionID;
+    private long mLastAnswerID = -1;
 
     /**
      * Создание нового результата
@@ -76,14 +82,23 @@ public class QuestionActivity extends BaseFormActivity
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        pointID = getIntent().getStringExtra(Names.POINT_ID);
-        routeID = getIntent().getStringExtra(Names.ROUTE_ID);
-
         Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra(Names.NAME));
         Objects.requireNonNull(getSupportActionBar()).setSubtitle(getIntent().getStringExtra(Names.ADDRESS));
 
         mDocumentManager = new DocumentManager(this);
-        mVoteManager = new VoteManager();
+
+        if(savedInstanceState == null) {
+            pointID = getIntent().getStringExtra(Names.POINT_ID);
+            routeID = getIntent().getStringExtra(Names.ROUTE_ID);
+            mVoteManager = new VoteManager();
+            AuditUtils.write(pointID, AuditUtils.VOTE, AuditUtils.Level.LOW);
+        } else {
+            pointID = savedInstanceState.getString(Names.POINT_ID);
+            routeID = savedInstanceState.getString(Names.ROUTE_ID);
+            mVoteManager = (VoteManager)savedInstanceState.getSerializable(VOTE);
+            mCurrentQuestionID = savedInstanceState.getLong(QUESTION_ID);
+            mLastAnswerID = savedInstanceState.getLong(ANSWER_ID);
+        }
     }
 
     @Override
@@ -120,12 +135,22 @@ public class QuestionActivity extends BaseFormActivity
             List<Results> results = dataManager.getPointResults(pointID);
             // задание ранее выполнялось
             mVoteManager.importFromResult(results.toArray(new Results[0]));
-        } else {
-            AuditUtils.write(pointID, AuditUtils.VOTE, AuditUtils.Level.LOW);
         }
 
         Question question = DataManager.getInstance().getQuestions()[0];
-        onShowQuestion(question.id, -1);
+        onShowQuestion(mCurrentQuestionID > 0 ? mCurrentQuestionID : question.id,
+                mLastAnswerID > 0 ? mLastAnswerID : -1);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(Names.ROUTE_ID, routeID);
+        outState.putString(Names.POINT_ID, pointID);
+        outState.putLong(QUESTION_ID, mCurrentQuestionID);
+        outState.putSerializable(VOTE, mVoteManager);
+        outState.putLong(ANSWER_ID, mLastAnswerID);
     }
 
     @Override
@@ -193,7 +218,6 @@ public class QuestionActivity extends BaseFormActivity
         onAnswerCommand(Command.NONE, answer, null);
     }
 
-
     @Override
     public void onBackPressed() {
         long lastQuestionID = isDone() ? mVoteManager.getPrevQuestionID(mCurrentQuestionID) : mVoteManager.getLastQuestionID();
@@ -252,6 +276,7 @@ public class QuestionActivity extends BaseFormActivity
      * @param questionID иден. вопроса
      */
     private void onShowQuestion(long questionID, long lastAnswerId) {
+        mLastAnswerID = lastAnswerId;
         mCurrentQuestionID = questionID;
         long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
         getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID, lastAnswerId);
