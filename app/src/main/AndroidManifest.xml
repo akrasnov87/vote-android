@@ -52,7 +52,9 @@
         <activity
             android:name=".ui.activity.SynchronizationActivity"
             android:label="@string/synchronization"
-            android:parentActivityName=".ui.activity.RouteListActivity"/>
+            android:parentActivityName=".ui.activity.RouteListActivity"
+            android:screenOrientation="locked"/>
+
         <activity
             android:name=".ui.activity.QuestionActivity" />
 
