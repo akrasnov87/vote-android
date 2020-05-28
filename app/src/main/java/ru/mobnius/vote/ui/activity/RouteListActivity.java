@@ -86,7 +86,7 @@ public class RouteListActivity extends BaseActivity implements
         View headerLayout = navigationView.getHeaderView(0);
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
         ProfileItem profile = DataManager.getInstance().getProfile();
-        if(profile != null) {
+        if (profile != null) {
             tvDescription.setText(profile.fio);
             tvDescription.setVisibility(View.VISIBLE);
         } else {
@@ -152,7 +152,7 @@ public class RouteListActivity extends BaseActivity implements
         inflater.inflate(R.menu.menu_route, menu);
 
         MenuItem filterIcon = menu.findItem(R.id.action_route_filters);
-        boolean isFilter  = PreferencesManager.getInstance().getFilter();
+        boolean isFilter = PreferencesManager.getInstance().getFilter();
         filterIcon.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
         return super.onCreateOptionsMenu(menu);
     }
@@ -180,7 +180,7 @@ public class RouteListActivity extends BaseActivity implements
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        if(which == DialogInterface.BUTTON_POSITIVE) {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
             ((MobniusApplication) getApplication()).unAuthorized(true);
 
             startActivity(LoginActivity.getIntent(this));
@@ -196,7 +196,7 @@ public class RouteListActivity extends BaseActivity implements
             List<RouteItem> undoneRoutes = new ArrayList<>();
             for (RouteItem route : routes) {
                 int done = DataManager.getInstance().getCountDonePoints(route.id);
-                if(route.count != done) {
+                if (route.count != done) {
                     undoneRoutes.add(route);
                 }
             }
@@ -207,16 +207,30 @@ public class RouteListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLocationAvailable(boolean enabled) {
-        if(!enabled) {
-            new AlertDialog.Builder(this).setMessage("Для работы приложения необходимо включить доступ к геолокации").setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
-                    RouteListActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                }
-            }).setCancelable(false).show();
+    public void onLocationAvailable(int mode) {
+        switch (mode) {
+            case LocationChecker.LOCATION_OFF:
+                geoAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
+                break;
+            case LocationChecker.LOCATION_ON_LOW_ACCURACY:
+                geoAlert("Включен режим определения геолокации \"По спутникам GPS\". Для корректной работы приложения " +
+                        "необходимо выбрать режим: \"По всем источникам\" или \"По координатам сети\"", "Изменить режим");
+                break;
         }
+    }
+
+    private void geoAlert(String message, String buttonText){
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                        RouteListActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -234,9 +248,10 @@ public class RouteListActivity extends BaseActivity implements
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
+
+            if (VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
                 // тут доступно новая версия
-                String message = "Доступна новая версия"  + s;
+                String message = "Доступна новая версия" + s;
                 MySnackBar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
