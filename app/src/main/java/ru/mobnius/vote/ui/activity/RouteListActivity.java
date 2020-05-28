@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -211,15 +210,16 @@ public class RouteListActivity extends BaseActivity implements
     public void onLocationAvailable(int mode) {
         switch (mode) {
             case LocationChecker.LOCATION_OFF:
-                geolocationAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
+                geoAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
                 break;
             case LocationChecker.LOCATION_ON_LOW_ACCURACY:
-                geolocationAlert("Включен режим определения геолокации \"По спутникам GPS\". Для корректной работы приложения " +
+                geoAlert("Включен режим определения геолокации \"По спутникам GPS\". Для корректной работы приложения " +
                         "необходимо выбрать режим: \"По всем источникам\" или \"По координатам сети\"", "Изменить режим");
                 break;
         }
     }
-    private void geolocationAlert(String message, String buttonText){
+
+    private void geoAlert(String message, String buttonText){
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
