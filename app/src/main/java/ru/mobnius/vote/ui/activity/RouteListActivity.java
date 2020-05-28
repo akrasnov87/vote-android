@@ -209,17 +209,13 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     public void onLocationAvailable(boolean enabled) {
         if(!enabled) {
-            new AlertDialog.Builder(this)
-                    .setMessage("Для работы приложения необходимо включить доступ к геолокации")
-                    .setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+            new AlertDialog.Builder(this).setMessage("Для работы приложения необходимо включить доступ к геолокации").setPositiveButton("Включить геолокацию", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 
-                            RouteListActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
+                    RouteListActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
+            }).setCancelable(false).show();
         }
     }
 
@@ -238,7 +234,6 @@ public class RouteListActivity extends BaseActivity implements
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             if(VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
                 // тут доступно новая версия
                 String message = "Доступна новая версия"  + s;
