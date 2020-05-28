@@ -210,9 +210,6 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     public void onLocationAvailable(int mode) {
         switch (mode) {
-            case LocationChecker.HIGH_ACCURACY:
-                Toast.makeText(this, "Геолокация доступна", Toast.LENGTH_SHORT).show();
-                break;
             case LocationChecker.LOCATION_OFF:
                 geolocationAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
                 break;
