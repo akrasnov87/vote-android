@@ -2,6 +2,7 @@ package ru.mobnius.vote.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -67,5 +68,39 @@ public class DateUtil {
      */
     public static int generateTid() {
         return Math.abs((int)((new Date().getTime() - Version.BIRTH_DAY.getTime())));
+    }
+
+    public static String getMonthName(Date date, boolean isFull) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get(Calendar.MONTH)) {
+            case 0:
+                return isFull ? "январь" : "ян";
+            case 1:
+                return isFull ? "февраль" : "фв";
+            case 2:
+                return isFull ? "март" : "мр";
+            case 3:
+                return isFull ? "апрель" : "ап";
+            case 4:
+                return isFull ? "май" : "ма";
+            case 5:
+                return isFull ? "июнь" : "ин";
+            case 6:
+                return isFull ? "июль" : "ил";
+            case 7:
+                return isFull ? "август" : "ав";
+            case 8:
+                return isFull ? "сентябрь" : "сн";
+            case 9:
+                return isFull ? "октябрь" : "ок";
+            case 10:
+                return isFull ? "ноябрь" : "нб";
+            case 11:
+                return isFull ? "декабрь" : "дк";
+
+            default:
+                return "nn";
+        }
     }
 }

@@ -16,7 +16,7 @@
         tools:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fPoint_rvPoints"
+        android:id="@+id/rating_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fPoint_pbRoutesProgress" />

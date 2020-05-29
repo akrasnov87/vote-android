@@ -7,7 +7,6 @@ public class ConfigurationSetting {
     public final static String REAL = "REAL";
     public final static String TEXT = "TEXT";
     public final static String BOOLEAN = "BOOLEAN";
-    public final static String DATE = "DATE";
 
     public ConfigurationSetting() {}
 

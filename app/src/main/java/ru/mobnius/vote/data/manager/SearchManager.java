@@ -2,9 +2,6 @@ package ru.mobnius.vote.data.manager;
 
 
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Field;
 
 import ru.mobnius.vote.ui.model.FilterItem;
@@ -14,23 +11,8 @@ import ru.mobnius.vote.ui.model.FilterItem;
  */
 public abstract class SearchManager<T> extends FilterManager<T> {
 
-    /**
-     * Конструктор
-     *
-     * @param key ключ
-     */
-    protected SearchManager(String key) {
-        super(key);
-    }
-
-    /**
-     * Конструктор
-     *
-     * @param key         ключ
-     * @param deSerialize строка для обработки
-     */
-    SearchManager(String key, String deSerialize) {
-        super(key, deSerialize);
+    protected SearchManager() {
+        super();
     }
 
     /**
@@ -56,10 +38,5 @@ public abstract class SearchManager<T> extends FilterManager<T> {
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
         }
         return append;
-    }
-
-    @Override
-    protected FilterItem getItemObject(JSONObject jsonObject) throws JSONException {
-        return new FilterItem(jsonObject.getString("mName"), jsonObject.getString("mType"), jsonObject.getString("mValue"));
     }
 }

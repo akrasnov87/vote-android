@@ -2,27 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/statistic_appartament_count"
-        style="@style/TextViewMainText"
-        android:text="@string/apartment_count"
+        android:id="@+id/statistic_all_count"
+        style="@style/AppTheme.TextView.Simple"
+        tools:text="@string/appartament_all"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/statistic_appartament_open"
-        style="@style/TextViewMainText"
-        android:text="@string/apartment_open"
+        android:id="@+id/statistic_done_count"
+        style="@style/AppTheme.TextView.Simple"
+        tools:text="@string/appartament_done"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statistic_appartament_count" />
+        app:layout_constraintTop_toBottomOf="@id/statistic_all_count" />
 
     <TextView
-        android:id="@+id/statistic_signature_count"
-        style="@style/TextViewMainText"
-        android:text="@string/signs_received"
+        android:id="@+id/statistic_lost_count"
+        style="@style/AppTheme.TextView.Simple"
+        tools:text="@string/appartament_lost"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statistic_appartament_open" />
+        app:layout_constraintTop_toBottomOf="@id/statistic_done_count" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/statistic_burndown"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statistic_lost_count"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

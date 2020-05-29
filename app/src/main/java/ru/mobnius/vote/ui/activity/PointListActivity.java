@@ -60,7 +60,7 @@ public class PointListActivity extends BaseActivity
         routeId = getIntent().getStringExtra(Names.ROUTE_ID);
         mDataManager = DataManager.getInstance();
         mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);
-        mRecyclerView = findViewById(R.id.fPoint_rvPoints);
+        mRecyclerView = findViewById(R.id.rating_list);
         mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }

@@ -100,6 +100,14 @@ public class Users implements IEntityTo {
         this.b_disabled = b_disabled;
     }
 
+    public Integer getF_uik() {
+        return this.f_uik;
+    }
+
+    public void setF_uik(Integer f_uik) {
+        this.f_uik = f_uik;
+    }
+
     public String getObjectOperationType() {
         return this.objectOperationType;
     }
@@ -215,7 +223,6 @@ public class Users implements IEntityTo {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUsersDao() : null;
     }
-
     /**
      * Идентификатор
      */
@@ -280,6 +287,9 @@ public class Users implements IEntityTo {
     @Expose
     private boolean b_disabled;
 
+    @Expose
+    public Integer f_uik;
+
     /**
      * Тип операции надл объектом
      */
@@ -313,12 +323,12 @@ public class Users implements IEntityTo {
     @Generated(hash = 1073488616)
     private transient UsersDao myDao;
 
-    @Generated(hash = 1432811130)
+    @Generated(hash = 1614103765)
     public Users(Long id, long f_parent, String c_login, String c_firstname,
             String c_lastname, String c_patronymic, String c_email, String c_tel,
-            String c_description, boolean b_disabled, String objectOperationType,
-            boolean isDelete, boolean isSynchronization, String tid,
-            String blockTid) {
+            String c_description, boolean b_disabled, Integer f_uik,
+            String objectOperationType, boolean isDelete, boolean isSynchronization,
+            String tid, String blockTid) {
         this.id = id;
         this.f_parent = f_parent;
         this.c_login = c_login;
@@ -329,6 +339,7 @@ public class Users implements IEntityTo {
         this.c_tel = c_tel;
         this.c_description = c_description;
         this.b_disabled = b_disabled;
+        this.f_uik = f_uik;
         this.objectOperationType = objectOperationType;
         this.isDelete = isDelete;
         this.isSynchronization = isSynchronization;
@@ -339,7 +350,6 @@ public class Users implements IEntityTo {
     @Generated(hash = 2146996206)
     public Users() {
     }
-
     @Generated(hash = 1293412156)
     private transient Long parent__resolvedKey;
 }

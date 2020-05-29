@@ -4,6 +4,8 @@ import android.content.Context;
 
 public class PreferencesManager extends AbstractPreferencesManager {
 
+    private static final String RATING_FILTER_PREFS = "RATING_FILTER_PREFS";
+
     // фильтр
     private static final String ROUTE_FILTER_PREFS = "ROUTE_FILTER_PREFS";
 
@@ -12,7 +14,6 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public final static String SERVER_APP_VERSION = "SERVER_APP_VERSION";
     public final static boolean ZIP_CONTENT = true;
     public final static String SYNC_PROTOCOL = "v1";
-    public final static String MAILER_PROTOCOL = "v1";
     public final static String APP_VERSION = "MBL_APP_VERSION";
     public static final String DEBUG = "MBL_DEBUG";
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
@@ -55,6 +56,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
         return getDefaultBooleanValue(ROUTE_FILTER_PREFS);
     }
 
+    public boolean getRating() {
+        return getDefaultBooleanValue(RATING_FILTER_PREFS);
+    }
+
     public boolean getSort() {
         return getDefaultBooleanValue(POINT_SORT_PREFS);
     }
@@ -67,6 +72,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
      */
     public void setFilter(boolean value) {
         getSharedPreferences().edit().putBoolean(PreferencesManager.ROUTE_FILTER_PREFS, value).apply();
+    }
+
+    public void setRating(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.RATING_FILTER_PREFS, value).apply();
     }
 
     /**

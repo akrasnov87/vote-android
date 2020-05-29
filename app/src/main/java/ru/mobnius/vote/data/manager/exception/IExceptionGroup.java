@@ -5,10 +5,6 @@ package ru.mobnius.vote.data.manager.exception;
  */
 public interface IExceptionGroup {
     /**
-     * Авторизация
-     */
-    String AUTHORIZATION = "AUTH";
-    /**
      * Интерфейс
      */
     String USER_INTERFACE = "UI";
@@ -24,10 +20,6 @@ public interface IExceptionGroup {
      * Фоновые службы
      */
     String SERVICE = "SRV";
-    /**
-     * Модуль: камера, GPS
-     */
-    String HARDWARE = "MDL";
 
     /**
      * На уровне всего приложения

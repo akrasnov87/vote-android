@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- font size -->
-
     <dimen name="size_xxs_8">8dp</dimen>
     <dimen name="size_xs_16">16dp</dimen>
     <dimen name="size_s_24">24dp</dimen>

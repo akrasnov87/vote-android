@@ -45,7 +45,7 @@ public class RPCItemTest {
         query.data[0] = new SingleItemQuery(info);
 
         String str = query.toJsonString();
-        assertEquals(str, "{\"action\":\"setting\",\"data\":[{\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[{\"name\":\""+info.name+"\"}]}],\"method\":\"getMobileSettings\",\"tid\":"+query.tid+",\"type\":\"rpc\"}");
+        assertEquals(str, "{\"action\":\"setting\",\"data\":[{\"filter\":null,\"limit\":"+ BaseSynchronization.MAX_COUNT_IN_QUERY +",\"params\":[{\"name\":\""+info.name+"\"}]}],\"method\":\"getMobileSettings\",\"tid\":"+query.tid+",\"type\":\"rpc\"}");
 
         query.data = null;
         str = query.toJsonString();

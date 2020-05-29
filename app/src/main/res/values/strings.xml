@@ -44,9 +44,9 @@
     <string name="geo">Получение geo-данных</string>
     <string name="no_internet">Нет интернета</string>
     <string name="no_server_connection">Нет соединение с сервером</string>
-    <string name="apartment_count">Всего квартир: %s</string>
-    <string name="apartment_open">Открытых квартир: %s</string>
-    <string name="signs_received">Количество собранных подписей: %s</string>
+    <string name="appartament_all">Всего</string>
+    <string name="appartament_done">Выполнено</string>
+    <string name="appartament_lost">Осталось</string>
     <string name="statistic">Статистика</string>
     <string name="phone_number">Номер телефона</string>
     <string name="clear">Очистить</string>
@@ -76,4 +76,6 @@
     <string name="drop_pin_code">Сбросить пин-код</string>
     <string name="other">Прочее</string>
     <string name="main">Главное</string>
+    <string name="rating">Рейтинг</string>
+    <string name="uik_filters">Фильтрация по УИК</string>
 </resources>

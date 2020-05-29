@@ -11,10 +11,9 @@ import ru.mobnius.vote.ui.model.PointItem;
  * Служебный класс для фильтрации точек маршрута
  */
 public class PointSearchManager extends SearchManager<PointItem> {
-    private static final String KEY = "";
 
     public PointSearchManager() {
-        super(KEY);
+        super();
     }
 
     @Override

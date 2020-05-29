@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:name=".data.manager.MobniusApplication"
@@ -25,45 +25,41 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
-
         <activity
-            android:name="ru.mobnius.vote.ui.activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="@string/appName">
+            android:name=".ui.activity.LoginActivity"
+            android:label="@string/appName"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.RouteListActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Дома"/>
-
+            android:label="Дома"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="@string/settings" />
-
         <activity
             android:name=".ui.activity.PointListActivity"
             android:label="Квартиры" />
-
         <activity
             android:name=".ui.activity.SynchronizationActivity"
             android:label="@string/synchronization"
             android:parentActivityName=".ui.activity.RouteListActivity"
-            android:screenOrientation="locked"/>
-
-        <activity
-            android:name=".ui.activity.QuestionActivity" />
-
+            android:screenOrientation="locked" />
+        <activity android:name=".ui.activity.QuestionActivity" />
         <activity
             android:name=".ui.activity.PointInfoActivity"
-            android:label="@string/general_info"/>
-
-        <activity android:name=".ui.activity.StatisticActivity"
+            android:label="@string/general_info" />
+        <activity
+            android:name=".ui.activity.StatisticActivity"
             android:label="@string/statistic" />
+
+        <activity android:name=".ui.activity.RatingActivity"
+            android:label="@string/rating"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

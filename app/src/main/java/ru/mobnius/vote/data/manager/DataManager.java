@@ -590,6 +590,7 @@ public class DataManager {
         if(user != null) {
             ProfileItem item = new ProfileItem();
             item.fio = user.getFullName();
+            item.uik = user.f_uik;
             return item;
         }
         return null;

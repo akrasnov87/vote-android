@@ -141,10 +141,8 @@ public class ConfigurationSettingUtil {
      * @return Возвращается список настроек
      */
     public static List<ConfigurationSetting> getSettings(BasicCredentials credentials) {
-        String[] params = new String[1];
-        params[0] = "MBL";
         try {
-            RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(), credentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery(params));
+            RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(), credentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery("MBL"));
             if(results[0].isSuccess()) {
                 return getConfigurationSettings(results[0].result.records[0]);
             }

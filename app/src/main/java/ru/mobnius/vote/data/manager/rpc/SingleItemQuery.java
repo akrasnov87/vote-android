@@ -10,16 +10,21 @@ import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
  */
 public class SingleItemQuery {
 
-    public SingleItemQuery(Object obj) {
-        this.params = new Object[1];
-        this.params[0] = obj;
+    public SingleItemQuery(Object... obj) {
+        this.params = obj;
         limit = BaseSynchronization.MAX_COUNT_IN_QUERY;
     }
+
+    public void setFilter(Object[] items) {
+        filter = items;
+    }
+
+    @Expose
+    private Object[] filter;
 
     /**
      * дополнительные параметры. Применяется для вызова одиночных метод
      */
-    @SuppressWarnings("MismatchedReadAndWriteOfArray")
     @Expose
     private final Object[] params;
 

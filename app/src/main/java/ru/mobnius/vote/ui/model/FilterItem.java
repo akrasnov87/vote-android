@@ -2,13 +2,12 @@ package ru.mobnius.vote.ui.model;
 
 import com.google.gson.annotations.Expose;
 
-import ru.mobnius.vote.data.manager.ItemsManager;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
 
 /**
  * Элемент фильтрации
  */
-public class FilterItem implements ItemsManager.IItemManager {
+public class FilterItem {
 
     /**
      * Имя фильтра
@@ -32,7 +31,7 @@ public class FilterItem implements ItemsManager.IItemManager {
     @Expose
     private String mValue;
 
-    public FilterItem(String name, String type, String value) {
+    private FilterItem(String name, String type, String value) {
         mName = name;
         mType = type;
         mValue = value;

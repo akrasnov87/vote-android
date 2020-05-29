@@ -26,10 +26,7 @@ public class RequestManagerTest {
 
     @Test
     public void rpc() throws IOException {
-        String[] params = new String[1];
-        params[0] = "MBL";
-
-        RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(), basicCredentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery(params));
+        RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(), basicCredentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery("MBL"));
 
         assertNotNull(results);
         assertTrue(results[0].isSuccess());

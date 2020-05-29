@@ -17,7 +17,7 @@ public abstract class AbstractPreferencesManager {
         sharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
-    public SharedPreferences getSharedPreferences(){
+    SharedPreferences getSharedPreferences(){
         return sharedPreferences;
     }
 

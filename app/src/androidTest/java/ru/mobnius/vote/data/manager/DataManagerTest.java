@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
-import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.storage.models.Divisions;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.RegistrPts;
@@ -40,7 +39,6 @@ public class DataManagerTest extends ManagerGenerate {
     @Before
     public void setUp() {
         dataManager = DataManager.createInstance(getDaoSession());
-        BasicCredentials credentials = new BasicCredentials("inspector", "");
 
         RouteTypes routeType = new RouteTypes();
         routeType.id = (long)1;

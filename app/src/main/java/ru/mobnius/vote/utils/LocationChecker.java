@@ -2,6 +2,9 @@ package ru.mobnius.vote.utils;
 
 import android.content.Context;
 import android.location.LocationManager;
+
+import java.util.Objects;
+
 import ru.mobnius.vote.data.Logger;
 
 public class LocationChecker {
@@ -12,7 +15,7 @@ public class LocationChecker {
         final Context context = (Context) checker;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         try {
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            if (!Objects.requireNonNull(locationManager).isProviderEnabled(LocationManager.GPS_PROVIDER) && !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 checker.onLocationAvailable(LOCATION_OFF);
             } else {
                 if (!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

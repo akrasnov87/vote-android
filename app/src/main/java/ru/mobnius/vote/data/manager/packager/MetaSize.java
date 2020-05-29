@@ -23,17 +23,9 @@ public class MetaSize {
      */
     public static final int DELIVERED = 1;
     /**
-     * в обработке
-     */
-    public static final int PROCESSING = 2;
-    /**
      * обработан
      */
     public static final int PROCESSED = 3;
-    /**
-     * Не доставлен
-     */
-    public static final int UN_DELIVERED = 8;
     /**
      * обработан с ошибкой
      */

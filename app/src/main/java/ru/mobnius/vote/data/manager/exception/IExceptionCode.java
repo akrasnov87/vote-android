@@ -28,47 +28,13 @@ public interface IExceptionCode {
     int POINTS = 8;
 
     /**
-     * Маршруты
-     */
-    int ROUTES = 9;
-
-    /**
      * синхронизация
      */
     int SYNCHRONIZATION = 10;
-
-    /**
-     * Синхронизация в сервисе
-     */
-    int SYNC_IN_SERVICE = 11;
-
-    /**
-     * Сохранение телеметрии
-     */
-    int SAVE_TELEMETRY = 12;
-
-    /**
-     * хранение трекинга
-     */
-    int SAVE_TRACKING = 13;
-
     /**
      * Форма акта снятия контрольного показания
      */
     int CONTROL_METER_READINGS = 27;
-
-    /**
-     * Добавление фильтров
-     */
-    int FILTER = 30;
-    /**
-     * Сортировка маршрутов
-     */
-    int ROUTE_SORT = 32;
-    /**
-     * Сортировка заданий
-     */
-    int POINT_SORT = 33;
     /**
      * Ввод пин-кода
      */
@@ -80,4 +46,5 @@ public interface IExceptionCode {
     int STATISTIC = 38;
     int COMMENT_DIALOG = 39;
     int CONTACT_DIALOG = 40;
+    int RATING = 41;
 }

@@ -26,8 +26,7 @@ public class SearchManagerTest {
         mList.add(new People("Дима", 30, true, 4500));
         mList.add(new People("Игорь", 33, true, 8500));
 
-        String key = "test";
-        mPeopleSearchManager = new PeopleSearchManager(key);
+        mPeopleSearchManager = new PeopleSearchManager();
         mPeopleSearchManager.addItem(new FilterItem("name", "са"));
         mPeopleSearchManager.addItem(new FilterItem("age", "5"));
     }
@@ -41,8 +40,8 @@ public class SearchManagerTest {
 
     static class PeopleSearchManager extends SearchManager<People> {
 
-        PeopleSearchManager(String key) {
-            super(key);
+        PeopleSearchManager() {
+            super();
         }
 
         @Override
