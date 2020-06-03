@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:textSize="@dimen/high_text_size"
                 android:hint="@string/login"
-                android:inputType="textAutoComplete"
+                android:inputType="none"
                 tools:ignore="Autofill"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

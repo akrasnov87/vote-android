@@ -40,19 +40,6 @@
         tools:text="1806" />
 
     <TextView
-        android:id="@+id/rating_item_area"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/rating_item_uik"
-        app:layout_constraintTop_toBottomOf="@id/rating_item_fio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rating_item_count_today"
-        android:textSize="@dimen/small_text_size"
-        android:textColor="@color/colorHint"
-        tools:text="калининский район" />
-
-    <TextView
         android:id="@+id/rating_item_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

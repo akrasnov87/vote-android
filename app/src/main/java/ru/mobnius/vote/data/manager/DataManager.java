@@ -302,7 +302,6 @@ public class DataManager {
                 if(registrPts != null) {
                     pointItem.address = registrPts.c_address;
                     pointItem.appartament = registrPts.c_appartament_num;
-                    pointItem.fio = registrPts.c_fio;
                     pointItem.info = point.c_info;
                     pointItem.notice = point.c_notice;
                     pointItem.appartamentNumber = registrPts.n_appartament_num;
@@ -589,8 +588,8 @@ public class DataManager {
         Users user = daoSession.getUsersDao().load(Authorization.getInstance().getUser().getUserId());
         if(user != null) {
             ProfileItem item = new ProfileItem();
-            item.fio = user.getFullName();
-            item.uik = user.f_uik;
+            item.fio = StringUtil.correctLogin(user.getC_login(), user.n_uik);
+            item.uik = user.n_uik;
             return item;
         }
         return null;

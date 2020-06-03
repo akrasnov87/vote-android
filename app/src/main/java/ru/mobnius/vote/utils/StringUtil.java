@@ -184,4 +184,8 @@ public class StringUtil {
         e.printStackTrace(new PrintWriter(writer));
         return writer.toString();
     }
+
+    public static String correctLogin(String login, int uik) {
+        return String.format("%s-%s", uik, login.replace(String.valueOf(uik), ""));
+    }
 }

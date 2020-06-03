@@ -14,7 +14,6 @@ public class PointInfo {
      */
     public PointInfo(RegistrPts registrPts) {
         mAppartament = registrPts.c_appartament_num;
-        mFio = registrPts.c_fio;
         mAddress = registrPts.c_address;
     }
 
@@ -22,11 +21,6 @@ public class PointInfo {
      * Номер ЛС
      */
     private final String mAppartament;
-
-    /**
-     * ФИО потребителя
-     */
-    private final String mFio;
 
     /**
      * Адрес
@@ -41,10 +35,6 @@ public class PointInfo {
 
     public void setAddress(String address) {
         mAddress = address;
-    }
-
-    public String getFio() {
-        return mFio;
     }
 
     public String getAppartament() {

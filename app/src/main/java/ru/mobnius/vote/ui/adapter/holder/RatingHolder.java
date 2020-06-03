@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.ui.model.RatingItemModel;
+import ru.mobnius.vote.utils.StringUtil;
 
 public class RatingHolder extends RecyclerView.ViewHolder {
 
     private final TextView tvId;
     private final TextView tvFio;
     private final TextView tvUik;
-    private final TextView tvArea;
     private final TextView tvCount;
     private final TextView tvCountToday;
 
@@ -29,16 +29,14 @@ public class RatingHolder extends RecyclerView.ViewHolder {
         tvId = itemView.findViewById(R.id.rating_item_id);
         tvFio = itemView.findViewById(R.id.rating_item_fio);
         tvUik = itemView.findViewById(R.id.rating_item_uik);
-        tvArea = itemView.findViewById(R.id.rating_item_area);
         tvCount = itemView.findViewById(R.id.rating_item_count);
         tvCountToday = itemView.findViewById(R.id.rating_item_count_today);
     }
 
     public void bind(RatingItemModel item) {
         tvId.setText(String.valueOf(item.id));
-        tvFio.setText(item.c_fio);
+        tvFio.setText(StringUtil.correctLogin(item.c_login, item.n_uik));
         tvUik.setText(String.valueOf(item.n_uik));
-        tvArea.setText(item.c_area);
         tvCount.setText(String.valueOf(item.n_count));
         tvCountToday.setText(item.n_today_count > 0 ? "+" + item.n_today_count : "0");
         if(item.n_today_count == 0) {

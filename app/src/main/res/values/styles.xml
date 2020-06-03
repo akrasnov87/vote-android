@@ -17,10 +17,6 @@
 
     </style>
 
-    <style name="MainDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorSecondaryText</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@color/colorSecondaryText</item>
     </style>
