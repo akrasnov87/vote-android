@@ -28,6 +28,26 @@ public class PinCodeLinLay extends LinearLayout {
 
     public static final int PIN_CODE_LENGTH = 4;
 
+    public enum PinDotStatus {
+        /**
+         * Первая точка не закрашена
+         */
+        FIRST_CLEAR,
+        /**
+         * Первая точка закрашена
+         */
+        FIRST_FILLED
+    }
+
+    private PinDotStatus pinDotStatus = PinDotStatus.FIRST_CLEAR;
+    public void setPinDotStatus(PinDotStatus dotStatus) {
+        this.pinDotStatus = dotStatus;
+    }
+
+    public PinDotStatus getPinDotStatus() {
+        return this.pinDotStatus;
+    }
+
     public PinCodeLinLay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         pinnedPoints = 0;
@@ -48,10 +68,14 @@ public class PinCodeLinLay extends LinearLayout {
 
     public void setPinnedPoints() {
         pinnedPoints++;
+        if (pinnedPoints==1){
+            setPinDotStatus(PinDotStatus.FIRST_FILLED);
+        }
         setPinPoint(pinnedPoints, filledPinPointImage);
         if (pinnedPoints == PIN_CODE_LENGTH) {
 
             pinnedPoints = 0;
+            setPinDotStatus(PinDotStatus.FIRST_CLEAR);
             mCheckPin.onPinComplete();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -70,6 +94,9 @@ public class PinCodeLinLay extends LinearLayout {
         }
         setPinPoint(pinnedPoints, emptyPinPointImage);
         pinnedPoints-- ;
+        if (pinnedPoints==0){
+            setPinDotStatus(PinDotStatus.FIRST_CLEAR);
+        }
     }
 
     private void setPinPoint(int pinPointNumber, Drawable drawable) {
@@ -90,6 +117,7 @@ public class PinCodeLinLay extends LinearLayout {
     }
 
     private void clearPinPoint(Drawable drawable) {
+        setPinDotStatus(PinDotStatus.FIRST_CLEAR);
         firstImage.setImageDrawable(drawable);
         secondImage.setImageDrawable(drawable);
         thirdImage.setImageDrawable(drawable);

@@ -96,6 +96,7 @@ public class RouteListActivity extends BaseActivity implements
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(R.drawable.ic_open_drawer_white_24dp);
+        toolbar.setNavigationContentDescription(R.string.abc_action_bar_up_description);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
