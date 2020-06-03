@@ -35,7 +35,7 @@ public class RatingHolder extends RecyclerView.ViewHolder {
 
     public void bind(RatingItemModel item) {
         tvId.setText(String.valueOf(item.id));
-        tvFio.setText(StringUtil.correctLogin(item.c_login, item.n_uik));
+        tvFio.setText(item.c_login);
         tvUik.setText(String.valueOf(item.n_uik));
         tvCount.setText(String.valueOf(item.n_count));
         tvCountToday.setText(item.n_today_count > 0 ? "+" + item.n_today_count : "0");

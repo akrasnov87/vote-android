@@ -311,7 +311,6 @@ public class DataManagerTest extends ManagerGenerate {
         registrPts.c_house_num = "ПУ-111";
         registrPts.c_address = "адрес";
         registrPts.id = UUID.randomUUID().toString();
-        registrPts.c_fio = "Иванов Иван Иванович";
         registrPts.f_division = division.id;
         registrPts.f_subdivision = subDivision.id;
         getDaoSession().getRegistrPtsDao().insert(registrPts);
@@ -331,8 +330,6 @@ public class DataManagerTest extends ManagerGenerate {
         assertNotNull(info);
 
         assertEquals(info.getAppartament(), registrPts.c_appartament_num);
-        //assertEquals(info.getAddress(), registrPts.c_address);
-        assertEquals(info.getFio(), registrPts.c_fio);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);
