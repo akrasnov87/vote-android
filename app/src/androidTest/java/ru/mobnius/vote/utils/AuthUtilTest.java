@@ -3,8 +3,6 @@ package ru.mobnius.vote.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Calendar;
-
 import ru.mobnius.vote.DbGenerate;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.Version;
@@ -17,7 +15,7 @@ public class AuthUtilTest extends DbGenerate {
     private static final String STATUS = "альфа-версия";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test

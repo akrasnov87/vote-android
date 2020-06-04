@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.manager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.service.MyService;

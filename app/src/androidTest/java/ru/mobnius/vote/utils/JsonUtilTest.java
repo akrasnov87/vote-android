@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 
 public class JsonUtilTest {
     private List<ContactItem> mContactItems;
-    private String KEY = "key";
-    private String VALUE = "value";
+    private final String KEY = "key";
+    private final String VALUE = "value";
 
     @Before
     public void setUp() {

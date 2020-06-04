@@ -2,7 +2,6 @@ package ru.mobnius.vote.data.service;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;

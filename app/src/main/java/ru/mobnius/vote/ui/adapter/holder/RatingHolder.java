@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.ui.model.RatingItemModel;
-import ru.mobnius.vote.utils.StringUtil;
 
 public class RatingHolder extends RecyclerView.ViewHolder {
 

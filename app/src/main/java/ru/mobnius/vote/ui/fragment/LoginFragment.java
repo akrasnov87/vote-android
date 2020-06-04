@@ -36,7 +36,6 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
-import ru.mobnius.vote.utils.UiUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 
