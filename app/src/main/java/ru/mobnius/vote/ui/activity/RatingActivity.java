@@ -50,8 +50,9 @@ public class RatingActivity extends BaseActivity
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
 
-        mRatingAdapter.update(null);
         startProgress();
+        boolean isFilter = PreferencesManager.getInstance().getRating();
+        mRatingAdapter.update(isFilter ? DataManager.getInstance().getProfile().uik : null);
     }
 
     @Override
@@ -75,6 +76,7 @@ public class RatingActivity extends BaseActivity
         if(item.getItemId() == R.id.action_rating_filters) {
             boolean isFilter = !PreferencesManager.getInstance().getRating();
             item.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
+            startProgress();
             mRatingAdapter.update(isFilter ? DataManager.getInstance().getProfile().uik : null);
             PreferencesManager.getInstance().setRating(isFilter);
         }

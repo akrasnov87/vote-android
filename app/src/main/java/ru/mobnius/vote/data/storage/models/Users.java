@@ -15,9 +15,110 @@ import org.greenrobot.greendao.annotation.NotNull;
 @SuppressWarnings("unused")
 @Entity(nameInDb = "pd_users")
 public class Users implements IEntityTo {
+    /**
+     * Идентификатор
+     */
+    @Id
+    @Expose
+    @Property(nameInDb = "id")
+    private Long id;
 
-    public String getFullName() {
-        return String.format("%s %s %s", c_lastname, c_firstname, c_patronymic);
+    /**
+     * Родитель
+     */
+    private long f_parent;
+
+    @ToOne(joinProperty = "f_parent")
+    private Users parent;
+
+    /**
+     * Логин
+     */
+    @Expose
+    private String c_login;
+
+    /**
+     * Адрес эл. почты
+     */
+    @Expose
+    private String c_email;
+
+    /**
+     * Телефон
+     */
+    @Expose
+    private String c_tel;
+
+    /**
+     * Описание
+     */
+    @Expose
+    private String c_description;
+
+    /**
+     * Отключен
+     */
+    @Expose
+    private boolean b_disabled;
+
+    @Expose
+    public Integer n_uik;
+
+    /**
+     * Тип операции надл объектом
+     */
+    private String objectOperationType;
+
+    /**
+     * Запись была удалена или нет
+     */
+    private boolean isDelete;
+
+    /**
+     * Была произведена синхронизация или нет
+     */
+    private boolean isSynchronization;
+
+    /**
+     * идентификатор транзакции
+     */
+    private String tid;
+
+    /**
+     * идентификатор блока
+     */
+    private String blockTid;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 1073488616)
+    private transient UsersDao myDao;
+
+    @Generated(hash = 1685371271)
+    public Users(Long id, long f_parent, String c_login, String c_email,
+            String c_tel, String c_description, boolean b_disabled, Integer n_uik,
+            String objectOperationType, boolean isDelete, boolean isSynchronization,
+            String tid, String blockTid) {
+        this.id = id;
+        this.f_parent = f_parent;
+        this.c_login = c_login;
+        this.c_email = c_email;
+        this.c_tel = c_tel;
+        this.c_description = c_description;
+        this.b_disabled = b_disabled;
+        this.n_uik = n_uik;
+        this.objectOperationType = objectOperationType;
+        this.isDelete = isDelete;
+        this.isSynchronization = isSynchronization;
+        this.tid = tid;
+        this.blockTid = blockTid;
+    }
+
+    @Generated(hash = 2146996206)
+    public Users() {
     }
 
     public Long getId() {
@@ -42,30 +143,6 @@ public class Users implements IEntityTo {
 
     public void setC_login(String c_login) {
         this.c_login = c_login;
-    }
-
-    public String getC_firstname() {
-        return this.c_firstname;
-    }
-
-    public void setC_firstname(String c_firstname) {
-        this.c_firstname = c_firstname;
-    }
-
-    public String getC_lastname() {
-        return this.c_lastname;
-    }
-
-    public void setC_lastname(String c_lastname) {
-        this.c_lastname = c_lastname;
-    }
-
-    public String getC_patronymic() {
-        return this.c_patronymic;
-    }
-
-    public void setC_patronymic(String c_patronymic) {
-        this.c_patronymic = c_patronymic;
     }
 
     public String getC_email() {
@@ -100,12 +177,12 @@ public class Users implements IEntityTo {
         this.b_disabled = b_disabled;
     }
 
-    public Integer getF_uik() {
-        return this.f_uik;
+    public Integer getN_uik() {
+        return this.n_uik;
     }
 
-    public void setF_uik(Integer f_uik) {
-        this.f_uik = f_uik;
+    public void setN_uik(Integer n_uik) {
+        this.n_uik = n_uik;
     }
 
     public String getObjectOperationType() {
@@ -222,133 +299,6 @@ public class Users implements IEntityTo {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUsersDao() : null;
-    }
-    /**
-     * Идентификатор
-     */
-    @Id
-    @Expose
-    @Property(nameInDb = "id")
-    private Long id;
-
-    /**
-     * Родитель
-     */
-    private long f_parent;
-
-    @ToOne(joinProperty = "f_parent")
-    private Users parent;
-
-    /**
-     * Логин
-     */
-    @Expose
-    private String c_login;
-
-    /**
-     * Имя
-     */
-    @Expose
-    private String c_firstname;
-
-    /**
-     * Фамилия
-     */
-    @Expose
-    private String c_lastname;
-
-    /**
-     * Отчество
-     */
-    @Expose
-    private String c_patronymic;
-
-    /**
-     * Адрес эл. почты
-     */
-    @Expose
-    private String c_email;
-
-    /**
-     * Телефон
-     */
-    @Expose
-    private String c_tel;
-
-    /**
-     * Описание
-     */
-    @Expose
-    private String c_description;
-
-    /**
-     * Отключен
-     */
-    @Expose
-    private boolean b_disabled;
-
-    @Expose
-    public Integer f_uik;
-
-    /**
-     * Тип операции надл объектом
-     */
-    private String objectOperationType;
-
-    /**
-     * Запись была удалена или нет
-     */
-    private boolean isDelete;
-
-    /**
-     * Была произведена синхронизация или нет
-     */
-    private boolean isSynchronization;
-
-    /**
-     * идентификатор транзакции
-     */
-    private String tid;
-
-    /**
-     * идентификатор блока
-     */
-    private String blockTid;
-
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 1073488616)
-    private transient UsersDao myDao;
-
-    @Generated(hash = 1614103765)
-    public Users(Long id, long f_parent, String c_login, String c_firstname,
-            String c_lastname, String c_patronymic, String c_email, String c_tel,
-            String c_description, boolean b_disabled, Integer f_uik,
-            String objectOperationType, boolean isDelete, boolean isSynchronization,
-            String tid, String blockTid) {
-        this.id = id;
-        this.f_parent = f_parent;
-        this.c_login = c_login;
-        this.c_firstname = c_firstname;
-        this.c_lastname = c_lastname;
-        this.c_patronymic = c_patronymic;
-        this.c_email = c_email;
-        this.c_tel = c_tel;
-        this.c_description = c_description;
-        this.b_disabled = b_disabled;
-        this.f_uik = f_uik;
-        this.objectOperationType = objectOperationType;
-        this.isDelete = isDelete;
-        this.isSynchronization = isSynchronization;
-        this.tid = tid;
-        this.blockTid = blockTid;
-    }
-
-    @Generated(hash = 2146996206)
-    public Users() {
     }
     @Generated(hash = 1293412156)
     private transient Long parent__resolvedKey;

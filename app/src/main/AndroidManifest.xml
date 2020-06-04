@@ -60,6 +60,7 @@
 
         <activity android:name=".ui.activity.RatingActivity"
             android:label="@string/rating"/>
+        <activity android:name=".ui.BaseFormActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

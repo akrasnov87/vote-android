@@ -7,6 +7,15 @@
     android:clickable="true"
     android:focusable="true">
 
+    <ProgressBar
+        android:id="@+id/pinFragment_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:elevation="4dp"
+        tools:targetApi="lollipop" />
+
     <ru.mobnius.vote.ui.component.PinCodeLinLay
         android:id="@+id/pinFragment_pclTop"
         android:layout_marginTop="@dimen/size_s_24"

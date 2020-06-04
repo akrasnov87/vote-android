@@ -36,7 +36,6 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
-import ru.mobnius.vote.utils.UiUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 
@@ -117,8 +116,6 @@ public class LoginFragment extends BaseFragment
         ibShowPassword.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
         tvVersion.setOnClickListener(this);
-
-        UiUtil.setNoSpaces(new EditText[]{etLogin, etPassword});
 
         return v;
     }
@@ -271,7 +268,7 @@ public class LoginFragment extends BaseFragment
                 break;
 
             case R.id.auth_sign_in:
-                singIn(etLogin.getText().toString(), etPassword.getText().toString());
+                singIn(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
                 break;
 
             case R.id.auth_login_clear:
@@ -283,12 +280,12 @@ public class LoginFragment extends BaseFragment
                 break;
 
             case R.id.auth_password_show:
-                if (etPassword.getInputType() == (InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT)) {
+                if (etPassword.getInputType() == (InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp));
+                    ibShowPassword.setBackground(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
                 } else {
-                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
+                    etPassword.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+                    ibShowPassword.setBackground(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp));
                 }
                 etPassword.setSelection(etPassword.getText().length());
                 break;

@@ -103,6 +103,11 @@ public class RouteListActivity extends BaseActivity implements
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         updateList(PreferencesManager.getInstance().getFilter());
     }

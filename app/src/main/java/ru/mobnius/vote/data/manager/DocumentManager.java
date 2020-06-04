@@ -111,7 +111,7 @@ public class DocumentManager {
      */
     public void saveVote(OnVoteListener listener) {
         // тут нужно создать userpoint
-        Location location = listener.getCurrentLocation();
+        Location location = listener.getLocation();
         String userPointID = createUserPoint(null, location.getLongitude(), location.getLatitude(), null);
 
         for(Vote vote : listener.getVoteManager().getList()) {

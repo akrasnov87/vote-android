@@ -26,6 +26,7 @@ import ru.mobnius.vote.data.storage.models.RouteHistoryDao;
 import ru.mobnius.vote.data.storage.models.RouteStatuses;
 import ru.mobnius.vote.data.storage.models.RouteTypes;
 import ru.mobnius.vote.data.storage.models.Routes;
+import ru.mobnius.vote.data.storage.models.RoutesDao;
 import ru.mobnius.vote.data.storage.models.UserPoints;
 import ru.mobnius.vote.data.storage.models.UserPointsDao;
 import ru.mobnius.vote.data.storage.models.Users;
@@ -100,7 +101,7 @@ public class DataManager {
      * @return Список маршрутов
      */
     public List<Routes> getRoutes(RouteFilter filter) {
-        List<Routes> routes = daoSession.getRoutesDao().loadAll();
+        List<Routes> routes = daoSession.getRoutesDao().queryBuilder().orderAsc(RoutesDao.Properties.C_number).list();
         List<Routes> results = new ArrayList<>(routes.size());
         switch (filter) {
             case ALL:
@@ -302,7 +303,6 @@ public class DataManager {
                 if(registrPts != null) {
                     pointItem.address = registrPts.c_address;
                     pointItem.appartament = registrPts.c_appartament_num;
-                    pointItem.fio = registrPts.c_fio;
                     pointItem.info = point.c_info;
                     pointItem.notice = point.c_notice;
                     pointItem.appartamentNumber = registrPts.n_appartament_num;
@@ -423,23 +423,23 @@ public class DataManager {
      * Завершение маршрута
      * @param routeId идентификатор маршрута
      */
-    public void setRouteFinish(String routeId) {
+    public void setRouteStatus(String routeId, String status) {
         List<RouteStatuses> routeStatuses = daoSession.getRouteStatusesDao().queryBuilder().list();
 
         long finishId = -1;
 
         for(RouteStatuses routeStatus : routeStatuses) {
-            if(routeStatus.c_const.equals("DONED")) {
+            if(routeStatus.c_const.equals(status)) {
                 finishId = routeStatus.id;
                 break;
             }
         }
 
         // если маршрут не был ранее завершен
-        if(!isRouteFinish(routeId)) {
+        if(!isRouteStatus(routeId, status)) {
             RouteHistory routeHistory = new RouteHistory();
             routeHistory.id = UUID.randomUUID().toString();
-            routeHistory.c_notice = "Принудительно завершено пользователем.";
+            routeHistory.c_notice = "";
             routeHistory.fn_status = finishId;
             routeHistory.fn_route = routeId;
             routeHistory.fn_user = Authorization.getInstance().getUser().getUserId();
@@ -456,29 +456,29 @@ public class DataManager {
      * @param routeId идентификатор маршрута
      * @return true - маршрут завершен
      */
-    public boolean isRouteFinish(String routeId) {
+    public boolean isRouteStatus(String routeId, String status) {
         List<RouteHistory> routeHistories = daoSession.getRouteHistoryDao().queryBuilder().where(RouteHistoryDao.Properties.Fn_route.eq(routeId)).orderDesc(RouteHistoryDao.Properties.D_date).list();
         List<RouteStatuses> routeStatuses = daoSession.getRouteStatusesDao().queryBuilder().list();
 
-        long finishId = -1;
+        long statusId = -1;
 
         for(RouteStatuses routeStatus : routeStatuses) {
-            if(routeStatus.c_const.equals("DONED")) {
-                finishId = routeStatus.id;
+            if(routeStatus.c_const.equals(status)) {
+                statusId = routeStatus.id;
                 break;
             }
         }
 
-        boolean isFinished = false;
+        boolean isStatus = false;
 
         for(RouteHistory routeHistory : routeHistories) {
-            if(routeHistory.fn_status == finishId) {
-                isFinished = true;
+            if(routeHistory.fn_status == statusId) {
+                isStatus = true;
                 break;
             }
         }
 
-        return isFinished;
+        return isStatus;
     }
 
     /**
@@ -515,7 +515,7 @@ public class DataManager {
      * Отменить завершение маршрута
      * @param routeId иден. маршрута
      */
-    public void revertRouteFinish(String routeId) {
+    public void revertRouteStatus(String routeId, String status) {
         if(isRevertRouteFinish(routeId)) {
             List<RouteHistory> routeHistories = daoSession.getRouteHistoryDao().queryBuilder().where(RouteHistoryDao.Properties.Fn_route.eq(routeId)).orderDesc(RouteHistoryDao.Properties.D_date).list();
             List<RouteStatuses> routeStatuses = daoSession.getRouteStatusesDao().queryBuilder().list();
@@ -523,7 +523,7 @@ public class DataManager {
             long finishId = -1;
 
             for(RouteStatuses routeStatus : routeStatuses) {
-                if(routeStatus.c_const.equals("DONED")) {
+                if(routeStatus.c_const.equals(status)) {
                     finishId = routeStatus.id;
                     break;
                 }
@@ -589,8 +589,8 @@ public class DataManager {
         Users user = daoSession.getUsersDao().load(Authorization.getInstance().getUser().getUserId());
         if(user != null) {
             ProfileItem item = new ProfileItem();
-            item.fio = user.getFullName();
-            item.uik = user.f_uik;
+            item.fio = user.getC_login();
+            item.uik = user.n_uik;
             return item;
         }
         return null;
