@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import ru.mobnius.vote.Names;
@@ -35,6 +38,7 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
+import ru.mobnius.vote.utils.NetworkUtil;
 
 import static ru.mobnius.vote.ui.component.PinCodeLinLay.PIN_CODE_LENGTH;
 
@@ -42,7 +46,7 @@ public class PinCodeFragment extends BaseFragment
         implements View.OnClickListener, PinCodeLinLay.PinChangeListener, PinCodeLinLay.CheckPin, PinCodeLinLay.FocusChange {
 
     private PinCodeLinLay pclPinPoints;
-
+    private ProgressBar mProgressBar;
     private String pinDigits;
     private String tempPin;
 
@@ -50,6 +54,8 @@ public class PinCodeFragment extends BaseFragment
 
     private List<Button> mButtonList;
     private ImageButton ibClear;
+    private LinearLayout llDigit;
+    private TextView tvForgotPin;
 
     private AuthorizationCache cache;
 
@@ -109,8 +115,10 @@ public class PinCodeFragment extends BaseFragment
         pclPinPoints.setPinChangeListener(this);
         pclPinPoints.setCheckPinListener(this);
         pclPinPoints.setFocusChangeListener(this);
+        llDigit = v.findViewById(R.id.pinFragment_llDigits);
+        mProgressBar = v.findViewById(R.id.pinFragment_progress);
 
-        TextView tvForgotPin = v.findViewById(R.id.pin_forgot);
+        tvForgotPin = v.findViewById(R.id.pin_forgot);
 
         ibClear = v.findViewById(R.id.pin_clear);
         ImageButton ibFingerPrint = v.findViewById(R.id.pinFragment_ibFingerPrint);
@@ -247,13 +255,25 @@ public class PinCodeFragment extends BaseFragment
         Authorization.getInstance().setUser(user);
         cache.update(user.getCredentials().login, getPin(), new Date());
 
-        new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
-            @Override
-            public void onConfigurationLoaded(boolean configRefreshed) {
-                getApplication().onAuthorized(LoginActivity.PIN);
-                startActivity(RouteListActivity.getIntent(getContext()));
-            }
-        }).execute();
+        if(NetworkUtil.isNetworkAvailable(requireContext())) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            llDigit.setVisibility(View.GONE);
+            tvForgotPin.setVisibility(View.GONE);
+            new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+                @Override
+                public void onConfigurationLoaded(boolean configRefreshed) {
+                    getApplication().onAuthorized(LoginActivity.PIN);
+                    startActivity(RouteListActivity.getIntent(getContext()));
+
+                    /*llDigit.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                    tvForgotPin.setVisibility(View.VISIBLE);*/
+                }
+            }).execute();
+        } else {
+            getApplication().onAuthorized(LoginActivity.PIN);
+            startActivity(RouteListActivity.getIntent(getContext()));
+        }
     }
 
     private void fingerPrintActivate(ImageButton imageButton) {

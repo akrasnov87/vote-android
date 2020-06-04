@@ -31,8 +31,6 @@ class ServiceManager {
         myIntent = new Intent(context, MyService.class);
         myIntent.putExtra(MyService.SYNC_SERVICE, serviceInterval);
         myIntent.putExtra(MyService.TRACK_TIMEOUT, timeout);
-        myIntent.putExtra(MyService.TRACK_ACCURACY, Criteria.ACCURACY_FINE);
-        myIntent.putExtra(MyService.TRACK_POWER, Criteria.POWER_HIGH);
         myIntent.putExtra(MyService.TELEMETRY_INTERVAL, telemetryInterval);
         myIntent.putExtra(MyService.TELEMETRY_MEMORY, true);
         context.startService(myIntent);
@@ -42,7 +40,9 @@ class ServiceManager {
      * запуск сервиса по отправке информации на сервер
      */
     public void startMyService() {
-        this.startMyService(PreferencesManager.getInstance().getSyncInterval(), PreferencesManager.getInstance().getTrackingInterval(), PreferencesManager.getInstance().getTelemetryInterval());
+        this.startMyService(PreferencesManager.getInstance().getSyncInterval(),
+                PreferencesManager.getInstance().getTrackingInterval(),
+                PreferencesManager.getInstance().getTelemetryInterval());
     }
 
     /**

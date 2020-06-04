@@ -5,16 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/itemPoint_appartamentNumber"
         android:layout_width="wrap_content"
+        android:minWidth="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="42sp"
-        tools:text="11" />
+        android:gravity="center"
+        tools:text="11"
+        android:padding="12dp"
+        android:background="@drawable/appartament_border" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
+import ru.mobnius.vote.utils.NetworkUtil;
 
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
     private ServiceManager serviceManager;

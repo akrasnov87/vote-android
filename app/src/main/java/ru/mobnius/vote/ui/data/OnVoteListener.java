@@ -1,12 +1,13 @@
 package ru.mobnius.vote.ui.data;
 
-import ru.mobnius.vote.data.manager.GeoManager;
+import android.location.Location;
+
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 
 /**
  *
  */
-public interface OnVoteListener extends GeoManager.GeoListener {
+public interface OnVoteListener {
     /**
      * Управление голосованием
      */
@@ -21,4 +22,6 @@ public interface OnVoteListener extends GeoManager.GeoListener {
      * Идент. точки маршрута
      */
     String getPointId();
+
+    Location getLocation();
 }

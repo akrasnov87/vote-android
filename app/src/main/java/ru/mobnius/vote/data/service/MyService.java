@@ -30,8 +30,6 @@ public class MyService extends BaseService {
 
     public static final String SYNC_SERVICE = "syncInterval";
     public static final String TRACK_TIMEOUT = "trackTimeout";
-    public static final String TRACK_ACCURACY = "trackAccuracy";
-    public static final String TRACK_POWER = "trackPower";
     public static final String TELEMETRY_INTERVAL = "telemetryInterval";
     public static final String TELEMETRY_MEMORY = "sdCardMemoryUsage";
     /**
@@ -73,11 +71,9 @@ public class MyService extends BaseService {
     private void runServiceSynchronization(Intent intent) {
         if(intent != null) {
             resetTid(ServiceSynchronization.getInstance(PreferencesManager.ZIP_CONTENT));
-
             /*
               Интервал отправки служебных данных на сервер
              */
-
             int serviceInterval = intent.getIntExtra(SYNC_SERVICE, PreferencesManager.getInstance().getSyncInterval());
 
             mServiceSyncTimer.schedule(new SyncTimerTask(), 0, serviceInterval);
@@ -90,14 +86,8 @@ public class MyService extends BaseService {
             mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             mTrackingLocationListener = new TrackingLocationListener(getDaoSession(), getBaseContext(), Integer.parseInt(getBasicUser().getUserId().toString()));
             int timeout = intent.getIntExtra(TRACK_TIMEOUT, PreferencesManager.getInstance().getTrackingInterval());
-            int accuracy = intent.getIntExtra(TRACK_ACCURACY, Criteria.ACCURACY_FINE);
-            int power = intent.getIntExtra(TRACK_POWER, Criteria.POWER_HIGH);
 
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(accuracy);
-            criteria.setPowerRequirement(power);
-
-            mLocationManager.requestLocationUpdates(timeout, 10, criteria, mTrackingLocationListener, null);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeout, 100, mTrackingLocationListener);
         }
     }
 
@@ -115,9 +105,11 @@ public class MyService extends BaseService {
     @Override
     public void onDestroy() {
         mServiceSyncTimer.cancel();
+
         if(mLocationManager != null) {
             mLocationManager.removeUpdates(mTrackingLocationListener);
         }
+
         if(telemetryTimer != null) {
             telemetryTimer.cancel();
             telemetryTimer.purge();

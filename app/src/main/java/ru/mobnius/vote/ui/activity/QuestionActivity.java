@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +21,6 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.DocumentManager;
-import ru.mobnius.vote.data.manager.GeoManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
@@ -162,19 +162,21 @@ public class QuestionActivity extends BaseFormActivity
      * @param status    статус сигнала: GeoListener.NONE, GeoListener.NORMAL, GeoListener.GOOD
      */
     @Override
-    public void onLocationStatusChange(int status, double latitude, double longitude) {
+    public void onLocationStatusChange(int status, Location location) {
+        super.onLocationStatusChange(status, location);
+
         Log.d(TAG, "Статус: " + status);
 
         if (actionMenu != null) {
             int icon;
             String message;
             switch (status) {
-                case GeoManager.GeoListener.NONE:
+                case BaseFormActivity.NONE:
                     icon = R.drawable.ic_gps_off_24px;
                     message = "Местоположение не определено.";
                     break;
 
-                case GeoManager.GeoListener.NORMAL:
+                case BaseFormActivity.NORMAL:
                     icon = R.drawable.ic_gps_not_fixed_24px;
                     message = "Координата не является точной.";
                     break;

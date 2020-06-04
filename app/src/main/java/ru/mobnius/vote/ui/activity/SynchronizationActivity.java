@@ -80,11 +80,6 @@ public class SynchronizationActivity extends BaseActivity
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnSyncAppartament.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         new LocaleDataAsyncTask().execute();
     }
@@ -349,8 +344,10 @@ public class SynchronizationActivity extends BaseActivity
 
             if(integer > 0) {
                 btnSyncAppartament.setVisibility(View.VISIBLE);
+                btnStart.setEnabled(false);
                 btnSyncAppartament.setText(String.format("Сохранить %s квартир на сервере", integer));
             } else {
+                btnStart.setEnabled(true);
                 btnSyncAppartament.setVisibility(View.GONE);
             }
         }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
@@ -69,12 +71,38 @@ public class PointListActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
 
+        if(!DataManager.getInstance().isRouteStatus(routeId, "RECEIVED")) {
+            // Принят
+            DataManager.getInstance().setRouteStatus(routeId, "RECEIVED");
+        }
+
+        RouteInfo routeInfo = DataManager.getInstance().getRouteInfo(routeId);
+        if(routeInfo.getDateEnd().getTime() <= new Date().getTime()) {
+            // Просрочен
+            if(!DataManager.getInstance().isRouteStatus(routeId, "EXPIRED")) {
+                // Выполняется
+                DataManager.getInstance().setRouteStatus(routeId, "EXPIRED");
+            }
+        }
+
         int donePoints = mDataManager.getCountDonePoints(routeId);
         if (donePoints > 0) {
+            if(!DataManager.getInstance().isRouteStatus(routeId, "PROCCESS")) {
+                // Выполняется
+                DataManager.getInstance().setRouteStatus(routeId, "PROCCESS");
+            }
+
             Routes routeItem = mDataManager.getDaoSession().getRoutesDao().load(routeId);
             mProgressBar.setMax(routeItem.n_count);
             mProgressBar.setProgress(donePoints);
             mProgressBar.setVisibility(View.VISIBLE);
+
+            if(donePoints == routeItem.n_count) {
+                if(!DataManager.getInstance().isRouteStatus(routeId, "DONED")) {
+                    // Выполнено
+                    DataManager.getInstance().setRouteStatus(routeId, "DONED");
+                }
+            }
         }
     }
 

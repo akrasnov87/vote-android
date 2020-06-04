@@ -375,12 +375,12 @@ public class DataManagerTest extends ManagerGenerate {
         routeHistory.isSynchronization = false;
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
-        dataManager.setRouteFinish(routes.id);
+        dataManager.setRouteStatus(routes.id, "DONED");
 
-        assertTrue(dataManager.isRouteFinish(routes.id));
+        assertTrue(dataManager.isRouteStatus(routes.id, "DONED"));
         assertTrue(dataManager.isRevertRouteFinish(routes.id));
-        dataManager.revertRouteFinish(routes.id);
-        assertFalse(dataManager.isRouteFinish(routes.id));
+        dataManager.revertRouteStatus(routes.id, "DONED");
+        assertFalse(dataManager.isRouteStatus(routes.id, "DONED"));
     }
 
     @After
