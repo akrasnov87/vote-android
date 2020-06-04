@@ -6,7 +6,6 @@ import android.text.InputType;
 import android.view.View;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
@@ -25,7 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 
 import ru.mobnius.vote.ManagerGenerate;
@@ -252,68 +250,6 @@ public class LoginToPinTest extends ManagerGenerate {
         onView(withText(String.valueOf(pinCode.charAt(3)))).perform(click());
     }
 
-    public static ViewAction waitUntil(final Matcher<View> matcher) {
-        return actionWithAssertions(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isAssignableFrom(View.class);
-            }
-
-            @Override
-            public String getDescription() {
-                StringDescription description = new StringDescription();
-                matcher.describeTo(description);
-                return String.format("wait until: %s", description);
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                if (!matcher.matches(view)) {
-                    LayoutChangeCallback callback = new LayoutChangeCallback(matcher);
-                    try {
-                        IdlingRegistry.getInstance().register(callback);
-                        view.addOnLayoutChangeListener(callback);
-                        uiController.loopMainThreadUntilIdle();
-                    } finally {
-                        view.removeOnLayoutChangeListener(callback);
-                        IdlingRegistry.getInstance().unregister(callback);
-                    }
-                }
-            }
-        });
-    }
-
-    private static class LayoutChangeCallback implements IdlingResource, View.OnLayoutChangeListener {
-
-        private Matcher<View> matcher;
-        private IdlingResource.ResourceCallback callback;
-        private boolean matched = false;
-
-        LayoutChangeCallback(Matcher<View> matcher) {
-            this.matcher = matcher;
-        }
-
-        @Override
-        public String getName() {
-            return "Layout change callback";
-        }
-
-        @Override
-        public boolean isIdleNow() {
-            return matched;
-        }
-
-        @Override
-        public void registerIdleTransitionCallback(ResourceCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            matched = matcher.matches(v);
-            callback.onTransitionToIdle();
-        }
-    }
     public static Matcher<View> withStatus(final PinCodeLinLay.PinDotStatus expectedStatus) {
         return new BoundedMatcher<View, PinCodeLinLay>(PinCodeLinLay.class) {
 

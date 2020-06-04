@@ -55,6 +55,7 @@ public class LoginActivity extends BaseActivity {
         } else {
             setLoginFragment(this);
         }
+
     }
 
     @Override
