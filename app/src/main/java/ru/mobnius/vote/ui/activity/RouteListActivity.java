@@ -256,7 +256,7 @@ public class RouteListActivity extends BaseActivity implements
 
             if (VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
                 // тут доступно новая версия
-                String message = "Доступна новая версия" + s;
+                String message = "Доступна новая версия " + s;
                 MySnackBar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
