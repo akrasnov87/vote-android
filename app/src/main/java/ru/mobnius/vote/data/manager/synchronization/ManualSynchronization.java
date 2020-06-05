@@ -169,9 +169,6 @@ public class ManualSynchronization extends WebSocketSynchronization {
         }
 
         try {
-            FullServerSidePackage fullServerSidePackage = (FullServerSidePackage) serverSidePackage;
-            //fullServerSidePackage.setDeleteRecordBeforeAppend(true); // TODO: для других режимов синхронизации тут нужно другое значение
-
             for (RPCResult result : utils.getResultFrom(isZip())) {
 
                 String tableName = result.action;
