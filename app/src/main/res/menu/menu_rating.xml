@@ -2,10 +2,17 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_rating_me"
+        android:icon="@drawable/ic_baseline_accessibility_new_24"
+        android:title="@string/who_me"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/action_rating_filters"
         android:icon="@drawable/ic_filter_off_24dp"
         android:title="@string/uik_filters"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

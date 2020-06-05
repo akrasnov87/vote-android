@@ -19,6 +19,7 @@ import java.util.Objects;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RatingAdapter;
@@ -34,6 +35,7 @@ public class RatingActivity extends BaseActivity
     }
 
     private RatingAdapter mRatingAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class RatingActivity extends BaseActivity
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setSubtitle(DateUtil.convertDateToUserString(new Date(), DateUtil.USER_SHORT_FORMAT));
 
-        RecyclerView recyclerView = findViewById(R.id.rating_list);
+        recyclerView = findViewById(R.id.rating_list);
         mRatingAdapter = new RatingAdapter(this);
         recyclerView.setAdapter(mRatingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,6 +82,12 @@ public class RatingActivity extends BaseActivity
             mRatingAdapter.update(isFilter ? DataManager.getInstance().getProfile().uik : null);
             PreferencesManager.getInstance().setRating(isFilter);
         }
+
+        if(item.getItemId() == R.id.action_rating_me) {
+            int position = mRatingAdapter.getPosition(Authorization.getInstance().getUser().getUserId());
+            recyclerView.scrollToPosition(position);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -31,6 +31,7 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
     protected List<RatingItemModel> doInBackground(Integer... integers) {
         List<RatingItemModel> items = new ArrayList<>();
         try {
+            long userId = Authorization.getInstance().getUser().getUserId();
             List<Routes> routes = DataManager.getInstance().getDaoSession().getRoutesDao().loadAll();
             if (routes.size() > 0) {
 
@@ -59,6 +60,7 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
                             model.n_all = jsonObject.getInt("n_all");
                             model.n_count = jsonObject.getInt("n_count");
                             model.n_today_count = jsonObject.getInt("n_today_count");
+                            model.b_its_me = model.user_id == userId;
 
                             items.add(model);
                             i++;

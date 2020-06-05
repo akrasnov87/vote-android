@@ -39,24 +39,30 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.RequestManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
+import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.model.ProfileItem;
+import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.LocationChecker;
+import ru.mobnius.vote.utils.StringUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener,
         DialogInterface.OnClickListener,
-        LocationChecker.OnLocationAvailable {
+        LocationChecker.OnLocationAvailable,
+        RatingAsyncTask.OnRatingLoadedListener {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
     private Button btnSync;
+    private TextView tvMeRating;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, RouteListActivity.class);
@@ -85,6 +91,13 @@ public class RouteListActivity extends BaseActivity implements
 
         View headerLayout = navigationView.getHeaderView(0);
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
+        tvMeRating = headerLayout.findViewById(R.id.app_rating);
+        tvMeRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(RatingActivity.getIntent(getBaseContext()));
+            }
+        });
         ProfileItem profile = DataManager.getInstance().getProfile();
         if (profile != null) {
             tvDescription.setText(profile.fio);
@@ -109,6 +122,7 @@ public class RouteListActivity extends BaseActivity implements
         super.onStart();
 
         updateList(PreferencesManager.getInstance().getFilter());
+        new RatingAsyncTask(this).execute((Integer) null);
     }
 
     @Override
@@ -236,6 +250,21 @@ public class RouteListActivity extends BaseActivity implements
                 })
                 .setCancelable(false)
                 .show();
+    }
+
+    @SuppressLint("DefaultLocale")
+    @Override
+    public void onRatingLoaded(List<RatingItemModel> items) {
+        int idx = 0;
+        long userId = Authorization.getInstance().getUser().getUserId();
+        for(RatingItemModel item : items) {
+            idx++;
+            if(item.user_id == userId) {
+                tvMeRating.setVisibility(View.VISIBLE);
+                tvMeRating.setText(String.format(" %d", idx));
+                break;
+            }
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -8,4 +8,5 @@ public class RatingItemModel {
     public int n_all;
     public int n_count;
     public int n_today_count;
+    public boolean b_its_me;
 }
