@@ -83,12 +83,8 @@ public class DocumentManagerTest extends ManagerGenerate implements OnVoteListen
     }
 
     @Override
-    public void onLocationStatusChange(int status, double latitude, double longitude) {
-
+    public Location getLocation() {
+        return null;
     }
 
-    @Override
-    public Location getCurrentLocation() {
-        return new Location("");
-    }
 }

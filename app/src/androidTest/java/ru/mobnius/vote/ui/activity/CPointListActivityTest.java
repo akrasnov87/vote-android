@@ -1,32 +1,22 @@
 package ru.mobnius.vote.ui.activity;
 
 import android.content.Intent;
-import android.view.View;
+import android.widget.AutoCompleteTextView;
 
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.IdlingResource;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.rule.GrantPermissionRule;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import junit.framework.AssertionFailedError;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
-import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -35,34 +25,17 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withInputType;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
-import static org.junit.Assert.*;
-
-public class RouteListActivityTest extends ManagerGenerate {
+public class CPointListActivityTest extends BaseActivityTest{
     private boolean isDebug;
 
-    @Rule
-    public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class, true, false);
-
-    @Rule
-    public GrantPermissionRule mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION",
-                    "android.permission.WRITE_EXTERNAL_STORAGE",
-                    "android.permission.READ_PHONE_STATE");
 
     @Before
     public void setUp() {
@@ -70,7 +43,7 @@ public class RouteListActivityTest extends ManagerGenerate {
         if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
         }
-        mActivityTestRule.launchActivity(new Intent());
+        loginTestRule.launchActivity(new Intent());
     }
 
     @After
@@ -106,27 +79,44 @@ public class RouteListActivityTest extends ManagerGenerate {
             onView(withText(String.valueOf(pinCode.charAt(2)))).perform(click());
             onView(withText(String.valueOf(pinCode.charAt(3)))).perform(click());
         } else {
-            if (!isDebug&&noServer){
+            if (!isDebug && noServer) {
                 return;
             }
             if (!isDebug) {
-                onView(withId(R.id.auth_login)).perform(replaceText("inspector"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("inspector0"), closeSoftKeyboard());
+                onView(withId(R.id.auth_login)).perform(replaceText("1801-01"), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText("1801"), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
         }
+        boolean noLocation = false;
+        try {
+            onView(anyOf(withText("Изменить режим"), withText("Включить геолокацию"))).perform(waitUntil(isDisplayed()));
+            noLocation = true;
+        } catch (NoMatchingViewException e) {
+            e.printStackTrace();
+        }
+        if (noLocation) {
+            return;
+        }
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-        onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
-        onView(withId(R.id.sync_start)).perform(click());
-        onView(withText("Отмена")).check().perform(click());
-        onView(withText("ok")).perform(click());
-        onView(withId(R.id.sync_start)).perform(click());
-        onView(withText("ok")).perform(waitUntil(isDisplayed()));
-        onView(withText("ok")).perform(click());
+        if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.menu_item_search)).check(matches(isDisplayed()));
+            onView(withId(R.id.menu_item_search)).perform(click());
+            onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("1"));
+            onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.rating_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withText(containsString("общение"))).perform(click());
+            onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+            onView(withText(containsString("общение"))).check(matches(isDisplayed()));
+            onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+            onView(withId(R.id.menu_item_search)).check(matches(isDisplayed()));
 
-
+        }
 
     }
+
+
 
 }

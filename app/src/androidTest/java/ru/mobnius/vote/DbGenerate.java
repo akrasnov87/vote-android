@@ -32,4 +32,5 @@ public abstract class DbGenerate {
     protected Context getContext() {
         return mContext;
     }
+
 }
