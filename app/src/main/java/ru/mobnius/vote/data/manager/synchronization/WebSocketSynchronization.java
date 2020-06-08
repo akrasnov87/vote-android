@@ -329,7 +329,7 @@ public abstract class WebSocketSynchronization extends BaseSynchronization {
                 String tid = jsonObject.getString("tid");
                 if(getSynchronization().getEntities(tid).length > 0) {
                     onProgress(IProgressStep.UPLOAD, jsonObject.getString("result"), tid);
-                }//onProgress(IProgressStep.UPLOAD, "Не текущая сессия: " + jsonObject.getString("result"));
+                }
 
                 return;
             } catch (JSONException ignored) {

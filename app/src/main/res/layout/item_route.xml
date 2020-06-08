@@ -36,6 +36,7 @@
         style="@style/AppTheme.TextView.Simple"
         app:layout_constraintStart_toEndOf="@id/item_route_progress"
         app:layout_constraintTop_toBottomOf="@id/item_route_name"
+        android:textColor="@color/colorHint"
         tools:text="Лейбл маршрута" />
 
     <TextView

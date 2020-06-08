@@ -41,6 +41,19 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingHolder> {
         new RatingAsyncTask(mListener).execute(uik);
     }
 
+    public int getPosition(long userId) {
+        int idx = -1;
+        for (RatingItemModel model:
+             mList) {
+            idx++;
+            if(model.user_id == userId) {
+                return idx;
+            }
+        }
+
+        return -1;
+    }
+
     @NonNull
     @Override
     public RatingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
