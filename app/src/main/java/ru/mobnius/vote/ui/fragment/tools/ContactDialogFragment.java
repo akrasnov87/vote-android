@@ -42,6 +42,9 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String>
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_contact, container, false);
+
+        setCancelable(false);
+
         RecyclerView recyclerView = v.findViewById(R.id.contact_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         boolean isDone = isDone();
@@ -51,11 +54,15 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String>
         ImageButton btnAdd = v.findViewById(R.id.contact_add);
         btnAdd.setOnClickListener(this);
 
+        Button btnCancel = v.findViewById(R.id.contact_close);
+        btnCancel.setOnClickListener(this);
+
         Button btnDone = v.findViewById(R.id.contact_done);
         btnDone.setOnClickListener(this);
         if(isDone) {
             btnDone.setText("ОК");
             btnAdd.setVisibility(Button.GONE);
+            btnCancel.setVisibility(Button.GONE);
         }
 
         mEmptyView = v.findViewById(R.id.contact_empty);
@@ -83,12 +90,15 @@ public class ContactDialogFragment extends AnswerFragmentDialog<String>
                 updateContactUI();
                 break;
 
+            case R.id.contact_close:
+                dismiss();
+                break;
+
             case R.id.contact_done:
-                //if(!isDone()) {
-                    String contactsJson = JsonUtil.convertToJson(mContacts);
-                    onAnswerListener(contactsJson);
-                //}
-                this.dismiss();
+                String contactsJson = JsonUtil.convertToJson(mContacts);
+                onAnswerListener(contactsJson);
+
+                dismiss();
                 break;
         }
     }

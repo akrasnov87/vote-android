@@ -64,6 +64,8 @@ public class RouteListActivity extends BaseActivity implements
     private Button btnSync;
     private TextView tvMeRating;
 
+    private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
+
     public static Intent getIntent(Context context) {
         return new Intent(context, RouteListActivity.class);
     }
@@ -130,7 +132,8 @@ public class RouteListActivity extends BaseActivity implements
         super.onResume();
         invalidateOptionsMenu();
 
-        new ServerAppVersionAsyncTask().execute();
+        mServerAppVersionAsyncTask = new ServerAppVersionAsyncTask();
+        mServerAppVersionAsyncTask.execute();
 
         LocationChecker.start(this);
     }
@@ -156,6 +159,7 @@ public class RouteListActivity extends BaseActivity implements
                 adb.setNegativeButton(getResources().getString(R.string.no), this);
                 AlertDialog alert = adb.create();
                 alert.setTitle(getResources().getString(R.string.confirmExit));
+                alert.setMessage("При следующем входе в приложение потребуется вводить логин и пароль");
                 alert.show();
                 break;
 
@@ -265,6 +269,13 @@ public class RouteListActivity extends BaseActivity implements
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServerAppVersionAsyncTask.cancel(true);
+        mServerAppVersionAsyncTask = null;
     }
 
     @SuppressLint("StaticFieldLeak")

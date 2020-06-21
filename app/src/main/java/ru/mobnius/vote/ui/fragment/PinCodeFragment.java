@@ -172,7 +172,7 @@ public class PinCodeFragment extends BaseFragment
                             PreferencesManager.createInstance(getApplication().getApplicationContext(), getLogin());
                             PreferencesManager.getInstance().setPinAuth(false);
                             cache.update(getLogin(), "", new Date());
-                            Authorization.getInstance().destroy();
+                            Authorization.getInstance().reset();
 
                             startActivity(LoginActivity.getIntent(requireContext()));
                         }

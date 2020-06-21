@@ -18,7 +18,7 @@ public abstract class ManagerGenerate extends DbGenerate {
     }
 
     public static BasicCredentials getCredentials() {
-        return new BasicCredentials("inspector", "inspector0");
+        return new BasicCredentials("1801-01", "1801");
     }
 
     protected static BasicUser getBasicUser() {

@@ -29,11 +29,6 @@ public class SqlInsertFromJSONObject{
         ArrayList<String> tempFields = new ArrayList<>();
         Iterator<String> keys = object.keys();
 
-        /*for(String s : abstractDao.getAllColumns()){
-            builder.append("?,");
-            tempFields.add(s);
-        }*/
-
         while (keys.hasNext()) {
             String name = keys.next();
             if (isColumnExists(abstractDao, name.toLowerCase())) {

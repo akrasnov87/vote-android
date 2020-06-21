@@ -3,6 +3,7 @@ package ru.mobnius.vote.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -85,13 +87,6 @@ public class StatisticActivity extends BaseActivity
         DaoSession daoSession = DataManager.getInstance().getDaoSession();
         mAllCount = daoSession.getPointsDao().queryBuilder().count();
         mDoneCount = daoSession.getUserPointsDao().queryBuilder().count();
-
-        if(NetworkUtil.isNetworkAvailable(this)) {
-            startProgress();
-            new BurndownChartAsyncTask(this).execute(mAllCount);
-        } else {
-            mChart.setNoDataText("Нет данных. Отсуствует подключение к интернету.");
-        }
     }
 
     @Override
@@ -122,6 +117,24 @@ public class StatisticActivity extends BaseActivity
         tvAllCount.setText(String.format("%s: %s", getString(R.string.appartament_all), mAllCount));
         tvDone.setText(String.format("%s: %s", getString(R.string.appartament_done), mDoneCount));
         tvLost.setText(String.format("%s: %s", getString(R.string.appartament_lost), mAllCount - mDoneCount));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(NetworkUtil.isNetworkAvailable(this)) {
+            startProgress();
+            new BurndownChartAsyncTask(this).execute(mAllCount);
+        } else {
+            mChart.setNoDataText(getString(R.string.no_server_connection).toUpperCase());
+        }
+
+        Paint p = mChart.getPaint(Chart.PAINT_INFO);
+        p.setTextSize(48);
+        p.setColor(Color.rgb(244, 67, 54));
+        p.setTextAlign(Paint.Align.CENTER);
+        mChart.invalidate();
     }
 
     @Override

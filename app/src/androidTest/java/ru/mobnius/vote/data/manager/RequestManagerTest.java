@@ -21,7 +21,7 @@ public class RequestManagerTest {
 
     @Before
     public void setUp() {
-        basicCredentials = new BasicCredentials("inspector", "inspector0");
+        basicCredentials = new BasicCredentials("1801-01", "1801");
     }
 
     @Test

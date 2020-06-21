@@ -100,6 +100,8 @@ public class SettingActivity extends BaseActivity {
         private SwitchPreference spPin;
         private Preference pCreateError;
 
+        private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -155,7 +157,8 @@ public class SettingActivity extends BaseActivity {
             spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
             spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
 
-            new ServerAppVersionAsyncTask().execute();
+            mServerAppVersionAsyncTask = new ServerAppVersionAsyncTask();
+            mServerAppVersionAsyncTask.execute();
         }
 
         @Override
@@ -223,6 +226,14 @@ public class SettingActivity extends BaseActivity {
                     break;
             }
             return true;
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+
+            mServerAppVersionAsyncTask.cancel(true);
+            mServerAppVersionAsyncTask = null;
         }
 
         @SuppressLint("StaticFieldLeak")

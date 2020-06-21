@@ -281,7 +281,7 @@ public class LoginFragment extends BaseFragment
 
             case R.id.auth_password_show:
                 if (etPassword.getInputType() == (InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    etPassword.setInputType(InputType.TYPE_CLASS_NUMBER);
                     ibShowPassword.setBackground(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
                 } else {
                     etPassword.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);

@@ -198,7 +198,11 @@ public class QuestionActivity extends BaseFormActivity
 
     @Override
     public void onClickVoteItem(Answer answer) {
-        if (!isDone() && !mVoteManager.isQuestionExists(answer.f_question)) {
+        if (!isDone()) {
+            if(mVoteManager.isQuestionExists(answer.f_question)) {
+                // если вопрос ранее задавался, то удаляем из стэка
+                mVoteManager.removeQuestion(answer.f_question);
+            }
             // если вопрос ранее не задавался, то сохраняем в стэке
             mVoteManager.addQuestion(answer.f_question, answer.id, mVoteManager.getList().length);
         }

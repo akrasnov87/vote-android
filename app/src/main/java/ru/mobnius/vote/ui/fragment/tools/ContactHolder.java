@@ -83,6 +83,10 @@ public class ContactHolder extends RecyclerView.ViewHolder implements View.OnCli
         mListener.onItemDelete(getAdapterPosition());
     }
 
+    public void setFocus() {
+        etName.requestFocus();
+    }
+
     public interface OnContactItemListener {
         void onItemDelete(int position);
     }

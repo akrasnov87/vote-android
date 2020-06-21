@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +28,7 @@ import ru.mobnius.vote.ui.adapter.RatingAdapter;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.NetworkUtil;
 
 public class RatingActivity extends BaseActivity
     implements RatingAsyncTask.OnRatingLoadedListener{
@@ -36,6 +39,7 @@ public class RatingActivity extends BaseActivity
 
     private RatingAdapter mRatingAdapter;
     private RecyclerView recyclerView;
+    private TextView tvNoInternet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +50,12 @@ public class RatingActivity extends BaseActivity
         getSupportActionBar().setSubtitle(DateUtil.convertDateToUserString(new Date(), DateUtil.USER_SHORT_FORMAT));
 
         recyclerView = findViewById(R.id.rating_list);
+        tvNoInternet = findViewById(R.id.rating_no_internet);
+
         mRatingAdapter = new RatingAdapter(this);
         recyclerView.setAdapter(mRatingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         startProgress();
         boolean isFilter = PreferencesManager.getInstance().getRating();
@@ -91,7 +96,6 @@ public class RatingActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public int getExceptionCode() {
         return IExceptionCode.RATING;
@@ -99,6 +103,7 @@ public class RatingActivity extends BaseActivity
 
     @Override
     public void onRatingLoaded(List<RatingItemModel> items) {
+        tvNoInternet.setVisibility(NetworkUtil.isNetworkAvailable(this) ? View.GONE : View.VISIBLE);
         mRatingAdapter.updateList(items);
         stopProgress();
     }
