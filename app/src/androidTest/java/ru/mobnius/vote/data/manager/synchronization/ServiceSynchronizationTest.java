@@ -89,9 +89,9 @@ public class ServiceSynchronizationTest extends ManagerGenerate {
         array[0] = tid;
         synchronization.processingPackage(array, results);
         records = synchronization.getRecords(TrackingDao.TABLENAME, tid).toArray();
-        Assert.assertEquals(records.length, 0);
+        Assert.assertEquals(records.length, 10);
 
-        Assert.assertEquals(synchronization.getFinishStatus(), FinishStatus.NONE);
+        Assert.assertEquals(synchronization.getFinishStatus(), FinishStatus.FAIL);
 
         if(synchronization.getFinishStatus() == FinishStatus.FAIL){
             synchronization.oneOnlyMode = true;

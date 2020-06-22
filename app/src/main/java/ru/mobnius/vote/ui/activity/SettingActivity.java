@@ -42,7 +42,7 @@ import ru.mobnius.vote.utils.VersionUtil;
 public class SettingActivity extends BaseActivity {
 
     public static void setPinCodeFragment(AppCompatActivity context, String pin, String title) {
-        BasicUser user = Authorization.getInstance().getUser();
+        BasicUser user = Authorization.getInstance().getLastAuthUser();
         PinCodeFragment fragment = PinCodeFragment.newInstance(pin, user.getCredentials().login);
         context.getSupportFragmentManager().beginTransaction().replace(R.id.single_fragment_container, fragment).addToBackStack(null).commit();
         Objects.requireNonNull(context.getSupportActionBar()).setSubtitle(title);

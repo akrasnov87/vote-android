@@ -256,9 +256,9 @@ public class DataManagerTest extends ManagerGenerate {
         Routes routes = new Routes();
         routes.id = UUID.randomUUID().toString();
         routes.c_number = "1";
-        routes.d_date = "2020-01-15T07:00:00.000";
-        routes.d_date_start = "2020-01-15T08:00:00.000";
-        routes.d_date_end = "2020-01-16T08:00:00.000";
+        routes.d_date = "2020-01-15T07:00:00.000+0300";
+        routes.d_date_start = "2020-01-15T08:00:00.000+0300";
+        routes.d_date_end = "2020-01-16T08:00:00.000+0300";
         routes.c_notice = "Примечание к маршруту";
         routes.f_type = 1;
         getDaoSession().getRoutesDao().insert(routes);
@@ -268,7 +268,7 @@ public class DataManagerTest extends ManagerGenerate {
         routeHistory.c_notice = "Начало маршрута";
         routeHistory.fn_status = 1;
         routeHistory.fn_route = routes.id;
-        routeHistory.d_date = "2020-01-15T07:00:00.000";
+        routeHistory.d_date = "2020-01-15T07:00:00.000+0300";
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
         routeHistory = new RouteHistory();
@@ -276,7 +276,7 @@ public class DataManagerTest extends ManagerGenerate {
         routeHistory.c_notice = "Завершение маршрута";
         routeHistory.fn_status = 2;
         routeHistory.fn_route = routes.id;
-        routeHistory.d_date = "2020-01-15T22:00:00.000";
+        routeHistory.d_date = "2020-01-15T22:00:00.000+0300";
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
         RouteInfo routeInfo = dataManager.getRouteInfo(routes.id);
