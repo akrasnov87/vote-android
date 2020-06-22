@@ -60,6 +60,7 @@ public class RouteHolder extends RecyclerView.ViewHolder
         int donePoints = doneList.size();
         mProgress.setMax(allPoints);
         mProgress.setProgress(donePoints);
+        mProgress.setSecondaryProgress(allPoints);
         String pointCount = mContext.getResources().getQuantityString(R.plurals.plurals_routes, allPoints, allPoints);
         tvPointCount.setText(pointCount);
     }
