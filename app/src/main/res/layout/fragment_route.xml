@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <TextView
+        android:id="@+id/house_list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
+        android:text="@string/filter_house_doned"
+        android:textAlignment="center"
+        style="@style/AppTheme.TextView.Message"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/house_list"
         android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,7 @@ public class PointListActivity extends BaseActivity
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private PreferencesManager mPreferencesManager;
+    private TextView tvMessage;
 
     public static Intent newIntent(Context context, String routeId) {
         Intent intent = new Intent(context, PointListActivity.class);
@@ -61,8 +63,10 @@ public class PointListActivity extends BaseActivity
 
         routeId = getIntent().getStringExtra(Names.ROUTE_ID);
         mDataManager = DataManager.getInstance();
-        mProgressBar = findViewById(R.id.fPoint_pbRoutesProgress);
-        mRecyclerView = findViewById(R.id.rating_list);
+        mProgressBar = findViewById(R.id.point_list_progress);
+        mRecyclerView = findViewById(R.id.point_list);
+        tvMessage = findViewById(R.id.point_list_message);
+
         mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }
@@ -157,7 +161,13 @@ public class PointListActivity extends BaseActivity
     }
 
     private List<PointItem> getSortedList(boolean sort) {
-        return mDataManager.getPointItems(routeId, sort ? PointFilter.UNDONE : PointFilter.ALL);
+        List<PointItem> list = mDataManager.getPointItems(routeId, sort ? PointFilter.UNDONE : PointFilter.ALL);
+        if(sort && list.size() == 0) {
+            tvMessage.setVisibility(View.VISIBLE);
+        } else {
+            tvMessage.setVisibility(View.GONE);
+        }
+        return list;
     }
 
     @Override

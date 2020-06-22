@@ -79,4 +79,6 @@
     <string name="rating">Рейтинг</string>
     <string name="uik_filters">Фильтрация по УИК</string>
     <string name="who_me">Где я?</string>
+    <string name="filter_appartament_doned">Установлен фильтр.\nВсе квартиры пройдены</string>
+    <string name="filter_house_doned">Установлен фильтр.\nВсе дома пройдены</string>
 </resources>

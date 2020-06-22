@@ -23,6 +23,8 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
+import ru.mobnius.vote.data.manager.synchronization.ManualSynchronization;
+import ru.mobnius.vote.data.manager.synchronization.ServiceSynchronization;
 import ru.mobnius.vote.data.storage.DbOpenHelper;
 import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
@@ -110,6 +112,9 @@ public class MobniusApplication extends android.app.Application implements IExce
         }
         SocketManager.getInstance().destroy();
         PreferencesManager.getInstance().destroy();
+
+        ServiceSynchronization.clear();
+        ManualSynchronization.clear();
     }
 
     @Override
@@ -180,7 +185,7 @@ public class MobniusApplication extends android.app.Application implements IExce
         @Override
         protected Boolean doInBackground(Void... voids) {
             if(Authorization.getInstance().isAuthorized()) {
-                BasicCredentials credentials = Authorization.getInstance().getLastAuthUser().getCredentials();
+                BasicCredentials credentials = Authorization.getInstance().getUser().getCredentials();
 
                 try {
                     List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(credentials);

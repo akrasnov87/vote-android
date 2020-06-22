@@ -55,6 +55,8 @@ public class LoginFragment extends BaseFragment
     private BasicUser mBasicUser;
     private ProgressBar mProgressBar;
 
+    private MobniusApplication.ConfigurationAsyncTask mConfigurationAsyncTask;
+
     public static LoginFragment newInstance() {
         LoginFragment loginFragment = new LoginFragment();
         Bundle args = new Bundle();
@@ -171,7 +173,7 @@ public class LoginFragment extends BaseFragment
     }
 
     private void onAuthorized() {
-        new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+        mConfigurationAsyncTask = new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
             @Override
             public void onConfigurationLoaded(boolean configRefreshed) {
                 getApplication().onAuthorized(LoginActivity.LOGIN);
@@ -180,7 +182,8 @@ public class LoginFragment extends BaseFragment
                 startActivity(intent);
                 requireActivity().finish();
             }
-        }).execute();
+        });
+        mConfigurationAsyncTask.execute();
     }
 
     private void failAuthorized(String message) {
@@ -357,5 +360,14 @@ public class LoginFragment extends BaseFragment
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mConfigurationAsyncTask != null) {
+            mConfigurationAsyncTask.cancel(true);
+            mConfigurationAsyncTask = null;
+        }
     }
 }

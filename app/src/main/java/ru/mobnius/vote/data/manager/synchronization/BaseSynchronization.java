@@ -152,7 +152,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Объект для работы с БД Sqlite
      * @return возвращается объект DaoSession
      */
-    public DaoSession getDaoSession(){
+    public DaoSession getDaoSession() {
         return session;
     }
 
@@ -161,7 +161,7 @@ public abstract class BaseSynchronization implements ISynchronization {
      * @param activity экран
      * @param progress результат выполнения
      */
-    public void start(Activity activity, IProgress progress){
+    public void start(Activity activity, IProgress progress) {
         if(isRunning) {
             this.stop();
         }else {
@@ -462,7 +462,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * Принудительная остановка выполнения
      */
-    public void stop(){
+    public void stop() {
         resetTid(this);
 
         if(activity != null) {
@@ -483,7 +483,7 @@ public abstract class BaseSynchronization implements ISynchronization {
     /**
      * удаление объекта
      */
-    void destroy(){
+    void destroy() {
         stop();
         progressListener = null;
         if(activity != null) {

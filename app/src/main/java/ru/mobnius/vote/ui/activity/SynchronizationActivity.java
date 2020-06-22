@@ -64,6 +64,8 @@ public class SynchronizationActivity extends BaseActivity
     private TextView tvError;
     private Button btnSyncAppartament;
 
+    private LocaleDataAsyncTask mLocaleDataAsyncTask;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +80,12 @@ public class SynchronizationActivity extends BaseActivity
         btnSyncAppartament = findViewById(R.id.sync_appartament);
 
         btnStart.setOnClickListener(this);
+        btnStart.setEnabled(false);
         btnStop.setOnClickListener(this);
         btnSyncAppartament.setOnClickListener(this);
 
-        new LocaleDataAsyncTask().execute();
+        mLocaleDataAsyncTask = new LocaleDataAsyncTask();
+        mLocaleDataAsyncTask.execute();
     }
 
     @Override
@@ -320,6 +324,14 @@ public class SynchronizationActivity extends BaseActivity
         }
         btnStop.setVisibility(View.VISIBLE);
         btnStart.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mLocaleDataAsyncTask.cancel(true);
+        mLocaleDataAsyncTask = null;
     }
 
     @SuppressLint("StaticFieldLeak")

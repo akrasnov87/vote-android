@@ -71,7 +71,7 @@ public class Authorization {
      * Авторизован пользователь или нет
      * @return true - пользователь авторизован
      */
-    public boolean isAuthorized(){
+    public boolean isAuthorized() {
         return mStatus == AuthorizationStatus.SUCCESS;
     }
 

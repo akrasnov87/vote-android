@@ -63,6 +63,9 @@ public class RouteListActivity extends BaseActivity implements
     private RecyclerView rvHouses;
     private Button btnSync;
     private TextView tvMeRating;
+    private TextView tvMessage;
+
+    private RatingAsyncTask mRatingAsyncTask;
 
     private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
 
@@ -79,6 +82,7 @@ public class RouteListActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_with_menu);
 
+        tvMessage = findViewById(R.id.house_list_message);
         rvHouses = findViewById(R.id.house_list);
         rvHouses.setLayoutManager(new LinearLayoutManager(this));
         rvHouses.addItemDecoration(new DividerItemDecoration(this,
@@ -124,7 +128,8 @@ public class RouteListActivity extends BaseActivity implements
         super.onStart();
 
         updateList(PreferencesManager.getInstance().getFilter());
-        new RatingAsyncTask(this).execute((Integer) null);
+        mRatingAsyncTask = new RatingAsyncTask(this);
+        mRatingAsyncTask.execute((Integer) null);
     }
 
     @Override
@@ -224,8 +229,15 @@ public class RouteListActivity extends BaseActivity implements
                 }
             }
             rvHouses.setAdapter(new RouteAdapter(this, undoneRoutes));
+
+            if(routes.size() > 0 && undoneRoutes.size() == 0){
+                tvMessage.setVisibility(View.VISIBLE);
+            } else {
+                tvMessage.setVisibility(View.GONE);
+            }
         } else {
             rvHouses.setAdapter(new RouteAdapter(this, routes));
+            tvMessage.setVisibility(View.GONE);
         }
     }
 
@@ -276,6 +288,9 @@ public class RouteListActivity extends BaseActivity implements
         super.onDestroy();
         mServerAppVersionAsyncTask.cancel(true);
         mServerAppVersionAsyncTask = null;
+
+        mRatingAsyncTask.cancel(true);
+        mRatingAsyncTask = null;
     }
 
     @SuppressLint("StaticFieldLeak")

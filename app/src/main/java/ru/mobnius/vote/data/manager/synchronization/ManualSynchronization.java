@@ -44,11 +44,18 @@ public class ManualSynchronization extends WebSocketSynchronization {
     @SuppressLint("StaticFieldLeak")
     private static ManualSynchronization manualSynchronization;
 
-    public static ManualSynchronization getInstance(boolean zip){
-        if(manualSynchronization != null){
+    public static ManualSynchronization getInstance(boolean zip) {
+        if(manualSynchronization != null) {
             return manualSynchronization;
         }else{
             return manualSynchronization = new ManualSynchronization(DataManager.getInstance().getDaoSession(), zip);
+        }
+    }
+
+    public static void clear() {
+        if(manualSynchronization != null) {
+            manualSynchronization.destroy();
+            manualSynchronization = null;
         }
     }
 
