@@ -158,6 +158,10 @@ public class RouteListActivity extends BaseActivity implements
                 startActivity(SettingActivity.getIntent(this));
                 break;
 
+            case R.id.nav_feedback:
+                startActivity(FeedbackActivity.getIntent(this));
+                break;
+
             case R.id.nav_exit:
                 AlertDialog.Builder adb = new AlertDialog.Builder(this);
                 adb.setPositiveButton(getResources().getString(R.string.yes), this);

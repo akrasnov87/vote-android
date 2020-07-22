@@ -1,5 +1,7 @@
 package ru.mobnius.vote.data.manager;
 
+import android.content.Context;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.ParseException;
@@ -14,6 +16,7 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.Feedbacks;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Question;
@@ -38,6 +41,7 @@ import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.HardwareUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
 /**
@@ -594,6 +598,27 @@ public class DataManager {
             return item;
         }
         return null;
+    }
+
+    /**
+     * добавление вопроса
+     * @param context контекст
+     * @param type тип вопроса
+     * @param message сообщение пользователя
+     * @param data данные
+     */
+    public void saveFeedback(Context context, long type, String message, String data) {
+        Feedbacks feedback = new Feedbacks();
+        feedback.id = UUID.randomUUID().toString();
+        feedback.c_imei = HardwareUtil.getIMEI(context);
+        feedback.c_question = message;
+        feedback.fn_type = type;
+        feedback.d_date_question = DateUtil.convertDateToString(new Date());
+        feedback.fn_user = Authorization.getInstance().getUser().getUserId();
+        feedback.jb_data = data;
+        feedback.objectOperationType = DbOperationType.CREATED;
+
+        daoSession.getFeedbacksDao().insert(feedback);
     }
 
     /**

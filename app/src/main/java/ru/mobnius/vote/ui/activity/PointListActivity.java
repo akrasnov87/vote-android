@@ -120,8 +120,8 @@ public class PointListActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_point, menu);
-        MenuItem sortIcon = menu.findItem(R.id.route_and_point_setSort);
-        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+        MenuItem sortIcon = menu.findItem(R.id.point_filter);
+        MenuItem searchItem = menu.findItem(R.id.point_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -132,11 +132,17 @@ public class PointListActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.route_and_point_setSort) {
+        if (item.getItemId() == R.id.point_filter) {
             item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
             PreferencesManager.getInstance().setSort(!mPreferencesManager.getSort());
             mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
         }
+
+        if(item.getItemId() == R.id.point_feedback) {
+            // NO_DATA
+            startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.NO_DATA, "{\"route_id\": \"" + routeId + "\"}"));
+        }
+
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;

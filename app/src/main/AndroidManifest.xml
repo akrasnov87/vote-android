@@ -49,7 +49,8 @@
             android:label="@string/synchronization"
             android:parentActivityName=".ui.activity.RouteListActivity"
             android:screenOrientation="locked" />
-        <activity android:name=".ui.activity.QuestionActivity"
+        <activity
+            android:name=".ui.activity.QuestionActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.PointInfoActivity"
@@ -57,10 +58,11 @@
         <activity
             android:name=".ui.activity.StatisticActivity"
             android:label="@string/statistic" />
-
-        <activity android:name=".ui.activity.RatingActivity"
-            android:label="@string/rating"/>
-        <activity android:name=".ui.BaseFormActivity" />
+        <activity
+            android:name=".ui.activity.RatingActivity"
+            android:label="@string/rating" />
+        <activity android:name=".ui.activity.FeedbackActivity"
+            android:label="@string/feedback"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

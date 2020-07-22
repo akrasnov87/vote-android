@@ -47,4 +47,5 @@ public interface IExceptionCode {
     int COMMENT_DIALOG = 39;
     int CONTACT_DIALOG = 40;
     int RATING = 41;
+    int FEEDBACK = 42;
 }

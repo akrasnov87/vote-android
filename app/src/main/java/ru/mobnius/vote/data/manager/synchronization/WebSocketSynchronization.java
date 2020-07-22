@@ -344,7 +344,6 @@ public abstract class WebSocketSynchronization extends BaseSynchronization {
                     JSONObject metaJSONObject = jsonObject.getJSONObject("meta");
                     String tid = metaJSONObject.getString("tid");
                     if(metaJSONObject.getBoolean("processed") && getEntities(tid).length > 0) {
-                        //onProgress(IProgressStep.DOWNLOAD, getEntities(tid).length > 0 ? "Текущий объект": "из паралельной синхронизации", tid);
                         DownloadTransfer downloadTransfer = new DownloadTransfer(getSynchronization(), getSocketManager().getSocket(), PreferencesManager.SYNC_PROTOCOL, getActivity(), tid);
                         if(transfers.get(tid) != null) {
                             Objects.requireNonNull(transfers.get(tid)).destroy();

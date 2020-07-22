@@ -34,6 +34,7 @@ import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
+import ru.mobnius.vote.ui.model.FeedbackExcessData;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.utils.AuditUtils;
 
@@ -103,8 +104,12 @@ public class QuestionActivity extends BaseFormActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_choice_document, menu);
-        MenuItem actionGeo = menu.findItem(R.id.choiceDocument_Geo);
+        MenuItem actionGeo = menu.findItem(R.id.choice_document_geo);
         actionGeo.setVisible(!isDone());
+
+        MenuItem feedback = menu.findItem(R.id.choice_document_feedback);
+        feedback.setVisible(!isDone());
+
         actionMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
@@ -116,7 +121,12 @@ public class QuestionActivity extends BaseFormActivity
                 onBackPressed();
                 return true;
 
-            case R.id.choiceDocument_Info:
+            case R.id.choice_document_feedback:
+                // EXCESS_DATA
+                startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.EXCESS_DATA, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                return true;
+
+            case R.id.choice_document_info:
                 startActivityForResult(PointInfoActivity.newIntent(this, pointID),
                         PointInfoActivity.POINT_INFO_CODE);
                 return true;

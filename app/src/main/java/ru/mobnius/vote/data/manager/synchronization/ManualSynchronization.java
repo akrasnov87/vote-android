@@ -16,6 +16,8 @@ import ru.mobnius.vote.data.manager.synchronization.utils.PackageResult;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.DivisionsDao;
+import ru.mobnius.vote.data.storage.models.FeedbackTypesDao;
+import ru.mobnius.vote.data.storage.models.FeedbacksDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
@@ -82,6 +84,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(new EntityDictionary(SubDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteStatusesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(PointTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
+        addEntity(new EntityDictionary(FeedbackTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(ResultTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(StatusSchemasDao.TABLENAME, false, true).setTid(dictionaryTid));
@@ -98,6 +101,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(Entity.createInstance(RouteHistoryDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(UsersDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(RegistrPtsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
+        addEntity(Entity.createInstance(FeedbacksDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
     }
 
     @Override

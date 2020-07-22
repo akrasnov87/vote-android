@@ -81,4 +81,7 @@
     <string name="who_me">Где я?</string>
     <string name="filter_appartament_doned">Установлен фильтр.\nВсе квартиры пройдены</string>
     <string name="filter_house_doned">Установлен фильтр.\nВсе дома пройдены</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="send">Отправить</string>
+    <string name="description">Описание</string>
 </resources>

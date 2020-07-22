@@ -87,9 +87,9 @@ public class AuthorizationCache {
      * @param login логин пользователя
      * @return пин-код
      */
-    public String readPin(String login){
+    public String readPin(String login) {
         Object result = getData(login, "pin");
-        if(result != null){
+        if(result != null) {
             return (String)result;
         }
         return "";
