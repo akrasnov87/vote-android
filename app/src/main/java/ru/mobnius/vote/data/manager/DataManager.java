@@ -3,6 +3,8 @@ package ru.mobnius.vote.data.manager;
 import android.content.Context;
 
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
@@ -21,7 +24,6 @@ import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
-import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
@@ -303,15 +305,25 @@ public class DataManager {
                     pointItem.color = pointState.getColor();
                 }
 
-                RegistrPts registrPts = point.getRegistrPts();
-                if(registrPts != null) {
-                    pointItem.address = registrPts.c_address;
-                    pointItem.appartament = registrPts.c_appartament_num;
+                String jd_data = point.getJb_data();
+                if(!StringUtil.isEmptyOrNull(jd_data)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(jd_data);
+                        pointItem.address = jsonObject.getString("c_address");
+                        pointItem.appartament = jsonObject.getString("c_appartament_num");
+                        pointItem.appartamentNumber = jsonObject.getInt("n_appartament_num");
+
+                        String build = jsonObject.getString("c_build_num");
+
+                        pointItem.houseNumber = jsonObject.getString("c_house_num") + (StringUtil.isEmptyOrNull(build) ? "" : " корп. " + build);
+                    } catch (JSONException e) {
+                        Logger.error(e);
+                    }
+
                     pointItem.info = point.c_info;
                     pointItem.notice = point.c_notice;
-                    pointItem.appartamentNumber = registrPts.n_appartament_num;
+
                     pointItem.routeId = point.f_route;
-                    pointItem.houseNumber = registrPts.c_house_num;
                 }
 
                 Routes route = point.getRoute();
@@ -412,13 +424,10 @@ public class DataManager {
     public PointInfo getPointInfo(String pointId) {
         Points point = daoSession.getPointsDao().load(pointId);
         if(point != null) {
-            RegistrPts registrPts = point.getRegistrPts();
-            if(registrPts != null) {
-                PointInfo info = new PointInfo(registrPts);
-                info.setNotice(point.c_info);
-                info.setAddress(point.getRoute().c_number);
-                return info;
-            }
+            PointInfo info = new PointInfo(point.getJb_data());
+            info.setNotice(point.c_info);
+            info.setAddress(point.getRoute().c_number);
+            return info;
         }
         return null;
     }

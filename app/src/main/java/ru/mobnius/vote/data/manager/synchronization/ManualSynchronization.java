@@ -21,7 +21,6 @@ import ru.mobnius.vote.data.storage.models.FeedbacksDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
-import ru.mobnius.vote.data.storage.models.RegistrPtsDao;
 import ru.mobnius.vote.data.storage.models.ResultTypesDao;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.RolesDao;
@@ -100,7 +99,6 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(Entity.createInstance(UserInRoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(RouteHistoryDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(UsersDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
-        addEntity(Entity.createInstance(RegistrPtsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(FeedbacksDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
     }
 

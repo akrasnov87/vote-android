@@ -1,6 +1,9 @@
 package ru.mobnius.vote.ui.model;
 
-import ru.mobnius.vote.data.storage.models.RegistrPts;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.utils.StringUtil;
 
 /**
@@ -10,17 +13,22 @@ public class PointInfo {
 
     /**
      * Конструктор
-     * @param registrPts учетный показатель
+     * @param data учетный показатель
      */
-    public PointInfo(RegistrPts registrPts) {
-        mAppartament = registrPts.c_appartament_num;
-        mAddress = registrPts.c_address;
+    public PointInfo(String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            mAppartament = jsonObject.getString("c_appartament_num");
+            mAddress = jsonObject.getString("c_address");
+        } catch (JSONException e) {
+            Logger.error(e);
+        }
     }
 
     /**
      * Номер ЛС
      */
-    private final String mAppartament;
+    private String mAppartament;
 
     /**
      * Адрес

@@ -13,7 +13,6 @@ import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.Divisions;
 import ru.mobnius.vote.data.storage.models.Points;
-import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
 import ru.mobnius.vote.data.storage.models.RouteStatuses;
@@ -61,7 +60,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -75,7 +74,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -89,7 +88,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -174,7 +173,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points points = new Points();
         String firstPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -196,7 +195,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         String secondPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -219,7 +218,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         String threePointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -322,7 +321,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points point = new Points();
         point.id = UUID.randomUUID().toString();
-        point.f_registr_pts = registrPts.id;
+        point.f_appartament = registrPts.id;
         point.f_route = route.id;
         getDaoSession().getPointsDao().insert(point);
 
