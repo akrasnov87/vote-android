@@ -24,7 +24,9 @@ import java.util.List;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseActivity;
+import ru.mobnius.vote.data.manager.ConnectionStateManager;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -46,7 +48,7 @@ import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 public class SynchronizationActivity extends BaseActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener, ConnectionStateManager.ConnectionCallback {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SynchronizationActivity.class);
@@ -86,6 +88,8 @@ public class SynchronizationActivity extends BaseActivity
 
         mLocaleDataAsyncTask = new LocaleDataAsyncTask();
         mLocaleDataAsyncTask.execute();
+        MobniusApplication application = (MobniusApplication)getApplication();
+        application.getConnectionManager().listenConnection(this);
     }
 
     @Override
@@ -93,7 +97,7 @@ public class SynchronizationActivity extends BaseActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_synchronization, menu);
         MenuItem eye = menu.findItem(R.id.action_sync_log);
-        if(PreferencesManager.getInstance().isDebug()) {
+        if (PreferencesManager.getInstance().isDebug()) {
             eye.setVisible(true);
             eyeStatus(eye, PreferencesManager.getInstance().isDebug());
         } else {
@@ -105,7 +109,7 @@ public class SynchronizationActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.action_sync_log) {
+        if (item.getItemId() == R.id.action_sync_log) {
             eyeStatus(item, tvLogs.getVisibility() == View.GONE);
         }
         return super.onOptionsItemSelected(item);
@@ -127,13 +131,19 @@ public class SynchronizationActivity extends BaseActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.sync_start:
             case R.id.sync_appartament:
                 if (NetworkUtil.isNetworkAvailable(this)) {
-                    if(v.getId() == R.id.sync_appartament) {
+                    if (v.getId() == R.id.sync_appartament) {
                         v.setVisibility(View.GONE);
                     }
                     AuditUtils.write("Синхронизация в online", AuditUtils.SYNC, AuditUtils.Level.HIGH);
@@ -334,6 +344,18 @@ public class SynchronizationActivity extends BaseActivity
         mLocaleDataAsyncTask = null;
     }
 
+    @Override
+    public void onConnectionChange(boolean isConnected) {
+        if (isConnected) {
+            tvError.setVisibility(View.GONE);
+            btnStart.setEnabled(true);
+        } else {
+            tvError.setVisibility(View.VISIBLE);
+            tvError.setText(R.string.internet_is_slow);
+            btnStart.setEnabled(true);
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     class LocaleDataAsyncTask extends AsyncTask<Void, Void, Integer> {
 
@@ -341,9 +363,9 @@ public class SynchronizationActivity extends BaseActivity
         protected Integer doInBackground(Void... voids) {
             int pointCount = 0;
             List<Points> points = DataManager.getInstance().getDaoSession().getPointsDao().loadAll();
-            for(Points point : points) {
+            for (Points point : points) {
                 PointState pointState = DataManager.getInstance().getPointState(point.id);
-                if(!pointState.isSync()) {
+                if (!pointState.isSync()) {
                     pointCount++;
                 }
             }
@@ -354,7 +376,7 @@ public class SynchronizationActivity extends BaseActivity
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            if(integer > 0) {
+            if (integer > 0) {
                 btnSyncAppartament.setVisibility(View.VISIBLE);
                 btnStart.setEnabled(false);
                 btnSyncAppartament.setText(String.format("Сохранить %s квартир на сервере", integer));
