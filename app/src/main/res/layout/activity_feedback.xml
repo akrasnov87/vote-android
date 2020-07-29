@@ -34,7 +34,7 @@
             android:id="@+id/feedback_item_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:fieldLabel="Дата вопроса"
+            app:fieldLabel="Дата"
             tools:fieldText="22.07.2020"
             android:layout_marginTop="@dimen/size_xxs_8"
             app:layout_constraintTop_toBottomOf="@id/feedback_item_user"/>
