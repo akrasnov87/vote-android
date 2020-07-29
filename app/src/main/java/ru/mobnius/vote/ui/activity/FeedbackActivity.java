@@ -50,6 +50,7 @@ public class FeedbackActivity extends BaseActivity
 
     public static String NO_DATA = "NO_DATA";
     public static String EXCESS_DATA = "EXCESS_DATA";
+    public static String CHANGE_NUMBER = "CHANGE_APPARTAMENT_NUMBER";
 
     public static String TYPE = "type";
     public static String DATA = "data";
@@ -111,6 +112,13 @@ public class FeedbackActivity extends BaseActivity
                 try {
                     JSONObject jsonObject = new JSONObject(Objects.requireNonNull(data));
                     etMessage.setText("Квартира или помещение по адресу " + jsonObject.getString("c_address") + " с номером " + jsonObject.getString("c_appartament") + " лишнее.");
+                } catch (JSONException e) {
+                    Logger.error(e);
+                }
+            } else if(type.equals(CHANGE_NUMBER)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(Objects.requireNonNull(data));
+                    etMessage.setHint("Укажите новый номер квартиры, которая находится по адресу " + jsonObject.getString("c_address") + " с номером " + jsonObject.getString("c_appartament"));
                 } catch (JSONException e) {
                     Logger.error(e);
                 }

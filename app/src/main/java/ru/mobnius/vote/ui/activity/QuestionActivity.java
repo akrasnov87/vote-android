@@ -1,6 +1,8 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -123,7 +125,19 @@ public class QuestionActivity extends BaseFormActivity
 
             case R.id.choice_document_feedback:
                 // EXCESS_DATA
-                startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.EXCESS_DATA, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                // CHANGE_NUMBER
+                new AlertDialog.Builder(this).setMessage("О чем Вы хотите сообщить?")
+                .setPositiveButton("Нет квартиры", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.EXCESS_DATA, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                }).setNegativeButton("Изменить номер", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.CHANGE_NUMBER, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                }).create().show();
                 return true;
 
             case R.id.choice_document_info:
