@@ -123,7 +123,7 @@ public class StatisticActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
 
-        if(NetworkUtil.isNetworkAvailable(this)) {
+        if(NetworkUtil.isNetworkAvailable(this) && NetworkUtil.isConnectionFast(this)) {
             startProgress();
             new BurndownChartAsyncTask(this).execute(mAllCount);
         } else {

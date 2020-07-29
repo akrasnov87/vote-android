@@ -51,6 +51,7 @@ public class FeedbackActivity extends BaseActivity
     public static String NO_DATA = "NO_DATA";
     public static String EXCESS_DATA = "EXCESS_DATA";
     public static String CHANGE_NUMBER = "CHANGE_APPARTAMENT_NUMBER";
+    public static String CHANGE_HOUSE_NUMBER = "CHANGE_HOUSE_NUMBER";
 
     public static String TYPE = "type";
     public static String DATA = "data";
@@ -122,6 +123,8 @@ public class FeedbackActivity extends BaseActivity
                 } catch (JSONException e) {
                     Logger.error(e);
                 }
+            } else if(type.equals(CHANGE_HOUSE_NUMBER)) {
+                etMessage.setHint("Укажите новый номер дома");
             }
         }
     }

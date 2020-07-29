@@ -256,7 +256,7 @@ public class PinCodeFragment extends BaseFragment
         Authorization.getInstance().setUser(user);
         cache.update(user.getCredentials().login, getPin(), new Date());
 
-        if(NetworkUtil.isNetworkAvailable(requireContext())) {
+        if(NetworkUtil.isNetworkAvailable(requireContext()) && NetworkUtil.isConnectionFast(requireContext())) {
             mProgressBar.setVisibility(View.VISIBLE);
             llDigit.setVisibility(View.GONE);
             tvForgotPin.setVisibility(View.GONE);

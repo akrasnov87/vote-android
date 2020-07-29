@@ -79,9 +79,6 @@
             android:enabled="true"
             android:exported="false" />
 
-    <receiver android:name=".data.manager.ConnectionStateManager"/>
-
-
     <service
             android:name=".data.service.MyService"
             android:enabled="true"

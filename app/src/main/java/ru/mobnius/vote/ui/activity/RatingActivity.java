@@ -103,7 +103,7 @@ public class RatingActivity extends BaseActivity
 
     @Override
     public void onRatingLoaded(List<RatingItemModel> items) {
-        tvNoInternet.setVisibility(NetworkUtil.isNetworkAvailable(this) ? View.GONE : View.VISIBLE);
+        tvNoInternet.setVisibility(NetworkUtil.isNetworkAvailable(this) && NetworkUtil.isConnectionFast(this) ? View.GONE : View.VISIBLE);
         mRatingAdapter.updateList(items);
         stopProgress();
     }

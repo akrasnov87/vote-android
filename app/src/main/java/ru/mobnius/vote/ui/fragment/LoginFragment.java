@@ -77,7 +77,7 @@ public class LoginFragment extends BaseFragment
         super.onResume();
 
         new ServerExistsAsyncTask(this)
-                .execute(NetworkUtil.isNetworkAvailable(requireContext()));
+                .execute(NetworkUtil.isNetworkAvailable(requireContext()), NetworkUtil.isConnectionFast(requireContext()));
 
         if (mAuthorization.isAutoSignIn()) {
             String login = mBasicUser.getCredentials().login;
@@ -257,12 +257,8 @@ public class LoginFragment extends BaseFragment
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
         }
-        boolean isConnectionFast = false;
-        if (getActivity() instanceof LoginActivity) {
-            LoginActivity activity = (LoginActivity) getActivity();
-            isConnectionFast= activity.getCurrentConnection();
-        }
-        if (NetworkUtil.isNetworkAvailable(requireContext())&&isConnectionFast) {
+
+        if (NetworkUtil.isNetworkAvailable(requireContext()) && NetworkUtil.isConnectionFast(requireContext())) {
             onSignOnline(login, password);
         } else {
             onSignOffline(login, password);
@@ -358,9 +354,10 @@ public class LoginFragment extends BaseFragment
     }
 
     @Override
-    public void onNetworkChange(boolean online, boolean serverExists) {
+    public void onNetworkChange(boolean online, boolean serverExists, boolean fasted) {
         tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
         tvServer.setVisibility(serverExists ? View.GONE : View.VISIBLE);
+        tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -374,13 +371,6 @@ public class LoginFragment extends BaseFragment
         if (mConfigurationAsyncTask != null) {
             mConfigurationAsyncTask.cancel(true);
             mConfigurationAsyncTask = null;
-        }
-    }
-    public void setInetSlowVisible(boolean visible){
-        if (visible) {
-            tvSlowInternet.setVisibility(View.GONE);
-        } else {
-            tvSlowInternet.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -34,7 +34,6 @@ import ru.mobnius.vote.utils.HardwareUtil;
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
-    private ConnectionStateManager mConnectionReceiver;
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";
@@ -62,17 +61,6 @@ public class MobniusApplication extends android.app.Application implements IExce
 
         // отслеживаем изменения подключения к сети интернет
         registerReceiver(new NetworkChangeReceiver(), filter);
-
-        mConnectionReceiver = new ConnectionStateManager();
-        mConnectionReceiver.setContext(this);
-        registerReceiver(mConnectionReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    }
-
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        unregisterReceiver( mConnectionReceiver);
     }
 
     /**
@@ -150,11 +138,11 @@ public class MobniusApplication extends android.app.Application implements IExce
      * @param serverExists подключение к серверу доступно.
      */
     @Override
-    public void onNetworkChange(boolean online, boolean serverExists) {
+    public void onNetworkChange(boolean online, boolean serverExists, boolean fasted) {
         if (mNetworkChangeListener != null) {
             for (OnNetworkChangeListener change : mNetworkChangeListener) {
                 if (change != null) {
-                    change.onNetworkChange(online, serverExists);
+                    change.onNetworkChange(online, serverExists, fasted);
                 }
             }
         }
@@ -183,10 +171,6 @@ public class MobniusApplication extends android.app.Application implements IExce
             mNetworkChangeListener.remove(change);
         }
     }
-    public ConnectionStateManager getConnectionManager(){
-        return mConnectionReceiver;
-    }
-
 
     @SuppressLint("StaticFieldLeak")
     public static class ConfigurationAsyncTask extends AsyncTask<Void, Void, Boolean> {

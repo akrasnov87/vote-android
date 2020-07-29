@@ -18,11 +18,13 @@ public class ServerExistsAsyncTask extends AsyncTask<Boolean, String, Boolean> {
     }
 
     private boolean online = false;
+    private boolean fasted = false;
 
     @Override
     protected Boolean doInBackground(Boolean... booleans) {
         boolean serverExists = false;
         online = booleans[0];
+        fasted = booleans[1];
         if(online) {
             try {
                 serverExists = RequestManager.exists(MobniusApplication.getBaseUrl()) != null;
@@ -35,6 +37,6 @@ public class ServerExistsAsyncTask extends AsyncTask<Boolean, String, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
-        mListener.onNetworkChange(online, aBoolean);
+        mListener.onNetworkChange(online, aBoolean, fasted);
     }
 }

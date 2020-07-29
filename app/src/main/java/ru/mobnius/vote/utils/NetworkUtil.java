@@ -26,28 +26,30 @@ public class NetworkUtil {
         return isAvailable;
     }
 
-    public static boolean isConnectionFast(int type, int subType, Context context){
-        if (!isNetworkAvailable(context)){
+    public static boolean isConnectionFast(Context context) {
+        TelephonyManager mTelephonyManager = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        int networkType = mTelephonyManager.getNetworkType();
+
+        if (!isNetworkAvailable(context)) {
             return false;
         }
-        if(isWifiConnection(context)){
+
+        if(isWifiConnection(context)) {
             return true;
-        }else {
-            return getNetworkClass(subType);
+        } else {
+            return getNetworkClass(networkType);
         }
     }
+
     public static boolean isWifiConnection(Context context) {
         NetworkInfo info = getInfo(context);
         if (info == null || !info.isConnected()) {
             return false;
         }
-        switch (info.getType()) {
-            case ConnectivityManager.TYPE_WIFI:
-                return true;
-            default:
-                return false;
-        }
+        return info.getType() == ConnectivityManager.TYPE_WIFI;
     }
+
     public static NetworkInfo getInfo(Context context) {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
                 .getActiveNetworkInfo();
@@ -66,6 +68,7 @@ public class NetworkUtil {
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             case TelephonyManager.NETWORK_TYPE_LTE:
                 return true;
+
             case TelephonyManager.NETWORK_TYPE_GPRS:
             case TelephonyManager.NETWORK_TYPE_EDGE:
             case TelephonyManager.NETWORK_TYPE_CDMA:

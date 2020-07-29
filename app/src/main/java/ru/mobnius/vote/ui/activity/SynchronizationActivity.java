@@ -24,9 +24,9 @@ import java.util.List;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.BaseActivity;
-import ru.mobnius.vote.data.manager.ConnectionStateManager;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
+import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
@@ -48,7 +48,7 @@ import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.NetworkUtil;
 
 public class SynchronizationActivity extends BaseActivity
-        implements View.OnClickListener, ConnectionStateManager.ConnectionCallback {
+        implements View.OnClickListener, OnNetworkChangeListener {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SynchronizationActivity.class);
@@ -88,8 +88,6 @@ public class SynchronizationActivity extends BaseActivity
 
         mLocaleDataAsyncTask = new LocaleDataAsyncTask();
         mLocaleDataAsyncTask.execute();
-        MobniusApplication application = (MobniusApplication)getApplication();
-        application.getConnectionManager().listenConnection(this);
     }
 
     @Override
@@ -131,9 +129,15 @@ public class SynchronizationActivity extends BaseActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
+        ((MobniusApplication)getApplication()).addNetworkChangeListener(this);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((MobniusApplication)getApplication()).removeNetworkChangeListener(this);
     }
 
     @Override
@@ -142,7 +146,7 @@ public class SynchronizationActivity extends BaseActivity
 
             case R.id.sync_start:
             case R.id.sync_appartament:
-                if (NetworkUtil.isNetworkAvailable(this)) {
+                if (NetworkUtil.isNetworkAvailable(this) && NetworkUtil.isConnectionFast(this)) {
                     if (v.getId() == R.id.sync_appartament) {
                         v.setVisibility(View.GONE);
                     }
@@ -345,8 +349,8 @@ public class SynchronizationActivity extends BaseActivity
     }
 
     @Override
-    public void onConnectionChange(boolean isConnected) {
-        if (isConnected) {
+    public void onNetworkChange(boolean online, boolean serverExists, boolean isFast) {
+        if (isFast) {
             tvError.setVisibility(View.GONE);
             btnStart.setEnabled(true);
         } else {

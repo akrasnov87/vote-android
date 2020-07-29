@@ -25,11 +25,20 @@
         android:id="@+id/item_route_name"
         style="@style/AppTheme.TextView.Caption"
         android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/size_xxs_8"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_route_feedback"
         app:layout_constraintStart_toEndOf="@+id/item_route_progress"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Название маршрута" />
+
+    <ImageButton
+        android:id="@+id/item_route_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_feedback_color_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/feedback" />
 
     <TextView
         android:id="@+id/item_route_type"
