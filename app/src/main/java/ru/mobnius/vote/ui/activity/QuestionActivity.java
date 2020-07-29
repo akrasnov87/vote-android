@@ -109,8 +109,8 @@ public class QuestionActivity extends BaseFormActivity
         MenuItem actionGeo = menu.findItem(R.id.choice_document_geo);
         actionGeo.setVisible(!isDone());
 
-        MenuItem feedback = menu.findItem(R.id.choice_document_feedback);
-        feedback.setVisible(!isDone());
+        //MenuItem feedback = menu.findItem(R.id.choice_document_feedback);
+        //feedback.setVisible(!isDone());
 
         actionMenu = menu;
         return super.onCreateOptionsMenu(menu);
