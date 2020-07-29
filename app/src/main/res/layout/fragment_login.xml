@@ -21,6 +21,12 @@
         android:layout_below="@id/auth_no_internet"
         tools:visibility="visible"
         style="@style/AppTheme.TextView.Error"/>
+    <TextView
+        android:id="@+id/auth_slow_internet"
+        android:text="@string/internet_is_slow"
+        android:layout_below="@id/auth_no_server"
+        tools:visibility="visible"
+        style="@style/AppTheme.TextView.Error"/>
 
     <ScrollView
         android:layout_width="match_parent"

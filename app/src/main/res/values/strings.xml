@@ -84,5 +84,6 @@
     <string name="feedback">Обратная связь</string>
     <string name="send">Отправить</string>
     <string name="description">Описание</string>
-    <string name="internet_is_slow">Текущее интернет соединение является недостаточно быстрым для синхронизации.</string>
+    <string name="internet_is_slow_sync">Текущее интернет соединение является недостаточно быстрым для синхронизации.</string>
+    <string name="internet_is_slow">Для корректной работы нужен более стабильный интернет</string>
 </resources>

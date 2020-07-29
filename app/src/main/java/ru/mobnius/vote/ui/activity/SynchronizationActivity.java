@@ -351,7 +351,7 @@ public class SynchronizationActivity extends BaseActivity
             btnStart.setEnabled(true);
         } else {
             tvError.setVisibility(View.VISIBLE);
-            tvError.setText(R.string.internet_is_slow);
+            tvError.setText(R.string.internet_is_slow_sync);
             btnStart.setEnabled(true);
         }
     }
