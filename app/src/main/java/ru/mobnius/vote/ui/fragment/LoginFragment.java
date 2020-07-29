@@ -170,7 +170,7 @@ public class LoginFragment extends BaseFragment
     }
 
     private void toast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void onAuthorized() {
