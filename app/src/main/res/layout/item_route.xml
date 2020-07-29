@@ -38,6 +38,8 @@
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:layout_marginEnd="@dimen/size_xxs_8"
         android:contentDescription="@string/feedback" />
 
     <TextView
