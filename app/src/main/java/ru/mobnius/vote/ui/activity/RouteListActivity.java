@@ -162,6 +162,13 @@ public class RouteListActivity extends BaseActivity implements
                 startActivity(FeedbackActivity.getIntent(this));
                 break;
 
+            case R.id.nav_doc:
+                String url = "https://1drv.ms/w/s!AnBjlQFDvsITgbtcv-7t9wMAfMWQkw?e=i5hILE";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+
             case R.id.nav_exit:
                 AlertDialog.Builder adb = new AlertDialog.Builder(this);
                 adb.setPositiveButton(getResources().getString(R.string.yes), this);

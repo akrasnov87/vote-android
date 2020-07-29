@@ -100,8 +100,9 @@ public class FeedbackActivity extends BaseActivity
         sType.setOnItemSelectedListener(this);
         sType.setAdapter(feedbackTypeAdapter);
 
+        sType.setEnabled(false);
+
         if(getIntent().hasExtra(TYPE)) {
-            sType.setEnabled(false);
             String type = getIntent().getStringExtra(TYPE);
             String data = getIntent().getStringExtra(DATA);
 
@@ -124,8 +125,11 @@ public class FeedbackActivity extends BaseActivity
                     Logger.error(e);
                 }
             } else if(type.equals(CHANGE_HOUSE_NUMBER)) {
-                etMessage.setHint("Укажите новый номер дома");
+                etMessage.setHint("Укажите новый номер дома. Например, 25 или 25/23 корп. 1");
             }
+        } else {
+            List<FeedbackTypes> typesList = DataManager.getInstance().getDaoSession().getFeedbackTypesDao().queryBuilder().where(FeedbackTypesDao.Properties.C_const.eq("QUESTION")).list();
+            sType.setSelection(feedbackTypeAdapter.getPositionById(typesList.get(0).getId()));
         }
     }
 
