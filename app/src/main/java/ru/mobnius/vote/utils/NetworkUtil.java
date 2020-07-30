@@ -1,9 +1,15 @@
 package ru.mobnius.vote.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class NetworkUtil {
 
@@ -15,7 +21,7 @@ public class NetworkUtil {
      */
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager manager =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         assert manager != null;
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
@@ -35,10 +41,15 @@ public class NetworkUtil {
             return false;
         }
 
-        if(isWifiConnection(context)) {
+        if (isWifiConnection(context)) {
             return true;
         } else {
-            return getNetworkClass(networkType);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return getNetworkClassForQ(context);
+            } else {
+                return getNetworkClass(networkType);
+            }
+
         }
     }
 
@@ -51,7 +62,7 @@ public class NetworkUtil {
     }
 
     public static NetworkInfo getInfo(Context context) {
-        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
+        return ((ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE))
                 .getActiveNetworkInfo();
     }
 
@@ -74,8 +85,30 @@ public class NetworkUtil {
             case TelephonyManager.NETWORK_TYPE_CDMA:
             case TelephonyManager.NETWORK_TYPE_1xRTT:
             case TelephonyManager.NETWORK_TYPE_IDEN:
+
             default:
                 return false;
         }
+    }
+
+    @SuppressLint({"MissingPermission", "NewApi"})
+    public static boolean getNetworkClassForQ(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        Network nw = connectivityManager.getActiveNetwork();
+        NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
+        if (actNw != null) {
+            if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                return true;
+            }
+            if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                return true;
+            }
+            if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                return getNetworkClass(tm.getDataNetworkType());
+            }
+        }
+        return false;
     }
 }
