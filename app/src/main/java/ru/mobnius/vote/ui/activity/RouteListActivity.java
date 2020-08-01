@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -96,6 +98,14 @@ public class RouteListActivity extends BaseActivity implements
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
         View headerLayout = navigationView.getHeaderView(0);
+        ImageView ivIcon = headerLayout.findViewById(R.id.app_icon);
+        TextView tvName = headerLayout.findViewById(R.id.app_name);
+
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            tvName.setText("Кандидат");
+            ivIcon.setBackgroundResource(R.mipmap.ic_candidate_launcher_round);
+        }
+
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
         tvMeRating = headerLayout.findViewById(R.id.app_rating);
         tvMeRating.setOnClickListener(new View.OnClickListener() {

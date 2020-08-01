@@ -15,16 +15,17 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.ui.adapter.holder.RatingHolder;
 import ru.mobnius.vote.ui.data.OnRatingAdapterListener;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
+import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 
-public class RatingAdapter extends RecyclerView.Adapter<RatingHolder>
+public class RatingCandidateAdapter extends RecyclerView.Adapter<RatingHolder>
     implements OnRatingAdapterListener {
 
     private final Context mContext;
     private final List<RatingItemModel> mList;
     private RatingAsyncTask.OnRatingLoadedListener mListener;
 
-    public RatingAdapter(Context context) {
+    public RatingCandidateAdapter(Context context) {
         mContext = context;
         mList = new ArrayList<>();
 
@@ -39,8 +40,8 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingHolder>
         notifyDataSetChanged();
     }
 
-    public void update(Integer uik) {
-        new RatingAsyncTask(mListener).execute(uik);
+    public void update(Integer subDivision) {
+        new RatingCandidateAsyncTask(mListener).execute(subDivision);
     }
 
     public int getPosition(long userId) {

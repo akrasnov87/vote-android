@@ -40,7 +40,7 @@ public class RatingHolder extends RecyclerView.ViewHolder {
         } else {
             tvFio.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
-        tvUik.setText(String.valueOf(item.n_uik));
+        tvUik.setText(item.getUik());
         tvCount.setText(String.valueOf(item.n_count));
         tvCountToday.setText(item.n_today_count > 0 ? "+" + item.n_today_count : "0");
         if(item.n_today_count == 0) {

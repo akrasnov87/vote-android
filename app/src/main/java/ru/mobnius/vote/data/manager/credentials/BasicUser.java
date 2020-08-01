@@ -16,6 +16,8 @@ public class BasicUser {
     private final Object UserId;
     private final String[] roles;
 
+    public final static String CANDIDATE = "candidate";
+
     public BasicUser(BasicCredentials credentials, Object userId, String claims){
         this.credentials = credentials;
         UserId = userId;
@@ -28,6 +30,19 @@ public class BasicUser {
         for(String s : roles){
             if(s.equals(roleName))
                 return  true;
+        }
+
+        return false;
+    }
+
+    /**
+     * является кандитаном
+     * @return true - является
+     */
+    public boolean isCandidate() {
+        for (String s: roles) {
+            if(s.equals(CANDIDATE))
+                return true;
         }
 
         return false;

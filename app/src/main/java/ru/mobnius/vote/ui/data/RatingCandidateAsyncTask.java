@@ -19,11 +19,11 @@ import ru.mobnius.vote.data.manager.rpc.SingleItemQuery;
 import ru.mobnius.vote.data.storage.models.Routes;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 
-public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemModel>> {
+public class RatingCandidateAsyncTask extends AsyncTask<Integer, Void, List<RatingItemModel>> {
 
-    private final OnRatingLoadedListener mListener;
+    private final RatingAsyncTask.OnRatingLoadedListener mListener;
 
-    public RatingAsyncTask(OnRatingLoadedListener listener) {
+    public RatingCandidateAsyncTask(RatingAsyncTask.OnRatingLoadedListener listener) {
         mListener = listener;
     }
 
@@ -37,7 +37,7 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
 
                 SingleItemQuery query = new SingleItemQuery(routes.get(0).f_type);
                 if(integers.length > 0 && integers[0] != null) {
-                    FilterItem filterItem = new FilterItem("n_uik", integers[0]);
+                    FilterItem filterItem = new FilterItem("f_subdivision", integers[0]);
                     Object[] filters = new Object[1];
                     filters[0] = filterItem;
                     query.setFilter(filters);
@@ -45,7 +45,7 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
 
                 RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(),
                         Authorization.getInstance().getUser().getCredentials().getToken(),
-                        "cf_rating",
+                        "cf_rating_candidate",
                         "Select",
                         query);
                 if(results != null) {
@@ -55,8 +55,9 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
                             RatingItemModel model = new RatingItemModel();
                             model.id = i;
                             model.user_id = jsonObject.getInt("user_id");
-                            model.n_uik = jsonObject.getInt("n_uik");
-                            model.f_subdivision = null;
+                            model.f_subdivision = jsonObject.getInt("f_subdivision");
+                            model.c_subdivision = jsonObject.getString("c_subdivision");
+                            model.n_uik = null;
                             model.c_login = jsonObject.getString("c_login");
                             model.n_all = jsonObject.getInt("n_all");
                             model.n_count = jsonObject.getInt("n_count");
@@ -84,9 +85,5 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
         super.onPostExecute(items);
 
         mListener.onRatingLoaded(items);
-    }
-
-    public interface OnRatingLoadedListener {
-        void onRatingLoaded(List<RatingItemModel> items);
     }
 }

@@ -37,6 +37,9 @@ public class Users implements IEntityTo {
     @Expose
     private String c_login;
 
+    @Expose
+    private String c_fio;
+
     /**
      * Адрес эл. почты
      */
@@ -63,6 +66,9 @@ public class Users implements IEntityTo {
 
     @Expose
     public Integer n_uik;
+
+    @Expose
+    public Integer f_subdivision;
 
     /**
      * Тип операции надл объектом
@@ -97,19 +103,22 @@ public class Users implements IEntityTo {
     @Generated(hash = 1073488616)
     private transient UsersDao myDao;
 
-    @Generated(hash = 1685371271)
-    public Users(Long id, long f_parent, String c_login, String c_email,
-            String c_tel, String c_description, boolean b_disabled, Integer n_uik,
-            String objectOperationType, boolean isDelete, boolean isSynchronization,
-            String tid, String blockTid) {
+    @Generated(hash = 1488733906)
+    public Users(Long id, long f_parent, String c_login, String c_fio,
+            String c_email, String c_tel, String c_description, boolean b_disabled,
+            Integer n_uik, Integer f_subdivision, String objectOperationType,
+            boolean isDelete, boolean isSynchronization, String tid,
+            String blockTid) {
         this.id = id;
         this.f_parent = f_parent;
         this.c_login = c_login;
+        this.c_fio = c_fio;
         this.c_email = c_email;
         this.c_tel = c_tel;
         this.c_description = c_description;
         this.b_disabled = b_disabled;
         this.n_uik = n_uik;
+        this.f_subdivision = f_subdivision;
         this.objectOperationType = objectOperationType;
         this.isDelete = isDelete;
         this.isSynchronization = isSynchronization;
@@ -143,6 +152,14 @@ public class Users implements IEntityTo {
 
     public void setC_login(String c_login) {
         this.c_login = c_login;
+    }
+
+    public String getC_fio() {
+        return this.c_fio;
+    }
+
+    public void setC_fio(String c_fio) {
+        this.c_fio = c_fio;
     }
 
     public String getC_email() {
@@ -185,6 +202,14 @@ public class Users implements IEntityTo {
         this.n_uik = n_uik;
     }
 
+    public Integer getF_subdivision() {
+        return this.f_subdivision;
+    }
+
+    public void setF_subdivision(Integer f_subdivision) {
+        this.f_subdivision = f_subdivision;
+    }
+
     public String getObjectOperationType() {
         return this.objectOperationType;
     }
@@ -224,6 +249,9 @@ public class Users implements IEntityTo {
     public void setBlockTid(String blockTid) {
         this.blockTid = blockTid;
     }
+
+    @Generated(hash = 1293412156)
+    private transient Long parent__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1896223229)
@@ -300,6 +328,4 @@ public class Users implements IEntityTo {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUsersDao() : null;
     }
-    @Generated(hash = 1293412156)
-    private transient Long parent__resolvedKey;
 }

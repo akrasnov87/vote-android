@@ -8,6 +8,7 @@
     style="@style/AppTheme.PopupOverlay">
 
     <ImageView
+        android:id="@+id/app_icon"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:contentDescription="@string/userProfile"
@@ -16,6 +17,7 @@
         android:scaleType="centerCrop"/>
 
     <TextView
+        android:id="@+id/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/appName"

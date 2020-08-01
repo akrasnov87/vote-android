@@ -602,8 +602,9 @@ public class DataManager {
         Users user = daoSession.getUsersDao().load(Authorization.getInstance().getUser().getUserId());
         if(user != null) {
             ProfileItem item = new ProfileItem();
-            item.fio = user.getC_login();
+            item.fio = user.getC_fio().length() > 0 ? user.getC_fio() : user.getC_login();
             item.uik = user.n_uik;
+            item.subDivision = user.getF_subdivision();
             return item;
         }
         return null;
