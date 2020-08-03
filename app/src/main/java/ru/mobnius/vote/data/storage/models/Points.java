@@ -54,6 +54,8 @@ public class Points {
 
     private int n_order;
 
+    public Integer n_priority;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -62,9 +64,10 @@ public class Points {
     @Generated(hash = 617316118)
     private transient PointsDao myDao;
 
-    @Generated(hash = 671383804)
+    @Generated(hash = 818458000)
     public Points(String id, String f_appartament, String f_route, String c_notice,
-            String c_info, String jb_data, String dx_created, int n_order) {
+            String c_info, String jb_data, String dx_created, int n_order,
+            Integer n_priority) {
         this.id = id;
         this.f_appartament = f_appartament;
         this.f_route = f_route;
@@ -73,6 +76,7 @@ public class Points {
         this.jb_data = jb_data;
         this.dx_created = dx_created;
         this.n_order = n_order;
+        this.n_priority = n_priority;
     }
 
     @Generated(hash = 1607589943)
@@ -141,6 +145,14 @@ public class Points {
 
     public void setN_order(int n_order) {
         this.n_order = n_order;
+    }
+
+    public Integer getN_priority() {
+        return this.n_priority;
+    }
+
+    public void setN_priority(Integer n_priority) {
+        this.n_priority = n_priority;
     }
 
     @Generated(hash = 603420700)
