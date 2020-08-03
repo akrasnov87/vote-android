@@ -46,6 +46,5 @@ public class Logger {
         Log.d(TAG, exceptionString);
         ExceptionModel exceptionModel = ExceptionModel.getInstance(new Date(), exceptionString, IExceptionGroup.NONE, IExceptionCode.ALL);
         FileExceptionManager.getInstance(sContext).writeBytes(exceptionModel.getFileName(), exceptionModel.toString().getBytes());
-
     }
 }

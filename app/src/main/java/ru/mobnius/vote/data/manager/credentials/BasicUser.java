@@ -17,6 +17,8 @@ public class BasicUser {
     private final String[] roles;
 
     public final static String CANDIDATE = "candidate";
+    public final static String CANDIDATE_ONE = "candidate_one";
+    public final static String CANDIDATE_LIST = "candidate_list";
 
     public BasicUser(BasicCredentials credentials, Object userId, String claims){
         this.credentials = credentials;
@@ -42,6 +44,32 @@ public class BasicUser {
     public boolean isCandidate() {
         for (String s: roles) {
             if(s.equals(CANDIDATE))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * одномандатник
+     * @return
+     */
+    public boolean isCandidateOne() {
+        for (String s: roles) {
+            if(s.equals(CANDIDATE_ONE))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * по пратийным спискам
+     * @return
+     */
+    public boolean isCandidateList() {
+        for (String s: roles) {
+            if(s.equals(CANDIDATE_LIST))
                 return true;
         }
 
