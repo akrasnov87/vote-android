@@ -54,8 +54,8 @@ public class PointHolder extends RecyclerView.ViewHolder
                         tvDeviceNumber.setTextColor(Color.parseColor(point.color[2]));
                     }
                 }catch (Exception e) {
-                    Logger.error(e);
                     tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
+                    Logger.error(e);
                 }
             } else {
                 tvDeviceNumber.setTextColor(Color.parseColor(point.color[0]));

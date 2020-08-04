@@ -42,6 +42,7 @@ import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferListe
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.UploadTransfer;
 import ru.mobnius.vote.data.storage.models.Points;
+import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.SynchronizationPartFragment;
 import ru.mobnius.vote.ui.model.PointState;
 import ru.mobnius.vote.utils.AuditUtils;
@@ -366,10 +367,9 @@ public class SynchronizationActivity extends BaseActivity
         @Override
         protected Integer doInBackground(Void... voids) {
             int pointCount = 0;
-            List<Points> points = DataManager.getInstance().getDaoSession().getPointsDao().loadAll();
-            for (Points point : points) {
-                PointState pointState = DataManager.getInstance().getPointState(point.id);
-                if (!pointState.isSync()) {
+            List<Results> results = DataManager.getInstance().getDaoSession().getResultsDao().loadAll();
+            for (Results result : results) {
+                if (!result.isSynchronization) {
                     pointCount++;
                 }
             }

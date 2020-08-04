@@ -32,6 +32,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.ui.data.BurndownChartAsyncTask;
+import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.BurndownItemModel;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -107,6 +108,11 @@ public class StatisticActivity extends BaseActivity
         if(item.getItemId() == R.id.action_rating) {
             startActivity(RatingActivity.getIntent(this));
         }
+        if(item.getItemId() == R.id.action_statistic) {
+            StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "statistic");
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

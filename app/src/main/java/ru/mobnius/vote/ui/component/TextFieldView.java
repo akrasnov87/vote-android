@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import android.text.Html;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -46,6 +47,10 @@ public class TextFieldView extends LinearLayout {
     }
 
     public void setFieldText(String value) {
-        tvFieldText.setText(Html.fromHtml(value));
+        tvFieldText.setText(value);
+    }
+
+    public void setFieldHtml(Spanned value) {
+        tvFieldText.setText(value);
     }
 }
