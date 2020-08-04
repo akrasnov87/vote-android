@@ -34,6 +34,7 @@ import ru.mobnius.vote.utils.HardwareUtil;
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
+    public static boolean isWelcome = false;
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";

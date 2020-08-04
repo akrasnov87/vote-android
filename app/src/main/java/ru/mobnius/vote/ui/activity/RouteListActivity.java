@@ -48,6 +48,7 @@ import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
+import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
@@ -156,6 +157,12 @@ public class RouteListActivity extends BaseActivity implements
         mServerAppVersionAsyncTask.execute();
 
         LocationChecker.start(this);
+
+        if(DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
+            MobniusApplication.isWelcome = true;
+            StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "statistic");
+        }
     }
 
     @Override

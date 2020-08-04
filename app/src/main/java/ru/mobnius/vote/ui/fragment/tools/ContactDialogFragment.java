@@ -25,6 +25,7 @@ import ru.mobnius.vote.utils.JsonUtil;
 
 public class ContactDialogFragment extends AnswerFragmentDialog<String>
         implements View.OnClickListener, ContactHolder.OnContactItemListener {
+
     private final ArrayList<ContactItem> mContacts;
     private ContactAdapter mContactAdapter;
     private TextView mEmptyView;
