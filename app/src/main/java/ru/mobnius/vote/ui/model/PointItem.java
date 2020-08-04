@@ -13,6 +13,7 @@ public class PointItem {
     public String fio;
     public String color = "#000000";
     public String houseNumber;
+    public Integer priority;
 
     /**
      * Было выполнено или нет

@@ -16,6 +16,7 @@ public class PointHolder extends RecyclerView.ViewHolder
 
     private final Context mContext;
     private final TextView tvDeviceNumber;
+    private final TextView tvDevicePriority;
     private PointItem mItem;
 
     public PointHolder(Context context, @NonNull View itemView) {
@@ -23,7 +24,7 @@ public class PointHolder extends RecyclerView.ViewHolder
 
         mContext = context;
         tvDeviceNumber = itemView.findViewById(R.id.itemPoint_appartamentNumber);
-
+        tvDevicePriority = itemView.findViewById(R.id.itemPoint_appartamentPriority);
         itemView.setOnClickListener(this);
     }
 
@@ -31,7 +32,7 @@ public class PointHolder extends RecyclerView.ViewHolder
         mItem = point;
 
         tvDeviceNumber.setText(point.appartament);
-
+        tvDevicePriority.setText(point.priority != null ? String.valueOf(point.priority) : "");
         if(point.done) {
             tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSuccess));
         } else {

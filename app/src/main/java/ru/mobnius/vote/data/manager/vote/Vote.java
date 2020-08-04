@@ -8,6 +8,7 @@ public class Vote implements Serializable {
 
     private String mComment;
     private String mJbTel;
+    private Integer mRating;
 
     private int mOrder;
 
@@ -38,5 +39,13 @@ public class Vote implements Serializable {
 
     public void setOrder(int order) {
         mOrder = order;
+    }
+
+    public Integer getRating() {
+        return mRating;
+    }
+
+    public void setRating(Integer rating) {
+        mRating = rating;
     }
 }

@@ -143,6 +143,7 @@ public class VoteManager implements Serializable {
             vote.setOrder(result.n_order);
             vote.setComment(result.c_notice);
             vote.setJbTel(result.jb_data);
+            vote.setRating(result.n_rating);
             mList.add(vote);
         }
     }
@@ -163,7 +164,7 @@ public class VoteManager implements Serializable {
      * @param comment комментарий
      * @param tel номер телефона
      */
-    public void updateQuestion(long questionId, String comment, String tel) {
+    public void updateQuestion(long questionId, String comment, String tel, Integer rating) {
         if(mList.size() > 0) {
             for(Vote v : mList) {
                 if(v.questionId == questionId) {
@@ -173,6 +174,10 @@ public class VoteManager implements Serializable {
 
                     if(tel != null && !tel.isEmpty()) {
                         v.setJbTel(tel);
+                    }
+
+                    if(rating != null) {
+                        v.setRating(rating);
                     }
                 }
             }
@@ -188,6 +193,21 @@ public class VoteManager implements Serializable {
             for(Vote v : mList) {
                 if(v.questionId == questionId) {
                     return v.getJbTel();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Получение рейтинга
+     * @param questionId идентификатор вопроса
+     */
+    public Integer getRating(long questionId) {
+        if(mList.size() > 0) {
+            for(Vote v : mList) {
+                if(v.questionId == questionId) {
+                    return v.getRating();
                 }
             }
         }

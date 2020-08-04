@@ -88,6 +88,9 @@ public class Results implements IEntityTo {
     @Expose
     public int n_order;
 
+    @Expose
+    public Integer n_rating;
+
     /**
      * Тип операции надл объектом
      */
@@ -126,13 +129,13 @@ public class Results implements IEntityTo {
     @Generated(hash = 1445092935)
     private transient ResultsDao myDao;
 
-    @Generated(hash = 991522957)
+    @Generated(hash = 1293439524)
     public Results(String id, String fn_route, String fn_point,
             String fn_user_point, long fn_type, long fn_user, long fn_question,
             long fn_answer, String d_date, String c_notice, boolean b_warning,
-            int n_order, String objectOperationType, boolean isDelete,
-            boolean isSynchronization, String tid, String blockTid, String jb_data,
-            String dx_created) {
+            int n_order, Integer n_rating, String objectOperationType,
+            boolean isDelete, boolean isSynchronization, String tid,
+            String blockTid, String jb_data, String dx_created) {
         this.id = id;
         this.fn_route = fn_route;
         this.fn_point = fn_point;
@@ -145,6 +148,7 @@ public class Results implements IEntityTo {
         this.c_notice = c_notice;
         this.b_warning = b_warning;
         this.n_order = n_order;
+        this.n_rating = n_rating;
         this.objectOperationType = objectOperationType;
         this.isDelete = isDelete;
         this.isSynchronization = isSynchronization;
@@ -252,6 +256,14 @@ public class Results implements IEntityTo {
 
     public void setN_order(int n_order) {
         this.n_order = n_order;
+    }
+
+    public Integer getN_rating() {
+        return this.n_rating;
+    }
+
+    public void setN_rating(Integer n_rating) {
+        this.n_rating = n_rating;
     }
 
     public String getObjectOperationType() {
@@ -488,6 +500,5 @@ public class Results implements IEntityTo {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getResultsDao() : null;
     }
-
 
 }

@@ -5,4 +5,5 @@ public interface Command {
     String FINISH = "FINISH";
     String CONTACT = "CONTACT";
     String COMMENT = "COMMENT";
+    String RATING = "RATING";
 }

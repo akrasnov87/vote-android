@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
@@ -297,6 +298,7 @@ public class DataManager {
             for(Points point : points) {
                 PointItem pointItem = new PointItem();
                 pointItem.id = point.id;
+                pointItem.priority = point.n_priority;
 
                 PointState pointState = getPointState(point.id);
                 if(pointState != null) {
@@ -427,6 +429,7 @@ public class DataManager {
             PointInfo info = new PointInfo(point.getJb_data());
             info.setNotice(point.c_info);
             info.setAddress(point.getRoute().c_number);
+            info.setPriority(point.n_priority);
             return info;
         }
         return null;
@@ -557,6 +560,18 @@ public class DataManager {
      */
     public Question[] getQuestions() {
         List<Question> questions = daoSession.getQuestionDao().queryBuilder().orderAsc(QuestionDao.Properties.N_order).list();
+        return questions.toArray(new Question[0]);
+    }
+
+    /**
+     * Список вопросов для кандидата
+     * @param priority приоритет
+     * @return получить список вопросов
+     */
+    public Question[] getQuestions(int priority) {
+        String role = Authorization.getInstance().getUser().isCandidateOne() ? BasicUser.CANDIDATE_ONE : BasicUser.CANDIDATE_LIST;
+
+        List<Question> questions = daoSession.getQuestionDao().queryBuilder().where(QuestionDao.Properties.N_priority.eq(priority), QuestionDao.Properties.C_role.eq(role)).orderAsc(QuestionDao.Properties.N_order).list();
         return questions.toArray(new Question[0]);
     }
 

@@ -23,6 +23,7 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.DocumentManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
@@ -36,7 +37,9 @@ import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
+import ru.mobnius.vote.ui.fragment.tools.RatingDialogFragment;
 import ru.mobnius.vote.ui.model.FeedbackExcessData;
+import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.utils.AuditUtils;
 
@@ -56,6 +59,7 @@ public class QuestionActivity extends BaseFormActivity
     private String pointID;
     private long mCurrentQuestionID;
     private long mLastAnswerID = -1;
+    private PointInfo mPointInfo;
 
     /**
      * Создание нового результата
@@ -92,9 +96,11 @@ public class QuestionActivity extends BaseFormActivity
             pointID = getIntent().getStringExtra(Names.POINT_ID);
             routeID = getIntent().getStringExtra(Names.ROUTE_ID);
             mVoteManager = new VoteManager();
+            mPointInfo = DataManager.getInstance().getPointInfo(pointID);
             AuditUtils.write(pointID, AuditUtils.VOTE, AuditUtils.Level.LOW);
         } else {
             pointID = savedInstanceState.getString(Names.POINT_ID);
+            mPointInfo = DataManager.getInstance().getPointInfo(pointID);
             routeID = savedInstanceState.getString(Names.ROUTE_ID);
             mVoteManager = (VoteManager)savedInstanceState.getSerializable(VOTE);
             mCurrentQuestionID = savedInstanceState.getLong(QUESTION_ID);
@@ -159,7 +165,13 @@ public class QuestionActivity extends BaseFormActivity
             mVoteManager.importFromResult(results.toArray(new Results[0]));
         }
 
-        Question question = DataManager.getInstance().getQuestions()[0];
+        Question question;
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            question = DataManager.getInstance().getQuestions(mPointInfo.getPriority())[0];
+        } else {
+            question = DataManager.getInstance().getQuestions()[0];
+        }
+
         onShowQuestion(mCurrentQuestionID > 0 ? mCurrentQuestionID : question.id,
                 mLastAnswerID > 0 ? mLastAnswerID : -1);
     }
@@ -177,7 +189,7 @@ public class QuestionActivity extends BaseFormActivity
 
     @Override
     public int getExceptionCode() {
-        return IExceptionCode.CONTROL_METER_READINGS;
+        return IExceptionCode.QUESTION;
     }
 
     /**
@@ -239,6 +251,12 @@ public class QuestionActivity extends BaseFormActivity
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
             ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            fragment.show(getSupportFragmentManager(), "dialog");
+            return;
+        }
+
+        if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
+            RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
@@ -307,7 +325,7 @@ public class QuestionActivity extends BaseFormActivity
         mLastAnswerID = lastAnswerId;
         mCurrentQuestionID = questionID;
         long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
-        getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID, lastAnswerId);
+        getLastQuestionListener().onQuestionBind(mPointInfo, questionID, exclusionAnswerID, lastAnswerId);
     }
 
     /**
@@ -318,11 +336,15 @@ public class QuestionActivity extends BaseFormActivity
     public void onAnswerCommand(String type, Answer answer, Object result) {
         switch (type) {
             case Command.COMMENT:
-                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null);
+                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null, null);
                 break;
 
             case Command.CONTACT:
-                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result));
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
+                break;
+
+            case Command.RATING:
+                mVoteManager.updateQuestion(answer.f_question, null, null, Integer.parseInt(String.valueOf(result)));
                 break;
         }
 
