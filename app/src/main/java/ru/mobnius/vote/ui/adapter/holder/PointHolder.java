@@ -1,6 +1,8 @@
 package ru.mobnius.vote.ui.adapter.holder;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.ui.activity.QuestionActivity;
 import ru.mobnius.vote.ui.model.PointItem;
 
@@ -33,10 +36,30 @@ public class PointHolder extends RecyclerView.ViewHolder
 
         tvDeviceNumber.setText(point.appartament);
         tvDevicePriority.setText(point.priority != null ? String.valueOf(point.priority) : "");
-        if(point.done) {
-            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSuccess));
+
+        if(point.color == null) {
+            if (point.done) {
+                tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSuccess));
+            } else {
+                tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
+            }
         } else {
-            tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
+            if(point.rating != null) {
+                try {
+                    if (point.rating <= 4) {
+                        tvDeviceNumber.setTextColor(Color.parseColor(point.color[0]));
+                    } else if (point.rating <= 7) {
+                        tvDeviceNumber.setTextColor(Color.parseColor(point.color[1]));
+                    } else {
+                        tvDeviceNumber.setTextColor(Color.parseColor(point.color[2]));
+                    }
+                }catch (Exception e) {
+                    Logger.error(e);
+                    tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
+                }
+            } else {
+                tvDeviceNumber.setTextColor(Color.parseColor(point.color[0]));
+            }
         }
     }
 

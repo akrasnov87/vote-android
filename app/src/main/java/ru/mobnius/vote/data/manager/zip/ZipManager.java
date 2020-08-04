@@ -20,6 +20,8 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipManager {
 
+    public static int BUFFER_SIZE = 2048;
+
     public static String getMode() {
         return Build.VERSION.SDK_INT <= Build.VERSION_CODES.M ? "LIB" : "ZIP";
     }
@@ -60,7 +62,7 @@ public class ZipManager {
         compressor.finish();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buf = new byte[2048];
+        byte[] buf = new byte[BUFFER_SIZE];
         while (!compressor.finished()) {
             int byteCount = compressor.deflate(buf);
             byteArrayOutputStream.write(buf, 0, byteCount);
@@ -75,14 +77,14 @@ public class ZipManager {
         ZipResult zipResult = new ZipResult(bytes);
 
         InputStream stream = new ByteArrayInputStream(bytes);
-        byte[] data = new byte[2048];
+        byte[] data = new byte[BUFFER_SIZE];
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream( bos );
-        BufferedInputStream entryStream = new BufferedInputStream( stream, 2048);
+        BufferedInputStream entryStream = new BufferedInputStream( stream, BUFFER_SIZE);
         ZipEntry entry = new ZipEntry( "" );
         zos.putNextEntry( entry );
         int count;
-        while ( ( count = entryStream.read( data, 0, 2048) ) != -1 )
+        while ( ( count = entryStream.read( data, 0, BUFFER_SIZE) ) != -1 )
         {
             zos.write( data, 0, count );
         }
@@ -101,8 +103,10 @@ public class ZipManager {
         while(zin.getNextEntry() != null) {
             // распаковка
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            for (int c = zin.read(); c != -1; c = zin.read()) {
-                byteArrayOutputStream.write(c);
+            byte[] data = new byte[BUFFER_SIZE];
+            int count;
+            while ((count = zin.read( data, 0, BUFFER_SIZE)) != -1) {
+                byteArrayOutputStream.write(data, 0, count);
             }
             byteArrayOutputStream.flush();
             zin.closeEntry();

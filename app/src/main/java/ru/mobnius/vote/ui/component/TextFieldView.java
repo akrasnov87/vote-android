@@ -3,6 +3,7 @@ package ru.mobnius.vote.ui.component;
 import android.content.Context;
 import android.content.res.TypedArray;
 
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -44,7 +45,7 @@ public class TextFieldView extends LinearLayout {
         this(context, null);
     }
 
-    public void setFieldText(String value){
-        tvFieldText.setText(value);
+    public void setFieldText(String value) {
+        tvFieldText.setText(Html.fromHtml(value));
     }
 }

@@ -37,13 +37,13 @@ public class PointInfoActivity extends BaseActivity
 
     private Button btnReset;
     private String mPointID;
-    private String mResultID;
 
     private TextFieldView tfvNotice;
     private TextFieldView tfvAddress;
     private RatingBar mRatingBar;
 
     private PointInfo mPointInfo;
+    private List<Results> mResults;
 
     public static Intent newIntent(Context context, String point_id) {
         Intent intent = new Intent(context, PointInfoActivity.class);
@@ -64,12 +64,13 @@ public class PointInfoActivity extends BaseActivity
         tfvNotice = findViewById(R.id.point_info_notice);
         tfvAddress = findViewById(R.id.point_info_address);
         mRatingBar = findViewById(R.id.point_info_rating);
+        mResults = DataManager.getInstance().getPointResults(mPointID);
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                List<Results> results =  DataManager.getInstance().getPointResults(mPointID);
-                if(results.size() > 0) {
-                    DataManager.getInstance().updateRating(results.get(0).id, (int)rating);
+
+                if(mResults.size() > 0) {
+                    DataManager.getInstance().updateRating(mResults.get(0).id, (int)rating);
                 }
             }
         });
@@ -98,7 +99,10 @@ public class PointInfoActivity extends BaseActivity
             resetButtonColor(FINISH_CREATED);
         }
 
-        mRatingBar.setEnabled(done);
+        if(mResults.size() > 0) {
+            mRatingBar.setEnabled(mResults.get(0).n_rating != null && done);
+            mRatingBar.setRating(mResults.get(0).n_rating == null ? 0 : mResults.get(0).n_rating);
+        }
     }
 
     @Override

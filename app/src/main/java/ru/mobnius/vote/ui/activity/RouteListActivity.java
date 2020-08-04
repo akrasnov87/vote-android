@@ -47,6 +47,7 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
+import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
@@ -67,7 +68,7 @@ public class RouteListActivity extends BaseActivity implements
     private TextView tvMeRating;
     private TextView tvMessage;
 
-    private RatingAsyncTask mRatingAsyncTask;
+    private AsyncTask<Integer, Void, List<RatingItemModel>> mRatingAsyncTask;
 
     private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
 
@@ -138,7 +139,11 @@ public class RouteListActivity extends BaseActivity implements
         super.onStart();
 
         updateList(PreferencesManager.getInstance().getFilter());
-        mRatingAsyncTask = new RatingAsyncTask(this);
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            mRatingAsyncTask = new RatingCandidateAsyncTask(this);
+        } else {
+            mRatingAsyncTask = new RatingAsyncTask(this);
+        }
         mRatingAsyncTask.execute((Integer) null);
     }
 
