@@ -1,37 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools">
+
+<ScrollView
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/point_info_reset"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="8dp"
+    android:layout_height="0dp"
     android:padding="8dp">
 
-    <ru.mobnius.vote.ui.component.TextFieldView
-        android:id="@+id/point_info_address"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:fieldLabel="@string/address"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="wrap_content">
 
-    <ru.mobnius.vote.ui.component.TextFieldView
-        android:id="@+id/point_info_notice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:fieldLabel="@string/notice"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/point_info_address"/>
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/point_info_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/point_info_reset"
-        style="@style/AppTheme.Button.AccentStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="@dimen/size_xxs_8" />
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/point_info_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fieldLabel="@string/notice"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:fieldText="Примечание"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/point_info_address"/>
+
+
+
+        <RatingBar
+            android:id="@+id/point_info_rating"
+            style="@style/customRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="false"
+            android:numStars="10"
+            android:rating="5"
+            app:layout_constraintTop_toBottomOf="@id/point_info_notice"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/point_info_rating_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_num"
+            android:textColor="@color/colorSecondary"
+            android:textSize="@dimen/small_text_size"
+            app:layout_constraintTop_toBottomOf="@id/point_info_rating" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+<Button
+    android:id="@+id/point_info_reset"
+    style="@style/AppTheme.Button.AccentStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/reset"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_margin="@dimen/size_xxs_8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
