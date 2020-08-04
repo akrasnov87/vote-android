@@ -68,7 +68,10 @@ public class PointInfoActivity extends BaseActivity
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
+                if (rating!=Math.round(rating)) {
+                    rating = (float) (rating + 0.5);
+                    mRatingBar.setRating(rating);
+                }
                 if(mResults.size() > 0) {
                     DataManager.getInstance().updateRating(mResults.get(0).id, (int)rating);
                 }
@@ -101,6 +104,7 @@ public class PointInfoActivity extends BaseActivity
 
         if(mResults.size() > 0) {
             mRatingBar.setEnabled(mResults.get(0).n_rating != null && done);
+
             mRatingBar.setRating(mResults.get(0).n_rating == null ? 0 : mResults.get(0).n_rating);
         }
     }
