@@ -67,6 +67,10 @@ public class PointInfoActivity extends BaseActivity
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (rating!=Math.round(rating)){
+                    rating = (float) (rating +0.5);
+                    mRatingBar.setRating(rating);
+                }
                 List<Results> results =  DataManager.getInstance().getPointResults(mPointID);
                 if(results.size() > 0) {
                     DataManager.getInstance().updateRating(results.get(0).id, (int)rating);
