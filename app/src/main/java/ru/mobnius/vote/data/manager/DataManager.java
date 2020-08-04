@@ -436,6 +436,17 @@ public class DataManager {
     }
 
     /**
+     * Обновление рейтинга
+     * @param resultID иден. результата
+     * @param rating рейтинг
+     */
+    public void updateRating(String resultID, int rating) {
+        Results result = daoSession.getResultsDao().load(resultID);
+        result.n_rating = rating;
+        daoSession.getResultsDao().update(result);
+    }
+
+    /**
      * Завершение маршрута
      * @param routeId идентификатор маршрута
      */

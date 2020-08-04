@@ -25,11 +25,11 @@ import ru.mobnius.vote.data.storage.models.Answer;
 public class RatingDialogFragment extends AnswerFragmentDialog<String> implements View.OnClickListener {
     private RatingBar mRatingBar;
     private Button btnDone;
-    private final int mRating;
+    private final Integer mRating;
 
-    public RatingDialogFragment(Answer answer, int rating, boolean isDone) {
+    public RatingDialogFragment(Answer answer, Integer rating, boolean isDone) {
         super(answer, Command.RATING, isDone);
-        mRating = rating;
+        mRating = rating == null ? 0 : rating;
     }
 
     @Nullable
@@ -59,7 +59,7 @@ public class RatingDialogFragment extends AnswerFragmentDialog<String> implement
 
     @Override
     public void onClick(View v) {
-        onAnswerListener(String.valueOf(mRatingBar.getRating()));
+        onAnswerListener(String.valueOf((int)mRatingBar.getRating()));
     }
 
     @Override

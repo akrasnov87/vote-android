@@ -39,7 +39,7 @@ public class DocumentManager {
      * @param answer если нет, то указать -1
      * @return иден. созданной записи, Results
      */
-    public String createResult(String userPointId, long question, long answer, String notice, String jData, int order, boolean warning) {
+    public String createResult(String userPointId, long question, long answer, String notice, String jData, int order, boolean warning, Integer rating) {
         Results result = new Results();
         result.id = UUID.randomUUID().toString();
         result.fn_user = mUserId;
@@ -53,6 +53,7 @@ public class DocumentManager {
         result.fn_question = question;
         result.fn_answer = answer;
         result.n_order = order;
+        result.n_rating = rating;
 
         if(!StringUtil.isEmptyOrNull(jData)) {
             result.jb_data = jData;
@@ -115,7 +116,7 @@ public class DocumentManager {
         String userPointID = createUserPoint(null, location.getLongitude(), location.getLatitude(), null);
 
         for(Vote vote : listener.getVoteManager().getList()) {
-            createResult(userPointID, vote.questionId, vote.answerId, vote.getComment(), vote.getJbTel(), vote.getOrder(), location.getAccuracy() == 0);
+            createResult(userPointID, vote.questionId, vote.answerId, vote.getComment(), vote.getJbTel(), vote.getOrder(), location.getAccuracy() == 0, vote.getRating());
         }
     }
 

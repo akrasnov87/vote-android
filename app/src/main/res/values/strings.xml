@@ -87,6 +87,6 @@
     <string name="internet_is_slow_sync">Текущее интернет соединение является недостаточно быстрым для синхронизации.</string>
     <string name="internet_is_slow">Для корректной работы нужен более стабильный интернет</string>
     <string name="help">Справка</string>
-    <string name="rating_num">рейтинг</string>
+    <string name="rating_num">Оценка</string>
     <string name="rating_voice">Оценить результат общения</string>
 </resources>
