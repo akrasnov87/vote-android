@@ -396,6 +396,8 @@ public class DataManager {
         if(route != null) {
             try {
                 RouteInfo routeInfo = new RouteInfo();
+
+                routeInfo.setNumber(route.c_number);
                 routeInfo.setCount(route.n_count);
                 routeInfo.setNotice(route.c_notice);
                 routeInfo.setDateEnd(DateUtil.convertStringToDate(route.d_date_end));

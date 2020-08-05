@@ -33,6 +33,8 @@ public class RouteInfo {
 
     private int mCount;
 
+    private String mNumber;
+
     /**
      * История изменения статуса
      */
@@ -114,5 +116,13 @@ public class RouteInfo {
 
     public void setCount(int count) {
         mCount = count;
+    }
+
+    public String getNumber() {
+        return mNumber;
+    }
+
+    public void setNumber(String number) {
+        mNumber = number;
     }
 }
