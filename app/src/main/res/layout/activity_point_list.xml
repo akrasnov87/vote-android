@@ -32,6 +32,7 @@
         android:id="@+id/point_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/point_list_progress"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

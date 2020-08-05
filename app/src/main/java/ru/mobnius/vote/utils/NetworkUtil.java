@@ -1,13 +1,17 @@
 package ru.mobnius.vote.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+
+import androidx.core.app.ActivityCompat;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -49,7 +53,6 @@ public class NetworkUtil {
             } else {
                 return getNetworkClass(networkType);
             }
-
         }
     }
 
@@ -91,7 +94,7 @@ public class NetworkUtil {
         }
     }
 
-    @SuppressLint({"MissingPermission", "NewApi"})
+    @SuppressLint({"NewApi", "MissingPermission"})
     public static boolean getNetworkClassForQ(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
