@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size_xxxl_176"
+    android:orientation="vertical"
+    style="@style/AppTheme.PopupOverlay">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@string/userProfile"
+        android:paddingTop="16dp"
+        android:background="@mipmap/ic_logo_round"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/appName"
+        android:textColor="@color/colorHintDark"
+        android:textSize="@dimen/small_text_size"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/app_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorSecondaryText"
+            tools:text="Иванов Иван Иванович"
+            tools:visibility="visible"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/app_rating"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:id="@+id/app_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="123"
+            android:textSize="@dimen/small_text_size"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/app_description"
+            app:layout_constraintBottom_toBottomOf="@id/app_description"
+            android:textColor="@color/colorSecondaryText"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
