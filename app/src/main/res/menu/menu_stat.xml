@@ -8,4 +8,8 @@
         android:title="@string/rating"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/action_statistic"
+        android:title="Статистика обхода"
+        app:showAsAction="never"/>
 </menu>

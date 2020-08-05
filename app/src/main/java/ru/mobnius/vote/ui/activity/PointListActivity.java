@@ -81,6 +81,7 @@ public class PointListActivity extends BaseActivity
         }
 
         RouteInfo routeInfo = DataManager.getInstance().getRouteInfo(routeId);
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle(routeInfo.getNumber());
         if(routeInfo.getDateEnd().getTime() <= new Date().getTime()) {
             // Просрочен
             if(!DataManager.getInstance().isRouteStatus(routeId, "EXPIRED")) {

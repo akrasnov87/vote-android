@@ -1,6 +1,9 @@
 package ru.mobnius.vote.ui.model;
 
 public class PointItem {
+    public PointItem() {
+        color = null;
+    }
     public String id;
     public int appartamentNumber;
     public String appartament;
@@ -11,9 +14,10 @@ public class PointItem {
     public String routeName;
     public String routeId;
     public String fio;
-    public String color = "#000000";
+    public String[] color;
     public String houseNumber;
     public Integer priority;
+    public Integer rating;
 
     /**
      * Было выполнено или нет

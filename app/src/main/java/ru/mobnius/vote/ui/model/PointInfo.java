@@ -24,7 +24,7 @@ public class PointInfo {
             mOther = People.getPeoples(jsonObject.getString("jb_other"));
             mER = People.getPeoples(jsonObject.getString("jb_er"));
             mBudget = People.getPeoples(jsonObject.getString("jb_budget"));
-            mSignature = jsonObject.has("n_signature") ? null : jsonObject.getInt("n_signature");
+            mSignature = jsonObject.has("n_signature") ? jsonObject.getInt("n_signature") : null;
         } catch (JSONException e) {
             Logger.error(e);
         }
@@ -96,6 +96,52 @@ public class PointInfo {
 
     public Integer getSignature() {
         return mSignature;
+    }
+
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder();
+
+        if(getFoodKit().length > 0) {
+            builder.append("<p>Продуктовый набор:<br />");
+            for(People p : getFoodKit()) {
+                builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
+            }
+
+            builder.append("</p>");
+        }
+
+        if(getOther().length > 0) {
+            builder.append("<p>Иное:<br />");
+            for(People p : getOther()) {
+                builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
+            }
+
+            builder.append("</p>");
+        }
+
+        if(getER().length > 0) {
+            builder.append("<p>Сторонники ЕР:<br />");
+            for(People p : getER()) {
+                builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
+            }
+
+            builder.append("</p>");
+        }
+
+        if(getBudget().length > 0) {
+            builder.append("<p>Бюджетники:<br />");
+            for(People p : getBudget()) {
+                builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
+            }
+
+            builder.append("</p>");
+        }
+
+        if(getSignature() != null && getSignature() > 0) {
+            builder.append("<p>Ставили подпись в 2018 году</p>");
+        }
+
+        return builder.toString();
     }
 
     public String getUserName() {

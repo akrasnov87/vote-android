@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -32,8 +35,12 @@ import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
+    public static boolean isWelcome = false;
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";

@@ -305,6 +305,7 @@ public class DataManager {
                     pointItem.done = pointState.isDone();
                     pointItem.sync = pointState.isSync();
                     pointItem.color = pointState.getColor();
+                    pointItem.rating = pointState.getRating();
                 }
 
                 String jd_data = point.getJb_data();
@@ -363,19 +364,20 @@ public class DataManager {
         List<UserPoints> userPoints = daoSession.getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(pointId)).list();
 
         for(UserPoints userPoint : userPoints) {
-            if(userPoint.isSynchronization) {
-                List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
-                for(Results result : results) {
-                    Answer answer = result.getAnswer();
-                    if(answer != null) {
-                        pointState.setColor(answer.c_color);
-                    }
-
-                    if(!result.isSynchronization) {
-                        return pointState;
-                    }
+            List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
+            boolean stop = false;
+            for(Results result : results) {
+                Answer answer = result.getAnswer();
+                if(answer != null) {
+                    pointState.setColor(answer.c_color);
+                    pointState.setRating(result.n_rating);
                 }
-            } else {
+
+                if(!result.isSynchronization) {
+                    stop = true;
+                }
+            }
+            if(stop || !userPoint.isSynchronization) {
                 return pointState;
             }
         }
@@ -394,6 +396,8 @@ public class DataManager {
         if(route != null) {
             try {
                 RouteInfo routeInfo = new RouteInfo();
+
+                routeInfo.setNumber(route.c_number);
                 routeInfo.setCount(route.n_count);
                 routeInfo.setNotice(route.c_notice);
                 routeInfo.setDateEnd(DateUtil.convertStringToDate(route.d_date_end));

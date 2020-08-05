@@ -48,6 +48,7 @@ import ru.mobnius.vote.utils.HardwareUtil;
 public class FeedbackActivity extends BaseActivity
         implements TextWatcher, AdapterView.OnItemSelectedListener {
 
+    public static String QUESTION = "QUESTION";
     public static String NO_DATA = "NO_DATA";
     public static String EXCESS_DATA = "EXCESS_DATA";
     public static String CHANGE_NUMBER = "CHANGE_APPARTAMENT_NUMBER";
@@ -126,6 +127,8 @@ public class FeedbackActivity extends BaseActivity
                 }
             } else if(type.equals(CHANGE_HOUSE_NUMBER)) {
                 etMessage.setHint("Укажите новый номер дома. Например, 25 или 25/23 корп. 1");
+            } else {
+                sType.setSelection(feedbackTypeAdapter.getPositionById(typesList.get(0).getId()));
             }
         } else {
             List<FeedbackTypes> typesList = DataManager.getInstance().getDaoSession().getFeedbackTypesDao().queryBuilder().where(FeedbackTypesDao.Properties.C_const.eq("QUESTION")).list();

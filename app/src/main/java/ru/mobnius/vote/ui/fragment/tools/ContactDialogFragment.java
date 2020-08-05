@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import ru.mobnius.vote.utils.JsonUtil;
 
 public class ContactDialogFragment extends AnswerFragmentDialog<String>
         implements View.OnClickListener, ContactHolder.OnContactItemListener {
+
     private final ArrayList<ContactItem> mContacts;
     private ContactAdapter mContactAdapter;
     private TextView mEmptyView;

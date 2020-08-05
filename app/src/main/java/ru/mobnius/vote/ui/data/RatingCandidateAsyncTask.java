@@ -55,6 +55,7 @@ public class RatingCandidateAsyncTask extends AsyncTask<Integer, Void, List<Rati
                             RatingItemModel model = new RatingItemModel();
                             model.id = i;
                             model.user_id = jsonObject.getInt("user_id");
+                            jsonObject.get("f_subdivision");
                             model.f_subdivision = jsonObject.getInt("f_subdivision");
                             model.c_subdivision = jsonObject.getString("c_subdivision");
                             model.n_uik = null;
