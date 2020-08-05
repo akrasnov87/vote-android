@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +33,6 @@ import ru.mobnius.vote.ui.fragment.tools.ContactAdapter;
 public class StatisticDialogFragment extends BaseDialogFragment
     implements View.OnClickListener {
 
-    private ImageButton ibClose;
     private TextView tvTxt;
 
     @Nullable
@@ -41,7 +42,7 @@ public class StatisticDialogFragment extends BaseDialogFragment
 
         setCancelable(false);
 
-        ibClose = v.findViewById(R.id.statistic_close);
+        ImageButton ibClose = v.findViewById(R.id.statistic_close);
         ibClose.setOnClickListener(this);
 
         tvTxt = v.findViewById(R.id.statistic_txt);
