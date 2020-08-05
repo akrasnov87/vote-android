@@ -64,7 +64,7 @@ public class StatisticDialogFragment extends BaseDialogFragment
         List<Results> allResults = DataManager.getInstance().getDaoSession().getResultsDao().loadAll();
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<p><b>" + DataManager.getInstance().getProfile().fio + "</b>, доброго времени суток</p>");
+        builder.append("<p><b>«" + DataManager.getInstance().getProfile().fio + "»</b>, доброго времени суток!</p>");
 
         builder.append("<p>А) Кол-во квартир – ").append(all.size()).append(" (100%)<br />");
         builder.append(" - кол-во пройденных квартир – " + allResults.size() + " ("+ getPercent(all.size(), allResults.size()) + "%)<br />");
@@ -133,7 +133,7 @@ public class StatisticDialogFragment extends BaseDialogFragment
                         count++;
                     } else if(type == 2 && result.n_rating > 4 && result.n_rating <= 7) {
                         count++;
-                    } else if(type == 3) {
+                    } else if(type == 3 && result.n_rating > 7) {
                         count++;
                     }
                 }

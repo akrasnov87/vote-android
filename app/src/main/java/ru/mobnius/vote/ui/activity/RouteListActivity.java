@@ -11,11 +11,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.provider.Settings;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -33,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ru.mobnius.vote.Names;
@@ -44,14 +48,18 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
+import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
 import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
+import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
 import ru.mobnius.vote.utils.VersionUtil;
@@ -61,7 +69,8 @@ public class RouteListActivity extends BaseActivity implements
         View.OnClickListener,
         DialogInterface.OnClickListener,
         LocationChecker.OnLocationAvailable,
-        RatingAsyncTask.OnRatingLoadedListener {
+        RatingAsyncTask.OnRatingLoadedListener,
+        SearchView.OnQueryTextListener {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
@@ -138,8 +147,7 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-
-        updateList(PreferencesManager.getInstance().getFilter());
+        updateList(PreferencesManager.getInstance().getFilter(), null);
         if(Authorization.getInstance().getUser().isCandidate()) {
             mRatingAsyncTask = new RatingCandidateAsyncTask(this);
         } else {
@@ -212,6 +220,11 @@ public class RouteListActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_route, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_route_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(this);
+
         MenuItem filterIcon = menu.findItem(R.id.action_route_filters);
         boolean isFilter = PreferencesManager.getInstance().getFilter();
         filterIcon.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
@@ -223,7 +236,7 @@ public class RouteListActivity extends BaseActivity implements
         if (item.getItemId() == R.id.action_route_filters) {
             boolean isFilter = !PreferencesManager.getInstance().getFilter();
             item.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
-            updateList(isFilter);
+            updateList(isFilter, null);
             PreferencesManager.getInstance().setFilter(isFilter);
         }
         return super.onOptionsItemSelected(item);
@@ -249,8 +262,23 @@ public class RouteListActivity extends BaseActivity implements
         }
     }
 
-    private void updateList(boolean isFilter) {
+    private void updateList(boolean isFilter, String query) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
+
+        if(query != null) {
+            List<RouteItem> filterRoutes = new ArrayList<>();
+            query = query.toLowerCase();
+
+            for(RouteItem routeItem : routes) {
+                if(routeItem.number.toLowerCase().contains(query)) {
+                    filterRoutes.add(routeItem);
+                }
+            }
+
+            routes.clear();
+            routes.addAll(filterRoutes);
+        }
+
         btnSync.setVisibility(routes.size() == 0 ? View.VISIBLE : View.GONE);
 
         if (isFilter) {
@@ -271,6 +299,14 @@ public class RouteListActivity extends BaseActivity implements
         } else {
             rvHouses.setAdapter(new RouteAdapter(this, routes));
             tvMessage.setVisibility(View.GONE);
+        }
+    }
+
+    private void searchResult(String query) {
+        if (JsonUtil.isEmpty(query)) {
+            updateList(PreferencesManager.getInstance().getFilter(), null);
+        } else {
+            updateList(PreferencesManager.getInstance().getFilter(), query);
         }
     }
 
@@ -324,6 +360,20 @@ public class RouteListActivity extends BaseActivity implements
 
         mRatingAsyncTask.cancel(true);
         mRatingAsyncTask = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        searchResult(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if(StringUtil.isEmptyOrNull(newText)) {
+            searchResult(JsonUtil.EMPTY);
+        }
+        return false;
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -133,6 +133,12 @@ public class QuestionActivity extends BaseFormActivity
                 // EXCESS_DATA
                 // CHANGE_NUMBER
                 new AlertDialog.Builder(this).setMessage("О чем Вы хотите сообщить?")
+                .setNeutralButton("Другое", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.QUESTION, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                })
                 .setPositiveButton("Нет квартиры", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

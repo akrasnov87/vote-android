@@ -35,12 +35,19 @@
             android:contentDescription="@string/cancel"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/statistic_txt"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textSize="@dimen/medium_text_size"
-        app:layout_constraintTop_toBottomOf="@id/statistic_title"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/statistic_title"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/statistic_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="@dimen/medium_text_size"/>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
