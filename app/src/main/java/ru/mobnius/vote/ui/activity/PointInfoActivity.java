@@ -24,6 +24,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.component.TextFieldView;
+import ru.mobnius.vote.ui.model.FeedbackExcessData;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.StringUtil;
@@ -67,19 +68,9 @@ public class PointInfoActivity extends BaseActivity
         tfvAddress = findViewById(R.id.point_info_address);
         tfvDescription = findViewById(R.id.point_info_description);
         mRatingBar = findViewById(R.id.point_info_rating);
+        mRatingBar.setEnabled(false);
+
         mResults = DataManager.getInstance().getPointResults(mPointID);
-        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (rating!=Math.round(rating)) {
-                    rating = (float) (rating + 0.5);
-                    mRatingBar.setRating(rating);
-                }
-                if(mResults.size() > 0) {
-                    DataManager.getInstance().updateRating(mResults.get(0).id, (int)rating);
-                }
-            }
-        });
 
         btnReset = findViewById(R.id.point_info_reset);
         btnReset.setOnClickListener(this);
@@ -113,11 +104,7 @@ public class PointInfoActivity extends BaseActivity
         }
 
         if(mResults.size() > 0) {
-            mRatingBar.setEnabled(mResults.get(0).n_rating != null && done);
-
             mRatingBar.setRating(mResults.get(0).n_rating == null ? 0 : mResults.get(0).n_rating);
-        } else {
-            mRatingBar.setEnabled(false);
         }
     }
 

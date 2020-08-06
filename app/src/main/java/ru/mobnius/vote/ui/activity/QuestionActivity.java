@@ -132,8 +132,7 @@ public class QuestionActivity extends BaseFormActivity
             case R.id.choice_document_feedback:
                 // EXCESS_DATA
                 // CHANGE_NUMBER
-                new AlertDialog.Builder(this).setMessage("О чем Вы хотите сообщить?")
-                .setNeutralButton("Другое", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setMessage("О чем Вы хотите сообщить?").setNeutralButton("Другое", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.QUESTION, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
