@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.fragment;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +57,12 @@ public class VoteItemFragment extends BaseFragment
 
         Question question = dataManager.getQuestion(questionID);
         if(question != null) {
-            question.c_text = question.c_text.replace("[c_fio]", pointInfo.getUserName() == null ? "<font color='#FF0000'>(ФИО не найдено)</font>" : pointInfo.getUserName());
-            question.c_text = question.c_text.replace("[c_my_fio]", dataManager.getProfile().fio);
-            tvDescription.setText(Html.fromHtml(question.c_text));
+            String userName = pointInfo.getUserName();
+            //Log.d("INFO_USER", pointInfo.getUserName());
+            String txt = question.c_text.replace("[c_fio]", userName == null ? "<font color='#FF0000'>(ФИО не найдено)</font>" : userName)
+                    .replace("[c_my_fio]", dataManager.getProfile().fio);
+            //question.c_text = question.c_text.replace("[c_my_fio]", dataManager.getProfile().fio);
+            tvDescription.setText(Html.fromHtml(txt));
         }
     }
 
