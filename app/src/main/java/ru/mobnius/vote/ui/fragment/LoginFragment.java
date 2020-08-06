@@ -26,6 +26,7 @@ import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
 import ru.mobnius.vote.data.manager.Version;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
@@ -356,8 +357,12 @@ public class LoginFragment extends BaseFragment
     @Override
     public void onNetworkChange(boolean online, boolean serverExists, boolean fasted) {
         tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
+
         tvServer.setVisibility(serverExists ? View.GONE : View.VISIBLE);
-        tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
+        AuthorizationCache authorizationCache = new AuthorizationCache(getContext());
+        if(authorizationCache.getNames().length > 0) {
+            tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
+        }
     }
 
     @Override

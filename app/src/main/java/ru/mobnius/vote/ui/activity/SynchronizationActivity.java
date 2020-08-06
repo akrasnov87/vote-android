@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -260,7 +261,6 @@ public class SynchronizationActivity extends BaseActivity
                     if (synchronization.getFinishStatus() == FinishStatus.SUCCESS && step > 1) {
                         alert(message);
                     }
-
                 }
 
                 @Override

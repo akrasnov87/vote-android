@@ -63,7 +63,7 @@ public class RouteHolder extends RecyclerView.ViewHolder
         tvType.setText(routeItem.typeName);
 
         RouteInfo info = DataManager.getInstance().getRouteInfo(routeItem.id);
-        String endDate = "До " + DateUtil.convertDateToUserString(info.getDateEnd(), DateUtil.USER_SHORT_FORMAT);
+        String endDate = DateUtil.convertDateToUserString(info.getDateEnd(), DateUtil.USER_SHORT_FORMAT);
         tvEndDate.setText(endDate);
 
         List<PointItem> doneList = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.DONE);
