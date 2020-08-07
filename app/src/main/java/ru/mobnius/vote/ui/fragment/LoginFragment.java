@@ -259,10 +259,17 @@ public class LoginFragment extends BaseFragment
             mProgressBar.setVisibility(View.VISIBLE);
         }
 
-        if (NetworkUtil.isNetworkAvailable(requireContext()) && NetworkUtil.isConnectionFast(requireContext())) {
+        AuthorizationCache cache = new AuthorizationCache(getContext());
+
+        if(cache.getNames().length == 0 && NetworkUtil.isNetworkAvailable(requireContext())) {
             onSignOnline(login, password);
         } else {
-            onSignOffline(login, password);
+            if (NetworkUtil.isNetworkAvailable(requireContext()) &&
+                    NetworkUtil.isConnectionFast(requireContext())) {
+                onSignOnline(login, password);
+            } else {
+                onSignOffline(login, password);
+            }
         }
     }
 
@@ -359,10 +366,7 @@ public class LoginFragment extends BaseFragment
         tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
 
         tvServer.setVisibility(serverExists ? View.GONE : View.VISIBLE);
-        AuthorizationCache authorizationCache = new AuthorizationCache(getContext());
-        if(authorizationCache.getNames().length > 0) {
-            tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
-        }
+        tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
     }
 
     @Override

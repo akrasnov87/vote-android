@@ -1,6 +1,7 @@
 package ru.mobnius.vote.data.manager.authorization;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -142,7 +143,7 @@ public class AuthorizationCache {
      * Получение списка пользователея, которые авторизовывались на устройстве
      * @return Возвращается массив строк с логинали пользователей
      */
-    public String[] getNames(){
+    public String[] getNames() {
         File dir = new File(context.getFilesDir().getPath());
         ArrayList<String> users = new ArrayList<>();
 
