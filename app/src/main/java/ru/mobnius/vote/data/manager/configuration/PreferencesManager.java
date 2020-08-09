@@ -19,6 +19,8 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
     public static final String PIN = "MBL_PIN";
     public static final String MBL_GEO_CHECK = "MBL_GEO_CHECK";
+    public static final String MBL_LOG = "MBL_LOG";
+    public static final String MBL_LOG_LOW = "LOW";
 
     public static final String MBL_BG_SYNC_INTERVAL = "MBL_BG_SYNC_INTERVAL";
     public static final String MBL_TRACK_INTERVAL = "MBL_TRACK_INTERVAL";
@@ -96,5 +98,9 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getTelemetryInterval() {
         return getDefaultIntValue(MBL_TELEMETRY_INTERVAL);
+    }
+
+    public String getLog() {
+        return getDefaultStringValue(MBL_LOG);
     }
 }

@@ -28,7 +28,7 @@ public class AuditUtils {
     public static void write(String message, String type, Level level) {
         boolean isDebug = PreferencesManager.getInstance().isDebug();
         DaoSession daoSession = DataManager.getInstance().getDaoSession();
-        if(!isDebug && level == Level.LOW) {
+        if(!isDebug && level == Level.LOW && PreferencesManager.getInstance().getLog().equals(PreferencesManager.MBL_LOG_LOW)) {
             return;
         }
         Audits audit = new Audits();
