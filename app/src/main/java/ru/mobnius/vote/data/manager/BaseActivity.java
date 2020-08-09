@@ -55,6 +55,10 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         }
     }
 
+    public void onPermissionChecked() {
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -69,6 +73,8 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
             ActivityCompat.requestPermissions(this,
                     permissions,
                     REQUEST_PERMISSIONS);
+        } else {
+            onPermissionChecked();
         }
     }
 
@@ -89,6 +95,7 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
                 if (!allGrant) {
                     Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG).show();
                 } else {
+                    onPermissionChecked();
                     Toast.makeText(this, getText(R.string.permissions_grant), Toast.LENGTH_LONG).show();
                 }
             } else {

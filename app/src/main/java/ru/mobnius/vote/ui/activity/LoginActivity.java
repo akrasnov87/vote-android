@@ -45,8 +45,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onPermissionChecked() {
+        super.onPermissionChecked();
 
         BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
         String pin = "";
