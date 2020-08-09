@@ -1,6 +1,7 @@
 package ru.mobnius.vote.data.manager.configuration;
 
 import android.content.Context;
+import android.location.LocationManager;
 
 public class PreferencesManager extends AbstractPreferencesManager {
 
@@ -20,6 +21,8 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String PIN = "MBL_PIN";
     public static final String MBL_GEO_CHECK = "MBL_GEO_CHECK";
     public static final String MBL_LOG = "MBL_LOG";
+    public static final String MBL_LOCATION = "MBL_LOCATION";
+    public static final String MBL_DISTANCE = "MBL_DISTANCE";
     public static final String MBL_LOG_LOW = "LOW";
 
     public static final String MBL_BG_SYNC_INTERVAL = "MBL_BG_SYNC_INTERVAL";
@@ -102,5 +105,13 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public String getLog() {
         return getDefaultStringValue(MBL_LOG);
+    }
+
+    public String getLocation() {
+        return getDefaultStringValue(MBL_LOCATION).length() == 0 ? LocationManager.NETWORK_PROVIDER : getDefaultStringValue(MBL_LOCATION);
+    }
+
+    public int getDistance() {
+        return getDefaultIntValue(MBL_DISTANCE) == -1 ? 100 : getDefaultIntValue(MBL_DISTANCE);
     }
 }

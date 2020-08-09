@@ -89,7 +89,7 @@ public class MyService extends BaseService {
             mTrackingLocationListener = new TrackingLocationListener(getDaoSession(), getBaseContext(), Integer.parseInt(getBasicUser().getUserId().toString()));
             int timeout = intent.getIntExtra(TRACK_TIMEOUT, PreferencesManager.getInstance().getTrackingInterval());
 
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeout, 100, mTrackingLocationListener);
+            mLocationManager.requestLocationUpdates(PreferencesManager.getInstance().getLocation(), timeout, PreferencesManager.getInstance().getDistance(), mTrackingLocationListener);
         }
     }
 

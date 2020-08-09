@@ -30,6 +30,21 @@
             android:summary="Интервал сбора показаний мобильного устройства"
             android:title="Телеметрия" />
 
+        <Preference
+            android:key="MBL_LOG"
+            android:summary="Режим логирования действий"
+            android:title="Телеметрия" />
+
+        <Preference
+            android:key="MBL_LOCATION"
+            android:summary="Режим получения координат"
+            android:title="Телеметрия" />
+
+        <Preference
+            android:key="MBL_DISTANCE"
+            android:summary="Минимальная дистанция для обновления координат"
+            android:title="Телеметрия" />
+
         <SwitchPreference
             android:enabled="false"
             android:key="MBL_GEO_CHECK"

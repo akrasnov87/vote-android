@@ -124,6 +124,15 @@ public class SettingActivity extends BaseActivity {
             Preference telemetryInterval = findPreference(PreferencesManager.MBL_TELEMETRY_INTERVAL);
             Objects.requireNonNull(telemetryInterval).setSummary(String.format("Интервал сбора показаний мобильного устройства: %s мин.", PreferencesManager.getInstance().getTelemetryInterval() / 60000));
 
+            Preference telemetryLog = findPreference(PreferencesManager.MBL_LOG);
+            Objects.requireNonNull(telemetryLog).setSummary(String.format("Режим логирования действий: %s", PreferencesManager.getInstance().getLog()));
+
+            Preference telemetryLocation = findPreference(PreferencesManager.MBL_LOCATION);
+            Objects.requireNonNull(telemetryLocation).setSummary(String.format("Режим получения координат: %s", PreferencesManager.getInstance().getLocation()));
+
+            Preference telemetryDistance = findPreference(PreferencesManager.MBL_DISTANCE);
+            Objects.requireNonNull(telemetryDistance).setSummary(String.format("Минимальная дистанция для обновления координат: %s м.", PreferencesManager.getInstance().getDistance()));
+
             pVersion = findPreference(PreferencesManager.APP_VERSION);
             Objects.requireNonNull(pVersion).setOnPreferenceClickListener(this);
 
