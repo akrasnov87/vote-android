@@ -65,36 +65,39 @@ public class StatisticDialogFragment extends BaseDialogFragment
         List<Results> allResults = DataManager.getInstance().getDaoSession().getResultsDao().loadAll();
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<p><b>«" + DataManager.getInstance().getProfile().fio + "»</b>, доброго времени суток!</p>");
+        try {
+            builder.append("<p><b>«" + DataManager.getInstance().getProfile().fio + "»</b>, доброго времени суток!</p>");
 
-        builder.append("<p>А) Кол-во квартир – ").append(all.size()).append(" (100%)<br />");
-        builder.append(" - кол-во пройденных квартир – " + allResults.size() + " ("+ getPercent(all.size(), allResults.size()) + "%)<br />");
-        builder.append("из них:<br />");
-        int i1 = getCount(allResults, "#000000");
-        builder.append("\t\t- никого не было дома – " +i1+" ("+getPercent(allResults.size(), i1)+"%)<br />");
-        int i2 = getCount(allResults, "#8b0000");
-        builder.append("\t\t- отказ открывать дверь – общение не состоялось – " + i2 +" (" + getPercent(allResults.size(), i2)+"%)<br />");
-        int i3 = getCount(allResults, "#800080");
-        builder.append("\t\t- отказ открывать дверь – общение через дверь – " + i3 +" (" + getPercent(allResults.size(), i3)+"%)<br />");
-        int i4 = getCount(allResults, "#00008b,#0000ff,#00ffff");
-        builder.append("\t\t- дверь открыли – общение состоялось, АПМ НЕ вручен в руки – " + i4 +" (" + getPercent(allResults.size(), i4)+"%)<br />");
-        int i5 = getCount(allResults, "#808000,#006400,#00ff00");
-        builder.append("\t\t- дверь открыли – общение состоялось, АПМ вручен в руки – " + i5 +" (" + getPercent(allResults.size(), i5)+"%)<br />");
-        int i6 = getCount(allResults, "#F57F17");
-        builder.append("\t\t- другое – " + i6 +" (" + getPercent(allResults.size(), i6) + "%)</p>");
+            builder.append("<p>А) Кол-во квартир – ").append(all.size()).append(" (100%)<br />");
+            builder.append(" - кол-во пройденных квартир – " + allResults.size() + " (" + getPercent(all.size(), allResults.size()) + "%)<br />");
+            builder.append("из них:<br />");
+            int i1 = getCount(allResults, "#000000");
+            builder.append("\t\t- никого не было дома – " + i1 + " (" + getPercent(allResults.size(), i1) + "%)<br />");
+            int i2 = getCount(allResults, "#8b0000");
+            builder.append("\t\t- отказ открывать дверь – общение не состоялось – " + i2 + " (" + getPercent(allResults.size(), i2) + "%)<br />");
+            int i3 = getCount(allResults, "#800080");
+            builder.append("\t\t- отказ открывать дверь – общение через дверь – " + i3 + " (" + getPercent(allResults.size(), i3) + "%)<br />");
+            int i4 = getCount(allResults, "#00008b,#0000ff,#00ffff");
+            builder.append("\t\t- дверь открыли – общение состоялось, АПМ НЕ вручен в руки – " + i4 + " (" + getPercent(allResults.size(), i4) + "%)<br />");
+            int i5 = getCount(allResults, "#808000,#006400,#00ff00");
+            builder.append("\t\t- дверь открыли – общение состоялось, АПМ вручен в руки – " + i5 + " (" + getPercent(allResults.size(), i5) + "%)<br />");
+            int i6 = getCount(allResults, "#F57F17");
+            builder.append("\t\t- другое – " + i6 + " (" + getPercent(allResults.size(), i6) + "%)</p>");
 
-        int t1 = i4 + i5;
-        builder.append("<p>Б) Кол-во открытых квартир – " + t1 +" (" + getPercent(allResults.size(), t1) + "%)<br />");
-        builder.append("из них:<br />");
+            int t1 = i4 + i5;
+            builder.append("<p>Б) Кол-во открытых квартир – " + t1 + " (" + getPercent(allResults.size(), t1) + "%)<br />");
+            builder.append("из них:<br />");
 
-        int i7 = getOpenDoors(allResults, 1);
-        builder.append(" - кол-во квартир, негативно настроенных – " + i7 +" (" + getPercent(t1, i7) + "%)<br />");
-        int i8 = getOpenDoors(allResults, 2);
-        builder.append(" - кол-во квартир потенциальных сторонников – " + i8 +" (" + getPercent(t1, i8) + "%)<br />");
-        int i9 = getOpenDoors(allResults, 3);
-        builder.append(" - кол-во квартир сторонников – " + i9 +" (" + getPercent(t1, i9) + "%)</p>");
-
-        tvTxt.setText(Html.fromHtml(builder.toString()));
+            int i7 = getOpenDoors(allResults, 1);
+            builder.append(" - кол-во квартир, негативно настроенных – " + i7 + " (" + getPercent(t1, i7) + "%)<br />");
+            int i8 = getOpenDoors(allResults, 2);
+            builder.append(" - кол-во квартир потенциальных сторонников – " + i8 + " (" + getPercent(t1, i8) + "%)<br />");
+            int i9 = getOpenDoors(allResults, 3);
+            builder.append(" - кол-во квартир сторонников – " + i9 + " (" + getPercent(t1, i9) + "%)</p>");
+            tvTxt.setText(Html.fromHtml(builder.toString()));
+        }catch (Exception e) {
+            tvTxt.setText(e.getMessage());
+        }
     }
 
     @Override
