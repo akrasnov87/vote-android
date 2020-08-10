@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.ui.activity.QuestionActivity;
 import ru.mobnius.vote.ui.model.PointItem;
 
@@ -35,6 +36,9 @@ public class PointHolder extends RecyclerView.ViewHolder
         mItem = point;
 
         tvDeviceNumber.setText(point.appartament);
+
+        tvDevicePriority.setVisibility(Authorization.getInstance().getUser().isCandidate() ? View.VISIBLE: View.GONE);
+
         tvDevicePriority.setText(point.priority != null ? String.valueOf(point.priority) : "");
 
         if(point.color == null) {

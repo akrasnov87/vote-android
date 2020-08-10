@@ -574,7 +574,7 @@ public class DataManager {
      * @return получить список вопросов
      */
     public Question[] getQuestions() {
-        List<Question> questions = daoSession.getQuestionDao().queryBuilder().orderAsc(QuestionDao.Properties.N_order).list();
+        List<Question> questions = daoSession.getQuestionDao().queryBuilder().where(QuestionDao.Properties.C_role.eq("null")).orderAsc(QuestionDao.Properties.N_order).list();
         return questions.toArray(new Question[0]);
     }
 

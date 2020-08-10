@@ -101,7 +101,7 @@ public class PointInfo {
     public String getDescription() {
         StringBuilder builder = new StringBuilder();
 
-        if(getFoodKit().length > 0) {
+        if(getFoodKit() != null && getFoodKit().length > 0) {
             builder.append("<p>Продуктовый набор:<br />");
             for(People p : getFoodKit()) {
                 builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
@@ -110,7 +110,7 @@ public class PointInfo {
             builder.append("</p>");
         }
 
-        if(getOther().length > 0) {
+        if(getOther() != null && getOther().length > 0) {
             builder.append("<p>Иное:<br />");
             for(People p : getOther()) {
                 builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
@@ -119,7 +119,7 @@ public class PointInfo {
             builder.append("</p>");
         }
 
-        if(getER().length > 0) {
+        if(getER() != null && getER().length > 0) {
             builder.append("<p>Сторонники ЕР:<br />");
             for(People p : getER()) {
                 builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");
@@ -128,7 +128,7 @@ public class PointInfo {
             builder.append("</p>");
         }
 
-        if(getBudget().length > 0) {
+        if(getBudget() != null && getBudget().length > 0) {
             builder.append("<p>Бюджетники:<br />");
             for(People p : getBudget()) {
                 builder.append(String.format("- %s %s %s", p.firstName, p.lastName, p.patronymic) + "<br />");

@@ -38,6 +38,7 @@ import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
 import ru.mobnius.vote.ui.fragment.tools.RatingDialogFragment;
+import ru.mobnius.vote.ui.fragment.tools.VotingDialogFragment;
 import ru.mobnius.vote.ui.model.FeedbackExcessData;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
@@ -260,6 +261,12 @@ public class QuestionActivity extends BaseFormActivity
             return;
         }
 
+        if (mVoteManager.isExistsCommand(answer, Command.VOTING)) {
+            VotingDialogFragment fragment = new VotingDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            fragment.show(getSupportFragmentManager(), "dialog");
+            return;
+        }
+
         if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
             RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
             fragment.show(getSupportFragmentManager(), "dialog");
@@ -346,6 +353,16 @@ public class QuestionActivity extends BaseFormActivity
 
             case Command.CONTACT:
                 mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
+                break;
+
+            case Command.VOTING:
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
+
+                if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
+                    RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
+                    fragment.show(getSupportFragmentManager(), "dialog");
+                    return;
+                }
                 break;
 
             case Command.RATING:

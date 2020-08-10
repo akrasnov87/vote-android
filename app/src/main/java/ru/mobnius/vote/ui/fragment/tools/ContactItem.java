@@ -7,6 +7,8 @@ public class ContactItem {
     public boolean b_default;
 
     public ContactItem() {
+        c_value = "";
+        c_key = "";
     }
 
     public void setDefault(boolean value){
