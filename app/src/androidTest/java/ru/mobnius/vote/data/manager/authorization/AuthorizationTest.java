@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ru.mobnius.vote.data.GlobalSettings;
+import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
@@ -21,6 +23,8 @@ public class AuthorizationTest {
     public void setUp() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         mAuthorization = Authorization.createInstance(appContext, "");
+        DefaultPreferencesManager.createInstance(appContext, "def");
+        PreferencesManager.createInstance(appContext, "test");
     }
 
     @After

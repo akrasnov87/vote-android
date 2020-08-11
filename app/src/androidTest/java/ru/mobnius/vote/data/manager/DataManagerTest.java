@@ -25,6 +25,7 @@ import ru.mobnius.vote.ui.model.PointInfo;
 
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.JsonUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -288,7 +289,6 @@ public class DataManagerTest extends ManagerGenerate {
 
     @Test
     public void getPointInfo() {
-        getDaoSession().getRegistrPtsDao().deleteAll();
         getDaoSession().getDivisionsDao().deleteAll();
         getDaoSession().getSubDivisionsDao().deleteAll();
         getDaoSession().getRoutesDao().deleteAll();
@@ -305,15 +305,6 @@ public class DataManagerTest extends ManagerGenerate {
         subDivision.f_division = division.id;
         getDaoSession().getSubDivisionsDao().insert(subDivision);
 
-        RegistrPts registrPts = new RegistrPts();
-        registrPts.c_appartament_num = "111-111";
-        registrPts.c_house_num = "ПУ-111";
-        registrPts.c_address = "адрес";
-        registrPts.id = UUID.randomUUID().toString();
-        registrPts.f_division = division.id;
-        registrPts.f_subdivision = subDivision.id;
-        getDaoSession().getRegistrPtsDao().insert(registrPts);
-
         Routes route = new Routes();
         route.id = UUID.randomUUID().toString();
         route.c_number = "1";
@@ -321,14 +312,13 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points point = new Points();
         point.id = UUID.randomUUID().toString();
-        point.f_appartament = registrPts.id;
+        point.f_appartament = UUID.randomUUID().toString();
         point.f_route = route.id;
+        point.setJb_data(JsonUtil.EMPTY);
         getDaoSession().getPointsDao().insert(point);
 
         PointInfo info = dataManager.getPointInfo(point.id);
         assertNotNull(info);
-
-        assertEquals(info.getAppartament(), registrPts.c_appartament_num);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);

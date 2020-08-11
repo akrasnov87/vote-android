@@ -36,18 +36,18 @@ public class JsonUtilTest {
     @Test
     public void convertToJson() {
         String json = JsonUtil.convertToJson(mContactItems);
-        assertEquals(json, "[{\"b_default\":true,\"c_key\":\"key\",\"c_value\":\"value\",\"d_created\":null},{\"b_default\":false,\"c_key\":null,\"c_value\":null,\"d_created\":null}]");
+        assertEquals(json, "[{\"b_default\":true,\"c_key\":\"key\",\"c_value\":\"value\",\"d_created\":null},{\"b_default\":false,\"c_key\":\"\",\"c_value\":\"\",\"d_created\":null}]");
     }
 
     @Test
     public void convertToContacts() {
-        String json = "[{\"b_default\":true,\"c_key\":\"key\",\"c_value\":\"value\",\"d_created\":null},{\"b_default\":false,\"c_key\":null,\"c_value\":null,\"d_created\":null}]";
+        String json = "[{\"b_default\":true,\"c_key\":\"key\",\"c_value\":\"value\",\"d_created\":null},{\"b_default\":false,\"c_key\":\"\",\"c_value\":\"\",\"d_created\":null}]";
         List<ContactItem> items = JsonUtil.convertToContacts(json);
         assert items != null;
         assertEquals(2, items.size());
         assertEquals( KEY, items.get(0).c_key);
         assertEquals(VALUE, items.get(0).c_value);
         assertTrue(items.get(0).b_default);
-        assertEquals( "null", items.get(1).c_key);
+        assertEquals( "", items.get(1).c_key);
     }
 }
