@@ -8,10 +8,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferResult;
 
 @RunWith(AndroidJUnit4.class)
-public class TransferZipResultTest {
+public class TransferZipResultTest extends SimpleTest {
     @Test
     public void readResult() throws JSONException {
 

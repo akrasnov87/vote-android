@@ -6,11 +6,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.ui.fragment.tools.ContactItem;
 
 import static org.junit.Assert.*;
 
-public class JsonUtilTest {
+public class JsonUtilTest extends SimpleTest {
     private List<ContactItem> mContactItems;
     private final String KEY = "key";
     private final String VALUE = "value";

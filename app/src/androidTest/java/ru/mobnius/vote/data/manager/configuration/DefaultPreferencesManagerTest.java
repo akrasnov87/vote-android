@@ -14,8 +14,10 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.SimpleTest;
+
 @RunWith(AndroidJUnit4.class)
-public class DefaultPreferencesManagerTest {
+public class DefaultPreferencesManagerTest extends SimpleTest {
     private DefaultPreferencesManager preferencesManager;
 
     @Before

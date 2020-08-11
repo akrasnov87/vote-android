@@ -38,9 +38,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;

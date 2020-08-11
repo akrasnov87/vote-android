@@ -11,10 +11,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.SimpleTest;
 
 import static org.junit.Assert.*;
 
-public class StreamUtilTest {
+public class StreamUtilTest extends SimpleTest {
     private Context appContext;
 
     @Before

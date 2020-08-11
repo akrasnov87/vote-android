@@ -6,8 +6,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
+
 @RunWith(AndroidJUnit4.class)
-public class TransferDataTest {
+public class TransferDataTest extends SimpleTest {
 
     @Test
     public void toStringTest() {

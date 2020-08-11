@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.configuration.DefaultPreferencesManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -16,7 +17,7 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
 import static org.junit.Assert.*;
 
-public class AuthorizationTest {
+public class AuthorizationTest extends SimpleTest {
     private Authorization mAuthorization;
 
     @Before

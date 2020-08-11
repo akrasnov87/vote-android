@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import ru.mobnius.vote.ManagerGenerate;
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 import ru.mobnius.vote.data.manager.rpc.RPCResult;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
-public class MultipartUtilityTest {
+public class MultipartUtilityTest extends SimpleTest {
     private final String URL_PART = "/synchronization/v0";
     private final BasicCredentials basicCredentials;
 

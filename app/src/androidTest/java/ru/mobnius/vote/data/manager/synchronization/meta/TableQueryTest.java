@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 
 import org.junit.Test;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
 
 import static org.junit.Assert.*;
 
-public class TableQueryTest {
+public class TableQueryTest extends SimpleTest {
 
     @Test
     public void toRPCQuery() {

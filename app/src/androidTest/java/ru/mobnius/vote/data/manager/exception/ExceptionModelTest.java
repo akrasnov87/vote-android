@@ -10,7 +10,9 @@ import org.junit.Test;
 
 import java.util.Date;
 
-public class ExceptionModelTest {
+import ru.mobnius.vote.SimpleTest;
+
+public class ExceptionModelTest extends SimpleTest {
     private Context mAppContext;
 
     @Before

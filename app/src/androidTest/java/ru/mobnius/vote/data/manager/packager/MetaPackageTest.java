@@ -2,9 +2,11 @@ package ru.mobnius.vote.data.manager.packager;
 
 import org.junit.Test;
 
+import ru.mobnius.vote.SimpleTest;
+
 import static org.junit.Assert.*;
 
-public class MetaPackageTest {
+public class MetaPackageTest extends SimpleTest {
 
     @Test
     public void toJsonString() {

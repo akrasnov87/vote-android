@@ -34,6 +34,8 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
+import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
+
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -44,7 +46,7 @@ public class MobniusApplication extends android.app.Application implements IExce
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";
-        String virtualDirPath = "/vote/dev";
+        String virtualDirPath = "/vote/" + ENVIRONMENT;
 
         //String baseUrl = "http://192.168.1.68:3000";
         //String virtualDirPath = "";

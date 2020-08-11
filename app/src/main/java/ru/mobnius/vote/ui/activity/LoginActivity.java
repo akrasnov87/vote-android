@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.BaseActivity;
 
 import ru.mobnius.vote.data.manager.authorization.Authorization;

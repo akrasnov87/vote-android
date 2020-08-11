@@ -10,9 +10,11 @@ import org.junit.Test;
 
 import java.io.File;
 
+import ru.mobnius.vote.SimpleTest;
+
 import static org.junit.Assert.*;
 
-public class MultiUsersTest {
+public class MultiUsersTest extends SimpleTest {
     private MultiUsers mMultiUsers;
 
     @Before

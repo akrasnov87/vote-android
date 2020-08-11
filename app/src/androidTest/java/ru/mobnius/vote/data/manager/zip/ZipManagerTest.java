@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.util.zip.DataFormatException;
 
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.zip.ZipManager;
 
 @RunWith(AndroidJUnit4.class)
-public class ZipManagerTest {
+public class ZipManagerTest extends SimpleTest {
     @Test
     public void compressText() throws IOException, DataFormatException {
         String compressText = "Hello World";

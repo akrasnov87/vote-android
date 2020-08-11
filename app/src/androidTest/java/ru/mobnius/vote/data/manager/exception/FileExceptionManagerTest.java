@@ -8,7 +8,9 @@ import org.junit.Test;
 
 import java.util.Date;
 
-public class FileExceptionManagerTest {
+import ru.mobnius.vote.SimpleTest;
+
+public class FileExceptionManagerTest extends SimpleTest {
 
     private IFileExceptionManager fileExceptionManager;
 
