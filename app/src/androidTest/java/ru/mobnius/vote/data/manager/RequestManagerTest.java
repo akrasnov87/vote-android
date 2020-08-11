@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.SimpleTest;
+import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSettingUtil;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
@@ -23,7 +24,7 @@ public class RequestManagerTest extends SimpleTest {
 
     @Before
     public void setUp() {
-        basicCredentials = new BasicCredentials("1801-01", "1801");
+        basicCredentials = new BasicCredentials(GlobalSettings.DEFAULT_USER_NAME, GlobalSettings.DEFAULT_USER_PASSWORD);
     }
 
     @Test
