@@ -29,6 +29,7 @@ import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
+import ru.mobnius.vote.ui.fragment.tools.AnswerFragmentDialog;
 import ru.mobnius.vote.ui.fragment.tools.CommentDialogFragment;
 import ru.mobnius.vote.ui.fragment.tools.ContactDialogFragment;
 import ru.mobnius.vote.ui.data.OnAnswerListener;
@@ -61,6 +62,7 @@ public class QuestionActivity extends BaseFormActivity
     private long mCurrentQuestionID;
     private long mLastAnswerID = -1;
     private PointInfo mPointInfo;
+    private AnswerFragmentDialog mDialog;
 
     /**
      * Создание нового результата
@@ -183,14 +185,28 @@ public class QuestionActivity extends BaseFormActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putString(Names.ROUTE_ID, routeID);
         outState.putString(Names.POINT_ID, pointID);
         outState.putLong(QUESTION_ID, mCurrentQuestionID);
+        mVoteManager.removeQuestion(mCurrentQuestionID);
         outState.putSerializable(VOTE, mVoteManager);
-        outState.putLong(ANSWER_ID, mLastAnswerID);
+        if(isDone()) {
+            outState.putLong(ANSWER_ID, mLastAnswerID);
+        } else {
+            outState.putLong(ANSWER_ID, -1);
+        }
     }
 
     @Override
@@ -250,26 +266,26 @@ public class QuestionActivity extends BaseFormActivity
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.COMMENT)) {
-            CommentDialogFragment commentFragment = new CommentDialogFragment(answer, mVoteManager.getComment(answer.f_question), isDone());
-            commentFragment.show(getSupportFragmentManager(), "dialog");
+            mDialog = new CommentDialogFragment(answer, mVoteManager.getComment(answer.f_question), isDone());
+            mDialog.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
-            ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
-            fragment.show(getSupportFragmentManager(), "dialog");
+            mDialog = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            mDialog.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.VOTING)) {
-            VotingDialogFragment fragment = new VotingDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
-            fragment.show(getSupportFragmentManager(), "dialog");
+            mDialog = new VotingDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            mDialog.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
         if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
-            RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
-            fragment.show(getSupportFragmentManager(), "dialog");
+            mDialog = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
+            mDialog.show(getSupportFragmentManager(), "dialog");
             return;
         }
 
@@ -359,8 +375,8 @@ public class QuestionActivity extends BaseFormActivity
                 mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
 
                 if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
-                    RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
-                    fragment.show(getSupportFragmentManager(), "dialog");
+                    mDialog = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
+                    mDialog.show(getSupportFragmentManager(), "dialog");
                     return;
                 }
                 break;

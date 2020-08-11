@@ -64,6 +64,6 @@ public class RatingDialogFragment extends AnswerFragmentDialog<String> implement
 
     @Override
     public int getExceptionCode() {
-        return IExceptionCode.COMMENT_DIALOG;
+        return IExceptionCode.RATING_DIALOG;
     }
 }

@@ -100,7 +100,7 @@ public class VoteManager implements Serializable {
     public long getQuestionAnswer(long questionID) {
         if(mList.size() > 0) {
             for(Vote v : mList) {
-                if(v.questionId == questionID){
+                if(v.questionId == questionID) {
                     return v.answerId;
                 }
             }

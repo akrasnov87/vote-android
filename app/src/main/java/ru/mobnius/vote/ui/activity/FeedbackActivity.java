@@ -154,6 +154,9 @@ public class FeedbackActivity extends BaseActivity
 
         String type = getIntent().getStringExtra(TYPE);
         miSend.setEnabled(type != null && Objects.requireNonNull(type).equals(EXCESS_DATA));
+        if(etMessage.getText().length() != 0) {
+            miSend.setEnabled(true);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
