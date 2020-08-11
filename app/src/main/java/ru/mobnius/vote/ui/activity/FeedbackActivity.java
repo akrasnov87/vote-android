@@ -153,7 +153,7 @@ public class FeedbackActivity extends BaseActivity
         miSend = menu.findItem(R.id.action_feedback_send);
 
         String type = getIntent().getStringExtra(TYPE);
-        miSend.setEnabled(Objects.requireNonNull(type).equals(EXCESS_DATA));
+        miSend.setEnabled(type != null && Objects.requireNonNull(type).equals(EXCESS_DATA));
 
         return super.onCreateOptionsMenu(menu);
     }
