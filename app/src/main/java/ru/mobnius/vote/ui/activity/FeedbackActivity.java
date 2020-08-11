@@ -152,6 +152,9 @@ public class FeedbackActivity extends BaseActivity
 
         miSend = menu.findItem(R.id.action_feedback_send);
 
+        String type = getIntent().getStringExtra(TYPE);
+        miSend.setEnabled(Objects.requireNonNull(type).equals(EXCESS_DATA));
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -164,11 +167,13 @@ public class FeedbackActivity extends BaseActivity
         }
 
         if(item.getItemId() == R.id.action_feedback_send) {
+            String txt = etMessage.getText().toString();
+
             // тут сохранение формы
             HashMap hashMap = (HashMap) sType.getSelectedItem();
             DataManager.getInstance().saveFeedback(this,
                     (Long) hashMap.get(Names.ID),
-                    etMessage.getText().toString(),
+                    txt,
                     getIntent().hasExtra(DATA) ? getIntent().getStringExtra(DATA) : null);
             Toast.makeText(this, "Вопрос сохранен", Toast.LENGTH_SHORT).show();
             finish();
