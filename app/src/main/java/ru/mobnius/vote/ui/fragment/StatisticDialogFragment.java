@@ -95,7 +95,7 @@ public class StatisticDialogFragment extends BaseDialogFragment
             int i9 = getOpenDoors(allResults, 3);
             builder.append(" - кол-во квартир сторонников – " + i9 + " (" + getPercent(t1, i9) + "%)</p>");
             tvTxt.setText(Html.fromHtml(builder.toString()));
-        }catch (Exception e) {
+        } catch (Exception e) {
             tvTxt.setText(e.getMessage());
         }
     }
