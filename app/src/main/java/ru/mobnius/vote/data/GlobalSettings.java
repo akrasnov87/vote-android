@@ -16,7 +16,7 @@ public class GlobalSettings {
      */
     public static String ENVIRONMENT = "dev";
 
-    public static final String DEFAULT_USER_NAME = "inspector";
-    public static final String DEFAULT_USER_PASSWORD = "inspector0";
-    public static final Object DEFAULT_USER_ID = 4;
+    public static final String DEFAULT_USER_NAME = "1801-01";
+    public static final String DEFAULT_USER_PASSWORD = "8842";
+    public static final Object DEFAULT_USER_ID = 180101;
 }

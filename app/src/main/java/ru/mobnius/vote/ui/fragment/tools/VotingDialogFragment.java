@@ -126,7 +126,7 @@ public class VotingDialogFragment extends AnswerFragmentDialog<String>
 
     @Override
     public int getExceptionCode() {
-        return IExceptionCode.CONTACT_DIALOG;
+        return IExceptionCode.VOTING_DIALOG;
     }
 
     /**

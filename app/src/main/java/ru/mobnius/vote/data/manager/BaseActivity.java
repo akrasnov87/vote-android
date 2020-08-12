@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.utils.ThemeUtil;
 
 /**
  * Базовое activity для приложения
@@ -43,6 +44,7 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtil.changeColor(this);
         // предназначено для привязки перехвата ошибок
         onExceptionIntercept();
         View view = findViewById(android.R.id.content).getRootView();

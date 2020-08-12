@@ -18,10 +18,10 @@ public abstract class ManagerGenerate extends DbGenerate {
     }
 
     public static BasicCredentials getCredentials() {
-        return new BasicCredentials("1801-01", "1801");
+        return new BasicCredentials(GlobalSettings.DEFAULT_USER_NAME, GlobalSettings.DEFAULT_USER_PASSWORD);
     }
 
     protected static BasicUser getBasicUser() {
-        return new BasicUser(getCredentials(), 4, ".inspector.");
+        return new BasicUser(getCredentials(), GlobalSettings.DEFAULT_USER_ID, ".inspector.");
     }
 }
