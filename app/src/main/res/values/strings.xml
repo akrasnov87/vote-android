@@ -70,7 +70,8 @@
     <string name="your_comment">Ваш комментарий</string>
     <string name="contact_data">Контактные данные</string>
     <string name="add_contact">Добавить контактную информацию</string>
-    <string name="contact_lost">Контакты отсутствуют. Для добавления записис нажмите +</string>
+    <string name="contact_lost">Контакты отсутствуют. Для добавления записи нажмите +</string>
+    <string name="voting_lost">Проживают ли в квартире, голосующие на дому?</string>
     <string name="reset">Сбросить</string>
     <string name="route_filter">Фильтрация домов</string>
     <string name="drop_pin_code">Сбросить пин-код</string>
@@ -79,4 +80,15 @@
     <string name="rating">Рейтинг</string>
     <string name="uik_filters">Фильтрация по УИК</string>
     <string name="who_me">Где я?</string>
+    <string name="filter_appartament_doned">Установлен фильтр.\nВсе квартиры пройдены</string>
+    <string name="filter_house_doned">Установлен фильтр.\nВсе дома пройдены</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="send">Отправить</string>
+    <string name="description">Описание</string>
+    <string name="internet_is_slow_sync">Текущее интернет соединение является недостаточно быстрым для синхронизации.</string>
+    <string name="internet_is_slow">Для корректной работы нужен более стабильный интернет</string>
+    <string name="help">Справка</string>
+    <string name="rating_num">Оценка</string>
+    <string name="rating_voice">Оценить результат общения</string>
+    <string name="next">Далее</string>
 </resources>

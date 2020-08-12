@@ -6,7 +6,9 @@ public class ContactItem {
     public String d_created;
     public boolean b_default;
 
-    public ContactItem(){
+    public ContactItem() {
+        c_value = "";
+        c_key = "";
     }
 
     public void setDefault(boolean value){

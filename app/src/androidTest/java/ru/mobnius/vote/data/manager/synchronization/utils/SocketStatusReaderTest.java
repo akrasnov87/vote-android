@@ -5,11 +5,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
+
 import static org.junit.Assert.*;
 
 
 @RunWith(AndroidJUnit4.class)
-public class SocketStatusReaderTest {
+public class SocketStatusReaderTest extends SimpleTest {
     @Test
     public void getInstanceTest(){
         SocketStatusReader reader = SocketStatusReader.getInstance("[DONE]12;hello world;12568");

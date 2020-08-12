@@ -1,5 +1,7 @@
 package ru.mobnius.vote.ui.model;
 
+import ru.mobnius.vote.utils.StringUtil;
+
 /**
  * Состояние задания
  */
@@ -15,7 +17,9 @@ public class PointState {
      */
     private boolean mSync;
 
-    private String mColor;
+    private String[] mColor;
+
+    private Integer mRating;
 
     public boolean isDone() {
         return mDone;
@@ -33,11 +37,22 @@ public class PointState {
         mSync = sync;
     }
 
-    public String getColor() {
+    public String[] getColor() {
         return mColor;
     }
 
     public void setColor(String color) {
-        mColor = color;
+        color = StringUtil.normalString(color);
+        if(color.length() > 0) {
+            mColor = color.split(",");
+        }
+    }
+
+    public Integer getRating() {
+        return mRating;
+    }
+
+    public void setRating(Integer rating) {
+        mRating = rating;
     }
 }

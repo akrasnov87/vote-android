@@ -1,8 +1,12 @@
 package ru.mobnius.vote.data;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import java.util.Date;
 
@@ -45,7 +49,8 @@ public class Logger {
         String exceptionString = StringUtil.exceptionToString(e) + description;
         Log.d(TAG, exceptionString);
         ExceptionModel exceptionModel = ExceptionModel.getInstance(new Date(), exceptionString, IExceptionGroup.NONE, IExceptionCode.ALL);
-        FileExceptionManager.getInstance(sContext).writeBytes(exceptionModel.getFileName(), exceptionModel.toString().getBytes());
-
+        if (ActivityCompat.checkSelfPermission(sContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            FileExceptionManager.getInstance(sContext).writeBytes(exceptionModel.getFileName(), exceptionModel.toString().getBytes());
+        }
     }
 }

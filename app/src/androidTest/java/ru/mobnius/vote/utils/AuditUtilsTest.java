@@ -37,7 +37,7 @@ public class AuditUtilsTest extends ManagerGenerate {
 
         AuditUtils.write(txt, AuditUtils.ON_AUTH, AuditUtils.Level.LOW);
         audits = getDaoSession().getAuditsDao().loadAll();
-        assertEquals(audits.size(), 0);
+        assertEquals(audits.size(), 1);
         getDaoSession().getAuditsDao().deleteAll();
 
         PreferencesManager.getInstance().setDebug(true);

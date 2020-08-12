@@ -24,10 +24,7 @@ public class Points {
      * Адрес
      */
     @Expose
-    public String f_registr_pts;
-
-    @ToOne(joinProperty = "f_registr_pts")
-    private RegistrPts registrPts;
+    public String f_appartament;
 
     /**
      * Маршрут
@@ -57,6 +54,8 @@ public class Points {
 
     private int n_order;
 
+    public Integer n_priority;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -65,17 +64,19 @@ public class Points {
     @Generated(hash = 617316118)
     private transient PointsDao myDao;
 
-    @Generated(hash = 383509223)
-    public Points(String id, String f_registr_pts, String f_route, String c_notice,
-            String c_info, String jb_data, String dx_created, int n_order) {
+    @Generated(hash = 818458000)
+    public Points(String id, String f_appartament, String f_route, String c_notice,
+            String c_info, String jb_data, String dx_created, int n_order,
+            Integer n_priority) {
         this.id = id;
-        this.f_registr_pts = f_registr_pts;
+        this.f_appartament = f_appartament;
         this.f_route = f_route;
         this.c_notice = c_notice;
         this.c_info = c_info;
         this.jb_data = jb_data;
         this.dx_created = dx_created;
         this.n_order = n_order;
+        this.n_priority = n_priority;
     }
 
     @Generated(hash = 1607589943)
@@ -90,12 +91,12 @@ public class Points {
         this.id = id;
     }
 
-    public String getF_registr_pts() {
-        return this.f_registr_pts;
+    public String getF_appartament() {
+        return this.f_appartament;
     }
 
-    public void setF_registr_pts(String f_registr_pts) {
-        this.f_registr_pts = f_registr_pts;
+    public void setF_appartament(String f_appartament) {
+        this.f_appartament = f_appartament;
     }
 
     public String getF_route() {
@@ -146,36 +147,12 @@ public class Points {
         this.n_order = n_order;
     }
 
-    @Generated(hash = 130924501)
-    private transient String registrPts__resolvedKey;
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 850146108)
-    public RegistrPts getRegistrPts() {
-        String __key = this.f_registr_pts;
-        if (registrPts__resolvedKey == null || registrPts__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            RegistrPtsDao targetDao = daoSession.getRegistrPtsDao();
-            RegistrPts registrPtsNew = targetDao.load(__key);
-            synchronized (this) {
-                registrPts = registrPtsNew;
-                registrPts__resolvedKey = __key;
-            }
-        }
-        return registrPts;
+    public Integer getN_priority() {
+        return this.n_priority;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 861180082)
-    public void setRegistrPts(RegistrPts registrPts) {
-        synchronized (this) {
-            this.registrPts = registrPts;
-            f_registr_pts = registrPts == null ? null : registrPts.getId();
-            registrPts__resolvedKey = f_registr_pts;
-        }
+    public void setN_priority(Integer n_priority) {
+        this.n_priority = n_priority;
     }
 
     @Generated(hash = 603420700)

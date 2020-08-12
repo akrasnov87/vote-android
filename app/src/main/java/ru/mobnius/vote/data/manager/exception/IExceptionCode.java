@@ -34,7 +34,7 @@ public interface IExceptionCode {
     /**
      * Форма акта снятия контрольного показания
      */
-    int CONTROL_METER_READINGS = 27;
+    int QUESTION = 27;
     /**
      * Ввод пин-кода
      */
@@ -47,4 +47,6 @@ public interface IExceptionCode {
     int COMMENT_DIALOG = 39;
     int CONTACT_DIALOG = 40;
     int RATING = 41;
+    int FEEDBACK = 42;
+    int STATISTIC_DIALOG = 41;
 }

@@ -6,11 +6,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.ui.model.FilterItem;
 
 import static org.junit.Assert.assertEquals;
 
-public class SearchManagerTest {
+public class SearchManagerTest extends SimpleTest {
 
     private List<People> mList;
     private PeopleSearchManager mPeopleSearchManager;

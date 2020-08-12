@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import ru.mobnius.vote.data.ICallback;
 import ru.mobnius.vote.data.Meta;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.utils.ClaimsUtil;
@@ -71,7 +72,7 @@ public class Authorization {
      * Авторизован пользователь или нет
      * @return true - пользователь авторизован
      */
-    public boolean isAuthorized(){
+    public boolean isAuthorized() {
         return mStatus == AuthorizationStatus.SUCCESS;
     }
 
@@ -170,7 +171,7 @@ public class Authorization {
     /**
      * Сброс авторизации
      */
-    public void reset(){
+    public void reset() {
         mUser = null;
         mStatus = AuthorizationStatus.FAIL;
     }
@@ -178,6 +179,7 @@ public class Authorization {
     public void destroy() {
         reset();
         mICallback = null;
+        PreferencesManager.getInstance().setPinAuth(false);
         mAuthorizationCache.clear(true);
     }
 

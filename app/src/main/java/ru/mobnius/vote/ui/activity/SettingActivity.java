@@ -100,6 +100,8 @@ public class SettingActivity extends BaseActivity {
         private SwitchPreference spPin;
         private Preference pCreateError;
 
+        private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -121,6 +123,15 @@ public class SettingActivity extends BaseActivity {
 
             Preference telemetryInterval = findPreference(PreferencesManager.MBL_TELEMETRY_INTERVAL);
             Objects.requireNonNull(telemetryInterval).setSummary(String.format("Интервал сбора показаний мобильного устройства: %s мин.", PreferencesManager.getInstance().getTelemetryInterval() / 60000));
+
+            Preference telemetryLog = findPreference(PreferencesManager.MBL_LOG);
+            Objects.requireNonNull(telemetryLog).setSummary(String.format("Режим логирования действий: %s", PreferencesManager.getInstance().getLog()));
+
+            Preference telemetryLocation = findPreference(PreferencesManager.MBL_LOCATION);
+            Objects.requireNonNull(telemetryLocation).setSummary(String.format("Режим получения координат: %s", PreferencesManager.getInstance().getLocation()));
+
+            Preference telemetryDistance = findPreference(PreferencesManager.MBL_DISTANCE);
+            Objects.requireNonNull(telemetryDistance).setSummary(String.format("Минимальная дистанция для обновления координат: %s м.", PreferencesManager.getInstance().getDistance()));
 
             pVersion = findPreference(PreferencesManager.APP_VERSION);
             Objects.requireNonNull(pVersion).setOnPreferenceClickListener(this);
@@ -155,7 +166,11 @@ public class SettingActivity extends BaseActivity {
             spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
             spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
 
-            new ServerAppVersionAsyncTask().execute();
+            mServerAppVersionAsyncTask = new ServerAppVersionAsyncTask();
+            mServerAppVersionAsyncTask.execute();
+
+            BasicUser user = Authorization.getInstance().getLastAuthUser();
+            spPin.setEnabled(user != null);
         }
 
         @Override
@@ -223,6 +238,14 @@ public class SettingActivity extends BaseActivity {
                     break;
             }
             return true;
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+
+            mServerAppVersionAsyncTask.cancel(true);
+            mServerAppVersionAsyncTask = null;
         }
 
         @SuppressLint("StaticFieldLeak")

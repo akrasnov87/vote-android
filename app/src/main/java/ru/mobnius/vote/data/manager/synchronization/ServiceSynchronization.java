@@ -27,10 +27,17 @@ public class ServiceSynchronization extends WebSocketSynchronization {
     private static ServiceSynchronization serviceSynchronization;
 
     public static ServiceSynchronization getInstance(boolean zip) {
-        if(serviceSynchronization != null){
+        if(serviceSynchronization != null) {
             return serviceSynchronization;
         }else{
             return serviceSynchronization = new ServiceSynchronization(DataManager.getInstance().getDaoSession(), zip);
+        }
+    }
+
+    public static void clear() {
+        if(serviceSynchronization != null) {
+            serviceSynchronization.destroy();
+            serviceSynchronization = null;
         }
     }
 

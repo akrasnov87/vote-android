@@ -13,7 +13,6 @@ import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.storage.models.Divisions;
 import ru.mobnius.vote.data.storage.models.Points;
-import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
 import ru.mobnius.vote.data.storage.models.RouteStatuses;
@@ -26,6 +25,7 @@ import ru.mobnius.vote.ui.model.PointInfo;
 
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.JsonUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -61,7 +61,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -75,7 +75,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -89,7 +89,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -174,7 +174,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points points = new Points();
         String firstPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -196,7 +196,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         String secondPointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -219,7 +219,7 @@ public class DataManagerTest extends ManagerGenerate {
 
         points = new Points();
         String threePointId = points.id = UUID.randomUUID().toString();
-        points.f_registr_pts = UUID.randomUUID().toString();
+        points.f_appartament = UUID.randomUUID().toString();
         points.f_route = routes.id;
         getDaoSession().getPointsDao().insert(points);
 
@@ -256,9 +256,9 @@ public class DataManagerTest extends ManagerGenerate {
         Routes routes = new Routes();
         routes.id = UUID.randomUUID().toString();
         routes.c_number = "1";
-        routes.d_date = "2020-01-15T07:00:00.000";
-        routes.d_date_start = "2020-01-15T08:00:00.000";
-        routes.d_date_end = "2020-01-16T08:00:00.000";
+        routes.d_date = "2020-01-15T07:00:00.000+0300";
+        routes.d_date_start = "2020-01-15T08:00:00.000+0300";
+        routes.d_date_end = "2020-01-16T08:00:00.000+0300";
         routes.c_notice = "Примечание к маршруту";
         routes.f_type = 1;
         getDaoSession().getRoutesDao().insert(routes);
@@ -268,7 +268,7 @@ public class DataManagerTest extends ManagerGenerate {
         routeHistory.c_notice = "Начало маршрута";
         routeHistory.fn_status = 1;
         routeHistory.fn_route = routes.id;
-        routeHistory.d_date = "2020-01-15T07:00:00.000";
+        routeHistory.d_date = "2020-01-15T07:00:00.000+0300";
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
         routeHistory = new RouteHistory();
@@ -276,7 +276,7 @@ public class DataManagerTest extends ManagerGenerate {
         routeHistory.c_notice = "Завершение маршрута";
         routeHistory.fn_status = 2;
         routeHistory.fn_route = routes.id;
-        routeHistory.d_date = "2020-01-15T22:00:00.000";
+        routeHistory.d_date = "2020-01-15T22:00:00.000+0300";
         getDaoSession().getRouteHistoryDao().insert(routeHistory);
 
         RouteInfo routeInfo = dataManager.getRouteInfo(routes.id);
@@ -289,7 +289,6 @@ public class DataManagerTest extends ManagerGenerate {
 
     @Test
     public void getPointInfo() {
-        getDaoSession().getRegistrPtsDao().deleteAll();
         getDaoSession().getDivisionsDao().deleteAll();
         getDaoSession().getSubDivisionsDao().deleteAll();
         getDaoSession().getRoutesDao().deleteAll();
@@ -306,15 +305,6 @@ public class DataManagerTest extends ManagerGenerate {
         subDivision.f_division = division.id;
         getDaoSession().getSubDivisionsDao().insert(subDivision);
 
-        RegistrPts registrPts = new RegistrPts();
-        registrPts.c_appartament_num = "111-111";
-        registrPts.c_house_num = "ПУ-111";
-        registrPts.c_address = "адрес";
-        registrPts.id = UUID.randomUUID().toString();
-        registrPts.f_division = division.id;
-        registrPts.f_subdivision = subDivision.id;
-        getDaoSession().getRegistrPtsDao().insert(registrPts);
-
         Routes route = new Routes();
         route.id = UUID.randomUUID().toString();
         route.c_number = "1";
@@ -322,14 +312,13 @@ public class DataManagerTest extends ManagerGenerate {
 
         Points point = new Points();
         point.id = UUID.randomUUID().toString();
-        point.f_registr_pts = registrPts.id;
+        point.f_appartament = UUID.randomUUID().toString();
         point.f_route = route.id;
+        point.setJb_data(JsonUtil.EMPTY);
         getDaoSession().getPointsDao().insert(point);
 
         PointInfo info = dataManager.getPointInfo(point.id);
         assertNotNull(info);
-
-        assertEquals(info.getAppartament(), registrPts.c_appartament_num);
 
         info = dataManager.getPointInfo("sss");
         assertNull(info);

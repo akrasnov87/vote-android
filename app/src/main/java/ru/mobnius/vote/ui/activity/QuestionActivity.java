@@ -1,6 +1,8 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.DocumentManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
@@ -34,6 +37,10 @@ import ru.mobnius.vote.ui.data.OnVoteListener;
 import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
+import ru.mobnius.vote.ui.fragment.tools.RatingDialogFragment;
+import ru.mobnius.vote.ui.fragment.tools.VotingDialogFragment;
+import ru.mobnius.vote.ui.model.FeedbackExcessData;
+import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.utils.AuditUtils;
 
@@ -53,6 +60,7 @@ public class QuestionActivity extends BaseFormActivity
     private String pointID;
     private long mCurrentQuestionID;
     private long mLastAnswerID = -1;
+    private PointInfo mPointInfo;
 
     /**
      * Создание нового результата
@@ -89,9 +97,11 @@ public class QuestionActivity extends BaseFormActivity
             pointID = getIntent().getStringExtra(Names.POINT_ID);
             routeID = getIntent().getStringExtra(Names.ROUTE_ID);
             mVoteManager = new VoteManager();
+            mPointInfo = DataManager.getInstance().getPointInfo(pointID);
             AuditUtils.write(pointID, AuditUtils.VOTE, AuditUtils.Level.LOW);
         } else {
             pointID = savedInstanceState.getString(Names.POINT_ID);
+            mPointInfo = DataManager.getInstance().getPointInfo(pointID);
             routeID = savedInstanceState.getString(Names.ROUTE_ID);
             mVoteManager = (VoteManager)savedInstanceState.getSerializable(VOTE);
             mCurrentQuestionID = savedInstanceState.getLong(QUESTION_ID);
@@ -103,8 +113,12 @@ public class QuestionActivity extends BaseFormActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_choice_document, menu);
-        MenuItem actionGeo = menu.findItem(R.id.choiceDocument_Geo);
+        MenuItem actionGeo = menu.findItem(R.id.choice_document_geo);
         actionGeo.setVisible(!isDone());
+
+        //MenuItem feedback = menu.findItem(R.id.choice_document_feedback);
+        //feedback.setVisible(!isDone());
+
         actionMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
@@ -116,7 +130,29 @@ public class QuestionActivity extends BaseFormActivity
                 onBackPressed();
                 return true;
 
-            case R.id.choiceDocument_Info:
+            case R.id.choice_document_feedback:
+                // EXCESS_DATA
+                // CHANGE_NUMBER
+                new AlertDialog.Builder(this).setMessage("О чем Вы хотите сообщить?").setNeutralButton("Другое", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.QUESTION, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                })
+                .setPositiveButton("Нет квартиры", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.EXCESS_DATA, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                }).setNegativeButton("Изменить номер", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(FeedbackActivity.getIntent(getBaseContext(), FeedbackActivity.CHANGE_NUMBER, new FeedbackExcessData(pointID, getIntent().getStringExtra(Names.NAME), getIntent().getStringExtra(Names.ADDRESS)).toString()));
+                    }
+                }).create().show();
+                return true;
+
+            case R.id.choice_document_info:
                 startActivityForResult(PointInfoActivity.newIntent(this, pointID),
                         PointInfoActivity.POINT_INFO_CODE);
                 return true;
@@ -135,7 +171,13 @@ public class QuestionActivity extends BaseFormActivity
             mVoteManager.importFromResult(results.toArray(new Results[0]));
         }
 
-        Question question = DataManager.getInstance().getQuestions()[0];
+        Question question;
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            question = DataManager.getInstance().getQuestions(mPointInfo.getPriority())[0];
+        } else {
+            question = DataManager.getInstance().getQuestions()[0];
+        }
+
         onShowQuestion(mCurrentQuestionID > 0 ? mCurrentQuestionID : question.id,
                 mLastAnswerID > 0 ? mLastAnswerID : -1);
     }
@@ -153,7 +195,7 @@ public class QuestionActivity extends BaseFormActivity
 
     @Override
     public int getExceptionCode() {
-        return IExceptionCode.CONTROL_METER_READINGS;
+        return IExceptionCode.QUESTION;
     }
 
     /**
@@ -198,7 +240,11 @@ public class QuestionActivity extends BaseFormActivity
 
     @Override
     public void onClickVoteItem(Answer answer) {
-        if (!isDone() && !mVoteManager.isQuestionExists(answer.f_question)) {
+        if (!isDone()) {
+            if(mVoteManager.isQuestionExists(answer.f_question)) {
+                // если вопрос ранее задавался, то удаляем из стэка
+                mVoteManager.removeQuestion(answer.f_question);
+            }
             // если вопрос ранее не задавался, то сохраняем в стэке
             mVoteManager.addQuestion(answer.f_question, answer.id, mVoteManager.getList().length);
         }
@@ -211,6 +257,18 @@ public class QuestionActivity extends BaseFormActivity
 
         if (mVoteManager.isExistsCommand(answer, Command.CONTACT)) {
             ContactDialogFragment fragment = new ContactDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            fragment.show(getSupportFragmentManager(), "dialog");
+            return;
+        }
+
+        if (mVoteManager.isExistsCommand(answer, Command.VOTING)) {
+            VotingDialogFragment fragment = new VotingDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            fragment.show(getSupportFragmentManager(), "dialog");
+            return;
+        }
+
+        if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
+            RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
             fragment.show(getSupportFragmentManager(), "dialog");
             return;
         }
@@ -279,7 +337,7 @@ public class QuestionActivity extends BaseFormActivity
         mLastAnswerID = lastAnswerId;
         mCurrentQuestionID = questionID;
         long exclusionAnswerID = getVoteManager().getQuestionAnswer(questionID);
-        getLastQuestionListener().onQuestionBind(questionID, exclusionAnswerID, lastAnswerId);
+        getLastQuestionListener().onQuestionBind(mPointInfo, questionID, exclusionAnswerID, lastAnswerId);
     }
 
     /**
@@ -290,11 +348,25 @@ public class QuestionActivity extends BaseFormActivity
     public void onAnswerCommand(String type, Answer answer, Object result) {
         switch (type) {
             case Command.COMMENT:
-                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null);
+                mVoteManager.updateQuestion(answer.f_question, String.valueOf(result), null, null);
                 break;
 
             case Command.CONTACT:
-                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result));
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
+                break;
+
+            case Command.VOTING:
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), null);
+
+                if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
+                    RatingDialogFragment fragment = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
+                    fragment.show(getSupportFragmentManager(), "dialog");
+                    return;
+                }
+                break;
+
+            case Command.RATING:
+                mVoteManager.updateQuestion(answer.f_question, null, null, Integer.parseInt(String.valueOf(result)));
                 break;
         }
 

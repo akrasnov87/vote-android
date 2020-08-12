@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.Timer;
+import java.util.jar.Attributes;
 
+import ru.mobnius.vote.Names;
 import ru.mobnius.vote.data.BaseService;
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -86,7 +89,7 @@ public class MyService extends BaseService {
             mTrackingLocationListener = new TrackingLocationListener(getDaoSession(), getBaseContext(), Integer.parseInt(getBasicUser().getUserId().toString()));
             int timeout = intent.getIntExtra(TRACK_TIMEOUT, PreferencesManager.getInstance().getTrackingInterval());
 
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeout, 100, mTrackingLocationListener);
+            mLocationManager.requestLocationUpdates(PreferencesManager.getInstance().getLocation(), timeout, PreferencesManager.getInstance().getDistance(), mTrackingLocationListener);
         }
     }
 
@@ -103,6 +106,8 @@ public class MyService extends BaseService {
 
     @Override
     public void onDestroy() {
+        Log.d(Names.TAG, "service destroy");
+
         mServiceSyncTimer.cancel();
 
         if(mLocationManager != null) {

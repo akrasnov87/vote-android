@@ -16,10 +16,11 @@ import ru.mobnius.vote.data.manager.synchronization.utils.PackageResult;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.DivisionsDao;
+import ru.mobnius.vote.data.storage.models.FeedbackTypesDao;
+import ru.mobnius.vote.data.storage.models.FeedbacksDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
-import ru.mobnius.vote.data.storage.models.RegistrPtsDao;
 import ru.mobnius.vote.data.storage.models.ResultTypesDao;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.RolesDao;
@@ -44,11 +45,18 @@ public class ManualSynchronization extends WebSocketSynchronization {
     @SuppressLint("StaticFieldLeak")
     private static ManualSynchronization manualSynchronization;
 
-    public static ManualSynchronization getInstance(boolean zip){
-        if(manualSynchronization != null){
+    public static ManualSynchronization getInstance(boolean zip) {
+        if(manualSynchronization != null) {
             return manualSynchronization;
         }else{
             return manualSynchronization = new ManualSynchronization(DataManager.getInstance().getDaoSession(), zip);
+        }
+    }
+
+    public static void clear() {
+        if(manualSynchronization != null) {
+            manualSynchronization.destroy();
+            manualSynchronization = null;
         }
     }
 
@@ -75,11 +83,12 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(new EntityDictionary(SubDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteStatusesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(PointTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
+        addEntity(new EntityDictionary(FeedbackTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(ResultTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(RouteTypesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(StatusSchemasDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(AnswerDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(QuestionDao.TABLENAME, false, true).setTid(dictionaryTid));
+        addEntity(new EntityDictionary(AnswerDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
+        addEntity(new EntityDictionary(QuestionDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(RolesDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(UserInDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(UserInDivisionsDao.Properties.F_user.name, getUserID())));
 
@@ -90,7 +99,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(Entity.createInstance(UserInRoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(RouteHistoryDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
         addEntity(Entity.createInstance(UsersDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
-        addEntity(Entity.createInstance(RegistrPtsDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
+        addEntity(Entity.createInstance(FeedbacksDao.TABLENAME, true, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());
     }
 
     @Override

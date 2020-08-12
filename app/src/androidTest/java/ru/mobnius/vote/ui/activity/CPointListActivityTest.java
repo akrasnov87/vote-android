@@ -19,6 +19,7 @@ import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -84,7 +85,7 @@ public class CPointListActivityTest extends BaseActivityTest{
             }
             if (!isDebug) {
                 onView(withId(R.id.auth_login)).perform(replaceText("1801-01"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("1801"), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText("8842"), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
         }
@@ -98,20 +99,31 @@ public class CPointListActivityTest extends BaseActivityTest{
         if (noLocation) {
             return;
         }
+        try {
+            onView(withId(R.id.statistic_close)).perform(click());
+        }catch (NoMatchingViewException e){
+            e.printStackTrace();
+        }
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.menu_item_search)).check(matches(isDisplayed()));
-            onView(withId(R.id.menu_item_search)).perform(click());
+            onView(withId(R.id.point_search)).check(matches(isDisplayed()));
+            onView(withId(R.id.point_search)).perform(click());
             onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("1"));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.rating_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withText(containsString("общение"))).perform(click());
+            onView(withId(R.id.choice_document_info)).check(matches(isDisplayed()));
+            onView(withId(R.id.choice_document_geo)).check(matches(isDisplayed()));
+            onView(withId(R.id.choice_document_feedback)).check(matches(isDisplayed()));
+            onView(withId(R.id.choice_document_info)).perform(click());
+            onView(withId(R.id.point_info_reset)).check(matches(isDisplayed()));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withText(containsString(""))).perform(click());
+
             onView(withText(containsString("общение"))).check(matches(isDisplayed()));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-            onView(withId(R.id.menu_item_search)).check(matches(isDisplayed()));
+            onView(withId(R.id.point_search)).check(matches(isDisplayed()));
 
         }
 

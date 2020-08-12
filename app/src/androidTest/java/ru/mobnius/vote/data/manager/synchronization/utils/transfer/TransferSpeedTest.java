@@ -5,10 +5,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
+
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-public class TransferSpeedTest {
+public class TransferSpeedTest extends SimpleTest {
 
     @Test
     public void toStringTest() {

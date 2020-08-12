@@ -24,15 +24,15 @@ import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.OnNetworkChangeListener;
-import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.Version;
-
+import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
-import ru.mobnius.vote.data.manager.authorization.AuthorizationMeta;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -46,6 +46,7 @@ public class LoginFragment extends BaseFragment
 
     private TextView tvNetwork;
     private TextView tvServer;
+    private TextView tvSlowInternet;
     private EditText etLogin;
     private ImageButton ibLoginClear;
     private ImageButton ibPasswordClear;
@@ -54,6 +55,8 @@ public class LoginFragment extends BaseFragment
     private Button btnSignIn;
     private BasicUser mBasicUser;
     private ProgressBar mProgressBar;
+
+    private MobniusApplication.ConfigurationAsyncTask mConfigurationAsyncTask;
 
     public static LoginFragment newInstance() {
         LoginFragment loginFragment = new LoginFragment();
@@ -75,12 +78,12 @@ public class LoginFragment extends BaseFragment
         super.onResume();
 
         new ServerExistsAsyncTask(this)
-                .execute(NetworkUtil.isNetworkAvailable(requireContext()));
+                .execute(NetworkUtil.isNetworkAvailable(requireContext()), NetworkUtil.isConnectionFast(requireContext()));
 
         if (mAuthorization.isAutoSignIn()) {
             String login = mBasicUser.getCredentials().login;
             PreferencesManager.createInstance(getApplication().getApplicationContext(), login);
-            if(PreferencesManager.getInstance().isDebug()) {
+            if (PreferencesManager.getInstance().isDebug()) {
                 singIn(mBasicUser.getCredentials().login, mBasicUser.getCredentials().password);
             } else {
                 etLogin.setText(mBasicUser.getCredentials().login);
@@ -96,6 +99,7 @@ public class LoginFragment extends BaseFragment
         etPassword = v.findViewById(R.id.auth_password);
         tvNetwork = v.findViewById(R.id.auth_no_internet);
         tvServer = v.findViewById(R.id.auth_no_server);
+        tvSlowInternet = v.findViewById(R.id.auth_slow_internet);
 
         ibLoginClear = v.findViewById(R.id.auth_login_clear);
         ibPasswordClear = v.findViewById(R.id.auth_password_clear);
@@ -167,11 +171,11 @@ public class LoginFragment extends BaseFragment
     }
 
     private void toast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void onAuthorized() {
-        new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+        mConfigurationAsyncTask = new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
             @Override
             public void onConfigurationLoaded(boolean configRefreshed) {
                 getApplication().onAuthorized(LoginActivity.LOGIN);
@@ -180,7 +184,8 @@ public class LoginFragment extends BaseFragment
                 startActivity(intent);
                 requireActivity().finish();
             }
-        }).execute();
+        });
+        mConfigurationAsyncTask.execute();
     }
 
     private void failAuthorized(String message) {
@@ -253,10 +258,18 @@ public class LoginFragment extends BaseFragment
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
         }
-        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+
+        AuthorizationCache cache = new AuthorizationCache(getContext());
+
+        if(cache.getNames().length == 0 && NetworkUtil.isNetworkAvailable(requireContext())) {
             onSignOnline(login, password);
         } else {
-            onSignOffline(login, password);
+            if (NetworkUtil.isNetworkAvailable(requireContext()) &&
+                    NetworkUtil.isConnectionFast(requireContext())) {
+                onSignOnline(login, password);
+            } else {
+                onSignOffline(login, password);
+            }
         }
     }
 
@@ -281,11 +294,11 @@ public class LoginFragment extends BaseFragment
 
             case R.id.auth_password_show:
                 if (etPassword.getInputType() == (InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ibShowPassword.setBackground(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
+                    etPassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_outlined_24dp));
                 } else {
                     etPassword.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
-                    ibShowPassword.setBackground(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp));
+                    ibShowPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off_outlined_24dp));
                 }
                 etPassword.setSelection(etPassword.getText().length());
                 break;
@@ -349,13 +362,24 @@ public class LoginFragment extends BaseFragment
     }
 
     @Override
-    public void onNetworkChange(boolean online, boolean serverExists) {
+    public void onNetworkChange(boolean online, boolean serverExists, boolean fasted) {
         tvNetwork.setVisibility(online ? View.GONE : View.VISIBLE);
+
         tvServer.setVisibility(serverExists ? View.GONE : View.VISIBLE);
+        tvSlowInternet.setVisibility(fasted ? View.GONE : View.VISIBLE);
     }
 
     @Override
     public int getExceptionCode() {
         return IExceptionCode.LOGIN;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mConfigurationAsyncTask != null) {
+            mConfigurationAsyncTask.cancel(true);
+            mConfigurationAsyncTask = null;
+        }
     }
 }

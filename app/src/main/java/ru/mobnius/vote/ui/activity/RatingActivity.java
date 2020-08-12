@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
@@ -23,9 +25,12 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.adapter.RatingAdapter;
+import ru.mobnius.vote.ui.adapter.RatingCandidateAdapter;
+import ru.mobnius.vote.ui.data.OnRatingAdapterListener;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.NetworkUtil;
 
 public class RatingActivity extends BaseActivity
     implements RatingAsyncTask.OnRatingLoadedListener{
@@ -34,8 +39,12 @@ public class RatingActivity extends BaseActivity
         return new Intent(context, RatingActivity.class);
     }
 
-    private RatingAdapter mRatingAdapter;
+    private OnRatingAdapterListener mRatingAdapter;
+
     private RecyclerView recyclerView;
+    private TextView tvNoInternet;
+
+    private boolean mIsCandidate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +55,22 @@ public class RatingActivity extends BaseActivity
         getSupportActionBar().setSubtitle(DateUtil.convertDateToUserString(new Date(), DateUtil.USER_SHORT_FORMAT));
 
         recyclerView = findViewById(R.id.rating_list);
-        mRatingAdapter = new RatingAdapter(this);
-        recyclerView.setAdapter(mRatingAdapter);
+        tvNoInternet = findViewById(R.id.rating_no_internet);
+        mIsCandidate = Authorization.getInstance().getUser().isCandidate();
+
+        if(mIsCandidate) {
+            mRatingAdapter = new RatingCandidateAdapter(this);
+        } else {
+            mRatingAdapter = new RatingAdapter(this);
+        }
+
+        recyclerView.setAdapter((RecyclerView.Adapter) mRatingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         startProgress();
         boolean isFilter = PreferencesManager.getInstance().getRating();
-        mRatingAdapter.update(isFilter ? DataManager.getInstance().getProfile().uik : null);
+        mRatingAdapter.update(isFilter ? getFilterValue() : null);
     }
 
     @Override
@@ -79,7 +95,7 @@ public class RatingActivity extends BaseActivity
             boolean isFilter = !PreferencesManager.getInstance().getRating();
             item.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
             startProgress();
-            mRatingAdapter.update(isFilter ? DataManager.getInstance().getProfile().uik : null);
+            mRatingAdapter.update(isFilter ? getFilterValue() : null);
             PreferencesManager.getInstance().setRating(isFilter);
         }
 
@@ -91,7 +107,6 @@ public class RatingActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public int getExceptionCode() {
         return IExceptionCode.RATING;
@@ -99,7 +114,12 @@ public class RatingActivity extends BaseActivity
 
     @Override
     public void onRatingLoaded(List<RatingItemModel> items) {
+        tvNoInternet.setVisibility(NetworkUtil.isNetworkAvailable(this) && NetworkUtil.isConnectionFast(this) ? View.GONE : View.VISIBLE);
         mRatingAdapter.updateList(items);
         stopProgress();
+    }
+
+    private Integer getFilterValue() {
+        return mIsCandidate ? DataManager.getInstance().getProfile().subDivision : DataManager.getInstance().getProfile().uik;
     }
 }

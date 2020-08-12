@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.synchronization.BaseSynchronization;
 
 import static org.junit.Assert.assertEquals;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class RPCItemTest {
+public class RPCItemTest extends SimpleTest {
     private QueryData queryData;
     @Before
     public void setUp() {

@@ -2,6 +2,7 @@ package ru.mobnius.vote.data.manager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,19 +55,26 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
         }
     }
 
+    public void onPermissionChecked() {
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
-            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION};
+            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE};
             mPermissionLength = permissions.length;
 
             ActivityCompat.requestPermissions(this,
                     permissions,
                     REQUEST_PERMISSIONS);
+        } else {
+            onPermissionChecked();
         }
     }
 
@@ -87,6 +95,7 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
                 if (!allGrant) {
                     Toast.makeText(this, getText(R.string.not_permissions), Toast.LENGTH_LONG).show();
                 } else {
+                    onPermissionChecked();
                     Toast.makeText(this, getText(R.string.permissions_grant), Toast.LENGTH_LONG).show();
                 }
             } else {
@@ -129,7 +138,12 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
     protected void alert(String message) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
-                .setPositiveButton("OK", null).show();
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     protected void startProgress() {

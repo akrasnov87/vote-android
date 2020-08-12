@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.zip.ZipManager;
 import ru.mobnius.vote.data.manager.rpc.RPCItem;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class PackageUtilTest {
+public class PackageUtilTest extends SimpleTest {
 
     @Test
     public void getString() throws IOException {

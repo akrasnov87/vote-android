@@ -38,14 +38,20 @@ public class Question {
     @Expose
     public int n_order;
 
-    @Generated(hash = 486263009)
+    public String c_role;
+
+    public Integer n_priority;
+
+    @Generated(hash = 1146182214)
     public Question(Long id, String c_title, String c_description, String c_text,
-            int n_order) {
+            int n_order, String c_role, Integer n_priority) {
         this.id = id;
         this.c_title = c_title;
         this.c_description = c_description;
         this.c_text = c_text;
         this.n_order = n_order;
+        this.c_role = c_role;
+        this.n_priority = n_priority;
     }
 
     @Generated(hash = 1868476517)
@@ -90,5 +96,21 @@ public class Question {
 
     public void setN_order(int n_order) {
         this.n_order = n_order;
+    }
+
+    public String getC_role() {
+        return this.c_role;
+    }
+
+    public void setC_role(String c_role) {
+        this.c_role = c_role;
+    }
+
+    public Integer getN_priority() {
+        return this.n_priority;
+    }
+
+    public void setN_priority(Integer n_priority) {
+        this.n_priority = n_priority;
     }
 }

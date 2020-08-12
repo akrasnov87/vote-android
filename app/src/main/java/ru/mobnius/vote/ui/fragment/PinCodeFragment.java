@@ -58,6 +58,8 @@ public class PinCodeFragment extends BaseFragment
 
     private AuthorizationCache cache;
 
+    private MobniusApplication.ConfigurationAsyncTask mConfigurationAsyncTask;
+
     public static PinCodeFragment newInstance(String pin, String login) {
         PinCodeFragment pinCodeFragment;
         if (pin != null) {
@@ -172,7 +174,7 @@ public class PinCodeFragment extends BaseFragment
                             PreferencesManager.createInstance(getApplication().getApplicationContext(), getLogin());
                             PreferencesManager.getInstance().setPinAuth(false);
                             cache.update(getLogin(), "", new Date());
-                            Authorization.getInstance().destroy();
+                            Authorization.getInstance().reset();
 
                             startActivity(LoginActivity.getIntent(requireContext()));
                         }
@@ -254,21 +256,18 @@ public class PinCodeFragment extends BaseFragment
         Authorization.getInstance().setUser(user);
         cache.update(user.getCredentials().login, getPin(), new Date());
 
-        if(NetworkUtil.isNetworkAvailable(requireContext())) {
+        if(NetworkUtil.isNetworkAvailable(requireContext()) && NetworkUtil.isConnectionFast(requireContext())) {
             mProgressBar.setVisibility(View.VISIBLE);
             llDigit.setVisibility(View.GONE);
             tvForgotPin.setVisibility(View.GONE);
-            new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
+            mConfigurationAsyncTask = new MobniusApplication.ConfigurationAsyncTask(new MobniusApplication.OnConfigurationLoadedListener() {
                 @Override
                 public void onConfigurationLoaded(boolean configRefreshed) {
                     getApplication().onAuthorized(LoginActivity.PIN);
                     startActivity(RouteListActivity.getIntent(getContext()));
-
-                    /*llDigit.setVisibility(View.VISIBLE);
-                    mProgressBar.setVisibility(View.GONE);
-                    tvForgotPin.setVisibility(View.VISIBLE);*/
                 }
-            }).execute();
+            });
+            mConfigurationAsyncTask.execute();
         } else {
             getApplication().onAuthorized(LoginActivity.PIN);
             startActivity(RouteListActivity.getIntent(getContext()));
@@ -323,6 +322,16 @@ public class PinCodeFragment extends BaseFragment
                     biometricPrompt.authenticate(promptInfo);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(mConfigurationAsyncTask != null) {
+            mConfigurationAsyncTask.cancel(true);
+            mConfigurationAsyncTask = null;
         }
     }
 }

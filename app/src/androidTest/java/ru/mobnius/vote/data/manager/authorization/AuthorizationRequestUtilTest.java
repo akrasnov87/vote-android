@@ -3,11 +3,12 @@ package ru.mobnius.vote.data.manager.authorization;
 import org.junit.Test;
 
 import ru.mobnius.vote.ManagerGenerate;
+import ru.mobnius.vote.SimpleTest;
 
 import static org.junit.Assert.*;
 
 
-public class AuthorizationRequestUtilTest {
+public class AuthorizationRequestUtilTest extends SimpleTest {
     @Test
     public void requestTest() {
         AuthorizationRequestUtil util = new AuthorizationRequestUtil(ManagerGenerate.getBaseUrl());

@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.HashMap;
 
+import ru.mobnius.vote.ManagerGenerate;
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSettingUtil;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.rpc.FilterItem;
@@ -16,17 +18,17 @@ import ru.mobnius.vote.data.manager.rpc.SortItem;
 
 import static org.junit.Assert.*;
 
-public class RequestManagerTest {
+public class RequestManagerTest extends SimpleTest {
     private BasicCredentials basicCredentials;
 
     @Before
     public void setUp() {
-        basicCredentials = new BasicCredentials("inspector", "inspector0");
+        basicCredentials = new BasicCredentials("1801-01", "1801");
     }
 
     @Test
     public void rpc() throws IOException {
-        RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(), basicCredentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery("MBL"));
+        RPCResult[] results = RequestManager.rpc(ManagerGenerate.getBaseUrl(), basicCredentials.getToken(), ConfigurationSettingUtil.ACTION, ConfigurationSettingUtil.METHOD, new SingleItemQuery("MBL"));
 
         assertNotNull(results);
         assertTrue(results[0].isSuccess());
@@ -43,7 +45,7 @@ public class RequestManagerTest {
         queryData.sort = new SortItem[1];
         queryData.sort[0] = new SortItem("c_key");
 
-        RPCResult[] results = RequestManager.rpc(MobniusApplication.getBaseUrl(),
+        RPCResult[] results = RequestManager.rpc(ManagerGenerate.getBaseUrl(),
                 basicCredentials.getToken(),
                 "cd_settings",
                 "Query",
@@ -56,7 +58,7 @@ public class RequestManagerTest {
 
     @Test
     public void exists() throws IOException {
-        HashMap<String, String> hashMap = RequestManager.exists(MobniusApplication.getBaseUrl());
+        HashMap<String, String> hashMap = RequestManager.exists(ManagerGenerate.getBaseUrl());
         assertNotNull(hashMap);
         assertNotNull(hashMap.get(RequestManager.KEY_VERSION));
         assertNotNull(hashMap.get(RequestManager.KEY_DB_VERSION));

@@ -13,10 +13,12 @@ import java.util.List;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.ui.adapter.holder.RatingHolder;
+import ru.mobnius.vote.ui.data.OnRatingAdapterListener;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 
-public class RatingAdapter extends RecyclerView.Adapter<RatingHolder> {
+public class RatingAdapter extends RecyclerView.Adapter<RatingHolder>
+    implements OnRatingAdapterListener {
 
     private final Context mContext;
     private final List<RatingItemModel> mList;

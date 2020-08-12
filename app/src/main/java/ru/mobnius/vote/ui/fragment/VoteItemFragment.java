@@ -1,6 +1,8 @@
 package ru.mobnius.vote.ui.fragment;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.ui.adapter.VoteButtonAdapter;
 import ru.mobnius.vote.ui.data.OnQuestionListener;
+import ru.mobnius.vote.ui.model.PointInfo;
 
 public class VoteItemFragment extends BaseFragment
         implements OnQuestionListener {
@@ -45,7 +49,7 @@ public class VoteItemFragment extends BaseFragment
      * @param exclusionAnswerID идентификатор существ. ответа
      */
     @Override
-    public void onQuestionBind(long questionID, long exclusionAnswerID, long lastAnswerId) {
+    public void onQuestionBind(PointInfo pointInfo, long questionID, long exclusionAnswerID, long lastAnswerId) {
         DataManager dataManager = DataManager.getInstance();
 
         rvButtons.setAdapter(new VoteButtonAdapter(getActivity(), dataManager.getAnswers(questionID), exclusionAnswerID, lastAnswerId));
@@ -53,7 +57,12 @@ public class VoteItemFragment extends BaseFragment
 
         Question question = dataManager.getQuestion(questionID);
         if(question != null) {
-            tvDescription.setText(question.c_text);
+            String userName = pointInfo.getUserName();
+            //Log.d("INFO_USER", pointInfo.getUserName());
+            String txt = question.c_text.replace("[c_fio]", userName == null ? "<font color='#FF0000'>(ФИО не найдено)</font>" : userName)
+                    .replace("[c_my_fio]", dataManager.getProfile().fio);
+            //question.c_text = question.c_text.replace("[c_my_fio]", dataManager.getProfile().fio);
+            tvDescription.setText(Html.fromHtml(txt));
         }
     }
 

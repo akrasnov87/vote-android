@@ -38,7 +38,7 @@ public class ExceptionUtilsTest extends ManagerGenerate {
         ExceptionUtils.saveLocalException(getContext(), -1, daoSession);
 
         List<ClientErrors> list = daoSession.getClientErrorsDao().queryBuilder().where(ClientErrorsDao.Properties.ObjectOperationType.eq(DbOperationType.CREATED)).list();
-        Assert.assertEquals(list.size(), 2);
+        Assert.assertEquals(list.size(), 1);
     }
 
     @Test

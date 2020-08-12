@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import ru.mobnius.vote.Names;
@@ -19,7 +22,9 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.component.TextFieldView;
+import ru.mobnius.vote.ui.model.FeedbackExcessData;
 import ru.mobnius.vote.ui.model.PointInfo;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.StringUtil;
@@ -36,13 +41,17 @@ public class PointInfoActivity extends BaseActivity
     private String mPointID;
 
     private TextFieldView tfvNotice;
+    private TextFieldView tfvDescription;
     private TextFieldView tfvAddress;
+    private RatingBar mRatingBar;
 
     private PointInfo mPointInfo;
+    private List<Results> mResults;
 
-    public static Intent newIntent(Context context, String id) {
+    public static Intent newIntent(Context context, String point_id) {
         Intent intent = new Intent(context, PointInfoActivity.class);
-        intent.putExtra(Names.POINT_ID, id);
+        intent.putExtra(Names.POINT_ID, point_id);
+
         return intent;
     }
 
@@ -57,6 +66,11 @@ public class PointInfoActivity extends BaseActivity
 
         tfvNotice = findViewById(R.id.point_info_notice);
         tfvAddress = findViewById(R.id.point_info_address);
+        tfvDescription = findViewById(R.id.point_info_description);
+        mRatingBar = findViewById(R.id.point_info_rating);
+        mRatingBar.setEnabled(false);
+
+        mResults = DataManager.getInstance().getPointResults(mPointID);
 
         btnReset = findViewById(R.id.point_info_reset);
         btnReset.setOnClickListener(this);
@@ -71,6 +85,13 @@ public class PointInfoActivity extends BaseActivity
             tfvNotice.setFieldText(mPointInfo.getNotice());
             tfvNotice.setVisibility(View.VISIBLE);
         }
+
+        String description = mPointInfo.getDescription();
+        if(description.length() > 0) {
+            tfvDescription.setFieldHtml(Html.fromHtml(description));
+            tfvDescription.setVisibility(View.VISIBLE);
+        }
+
         tfvAddress.setFieldText(mPointInfo.getAddress() + " кв. " + mPointInfo.getAppartament());
 
         boolean done = DataManager.getInstance().getPointState(mPointID).isDone();
@@ -80,6 +101,10 @@ public class PointInfoActivity extends BaseActivity
         } else {
             int FINISH_CREATED = 0;
             resetButtonColor(FINISH_CREATED);
+        }
+
+        if(mResults.size() > 0) {
+            mRatingBar.setRating(mResults.get(0).n_rating == null ? 0 : mResults.get(0).n_rating);
         }
     }
 

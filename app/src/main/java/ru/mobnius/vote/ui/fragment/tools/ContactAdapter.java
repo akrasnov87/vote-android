@@ -18,6 +18,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
     private final ArrayList<ContactItem> mContacts;
     private final boolean mIsDone;
 
+    private ContactHolder mLastHolder;
+
     public ContactAdapter(Context context, ArrayList<ContactItem> contacts, boolean isDone, ContactHolder.OnContactItemListener listener) {
         mContacts = contacts;
         mContext = context;
@@ -35,6 +37,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
     @Override
     public void onBindViewHolder(@NonNull ContactHolder holder, int position) {
         holder.bindItem(mContacts.get(position), mIsDone);
+
+        if(position == getItemCount() - 1) {
+            mLastHolder = holder;
+        }
+
+        setDefaultFocus();
+    }
+
+    public void setDefaultFocus() {
+        if(mLastHolder != null) {
+            mLastHolder.setFocus();
+        }
     }
 
     @Override

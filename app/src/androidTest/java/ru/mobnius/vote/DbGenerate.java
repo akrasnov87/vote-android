@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 /**
  * Вспомогательный класс для работы с БД
  */
-public abstract class DbGenerate {
+public abstract class DbGenerate extends SimpleTest {
     private final Context mContext;
     private final DaoSession mDaoSession;
 

@@ -4,16 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/choiceDocument_Geo"
+        android:id="@+id/choice_document_geo"
         android:title="@string/geo"
         android:icon="@drawable/ic_gps_off_24px"
         app:showAsAction="never"
         tools:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/choiceDocument_Info"
+        android:id="@+id/choice_document_info"
         android:title="@string/info"
         android:icon="@drawable/ic_info_outline_white_24dp"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/choice_document_feedback"
+        android:icon="@drawable/ic_baseline_feedback_24"
+        android:title="@string/feedback"
+        app:showAsAction="never" />
 
 </menu>

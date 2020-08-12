@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
@@ -27,6 +28,7 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 import ru.mobnius.vote.utils.AuthUtil;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -36,6 +38,7 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -43,6 +46,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withInputType;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -123,7 +127,7 @@ public class ALoginToPinTest extends BaseActivityTest {
         ibPasswordClear.check(matches(isDisplayed()));
         ibPasswordShow.check(matches(isDisplayed()));
         ibPasswordShow.perform(click());
-        etPassword.check(matches(withInputType(InputType.TYPE_CLASS_TEXT)));
+        etPassword.check(matches(withInputType(InputType.TYPE_CLASS_NUMBER)));
         ibPasswordClear.perform(click());
         etPassword.check(matches(withText("")));
         etPassword.perform(typeText(LONG_ENOUGH));
@@ -138,7 +142,7 @@ public class ALoginToPinTest extends BaseActivityTest {
             onView(withText("Логин или пароль введены не верно."))
                     .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
             etLogin.perform(replaceText("1801-01"));
-            etPassword.perform(replaceText("1801"));
+            etPassword.perform(replaceText("8842"));
             btnSignIn.perform(click());
             boolean noLocation = false;
             try {
@@ -150,14 +154,21 @@ public class ALoginToPinTest extends BaseActivityTest {
             if (noLocation){
                 return;
             }
+            try {
+                onView(withId(R.id.statistic_close)).perform(click());
+            }catch (NoMatchingViewException e){
+                e.printStackTrace();
+            }
             //Успешная авторизация
             onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
             //Открываем NavigationDrawer
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
             //Открываем окно настроек
             onView(withText(getContext().getResources().getString(R.string.settings))).perform(click());
-            //Включаем активацию по пин-коду
-            onView(withText("Пин-код")).check(matches(isDisplayed())).perform(click());
+            //Включаем активацию по пин-коду. Так как espresso плохо работет с PreferencesScreen нужен такой непонятный код
+            // в случае если требуется предварительная прокрутка для отображения необходимого view-элемента
+            onView(withId(androidx.preference.R.id.recycler_view))
+                    .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Пин-код")), click()));
             ViewInteraction btnOne = onView(withText("1"));
             ViewInteraction pinCodeLinLay = onView(withId(R.id.pinFragment_pclTop));
             pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));

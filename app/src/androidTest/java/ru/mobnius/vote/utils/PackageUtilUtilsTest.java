@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 
 import java.util.UUID;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.packager.MetaPackage;
 import ru.mobnius.vote.data.manager.packager.MetaSize;
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
-public class PackageUtilUtilsTest {
+public class PackageUtilUtilsTest extends SimpleTest {
 
     @Test
     public void lifeCycleTest() throws Exception {

@@ -1,6 +1,6 @@
 package ru.mobnius.vote;
 
-
+import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
@@ -18,11 +18,10 @@ public abstract class ManagerGenerate extends DbGenerate {
     }
 
     public static BasicCredentials getCredentials() {
-        return new BasicCredentials("inspector", "inspector0");
+        return new BasicCredentials("1801-01", "1801");
     }
 
     protected static BasicUser getBasicUser() {
         return new BasicUser(getCredentials(), 4, ".inspector.");
     }
-
 }

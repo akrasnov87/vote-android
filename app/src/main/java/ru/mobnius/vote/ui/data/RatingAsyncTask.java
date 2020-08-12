@@ -55,7 +55,9 @@ public class RatingAsyncTask extends AsyncTask<Integer, Void, List<RatingItemMod
                             RatingItemModel model = new RatingItemModel();
                             model.id = i;
                             model.user_id = jsonObject.getInt("user_id");
+                            jsonObject.get("n_uik");
                             model.n_uik = jsonObject.getInt("n_uik");
+                            model.f_subdivision = null;
                             model.c_login = jsonObject.getString("c_login");
                             model.n_all = jsonObject.getInt("n_all");
                             model.n_count = jsonObject.getInt("n_count");

@@ -6,12 +6,14 @@ import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.mobnius.vote.SimpleTest;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class RPCZipResultTest {
+public class RPCZipResultTest extends SimpleTest {
     @SuppressWarnings("FieldCanBeLocal")
     private final String NOT_AUTH_RESULT = "{\n" +
             "  \"code\": 401,\n" +

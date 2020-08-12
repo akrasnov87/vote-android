@@ -14,12 +14,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.SimpleTest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
-public class BitmapUtilTest {
+public class BitmapUtilTest extends SimpleTest {
     private Context appContext;
 
     @Before

@@ -13,7 +13,7 @@ public abstract class AbstractPreferencesManager {
 
     private SharedPreferences sharedPreferences;
 
-    AbstractPreferencesManager(Context context, String preferenceName){
+    AbstractPreferencesManager(Context context, String preferenceName) {
         sharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
@@ -148,12 +148,20 @@ public abstract class AbstractPreferencesManager {
         return PreferencesManager.getInstance().getBooleanValue(key, false);
     }
 
-    int getDefaultIntValue(String key){
+    int getDefaultIntValue(String key) {
         if(hasDefaultValue(key)) {
             return DefaultPreferencesManager.getInstance().getIntValue(key, -1);
         }
 
         return PreferencesManager.getInstance().getIntValue(key, -1);
+    }
+
+    String getDefaultStringValue(String key) {
+        if(hasDefaultValue(key)) {
+            return DefaultPreferencesManager.getInstance().getStringValue(key, "");
+        }
+
+        return PreferencesManager.getInstance().getStringValue(key, "");
     }
 
     /**

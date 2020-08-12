@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import java.text.ParseException;
 import java.util.Date;
 
+import ru.mobnius.vote.SimpleTest;
 import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.credentials.BasicCredentials;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
@@ -23,7 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class AuthorizationCacheTest {
+public class AuthorizationCacheTest extends SimpleTest {
 
     private AuthorizationCache cache;
 

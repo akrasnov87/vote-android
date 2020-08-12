@@ -5,16 +5,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.provider.Settings;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -31,10 +36,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
@@ -42,12 +50,18 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
+import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
+import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
+import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
+import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
 import ru.mobnius.vote.utils.VersionUtil;
@@ -57,12 +71,18 @@ public class RouteListActivity extends BaseActivity implements
         View.OnClickListener,
         DialogInterface.OnClickListener,
         LocationChecker.OnLocationAvailable,
-        RatingAsyncTask.OnRatingLoadedListener {
+        RatingAsyncTask.OnRatingLoadedListener,
+        SearchView.OnQueryTextListener {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
     private Button btnSync;
     private TextView tvMeRating;
+    private TextView tvMessage;
+
+    private AsyncTask<Integer, Void, List<RatingItemModel>> mRatingAsyncTask;
+
+    private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, RouteListActivity.class);
@@ -77,6 +97,7 @@ public class RouteListActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_with_menu);
 
+        tvMessage = findViewById(R.id.house_list_message);
         rvHouses = findViewById(R.id.house_list);
         rvHouses.setLayoutManager(new LinearLayoutManager(this));
         rvHouses.addItemDecoration(new DividerItemDecoration(this,
@@ -90,6 +111,14 @@ public class RouteListActivity extends BaseActivity implements
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
         View headerLayout = navigationView.getHeaderView(0);
+        ImageView ivIcon = headerLayout.findViewById(R.id.app_icon);
+        TextView tvName = headerLayout.findViewById(R.id.app_name);
+
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            tvName.setText("Кандидат");
+            ivIcon.setBackgroundResource(R.mipmap.ic_candidate_launcher_round);
+        }
+
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
         tvMeRating = headerLayout.findViewById(R.id.app_rating);
         tvMeRating.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +150,13 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-
-        updateList(PreferencesManager.getInstance().getFilter());
-        new RatingAsyncTask(this).execute((Integer) null);
+        updateList(PreferencesManager.getInstance().getFilter(), null);
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            mRatingAsyncTask = new RatingCandidateAsyncTask(this);
+        } else {
+            mRatingAsyncTask = new RatingAsyncTask(this);
+        }
+        mRatingAsyncTask.execute((Integer) null);
     }
 
     @Override
@@ -131,9 +164,16 @@ public class RouteListActivity extends BaseActivity implements
         super.onResume();
         invalidateOptionsMenu();
 
-        new ServerAppVersionAsyncTask().execute();
+        mServerAppVersionAsyncTask = new ServerAppVersionAsyncTask();
+        mServerAppVersionAsyncTask.execute();
 
         LocationChecker.start(this);
+
+        if(DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
+            MobniusApplication.isWelcome = true;
+            StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "statistic");
+        }
     }
 
     @Override
@@ -151,12 +191,24 @@ public class RouteListActivity extends BaseActivity implements
                 startActivity(SettingActivity.getIntent(this));
                 break;
 
+            case R.id.nav_feedback:
+                startActivity(FeedbackActivity.getIntent(this));
+                break;
+
+            case R.id.nav_doc:
+                String url = "https://1drv.ms/w/s!AnBjlQFDvsITgbtcv-7t9wMAfMWQkw?e=i5hILE";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+
             case R.id.nav_exit:
                 AlertDialog.Builder adb = new AlertDialog.Builder(this);
                 adb.setPositiveButton(getResources().getString(R.string.yes), this);
                 adb.setNegativeButton(getResources().getString(R.string.no), this);
                 AlertDialog alert = adb.create();
                 alert.setTitle(getResources().getString(R.string.confirmExit));
+                alert.setMessage("При следующем входе в приложение потребуется вводить логин и пароль");
                 alert.show();
                 break;
 
@@ -171,6 +223,11 @@ public class RouteListActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_route, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_route_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(this);
+
         MenuItem filterIcon = menu.findItem(R.id.action_route_filters);
         boolean isFilter = PreferencesManager.getInstance().getFilter();
         filterIcon.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
@@ -182,7 +239,7 @@ public class RouteListActivity extends BaseActivity implements
         if (item.getItemId() == R.id.action_route_filters) {
             boolean isFilter = !PreferencesManager.getInstance().getFilter();
             item.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
-            updateList(isFilter);
+            updateList(isFilter, null);
             PreferencesManager.getInstance().setFilter(isFilter);
         }
         return super.onOptionsItemSelected(item);
@@ -208,8 +265,23 @@ public class RouteListActivity extends BaseActivity implements
         }
     }
 
-    private void updateList(boolean isFilter) {
+    private void updateList(boolean isFilter, String query) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
+
+        if(query != null) {
+            List<RouteItem> filterRoutes = new ArrayList<>();
+            query = query.toLowerCase();
+
+            for(RouteItem routeItem : routes) {
+                if(routeItem.number.toLowerCase().contains(query)) {
+                    filterRoutes.add(routeItem);
+                }
+            }
+
+            routes.clear();
+            routes.addAll(filterRoutes);
+        }
+
         btnSync.setVisibility(routes.size() == 0 ? View.VISIBLE : View.GONE);
 
         if (isFilter) {
@@ -221,8 +293,23 @@ public class RouteListActivity extends BaseActivity implements
                 }
             }
             rvHouses.setAdapter(new RouteAdapter(this, undoneRoutes));
+
+            if(routes.size() > 0 && undoneRoutes.size() == 0){
+                tvMessage.setVisibility(View.VISIBLE);
+            } else {
+                tvMessage.setVisibility(View.GONE);
+            }
         } else {
             rvHouses.setAdapter(new RouteAdapter(this, routes));
+            tvMessage.setVisibility(View.GONE);
+        }
+    }
+
+    private void searchResult(String query) {
+        if (JsonUtil.isEmpty(query)) {
+            updateList(PreferencesManager.getInstance().getFilter(), null);
+        } else {
+            updateList(PreferencesManager.getInstance().getFilter(), query);
         }
     }
 
@@ -266,6 +353,30 @@ public class RouteListActivity extends BaseActivity implements
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServerAppVersionAsyncTask.cancel(true);
+        mServerAppVersionAsyncTask = null;
+
+        mRatingAsyncTask.cancel(true);
+        mRatingAsyncTask = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        searchResult(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if(StringUtil.isEmptyOrNull(newText)) {
+            searchResult(JsonUtil.EMPTY);
+        }
+        return false;
     }
 
     @SuppressLint("StaticFieldLeak")

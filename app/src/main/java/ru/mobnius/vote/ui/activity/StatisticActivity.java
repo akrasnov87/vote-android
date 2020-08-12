@@ -3,6 +3,7 @@ package ru.mobnius.vote.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -30,6 +32,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.ui.data.BurndownChartAsyncTask;
+import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.BurndownItemModel;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
@@ -85,13 +88,6 @@ public class StatisticActivity extends BaseActivity
         DaoSession daoSession = DataManager.getInstance().getDaoSession();
         mAllCount = daoSession.getPointsDao().queryBuilder().count();
         mDoneCount = daoSession.getUserPointsDao().queryBuilder().count();
-
-        if(NetworkUtil.isNetworkAvailable(this)) {
-            startProgress();
-            new BurndownChartAsyncTask(this).execute(mAllCount);
-        } else {
-            mChart.setNoDataText("Нет данных. Отсуствует подключение к интернету.");
-        }
     }
 
     @Override
@@ -112,6 +108,11 @@ public class StatisticActivity extends BaseActivity
         if(item.getItemId() == R.id.action_rating) {
             startActivity(RatingActivity.getIntent(this));
         }
+        if(item.getItemId() == R.id.action_statistic) {
+            StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "statistic");
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -122,6 +123,24 @@ public class StatisticActivity extends BaseActivity
         tvAllCount.setText(String.format("%s: %s", getString(R.string.appartament_all), mAllCount));
         tvDone.setText(String.format("%s: %s", getString(R.string.appartament_done), mDoneCount));
         tvLost.setText(String.format("%s: %s", getString(R.string.appartament_lost), mAllCount - mDoneCount));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(NetworkUtil.isNetworkAvailable(this) && NetworkUtil.isConnectionFast(this)) {
+            startProgress();
+            new BurndownChartAsyncTask(this).execute(mAllCount);
+        } else {
+            mChart.setNoDataText(getString(R.string.no_server_connection).toUpperCase());
+        }
+
+        Paint p = mChart.getPaint(Chart.PAINT_INFO);
+        p.setTextSize(48);
+        p.setColor(Color.rgb(244, 67, 54));
+        p.setTextAlign(Paint.Align.CENTER);
+        mChart.invalidate();
     }
 
     @Override

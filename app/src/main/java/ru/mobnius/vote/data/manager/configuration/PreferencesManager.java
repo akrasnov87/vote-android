@@ -1,6 +1,7 @@
 package ru.mobnius.vote.data.manager.configuration;
 
 import android.content.Context;
+import android.location.LocationManager;
 
 public class PreferencesManager extends AbstractPreferencesManager {
 
@@ -12,13 +13,17 @@ public class PreferencesManager extends AbstractPreferencesManager {
     // сортировка
     private static final String POINT_SORT_PREFS = "POINT_SORT_PREFS";
     public final static String SERVER_APP_VERSION = "SERVER_APP_VERSION";
-    public final static boolean ZIP_CONTENT = true;
+    public static boolean ZIP_CONTENT = true;
     public final static String SYNC_PROTOCOL = "v1";
     public final static String APP_VERSION = "MBL_APP_VERSION";
     public static final String DEBUG = "MBL_DEBUG";
     public static final String GENERATED_ERROR = "MBL_GENERATED_ERROR";
     public static final String PIN = "MBL_PIN";
     public static final String MBL_GEO_CHECK = "MBL_GEO_CHECK";
+    public static final String MBL_LOG = "MBL_LOG";
+    public static final String MBL_LOCATION = "MBL_LOCATION";
+    public static final String MBL_DISTANCE = "MBL_DISTANCE";
+    public static final String MBL_LOG_LOW = "LOW";
 
     public static final String MBL_BG_SYNC_INTERVAL = "MBL_BG_SYNC_INTERVAL";
     public static final String MBL_TRACK_INTERVAL = "MBL_TRACK_INTERVAL";
@@ -96,5 +101,17 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getTelemetryInterval() {
         return getDefaultIntValue(MBL_TELEMETRY_INTERVAL);
+    }
+
+    public String getLog() {
+        return getDefaultStringValue(MBL_LOG);
+    }
+
+    public String getLocation() {
+        return getDefaultStringValue(MBL_LOCATION).length() == 0 ? LocationManager.NETWORK_PROVIDER : getDefaultStringValue(MBL_LOCATION);
+    }
+
+    public int getDistance() {
+        return getDefaultIntValue(MBL_DISTANCE) == -1 ? 100 : getDefaultIntValue(MBL_DISTANCE);
     }
 }

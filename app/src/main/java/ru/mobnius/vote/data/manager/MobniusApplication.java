@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -23,19 +26,27 @@ import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.manager.exception.IExceptionGroup;
 import ru.mobnius.vote.data.manager.exception.IExceptionIntercept;
 import ru.mobnius.vote.data.manager.exception.MyUncaughtExceptionHandler;
+import ru.mobnius.vote.data.manager.synchronization.ManualSynchronization;
+import ru.mobnius.vote.data.manager.synchronization.ServiceSynchronization;
 import ru.mobnius.vote.data.storage.DbOpenHelper;
 import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.utils.AuditUtils;
 import ru.mobnius.vote.utils.HardwareUtil;
 
+import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
+
 public class MobniusApplication extends android.app.Application implements IExceptionIntercept, OnNetworkChangeListener {
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
     private ServiceManager serviceManager;
     private List<OnNetworkChangeListener> mNetworkChangeListener;
+    public static boolean isWelcome = false;
     // TODO: 01/01/2020 потом заменить на чтение QR-кода
     public static String getBaseUrl() {
         String baseUrl = "http://kes.it-serv.ru";
-        String virtualDirPath = "/vote/dev";
+        String virtualDirPath = "/vote/" + ENVIRONMENT;
 
         //String baseUrl = "http://192.168.1.68:3000";
         //String virtualDirPath = "";
@@ -60,7 +71,6 @@ public class MobniusApplication extends android.app.Application implements IExce
         // отслеживаем изменения подключения к сети интернет
         registerReceiver(new NetworkChangeReceiver(), filter);
     }
-
 
     /**
      * обработчик авторизации пользователя
@@ -110,6 +120,9 @@ public class MobniusApplication extends android.app.Application implements IExce
         }
         SocketManager.getInstance().destroy();
         PreferencesManager.getInstance().destroy();
+
+        ServiceSynchronization.clear();
+        ManualSynchronization.clear();
     }
 
     @Override
@@ -134,11 +147,11 @@ public class MobniusApplication extends android.app.Application implements IExce
      * @param serverExists подключение к серверу доступно.
      */
     @Override
-    public void onNetworkChange(boolean online, boolean serverExists) {
+    public void onNetworkChange(boolean online, boolean serverExists, boolean fasted) {
         if (mNetworkChangeListener != null) {
             for (OnNetworkChangeListener change : mNetworkChangeListener) {
                 if (change != null) {
-                    change.onNetworkChange(online, serverExists);
+                    change.onNetworkChange(online, serverExists, fasted);
                 }
             }
         }
@@ -180,7 +193,7 @@ public class MobniusApplication extends android.app.Application implements IExce
         @Override
         protected Boolean doInBackground(Void... voids) {
             if(Authorization.getInstance().isAuthorized()) {
-                BasicCredentials credentials = Authorization.getInstance().getLastAuthUser().getCredentials();
+                BasicCredentials credentials = Authorization.getInstance().getUser().getCredentials();
 
                 try {
                     List<ConfigurationSetting> configurationSettings = ConfigurationSettingUtil.getSettings(credentials);

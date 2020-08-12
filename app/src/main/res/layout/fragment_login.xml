@@ -22,11 +22,18 @@
         tools:visibility="visible"
         style="@style/AppTheme.TextView.Error"/>
 
+    <TextView
+        android:id="@+id/auth_slow_internet"
+        android:text="@string/internet_is_slow"
+        android:layout_below="@id/auth_no_server"
+        tools:visibility="visible"
+        style="@style/AppTheme.TextView.Error"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/auth_version"
-        android:layout_below="@id/auth_no_server">
+        android:layout_below="@id/auth_slow_internet">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,7 +59,8 @@
                 android:id="@+id/auth_login_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_clear_text_24dp"
+                app:srcCompat="@drawable/ic_clear_text_24dp"
+                android:background="@android:color/transparent"
                 tools:visibility="visible"
                 android:visibility="gone"
                 android:contentDescription="@string/clear"
@@ -78,7 +86,8 @@
                 android:id="@+id/auth_password_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_visibility_off_outlined_24dp"
+                app:srcCompat="@drawable/ic_visibility_off_outlined_24dp"
+                android:background="@android:color/transparent"
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:layout_marginEnd="10dp"
@@ -92,7 +101,8 @@
                 android:id="@+id/auth_password_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_clear_text_24dp"
+                app:srcCompat="@drawable/ic_clear_text_24dp"
+                android:background="@android:color/transparent"
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:contentDescription="@string/clear"

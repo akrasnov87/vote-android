@@ -53,6 +53,6 @@ public class VersionUtil {
         Date serverDate = mVersion.getBuildDate(Version.BIRTH_DAY, newVersion);
 
         return serverDate.getTime() > currentDate.getTime()
-                && (mVersion.getVersionState(currentVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug());
+                && (mVersion.getVersionState(newVersion) == Version.PRODUCTION || PreferencesManager.getInstance().isDebug());
     }
 }

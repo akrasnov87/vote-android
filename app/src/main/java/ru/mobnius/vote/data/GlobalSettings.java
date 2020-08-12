@@ -11,6 +11,11 @@ public class GlobalSettings {
      */
     public static final boolean STATUS_TRANSFER_SPEED = false;
 
+    /**
+     * Тут может быть два значения test или dev. По умолчанию всегда dev
+     */
+    public static String ENVIRONMENT = "dev";
+
     public static final String DEFAULT_USER_NAME = "inspector";
     public static final String DEFAULT_USER_PASSWORD = "inspector0";
     public static final Object DEFAULT_USER_ID = 4;

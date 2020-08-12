@@ -3,15 +3,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_item_search"
+    <item android:id="@+id/point_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/route_and_point_setSort"
-        android:icon="@drawable/ic_sort_off_24dp"
+        android:id="@+id/point_filter"
+        android:icon="@drawable/ic_filter_off_24dp"
         android:title="@string/routes_sort"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/point_feedback"
+        android:icon="@drawable/ic_baseline_feedback_24"
+        android:title="@string/feedback"
+        app:showAsAction="never" />
 
 </menu>

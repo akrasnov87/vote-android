@@ -1,6 +1,10 @@
 package ru.mobnius.vote.data.manager;
 
+import android.content.Context;
+
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -10,15 +14,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.Feedbacks;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
-import ru.mobnius.vote.data.storage.models.RegistrPts;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.RouteHistory;
@@ -38,6 +44,7 @@ import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.HardwareUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
 /**
@@ -291,23 +298,35 @@ public class DataManager {
             for(Points point : points) {
                 PointItem pointItem = new PointItem();
                 pointItem.id = point.id;
+                pointItem.priority = point.n_priority;
 
                 PointState pointState = getPointState(point.id);
                 if(pointState != null) {
                     pointItem.done = pointState.isDone();
                     pointItem.sync = pointState.isSync();
                     pointItem.color = pointState.getColor();
+                    pointItem.rating = pointState.getRating();
                 }
 
-                RegistrPts registrPts = point.getRegistrPts();
-                if(registrPts != null) {
-                    pointItem.address = registrPts.c_address;
-                    pointItem.appartament = registrPts.c_appartament_num;
+                String jd_data = point.getJb_data();
+                if(!StringUtil.isEmptyOrNull(jd_data)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(jd_data);
+                        pointItem.address = jsonObject.getString("c_address");
+                        pointItem.appartament = jsonObject.getString("c_appartament_num");
+                        pointItem.appartamentNumber = jsonObject.getInt("n_appartament_num");
+
+                        String build = jsonObject.getString("c_build_num");
+
+                        pointItem.houseNumber = jsonObject.getString("c_house_num") + (StringUtil.isEmptyOrNull(build) ? "" : " корп. " + build);
+                    } catch (JSONException e) {
+                        Logger.error(e);
+                    }
+
                     pointItem.info = point.c_info;
                     pointItem.notice = point.c_notice;
-                    pointItem.appartamentNumber = registrPts.n_appartament_num;
+
                     pointItem.routeId = point.f_route;
-                    pointItem.houseNumber = registrPts.c_house_num;
                 }
 
                 Routes route = point.getRoute();
@@ -345,19 +364,20 @@ public class DataManager {
         List<UserPoints> userPoints = daoSession.getUserPointsDao().queryBuilder().where(UserPointsDao.Properties.Fn_point.eq(pointId)).list();
 
         for(UserPoints userPoint : userPoints) {
-            if(userPoint.isSynchronization) {
-                List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
-                for(Results result : results) {
-                    Answer answer = result.getAnswer();
-                    if(answer != null) {
-                        pointState.setColor(answer.c_color);
-                    }
-
-                    if(!result.isSynchronization) {
-                        return pointState;
-                    }
+            List<Results> results = daoSession.getResultsDao().queryBuilder().where(ResultsDao.Properties.Fn_user_point.eq(userPoint.id)).list();
+            boolean stop = false;
+            for(Results result : results) {
+                Answer answer = result.getAnswer();
+                if(answer != null) {
+                    pointState.setColor(answer.c_color);
+                    pointState.setRating(result.n_rating);
                 }
-            } else {
+
+                if(!result.isSynchronization) {
+                    stop = true;
+                }
+            }
+            if(stop || !userPoint.isSynchronization) {
                 return pointState;
             }
         }
@@ -376,6 +396,8 @@ public class DataManager {
         if(route != null) {
             try {
                 RouteInfo routeInfo = new RouteInfo();
+
+                routeInfo.setNumber(route.c_number);
                 routeInfo.setCount(route.n_count);
                 routeInfo.setNotice(route.c_notice);
                 routeInfo.setDateEnd(DateUtil.convertStringToDate(route.d_date_end));
@@ -408,15 +430,24 @@ public class DataManager {
     public PointInfo getPointInfo(String pointId) {
         Points point = daoSession.getPointsDao().load(pointId);
         if(point != null) {
-            RegistrPts registrPts = point.getRegistrPts();
-            if(registrPts != null) {
-                PointInfo info = new PointInfo(registrPts);
-                info.setNotice(point.c_info);
-                info.setAddress(point.getRoute().c_number);
-                return info;
-            }
+            PointInfo info = new PointInfo(point.getJb_data());
+            info.setNotice(point.c_info);
+            info.setAddress(point.getRoute().c_number);
+            info.setPriority(point.n_priority);
+            return info;
         }
         return null;
+    }
+
+    /**
+     * Обновление рейтинга
+     * @param resultID иден. результата
+     * @param rating рейтинг
+     */
+    public void updateRating(String resultID, int rating) {
+        Results result = daoSession.getResultsDao().load(resultID);
+        result.n_rating = rating;
+        daoSession.getResultsDao().update(result);
     }
 
     /**
@@ -543,7 +574,19 @@ public class DataManager {
      * @return получить список вопросов
      */
     public Question[] getQuestions() {
-        List<Question> questions = daoSession.getQuestionDao().queryBuilder().orderAsc(QuestionDao.Properties.N_order).list();
+        List<Question> questions = daoSession.getQuestionDao().queryBuilder().where(QuestionDao.Properties.C_role.eq("null")).orderAsc(QuestionDao.Properties.N_order).list();
+        return questions.toArray(new Question[0]);
+    }
+
+    /**
+     * Список вопросов для кандидата
+     * @param priority приоритет
+     * @return получить список вопросов
+     */
+    public Question[] getQuestions(int priority) {
+        String role = Authorization.getInstance().getUser().isCandidateOne() ? BasicUser.CANDIDATE_ONE : BasicUser.CANDIDATE_LIST;
+
+        List<Question> questions = daoSession.getQuestionDao().queryBuilder().where(QuestionDao.Properties.N_priority.eq(priority), QuestionDao.Properties.C_role.eq(role)).orderAsc(QuestionDao.Properties.N_order).list();
         return questions.toArray(new Question[0]);
     }
 
@@ -589,11 +632,33 @@ public class DataManager {
         Users user = daoSession.getUsersDao().load(Authorization.getInstance().getUser().getUserId());
         if(user != null) {
             ProfileItem item = new ProfileItem();
-            item.fio = user.getC_login();
+            item.fio = StringUtil.isEmptyOrNull(user.getC_fio()) ? user.getC_login() : user.getC_fio();
             item.uik = user.n_uik;
+            item.subDivision = user.getF_subdivision();
             return item;
         }
         return null;
+    }
+
+    /**
+     * добавление вопроса
+     * @param context контекст
+     * @param type тип вопроса
+     * @param message сообщение пользователя
+     * @param data данные
+     */
+    public void saveFeedback(Context context, long type, String message, String data) {
+        Feedbacks feedback = new Feedbacks();
+        feedback.id = UUID.randomUUID().toString();
+        feedback.c_imei = HardwareUtil.getIMEI(context);
+        feedback.c_question = message;
+        feedback.fn_type = type;
+        feedback.d_date_question = DateUtil.convertDateToString(new Date());
+        feedback.fn_user = Authorization.getInstance().getUser().getUserId();
+        feedback.jb_data = data;
+        feedback.objectOperationType = DbOperationType.CREATED;
+
+        daoSession.getFeedbacksDao().insert(feedback);
     }
 
     /**
