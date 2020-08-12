@@ -28,7 +28,6 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
 import ru.mobnius.vote.utils.AuthUtil;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -46,7 +45,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withInputType;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -59,9 +57,9 @@ public class ALoginToPinTest extends BaseActivityTest {
     private boolean isDebug = false;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         PreferencesManager.createInstance(getContext(), getBasicUser().getCredentials().login);
-        if(PreferencesManager.getInstance().isDebug()){
+        if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
             PreferencesManager.getInstance().setDebug(false);
         }
@@ -69,8 +67,8 @@ public class ALoginToPinTest extends BaseActivityTest {
     }
 
     @After
-    public void tearDown(){
-        if (isDebug){
+    public void tearDown() {
+        if (isDebug) {
             PreferencesManager.getInstance().setDebug(true);
         }
     }
@@ -79,17 +77,14 @@ public class ALoginToPinTest extends BaseActivityTest {
     public void noPinTest() {
         BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
         String pinCode = "";
-        if(basicUser != null) {
-            AuthorizationCache cache = new AuthorizationCache(getContext());
+        AuthorizationCache cache = new AuthorizationCache(getContext());
+        if (basicUser != null) {
             pinCode = cache.readPin(basicUser.getCredentials().login);
         }
         if (!pinCode.isEmpty()) {
             return;
         }
         boolean noServer = false;
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
@@ -151,12 +146,12 @@ public class ALoginToPinTest extends BaseActivityTest {
             } catch (NoMatchingViewException e) {
                 e.printStackTrace();
             }
-            if (noLocation){
+            if (noLocation) {
                 return;
             }
             try {
                 onView(withId(R.id.statistic_close)).perform(click());
-            }catch (NoMatchingViewException e){
+            } catch (NoMatchingViewException e) {
                 e.printStackTrace();
             }
             //Успешная авторизация
@@ -169,55 +164,56 @@ public class ALoginToPinTest extends BaseActivityTest {
             // в случае если требуется предварительная прокрутка для отображения необходимого view-элемента
             onView(withId(androidx.preference.R.id.recycler_view))
                     .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Пин-код")), click()));
-            ViewInteraction btnOne = onView(withText("1"));
-            ViewInteraction pinCodeLinLay = onView(withId(R.id.pinFragment_pclTop));
-            pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
-            btnOne.perform(click());
-            pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_FILLED)));
-            onView(withId(R.id.pin_clear)).perform(click());
-            pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
-            btnOne.perform(click()).perform(click()).perform(click()).perform(click());
-            onView( withText(containsString("Подтвердите пин-код")))
-                    .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-            pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            btnOne.perform(click()).perform(click()).perform(click());
-            onView(withText("2")).perform(click());
-            onView( withText("Пин-коды не совпадают, порпобуйте еще раз"))
-                    .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-            pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            btnOne.perform(click()).perform(click()).perform(click()).perform(click());
-            onView( withText("Подтвердите пин-код"))
-                    .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            btnOne.perform(click()).perform(click()).perform(click()).perform(click());
-            onView( withText(containsString("Вход по пин-коду активирован")))
-                    .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-            onView(withId(R.id.pin_forgot)).perform(click());
-            onView(withText("Сбросить пин-код и авторизоаться через логин и пароль?")).check(matches(isDisplayed()));
-            onView(withText("Да")).perform(click());
+
+                ViewInteraction btnOne = onView(withText("1"));
+                ViewInteraction pinCodeLinLay = onView(withId(R.id.pinFragment_pclTop));
+                pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
+                btnOne.perform(click());
+                pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_FILLED)));
+                onView(withId(R.id.pin_clear)).perform(click());
+                pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
+                btnOne.perform(click()).perform(click()).perform(click()).perform(click());
+                onView(withText(containsString("Подтвердите пин-код")))
+                        .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+                pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                btnOne.perform(click()).perform(click()).perform(click());
+                onView(withText("2")).perform(click());
+                onView(withText("Пин-коды не совпадают, порпобуйте еще раз"))
+                        .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+                pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                btnOne.perform(click()).perform(click()).perform(click()).perform(click());
+                onView(withText("Подтвердите пин-код"))
+                        .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                btnOne.perform(click()).perform(click()).perform(click()).perform(click());
+                onView(withText(containsString("Вход по пин-коду активирован")))
+                        .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+                onView(withId(R.id.pin_forgot)).perform(click());
+                onView(withText("Сбросить пин-код и авторизоаться через логин и пароль?")).check(matches(isDisplayed()));
+                onView(withText("Да")).perform(click());
 
         }
     }
 
     @Test
-    public void pinTest(){
+    public void pinTest() {
         BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
         String pinCode = "";
-        if(basicUser != null) {
+        if (basicUser != null) {
             AuthorizationCache cache = new AuthorizationCache(getContext());
             pinCode = cache.readPin(basicUser.getCredentials().login);
         }
@@ -225,9 +221,9 @@ public class ALoginToPinTest extends BaseActivityTest {
             return;
         }
         int x = Integer.parseInt(String.valueOf(pinCode.charAt(0)));
-        if (x==9) {
+        if (x == 9) {
             x--;
-        }else {
+        } else {
             x++;
         }
         onView(withId(R.id.pin_forgot)).perform(click());
@@ -240,7 +236,7 @@ public class ALoginToPinTest extends BaseActivityTest {
         onView(withText(String.valueOf(pinCode.charAt(1)))).perform(click());
         onView(withText(String.valueOf(pinCode.charAt(2)))).perform(click());
         onView(withText(String.valueOf(pinCode.charAt(3)))).perform(click());
-        onView( withText("Неправильный пин"))
+        onView(withText("Неправильный пин"))
                 .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
         try {
@@ -264,7 +260,7 @@ public class ALoginToPinTest extends BaseActivityTest {
 
             @Override
             protected boolean matchesSafely(PinCodeLinLay item) {
-                return item.getPinDotStatus()==expectedStatus;
+                return item.getPinDotStatus() == expectedStatus;
             }
         };
     }

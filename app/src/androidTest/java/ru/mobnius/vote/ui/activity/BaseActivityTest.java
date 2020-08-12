@@ -20,12 +20,14 @@ import androidx.test.rule.GrantPermissionRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.junit.Before;
 import org.junit.Rule;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
 import ru.mobnius.vote.ManagerGenerate;
+import ru.mobnius.vote.data.GlobalSettings;
 
 import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
 
@@ -42,6 +44,11 @@ public abstract class BaseActivityTest extends ManagerGenerate {
                     "android.permission.ACCESS_FINE_LOCATION",
                     "android.permission.ACCESS_COARSE_LOCATION",
                     "android.permission.WRITE_EXTERNAL_STORAGE");
+
+    @Before
+    public void setUp() {
+        GlobalSettings.ENVIRONMENT = "test";
+    }
 
     public static ViewAction waitUntil(final Matcher<View> matcher) {
         return actionWithAssertions(new ViewAction() {

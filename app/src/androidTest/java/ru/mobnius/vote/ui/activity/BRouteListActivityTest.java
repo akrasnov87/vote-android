@@ -1,9 +1,7 @@
 package ru.mobnius.vote.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
@@ -31,7 +29,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.not;
 
 public class BRouteListActivityTest extends BaseActivityTest {
@@ -100,7 +97,22 @@ public class BRouteListActivityTest extends BaseActivityTest {
         onView(withText("OK")).inRoot(isDialog()) // <---
                 .check(matches(isDisplayed()))
                 .perform(click());
+        try {
+            onView(withId(R.id.statistic_close)).perform(waitUntil(isDisplayed()), click());
+        }catch (NoMatchingViewException e){
+            e.printStackTrace();
+        }
         if (getRVLenght(routeTestRule, R.id.house_list) > 0){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                onView(withId(R.id.statistic_close)).perform(click());
+            }catch (NoMatchingViewException e){
+                e.printStackTrace();
+            }
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.point_filter)).check(matches(isDisplayed()));
             onView(withId(R.id.point_search)).check(matches(isDisplayed()));

@@ -34,9 +34,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.not;
 
-public class CPointListActivityTest extends BaseActivityTest{
+public class DCandidateActivityTest extends BaseActivityTest{
     private boolean isDebug;
 
 
@@ -87,8 +89,8 @@ public class CPointListActivityTest extends BaseActivityTest{
                 return;
             }
             if (!isDebug) {
-                onView(withId(R.id.auth_login)).perform(replaceText("1801-01"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("8842"), closeSoftKeyboard());
+                onView(withId(R.id.auth_login)).perform(replaceText("01-01"), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText("3315"), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
         }
@@ -107,43 +109,57 @@ public class CPointListActivityTest extends BaseActivityTest{
         }catch (NoMatchingViewException e){
             e.printStackTrace();
         }
-        onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
+        onView(withId(R.id.sync_start)).perform(click());
+        onView(withText("OK")).inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()))
+                .perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            onView(withId(R.id.statistic_close)).perform(click());
+        }catch (NoMatchingViewException e){
+            e.printStackTrace();
+        }
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
-            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.point_search)).check(matches(isDisplayed()));
             onView(withId(R.id.point_search)).perform(click());
             onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("1"));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.choice_document_info)).check(matches(isDisplayed()));
+            onView(withId(R.id.choice_document_geo)).check(matches(isDisplayed()));
             Question question = DataManager.getInstance().getQuestions()[0];
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
+            onView(withId(R.id.question_item_answers)).perform(scrollTo());
+            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
             for (Answer answer:answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
             onView(withText("открыли – АПМ вручен в руки")).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-            onView(withId(R.id.contact_add)).perform(click());
-            onView(withId(R.id.contact_item_name)).perform(replaceText("Иванов И.И."));
-            onView(withId(R.id.contact_item_tel)).perform(replaceText("222222"));
-            onView(withId(R.id.contact_done)).perform(click());
             onView(withId(R.id.rating_bar)).perform(click());
             onView(withId(R.id.rating_done)).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.choice_document_info)).perform(click());
             onView(withId(R.id.point_info_reset)).perform(click());
             onView(withText("Да")).inRoot(isDialog()) // <---
                     .check(matches(isDisplayed()))
                     .perform(click());
+            onView(withId(R.id.question_item_answers)).perform(scrollTo());
             onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
             for (Answer answer:answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
-            onView(withText("никого нет дома")).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withText("не открыли – общение через дверь")).perform(click());
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.choice_document_info)).perform(click());
             onView(withId(R.id.point_info_reset)).perform(click());
             onView(withText("Да")).inRoot(isDialog()) // <---
