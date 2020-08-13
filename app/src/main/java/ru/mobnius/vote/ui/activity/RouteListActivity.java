@@ -191,7 +191,11 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_feedback:
-                startActivity(FeedbackActivity.getIntent(this));
+                if(DataManager.getInstance().getProfile() != null) {
+                    startActivity(FeedbackActivity.getIntent(this));
+                } else {
+                    alert(String.format("%s доступна только после синхронизации.", getString(R.string.feedback)));
+                }
                 break;
 
             case R.id.nav_doc:
