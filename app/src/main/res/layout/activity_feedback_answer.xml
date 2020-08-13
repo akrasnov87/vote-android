@@ -10,8 +10,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-
         <ru.mobnius.vote.ui.component.TextFieldView
             android:id="@+id/feedback_answer_item_serial"
             android:layout_width="match_parent"

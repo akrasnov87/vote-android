@@ -19,14 +19,16 @@
 
     <item android:title="@string/other">
         <menu>
-            <item
-                android:id="@+id/nav_feedback_answers"
-                android:icon="@drawable/ic_baseline_feedback_24"
-                android:title="@string/notifications" />
+
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_baseline_feedback_24"
                 android:title="@string/feedback" />
+
+            <item
+                android:id="@+id/nav_feedback_answers"
+                android:icon="@drawable/ic_baseline_question_answer_24"
+                android:title="@string/notifications" />
 
             <item
                 android:id="@+id/nav_setting"
