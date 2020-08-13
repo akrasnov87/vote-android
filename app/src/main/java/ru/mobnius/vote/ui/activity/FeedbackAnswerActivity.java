@@ -3,9 +3,11 @@ package ru.mobnius.vote.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +35,8 @@ public class FeedbackAnswerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_answer);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Ответы на обращения");
         List<Feedbacks> feedbacks = DataManager.getInstance().getDaoSession().getFeedbacksDao().queryBuilder().where(FeedbacksDao.Properties.D_date_answer.isNotNull()).list();
         TextFieldView tfvSerial = findViewById(R.id.feedback_answer_item_serial);
         TextFieldView tfvUser = findViewById(R.id.feedback_answer_item_user);
@@ -50,6 +54,14 @@ public class FeedbackAnswerActivity extends BaseActivity {
         rvFeedbackAnswers.setNestedScrollingEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return true;
     }
 
     @Override

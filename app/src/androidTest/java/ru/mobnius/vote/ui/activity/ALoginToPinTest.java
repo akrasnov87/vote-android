@@ -54,6 +54,8 @@ import static org.hamcrest.Matchers.not;
 public class ALoginToPinTest extends BaseActivityTest {
     private final static String TOO_SHORT = "18";
     private final static String LONG_ENOUGH = "1801";
+    private final static String RIGHT_LOGIN = "1801-01";
+    private final static String RIGHT_PASSWORD = "8842";
     private boolean isDebug = false;
 
     @Before
@@ -136,8 +138,8 @@ public class ALoginToPinTest extends BaseActivityTest {
         } else {
             onView(withText("Логин или пароль введены не верно."))
                     .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-            etLogin.perform(replaceText("1801-01"));
-            etPassword.perform(replaceText("8842"));
+            etLogin.perform(replaceText(RIGHT_LOGIN));
+            etPassword.perform(replaceText(RIGHT_PASSWORD));
             btnSignIn.perform(click());
             boolean noLocation = false;
             try {

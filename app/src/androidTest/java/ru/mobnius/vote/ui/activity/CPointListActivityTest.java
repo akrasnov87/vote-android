@@ -52,6 +52,7 @@ public class CPointListActivityTest extends BaseActivityTest {
 
     @After
     public void tearDown() {
+        getContext().deleteDatabase(Authorization.getInstance().getUser().getCredentials().login+".db");
     }
 
     @Test
