@@ -19,6 +19,7 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
+import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.Question;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -38,7 +39,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.not;
 
-public class DCandidateActivityTest extends BaseActivityTest{
+public class DCandidateActivityTest extends BaseActivityTest {
     private boolean isDebug;
 
 
@@ -49,15 +50,15 @@ public class DCandidateActivityTest extends BaseActivityTest{
             isDebug = true;
         }
         loginTestRule.launchActivity(new Intent());
+
     }
 
     @After
     public void tearDown() {
-        Authorization.getInstance().destroy();
     }
 
     @Test
-    public void routeListTest() {
+    public void candidateTest() {
         boolean noServer = false;
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -106,7 +107,7 @@ public class DCandidateActivityTest extends BaseActivityTest{
         }
         try {
             onView(withId(R.id.statistic_close)).perform(click());
-        }catch (NoMatchingViewException e){
+        } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
@@ -115,7 +116,6 @@ public class DCandidateActivityTest extends BaseActivityTest{
         onView(withText("OK")).inRoot(isDialog()) // <---
                 .check(matches(isDisplayed()))
                 .perform(click());
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -123,7 +123,7 @@ public class DCandidateActivityTest extends BaseActivityTest{
         }
         try {
             onView(withId(R.id.statistic_close)).perform(click());
-        }catch (NoMatchingViewException e){
+        } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
@@ -140,8 +140,8 @@ public class DCandidateActivityTest extends BaseActivityTest{
             Question question = DataManager.getInstance().getQuestions()[0];
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
             onView(withId(R.id.question_item_answers)).perform(scrollTo());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
-            for (Answer answer:answers) {
+            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+            for (Answer answer : answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
             onView(withText("открыли – АПМ вручен в руки")).perform(click());
@@ -154,8 +154,8 @@ public class DCandidateActivityTest extends BaseActivityTest{
                     .check(matches(isDisplayed()))
                     .perform(click());
             onView(withId(R.id.question_item_answers)).perform(scrollTo());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
-            for (Answer answer:answers) {
+            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+            for (Answer answer : answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
             onView(withText("не открыли – общение через дверь")).perform(click());

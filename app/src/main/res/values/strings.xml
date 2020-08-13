@@ -91,4 +91,6 @@
     <string name="rating_num">Оценка</string>
     <string name="rating_voice">Оценить результат общения</string>
     <string name="next">Далее</string>
+    <string name="notifications">Уведомления</string>
+    <string name="no_feedbacks">Нет обращений</string>
 </resources>

@@ -14,7 +14,7 @@ public class GlobalSettings {
     /**
      * Тут может быть два значения test или dev. По умолчанию всегда dev
      */
-    public static String ENVIRONMENT = "dev";
+    public static String ENVIRONMENT = "test";
 
     public static final String DEFAULT_USER_NAME = "1801-01";
     public static final String DEFAULT_USER_PASSWORD = "8842";

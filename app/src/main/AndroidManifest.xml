@@ -66,6 +66,7 @@
 
         <activity android:name=".ui.activity.FeedbackActivity"
             android:label="@string/feedback"/>
+        <activity android:name=".ui.activity.FeedbackAnswerActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

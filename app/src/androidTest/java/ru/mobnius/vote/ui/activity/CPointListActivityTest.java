@@ -19,6 +19,7 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
+import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.Question;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -36,7 +37,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
 
-public class CPointListActivityTest extends BaseActivityTest{
+public class CPointListActivityTest extends BaseActivityTest {
     private boolean isDebug;
 
 
@@ -51,11 +52,10 @@ public class CPointListActivityTest extends BaseActivityTest{
 
     @After
     public void tearDown() {
-        Authorization.getInstance().destroy();
     }
 
     @Test
-    public void routeListTest() {
+    public void agitatorTest() {
         boolean noServer = false;
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -104,7 +104,7 @@ public class CPointListActivityTest extends BaseActivityTest{
         }
         try {
             onView(withId(R.id.statistic_close)).perform(click());
-        }catch (NoMatchingViewException e){
+        } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
@@ -116,10 +116,10 @@ public class CPointListActivityTest extends BaseActivityTest{
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Question question = DataManager.getInstance().getQuestions()[0];
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
-            for (Answer answer:answers) {
+            for (Answer answer : answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
             onView(withText("открыли – АПМ вручен в руки")).perform(click());
@@ -132,18 +132,18 @@ public class CPointListActivityTest extends BaseActivityTest{
             onView(withId(R.id.contact_done)).perform(click());
             onView(withId(R.id.rating_bar)).perform(click());
             onView(withId(R.id.rating_done)).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.choice_document_info)).perform(click());
             onView(withId(R.id.point_info_reset)).perform(click());
             onView(withText("Да")).inRoot(isDialog()) // <---
                     .check(matches(isDisplayed()))
                     .perform(click());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
-            for (Answer answer:answers) {
+            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+            for (Answer answer : answers) {
                 onView(withText(answer.c_text)).check(matches(isDisplayed()));
             }
             onView(withText("никого нет дома")).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.choice_document_info)).perform(click());
             onView(withId(R.id.point_info_reset)).perform(click());
             onView(withText("Да")).inRoot(isDialog()) // <---

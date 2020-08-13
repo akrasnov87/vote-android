@@ -5,45 +5,36 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-
 import android.provider.Settings;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
@@ -51,24 +42,18 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
-import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
 import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
-import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
-import ru.mobnius.vote.utils.ThemeUtil;
 import ru.mobnius.vote.utils.VersionUtil;
-
-import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -118,7 +103,7 @@ public class RouteListActivity extends BaseActivity implements
         ImageView ivIcon = headerLayout.findViewById(R.id.app_icon);
         TextView tvName = headerLayout.findViewById(R.id.app_name);
 
-        if(Authorization.getInstance().getUser().isCandidate()) {
+        if (Authorization.getInstance().getUser().isCandidate()) {
             tvName.setText("Кандидат");
             ivIcon.setBackgroundResource(R.mipmap.ic_candidate_launcher_round);
         }
@@ -155,7 +140,7 @@ public class RouteListActivity extends BaseActivity implements
     protected void onStart() {
         super.onStart();
         updateList(PreferencesManager.getInstance().getFilter(), null);
-        if(Authorization.getInstance().getUser().isCandidate()) {
+        if (Authorization.getInstance().getUser().isCandidate()) {
             mRatingAsyncTask = new RatingCandidateAsyncTask(this);
         } else {
             mRatingAsyncTask = new RatingAsyncTask(this);
@@ -173,7 +158,7 @@ public class RouteListActivity extends BaseActivity implements
 
         LocationChecker.start(this);
 
-        if(DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
+        if (DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
             MobniusApplication.isWelcome = true;
             StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
             dialogFragment.show(getSupportFragmentManager(), "statistic");
@@ -198,6 +183,11 @@ public class RouteListActivity extends BaseActivity implements
             case R.id.nav_feedback:
                 startActivity(FeedbackActivity.getIntent(this));
                 break;
+
+            case R.id.nav_feedback_answers:
+                startActivity(FeedbackAnswerActivity.getIntent(this));
+                break;
+
 
             case R.id.nav_doc:
                 String url = "https://1drv.ms/w/s!AnBjlQFDvsITgbtcv-7t9wMAfMWQkw?e=i5hILE";
@@ -272,12 +262,12 @@ public class RouteListActivity extends BaseActivity implements
     private void updateList(boolean isFilter, String query) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
 
-        if(query != null) {
+        if (query != null) {
             List<RouteItem> filterRoutes = new ArrayList<>();
             query = query.toLowerCase();
 
-            for(RouteItem routeItem : routes) {
-                if(routeItem.number.toLowerCase().contains(query)) {
+            for (RouteItem routeItem : routes) {
+                if (routeItem.number.toLowerCase().contains(query)) {
                     filterRoutes.add(routeItem);
                 }
             }
@@ -298,7 +288,7 @@ public class RouteListActivity extends BaseActivity implements
             }
             rvHouses.setAdapter(new RouteAdapter(this, undoneRoutes));
 
-            if(routes.size() > 0 && undoneRoutes.size() == 0){
+            if (routes.size() > 0 && undoneRoutes.size() == 0) {
                 tvMessage.setVisibility(View.VISIBLE);
             } else {
                 tvMessage.setVisibility(View.GONE);
@@ -321,7 +311,7 @@ public class RouteListActivity extends BaseActivity implements
     public void onLocationAvailable(int mode) {
         switch (mode) {
             case LocationChecker.LOCATION_OFF:
-                geoAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
+                geoAlert("Для работы приложения необходимо включить доступ к геолокации", "Включить геолокацию");
                 break;
             case LocationChecker.LOCATION_ON_LOW_ACCURACY:
                 geoAlert("Включен режим определения геолокации \"По спутникам GPS\". Для корректной работы приложения " +
@@ -330,7 +320,7 @@ public class RouteListActivity extends BaseActivity implements
         }
     }
 
-    private void geoAlert(String message, String buttonText){
+    private void geoAlert(String message, String buttonText) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
@@ -349,9 +339,9 @@ public class RouteListActivity extends BaseActivity implements
     public void onRatingLoaded(List<RatingItemModel> items) {
         int idx = 0;
         long userId = Authorization.getInstance().getUser().getUserId();
-        for(RatingItemModel item : items) {
+        for (RatingItemModel item : items) {
             idx++;
-            if(item.user_id == userId) {
+            if (item.user_id == userId) {
                 tvMeRating.setVisibility(View.VISIBLE);
                 tvMeRating.setText(String.format(" %d", idx));
                 break;
@@ -377,7 +367,7 @@ public class RouteListActivity extends BaseActivity implements
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(StringUtil.isEmptyOrNull(newText)) {
+        if (StringUtil.isEmptyOrNull(newText)) {
             searchResult(JsonUtil.EMPTY);
         }
         return false;
