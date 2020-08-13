@@ -52,7 +52,8 @@
             android:screenOrientation="locked" />
         <activity
             android:name=".ui.activity.QuestionActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PointInfoActivity"
             android:label="@string/general_info" />
@@ -62,6 +63,7 @@
         <activity
             android:name=".ui.activity.RatingActivity"
             android:label="@string/rating" />
+
         <activity android:name=".ui.activity.FeedbackActivity"
             android:label="@string/feedback"/>
 

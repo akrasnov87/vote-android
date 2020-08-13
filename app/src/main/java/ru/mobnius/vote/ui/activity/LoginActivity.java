@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -20,6 +21,9 @@ import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.ui.fragment.LoginFragment;
+import ru.mobnius.vote.utils.ThemeUtil;
+
+import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
 
 
 public class LoginActivity extends BaseActivity {

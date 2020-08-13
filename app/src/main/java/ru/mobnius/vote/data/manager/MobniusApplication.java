@@ -14,6 +14,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.ConfigurationSetting;
@@ -57,6 +58,7 @@ public class MobniusApplication extends android.app.Application implements IExce
     @Override
     public void onCreate() {
         super.onCreate();
+
         onExceptionIntercept();
         Logger.setContext(getApplicationContext());
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.Settings;
@@ -64,7 +65,10 @@ import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
+import ru.mobnius.vote.utils.ThemeUtil;
 import ru.mobnius.vote.utils.VersionUtil;
+
+import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
