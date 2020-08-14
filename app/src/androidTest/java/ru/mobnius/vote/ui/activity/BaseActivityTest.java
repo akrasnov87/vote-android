@@ -17,9 +17,12 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
+import junit.framework.AssertionFailedError;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 
@@ -27,11 +30,23 @@ import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
 import ru.mobnius.vote.ManagerGenerate;
+import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.GlobalSettings;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
+import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
+import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
+import ru.mobnius.vote.data.manager.credentials.BasicUser;
+import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 public abstract class BaseActivityTest extends ManagerGenerate {
+    private boolean noServer = false;
+    private boolean isDebug = false;
 
     @Rule
     public ActivityTestRule<LoginActivity> loginTestRule = new ActivityTestRule<>(LoginActivity.class, true, false);
@@ -47,7 +62,42 @@ public abstract class BaseActivityTest extends ManagerGenerate {
 
     @Before
     public void setUp() {
+        PreferencesManager.createInstance(getContext(), getBasicUser().getCredentials().login);
+        if (PreferencesManager.getInstance().isDebug()) {
+            isDebug = true;
+            PreferencesManager.getInstance().setDebug(false);
+        }
+
         GlobalSettings.ENVIRONMENT = "test";
+
+        BasicUser basicUser = Authorization.getInstance().getLastAuthUser();
+        String pinCode = "";
+        AuthorizationCache cache = new AuthorizationCache(getContext());
+        if (basicUser != null) {
+            pinCode = cache.readPin(basicUser.getCredentials().login);
+        }
+        if (!pinCode.isEmpty()) {
+            return;
+        }
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            //проверяем есть ли интернет и доступен ли сервер
+            onView(withId(R.id.auth_no_server)).check(matches(isDisplayed()));
+            noServer = true;
+        } catch (AssertionFailedError e) {
+            e.printStackTrace();
+        }
+    }
+
+    @After
+    public void tearDown() {
+        if (isDebug) {
+            PreferencesManager.getInstance().setDebug(true);
+        }
     }
 
     public static ViewAction waitUntil(final Matcher<View> matcher) {
@@ -121,21 +171,22 @@ public abstract class BaseActivityTest extends ManagerGenerate {
 
             @Override
             public boolean matchesSafely(final ActionMenuItemView actionMenuItemView) {
-                boolean x= compareDrawable(actionMenuItemView.getItemData().getIcon(), drawable);
+                boolean x = compareDrawable(actionMenuItemView.getItemData().getIcon(), drawable);
                 return x;
             }
         };
     }
-    public static boolean compareDrawable(Drawable d1, Drawable d2){
-        try{
-            Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+
+    public static boolean compareDrawable(Drawable d1, Drawable d2) {
+        try {
+            Bitmap bitmap1 = ((BitmapDrawable) d1).getBitmap();
             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
             bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
             stream1.flush();
             byte[] bitmapdata1 = stream1.toByteArray();
             stream1.close();
 
-            Bitmap bitmap2 = ((BitmapDrawable)d2).getBitmap();
+            Bitmap bitmap2 = ((BitmapDrawable) d2).getBitmap();
             ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
             bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
             stream2.flush();
@@ -143,14 +194,32 @@ public abstract class BaseActivityTest extends ManagerGenerate {
             stream2.close();
 
             return Arrays.equals(bitmapdata1, bitmapdata2);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
         }
         return false;
     }
+
     public int getRVLenght(ActivityTestRule activityTest, int resourceId) {
         activityTest.launchActivity(new Intent());
         RecyclerView recyclerView = (RecyclerView) activityTest.getActivity().findViewById(resourceId);
         return recyclerView.getAdapter().getItemCount();
+    }
+
+    public static Matcher<View> withStatus(final PinCodeLinLay.PinDotStatus expectedStatus) {
+        return new BoundedMatcher<View, PinCodeLinLay>(PinCodeLinLay.class) {
+
+            @Override
+            public void describeTo(org.hamcrest.Description description) {
+            }
+
+            @Override
+            protected boolean matchesSafely(PinCodeLinLay item) {
+                return item.getPinDotStatus() == expectedStatus;
+            }
+        };
+    }
+
+    public boolean isServerUnavailable() {
+        return noServer;
     }
 }

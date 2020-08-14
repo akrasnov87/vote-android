@@ -14,12 +14,12 @@ import org.junit.Test;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.Question;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -55,17 +55,19 @@ public class DCandidateActivityTest extends BaseActivityTest {
 
     @After
     public void tearDown() {
-        getContext().deleteDatabase(Authorization.getInstance().getUser().getCredentials().login+".db");
+        String login = Authorization.getInstance().getUser().getCredentials().login;
+        MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
+        application.unAuthorized(true);
+
+        getContext().deleteDatabase(login + ".db");
     }
 
     @Test
     public void candidateTest() {
         boolean noServer = false;
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+
         try {
-            Thread.sleep(700);
+            Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -95,6 +97,11 @@ public class DCandidateActivityTest extends BaseActivityTest {
                 onView(withId(R.id.auth_password)).perform(replaceText("3315"), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
+        }
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         boolean noLocation = false;
         try {

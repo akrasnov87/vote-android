@@ -12,8 +12,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.MobniusApplication;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -21,6 +24,10 @@ import ru.mobnius.vote.data.manager.credentials.BasicUser;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.Question;
+import ru.mobnius.vote.data.storage.models.Results;
+import ru.mobnius.vote.ui.model.PointFilter;
+import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.ui.model.RouteItem;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -52,7 +59,12 @@ public class CPointListActivityTest extends BaseActivityTest {
 
     @After
     public void tearDown() {
-        getContext().deleteDatabase(Authorization.getInstance().getUser().getCredentials().login+".db");
+        String login = Authorization.getInstance().getUser().getCredentials().login;
+        MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
+        application.unAuthorized(true);
+
+        getContext().deleteDatabase(login +".db");
+
     }
 
     @Test
@@ -115,8 +127,16 @@ public class CPointListActivityTest extends BaseActivityTest {
             onView(withId(R.id.point_search)).perform(click());
             onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("1"));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
-
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
+            RouteItem routeItem = routes.get(0);
+            List<PointItem> pointItems = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.ALL);
+            PointItem pointItem = pointItems.get(0);
+            DataManager dataManager = DataManager.getInstance();
+            List<Results> results = dataManager.getPointResults(pointItem.id);
+            // задание ранее выполнялось
+            if (DataManager.getInstance().getPointState(pointItem.id).isDone()) {
+            }
             onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Question question = DataManager.getInstance().getQuestions()[0];
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
