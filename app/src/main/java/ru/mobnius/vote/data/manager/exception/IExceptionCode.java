@@ -51,4 +51,5 @@ public interface IExceptionCode {
     int STATISTIC_DIALOG = 43;
     int RATING_DIALOG = 44;
     int VOTING_DIALOG = 45;
+    int FEEDBACK_ANSWER = 46;
 }

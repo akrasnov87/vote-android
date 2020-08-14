@@ -202,6 +202,10 @@ public class RouteListActivity extends BaseActivity implements
                 }
                 break;
 
+            case R.id.nav_feedback_answers:
+                startActivity(FeedbackAnswerActivity.getIntent(this));
+                break;
+
             case R.id.nav_doc:
                 String url = "https://1drv.ms/w/s!AnBjlQFDvsITgbtcv-7t9wMAfMWQkw?e=i5hILE";
                 Intent i = new Intent(Intent.ACTION_VIEW);

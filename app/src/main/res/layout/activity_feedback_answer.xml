@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/feedback_answer_item_serial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:layout_marginStart="@dimen/size_xxs_8"
+            app:fieldLabel="Серийный номер устройства"
+            tools:fieldText="1111" />
+
+        <ru.mobnius.vote.ui.component.TextFieldView
+            android:id="@+id/feedback_answer_item_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_xxs_8"
+            android:layout_marginStart="@dimen/size_xxs_8"
+            app:fieldLabel="ID пользователя"
+            tools:fieldText="180101" />
+
+        <TextView
+            android:id="@+id/feedback_answer_no_feedbacks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/no_feedbacks"
+            android:textSize="26sp"
+            android:textColor="@color/colorError"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedback_answer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".ui.activity.FeedbackAnswerActivity" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
