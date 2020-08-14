@@ -69,6 +69,9 @@
             android:name=".ui.activity.FeedbackActivity"
             android:label="@string/feedback" />
 
+        <activity android:name=".ui.activity.NotificationActivity"
+            android:label="Ответы на обращения"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ru.mobnius.vote.provider"

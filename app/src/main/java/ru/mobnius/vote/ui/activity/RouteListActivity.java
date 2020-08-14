@@ -5,20 +5,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.Settings;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -37,13 +33,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
-import ru.mobnius.vote.data.GlobalSettings;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.MobniusApplication;
@@ -51,24 +44,18 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
-import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
 import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
-import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
-import ru.mobnius.vote.utils.ThemeUtil;
 import ru.mobnius.vote.utils.VersionUtil;
-
-import static ru.mobnius.vote.data.GlobalSettings.ENVIRONMENT;
 
 public class RouteListActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -111,6 +98,7 @@ public class RouteListActivity extends BaseActivity implements
         btnSync.setOnClickListener(this);
 
         NavigationView navigationView = findViewById(R.id.mainMenu_NavigationView);
+        MenuItem contactMenuItem = navigationView.getMenu().findItem(R.id.nav_contact);
         navigationView.setNavigationItemSelectedListener(this);
         mDrawerLayout = findViewById(R.id.mainMenuDrawerLayout);
 
@@ -121,6 +109,7 @@ public class RouteListActivity extends BaseActivity implements
         if(Authorization.getInstance().getUser().isCandidate()) {
             tvName.setText("Кандидат");
             ivIcon.setBackgroundResource(R.mipmap.ic_candidate_launcher_round);
+            contactMenuItem.setVisible(true);
         }
 
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
@@ -204,6 +193,10 @@ public class RouteListActivity extends BaseActivity implements
                 } else {
                     alert(String.format("%s доступна только после синхронизации.", getString(R.string.feedback)));
                 }
+                break;
+
+            case R.id.nav_feedback_answers:
+                startActivity(NotificationActivity.getIntent(this));
                 break;
 
             case R.id.nav_doc:

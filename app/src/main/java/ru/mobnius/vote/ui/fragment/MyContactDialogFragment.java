@@ -11,12 +11,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,6 +28,7 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseDialogFragment;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Contacts;
@@ -33,6 +36,8 @@ import ru.mobnius.vote.data.storage.models.FeedbackTypes;
 import ru.mobnius.vote.data.storage.models.Houses;
 import ru.mobnius.vote.ui.adapter.FeedbackTypeAdapter;
 import ru.mobnius.vote.ui.adapter.HouseAdapter;
+import ru.mobnius.vote.ui.adapter.holder.MyContactsHolder;
+import ru.mobnius.vote.utils.DateUtil;
 
 public class MyContactDialogFragment extends BaseDialogFragment
     implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -52,7 +57,8 @@ public class MyContactDialogFragment extends BaseDialogFragment
     private EditText mDescription;
 
     private Houses mHouse;
-    private OnMyContactListeners mListeners;
+    private HouseAdapter mHouseAdapter;
+    private MyContactsHolder.OnMyContactListeners mListeners;
 
     public MyContactDialogFragment() {}
 
@@ -60,8 +66,8 @@ public class MyContactDialogFragment extends BaseDialogFragment
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof OnMyContactListeners) {
-            mListeners = (OnMyContactListeners)context;
+        if(context instanceof MyContactsHolder.OnMyContactListeners) {
+            mListeners = (MyContactsHolder.OnMyContactListeners)context;
         }
     }
 
@@ -84,9 +90,9 @@ public class MyContactDialogFragment extends BaseDialogFragment
         mPatronymic = v.findViewById(R.id.my_contact_patronymic);
         mHouses = v.findViewById(R.id.my_contact_house);
 
-        HouseAdapter houseAdapter = new HouseAdapter(getContext(), new ArrayList<Map<String, Object>>());
+        mHouseAdapter = new HouseAdapter(getContext(), new ArrayList<Map<String, Object>>());
         mHouses.setOnItemSelectedListener(this);
-        mHouses.setAdapter(houseAdapter);
+        mHouses.setAdapter(mHouseAdapter);
 
         mAppartament = v.findViewById(R.id.my_contact_appartament);
         mPhone = v.findViewById(R.id.my_contact_phone);
@@ -97,13 +103,29 @@ public class MyContactDialogFragment extends BaseDialogFragment
         return v;
     }
 
-    public void bind(Contacts contact) {
-        mContact = contact;
-        btnDel.setVisibility(View.VISIBLE);
+    @Override
+    public void onStart() {
+        super.onStart();
+        Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(getDialog())).getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     }
 
-    public void bind() {
-        btnDel.setVisibility(View.GONE);
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mContact != null) {
+            mFirstName.setText(mContact.c_first_name);
+            mLastName.setText(mContact.c_last_name);
+            mPatronymic.setText(mContact.c_patronymic);
+            mAppartament.setText(mContact.c_appartament);
+            mPhone.setText(mContact.c_phone);
+            mDescription.setText(mContact.c_description);
+            mHouses.setSelection(mHouseAdapter.getPositionById(mContact.fn_house));
+        }
+        btnDel.setVisibility(mContact != null ? View.VISIBLE : View.GONE);
+    }
+
+    public void bind(Contacts contact) {
+        mContact = contact;
     }
 
     @Override
@@ -120,7 +142,10 @@ public class MyContactDialogFragment extends BaseDialogFragment
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == DialogInterface.BUTTON_POSITIVE) {
                             mContact.b_disabled = true;
+                            mContact.isSynchronization = false;
+                            mContact.objectOperationType = DbOperationType.UPDATED;
                             DataManager.getInstance().getDaoSession().getContactsDao().update(mContact);
+                            dismiss();
                             mListeners.onContactUpdate();
                         }
                     }
@@ -138,7 +163,14 @@ public class MyContactDialogFragment extends BaseDialogFragment
                     mContact = new Contacts();
                     mContact.id = UUID.randomUUID().toString();
                     mContact.fn_user = Authorization.getInstance().getUser().getUserId();
+                    mContact.d_date = DateUtil.convertDateToString(new Date());
+                    mContact.objectOperationType = DbOperationType.CREATED;
+                } else {
+                    if(mContact.isSynchronization) {
+                        mContact.objectOperationType = DbOperationType.UPDATED;
+                    }
                 }
+                mContact.isSynchronization = false;
                 mContact.c_first_name = mFirstName.getText().toString();
                 mContact.c_last_name = mLastName.getText().toString();
                 mContact.c_patronymic = mPatronymic.getText().toString();
@@ -183,9 +215,5 @@ public class MyContactDialogFragment extends BaseDialogFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    public interface OnMyContactListeners {
-        void onContactUpdate();
     }
 }

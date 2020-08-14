@@ -92,7 +92,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(new EntityDictionary(AnswerDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(QuestionDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(RolesDao.TABLENAME, false, true).setTid(dictionaryTid));
-        addEntity(new EntityDictionary(HousesDao.TABLENAME, false, true).setTid(dictionaryTid));
+        addEntity(new EntityDictionary(HousesDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(UserInDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(UserInDivisionsDao.Properties.F_user.name, getUserID())));
 
         addEntity(Entity.createInstance(RoutesDao.TABLENAME, false, true).setTid(totalTid).setParam(getUserID()).setUseCFunction());

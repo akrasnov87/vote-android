@@ -3,24 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activity.ContactActivity">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/my_contact_empty"
+        android:id="@+id/notification_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/no_my_contacts"
+        android:text="@string/no_feedbacks"
         style="@style/AppTheme.TextView.Error"
         tools:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_contact_list"
+        android:id="@+id/notification_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.ContactActivity" />
+        tools:context=".ui.activity.NotificationActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,6 +51,32 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/size_xxs_8">
 
+            <TextView
+                android:id="@+id/my_contact_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Адрес дома"
+                android:textColor="@color/colorHint"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/my_contact_house"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_address"/>
+
+            <EditText
+                android:id="@+id/my_contact_appartament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Номер квартиры"
+                android:inputType="text"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_house"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints=""/>
+
             <EditText
                 android:id="@+id/my_contact_first_name"
                 android:layout_width="match_parent"
@@ -58,7 +84,7 @@
                 android:hint="Фамилия"
                 android:inputType="text"
                 android:textSize="@dimen/high_text_size"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_appartament"
                 android:layout_marginTop="@dimen/size_xxs_8"
                 android:autofillHints="" />
 
@@ -84,23 +110,6 @@
                 android:layout_marginTop="@dimen/size_xxs_8"
                 android:autofillHints=""/>
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/my_contact_house"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/my_contact_patronymic"/>
-
-            <EditText
-                android:id="@+id/my_contact_appartament"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Номер квартиры"
-                android:inputType="text"
-                android:textSize="@dimen/high_text_size"
-                app:layout_constraintTop_toBottomOf="@id/my_contact_house"
-                android:layout_marginTop="@dimen/size_xxs_8"
-                android:autofillHints=""/>
-
             <EditText
                 android:id="@+id/my_contact_phone"
                 android:layout_width="match_parent"
@@ -108,7 +117,7 @@
                 android:hint="Номер телефона"
                 android:inputType="phone"
                 android:textSize="@dimen/high_text_size"
-                app:layout_constraintTop_toBottomOf="@id/my_contact_appartament"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_patronymic"
                 android:layout_marginTop="@dimen/size_xxs_8"
                 android:autofillHints=""/>
 

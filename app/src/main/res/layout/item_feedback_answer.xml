@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size_xxs_8">
+
+    <TextView
+        android:id="@+id/notification_item_question_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/small_text_size"
+        android:textColor="@color/colorHint"
+        tools:text="22.07.2020"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/notification_item_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Обычный вопрос"
+        app:layout_constraintStart_toEndOf="@id/notification_item_question_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/small_text_size"
+        android:textColor="@color/colorHint"
+        android:layout_marginStart="@dimen/size_xxs_8"/>
+
+    <TextView
+        android:id="@+id/notification_item_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Текст обращения"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginStart="@dimen/size_xs_16"
+        app:layout_constraintTop_toBottomOf="@id/notification_item_question_date"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:textColor="@color/colorHint"/>
+
+    <TextView
+        android:id="@+id/notification_item_answer_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/medium_text_size"
+        app:layout_constraintTop_toBottomOf="@id/notification_item_question"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        android:textColor="@color/colorPrimary"
+        tools:text="22.07.2020" />
+
+    <TextView
+        android:id="@+id/notification_item_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_xxs_8"
+        tools:text="Текст ответа"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginStart="@dimen/size_xs_16"
+        app:layout_constraintTop_toBottomOf="@id/notification_item_answer_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

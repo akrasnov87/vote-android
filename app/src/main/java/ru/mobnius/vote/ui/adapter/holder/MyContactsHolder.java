@@ -9,9 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.storage.models.Contacts;
 import ru.mobnius.vote.data.storage.models.Houses;
@@ -24,19 +27,24 @@ import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
-public class HouseHolder extends RecyclerView.ViewHolder
+public class MyContactsHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
     private TextView tvAppartament;
     private TextView tvName;
+    private TextView tvDate;
 
     private Contacts mContact;
+    private OnMyContactListeners mListeners;
 
-    public HouseHolder(@NonNull View itemView) {
+    public MyContactsHolder(@NonNull View itemView) {
         super(itemView);
         tvAppartament = itemView.findViewById(R.id.item_my_contact_appartament);
         tvName = itemView.findViewById(R.id.item_my_contact_name);
+        tvDate = itemView.findViewById(R.id.item_my_contact_date);
         itemView.setOnClickListener(this);
+
+        mListeners = (OnMyContactListeners)itemView.getContext();
     }
 
     public void bind(Contacts contact) {
@@ -47,10 +55,21 @@ public class HouseHolder extends RecyclerView.ViewHolder
         String name = item.c_street + " " + item.c_number + (!StringUtil.isEmptyOrNull(item.c_build) ? " корп. " + item.c_build : "");
         tvName.setText(name);
 
+        try {
+            Date date = DateUtil.convertStringToDate(contact.d_date);
+            tvDate.setText(DateUtil.convertDateToUserString(date, DateUtil.USER_SHORT_FORMAT));
+        } catch (ParseException e) {
+            Logger.error(e);
+        }
     }
 
     @Override
     public void onClick(View v) {
+        mListeners.onSelectedContact(mContact);
+    }
 
+    public interface OnMyContactListeners {
+        void onSelectedContact(Contacts contact);
+        void onContactUpdate();
     }
 }
