@@ -21,6 +21,7 @@ import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.AnswerDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.Feedbacks;
+import ru.mobnius.vote.data.storage.models.FeedbacksDao;
 import ru.mobnius.vote.data.storage.models.Points;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Question;
@@ -659,6 +660,14 @@ public class DataManager {
         feedback.objectOperationType = DbOperationType.CREATED;
 
         daoSession.getFeedbacksDao().insert(feedback);
+    }
+
+    /**
+     * Получение списка уведомлений
+     * @return получение списка
+     */
+    public List<Feedbacks> getNotifications() {
+        return daoSession.getFeedbacksDao().queryBuilder().where(FeedbacksDao.Properties.D_date_answer.notEq("null")).list();
     }
 
     /**
