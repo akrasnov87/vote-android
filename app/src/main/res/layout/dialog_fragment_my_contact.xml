@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/my_contact_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/high_text_size"
+            android:padding="@dimen/size_xs_16"
+            android:text="@string/my_contact"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/my_contact_del"
+            app:srcCompat="@drawable/ic_baseline_delete_24"
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/cancel"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/size_xs_16"
+        app:layout_constraintTop_toBottomOf="@id/my_contact_title"
+        app:layout_constraintBottom_toTopOf="@id/my_contact_done">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_xxs_8">
+
+            <EditText
+                android:id="@+id/my_contact_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Фамилия"
+                android:inputType="text"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints="" />
+
+            <EditText
+                android:id="@+id/my_contact_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Имя"
+                android:inputType="text"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_first_name"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints=""/>
+
+            <EditText
+                android:id="@+id/my_contact_patronymic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Отчетство"
+                android:inputType="text"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_last_name"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints=""/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/my_contact_house"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_patronymic"/>
+
+            <EditText
+                android:id="@+id/my_contact_appartament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Номер квартиры"
+                android:inputType="text"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_house"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints=""/>
+
+            <EditText
+                android:id="@+id/my_contact_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Номер телефона"
+                android:inputType="phone"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_appartament"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:autofillHints=""/>
+
+            <EditText
+                android:id="@+id/my_contact_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Примечание"
+                android:inputType="textMultiLine"
+                android:textSize="@dimen/high_text_size"
+                app:layout_constraintTop_toBottomOf="@id/my_contact_phone"
+                android:layout_marginTop="@dimen/size_xxs_8"
+                android:lines="4"
+                android:gravity="top"
+                android:autofillHints=""/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/my_contact_done"
+        android:text="@string/save"
+        style="@style/AppTheme.ButtonStyle"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/my_contact_close"
+        android:text="@string/cancel"
+        style="@style/AppTheme.ButtonStyle.Alt"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -190,6 +190,10 @@ public class RouteListActivity extends BaseActivity implements
                 startActivity(StatisticActivity.getIntent(this));
                 break;
 
+            case R.id.nav_contact:
+                startActivity(ContactActivity.getIntent(this));
+                break;
+
             case R.id.nav_setting:
                 startActivity(SettingActivity.getIntent(this));
                 break;

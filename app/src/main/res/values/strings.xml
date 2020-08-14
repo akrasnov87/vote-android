@@ -48,6 +48,8 @@
     <string name="appartament_done">Выполнено</string>
     <string name="appartament_lost">Осталось</string>
     <string name="statistic">Статистика</string>
+    <string name="my_contacts">Мои контакты</string>
+    <string name="my_contact">Мой контакт</string>
     <string name="phone_number">Номер телефона</string>
     <string name="clear">Очистить</string>
     <string name="show_password">Показать пароль</string>
