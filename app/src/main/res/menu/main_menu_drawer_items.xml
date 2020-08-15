@@ -41,12 +41,6 @@
                 android:title="@string/settings" />
 
             <item
-                android:id="@+id/nav_doc"
-                android:icon="@drawable/ic_baseline_help_24"
-                android:title="@string/help"
-                android:visible="false"/>
-
-            <item
                 android:id="@+id/nav_exit"
                 android:icon="@drawable/ic_exit_gray_24dp"
                 android:title="@string/exit" />

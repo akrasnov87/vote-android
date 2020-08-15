@@ -53,5 +53,6 @@ public interface IExceptionCode {
     int VOTING_DIALOG = 45;
     int CONTACT_LIST = 46;
     int MY_CONTACT_ITEM = 47;
-    int NOTIFICATION = 46;
+    int NOTIFICATION = 48;
+    int UPDATE_ABOUT = 49;
 }

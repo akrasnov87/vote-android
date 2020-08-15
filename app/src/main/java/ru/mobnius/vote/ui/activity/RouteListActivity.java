@@ -54,6 +54,7 @@ import ru.mobnius.vote.ui.adapter.holder.RouteHolder;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
+import ru.mobnius.vote.ui.fragment.AboutUpdateDialogFragment;
 import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
@@ -234,13 +235,6 @@ public class RouteListActivity extends BaseActivity implements
 
             case R.id.nav_feedback_answers:
                 startActivity(NotificationActivity.getIntent(this));
-                break;
-
-            case R.id.nav_doc:
-                String url = "https://1drv.ms/w/s!AnBjlQFDvsITgbtcv-7t9wMAfMWQkw?e=i5hILE";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
                 break;
 
             case R.id.nav_exit:
@@ -466,13 +460,11 @@ public class RouteListActivity extends BaseActivity implements
             if (VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
                 // тут доступно новая версия
                 String message = "Доступна новая версия " + s;
-                MySnackBar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Загрузить", new View.OnClickListener() {
+                MySnackBar.make(rvHouses, message, Snackbar.LENGTH_LONG).setAction("Об обновлении", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String url = MobniusApplication.getBaseUrl() + Names.UPDATE_URL;
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
+                        AboutUpdateDialogFragment aboutUpdateDialogFragment = new AboutUpdateDialogFragment();
+                        aboutUpdateDialogFragment.show(getSupportFragmentManager(), "about-update");
                     }
                 }).show();
             }

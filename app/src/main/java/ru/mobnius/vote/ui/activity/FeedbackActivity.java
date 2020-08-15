@@ -181,6 +181,10 @@ public class FeedbackActivity extends BaseActivity
             Toast.makeText(this, "Вопрос сохранен", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        if(item.getItemId() == R.id.action_feedback_answers) {
+            startActivity(NotificationActivity.getIntent(this));
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -9,4 +9,10 @@
         android:title="@string/send"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_feedback_answers"
+        android:icon="@drawable/ic_baseline_question_answer_24"
+        android:title="@string/notifications"
+        app:showAsAction="never"/>
+
 </menu>
