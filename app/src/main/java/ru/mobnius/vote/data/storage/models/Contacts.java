@@ -8,6 +8,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
 
+import java.io.Serializable;
+
 @SuppressWarnings({"unused", "StringEquality"})
 @Entity(nameInDb = "cd_contacts")
 public class Contacts {
@@ -41,13 +43,25 @@ public class Contacts {
      * дом
      */
     @Expose
-    public String fn_house;
+    public String fn_street;
 
     /**
      * Вышестоящее отделение
      */
-    @ToOne(joinProperty = "fn_house")
-    private Houses mHouse;
+    @ToOne(joinProperty = "fn_street")
+    private Streets street;
+
+    /**
+     * номер квартиры
+     */
+    @Expose
+    public String c_house_num;
+
+    /**
+     * номер квартиры
+     */
+    @Expose
+    public String c_house_build;
 
     /**
      * номер квартиры
@@ -97,6 +111,9 @@ public class Contacts {
     @Expose
     public boolean b_disabled;
 
+    @Expose
+    public long n_order;
+
     /**
      * Тип операции надл объектом
      */
@@ -130,18 +147,21 @@ public class Contacts {
     @Generated(hash = 892616969)
     private transient ContactsDao myDao;
 
-    @Generated(hash = 1400166230)
+    @Generated(hash = 947225395)
     public Contacts(String id, String c_first_name, String c_last_name,
-            String c_patronymic, String fn_house, String c_appartament,
-            Integer n_rating, String c_description, String d_date, long fn_user,
-            String jb_data, String c_phone, boolean b_disabled,
+            String c_patronymic, String fn_street, String c_house_num,
+            String c_house_build, String c_appartament, Integer n_rating,
+            String c_description, String d_date, long fn_user, String jb_data,
+            String c_phone, boolean b_disabled, long n_order,
             String objectOperationType, boolean isDelete, boolean isSynchronization,
             String tid, String blockTid) {
         this.id = id;
         this.c_first_name = c_first_name;
         this.c_last_name = c_last_name;
         this.c_patronymic = c_patronymic;
-        this.fn_house = fn_house;
+        this.fn_street = fn_street;
+        this.c_house_num = c_house_num;
+        this.c_house_build = c_house_build;
         this.c_appartament = c_appartament;
         this.n_rating = n_rating;
         this.c_description = c_description;
@@ -150,6 +170,7 @@ public class Contacts {
         this.jb_data = jb_data;
         this.c_phone = c_phone;
         this.b_disabled = b_disabled;
+        this.n_order = n_order;
         this.objectOperationType = objectOperationType;
         this.isDelete = isDelete;
         this.isSynchronization = isSynchronization;
@@ -193,12 +214,28 @@ public class Contacts {
         this.c_patronymic = c_patronymic;
     }
 
-    public String getFn_house() {
-        return this.fn_house;
+    public String getFn_street() {
+        return this.fn_street;
     }
 
-    public void setFn_house(String fn_house) {
-        this.fn_house = fn_house;
+    public void setFn_street(String fn_street) {
+        this.fn_street = fn_street;
+    }
+
+    public String getC_house_num() {
+        return this.c_house_num;
+    }
+
+    public void setC_house_num(String c_house_num) {
+        this.c_house_num = c_house_num;
+    }
+
+    public String getC_house_build() {
+        return this.c_house_build;
+    }
+
+    public void setC_house_build(String c_house_build) {
+        this.c_house_build = c_house_build;
     }
 
     public String getC_appartament() {
@@ -265,6 +302,14 @@ public class Contacts {
         this.b_disabled = b_disabled;
     }
 
+    public long getN_order() {
+        return this.n_order;
+    }
+
+    public void setN_order(long n_order) {
+        this.n_order = n_order;
+    }
+
     public String getObjectOperationType() {
         return this.objectOperationType;
     }
@@ -305,35 +350,35 @@ public class Contacts {
         this.blockTid = blockTid;
     }
 
-    @Generated(hash = 823378290)
-    private transient String mHouse__resolvedKey;
+    @Generated(hash = 666408978)
+    private transient String street__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 667274009)
-    public Houses getMHouse() {
-        String __key = this.fn_house;
-        if (mHouse__resolvedKey == null || mHouse__resolvedKey != __key) {
+    @Generated(hash = 989367389)
+    public Streets getStreet() {
+        String __key = this.fn_street;
+        if (street__resolvedKey == null || street__resolvedKey != __key) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            HousesDao targetDao = daoSession.getHousesDao();
-            Houses mHouseNew = targetDao.load(__key);
+            StreetsDao targetDao = daoSession.getStreetsDao();
+            Streets streetNew = targetDao.load(__key);
             synchronized (this) {
-                mHouse = mHouseNew;
-                mHouse__resolvedKey = __key;
+                street = streetNew;
+                street__resolvedKey = __key;
             }
         }
-        return mHouse;
+        return street;
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1181902240)
-    public void setMHouse(Houses mHouse) {
+    @Generated(hash = 2059513179)
+    public void setStreet(Streets street) {
         synchronized (this) {
-            this.mHouse = mHouse;
-            fn_house = mHouse == null ? null : mHouse.getId();
-            mHouse__resolvedKey = fn_house;
+            this.street = street;
+            fn_street = street == null ? null : street.getId();
+            street__resolvedKey = fn_street;
         }
     }
 

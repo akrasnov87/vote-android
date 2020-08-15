@@ -11,28 +11,28 @@ import java.util.Map;
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
-import ru.mobnius.vote.data.storage.models.FeedbackTypes;
-import ru.mobnius.vote.data.storage.models.Houses;
+import ru.mobnius.vote.data.storage.models.Streets;
+import ru.mobnius.vote.data.storage.models.StreetsDao;
 import ru.mobnius.vote.utils.LongUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
-public class HouseAdapter extends SimpleAdapter {
+public class StreetAdapter extends SimpleAdapter {
     protected ArrayList<Map<String, Object>> mMaps;
     protected DataManager mDataManager;
 
     private static String[] from = { Names.NAME };
     private static int[] to = { R.id.simple_type_item_name };
 
-    public HouseAdapter(Context context, ArrayList<Map<String, Object>> items) {
+    public StreetAdapter(Context context, ArrayList<Map<String, Object>> items) {
         super(context, items, R.layout.simple_type_item, from, to);
 
         mMaps = items;
         mDataManager = DataManager.getInstance();
 
-        List<Houses> houses = mDataManager.getDaoSession().getHousesDao().loadAll();
+        List<Streets> streets = mDataManager.getDaoSession().getStreetsDao().queryBuilder().orderAsc(StreetsDao.Properties.C_name).list();
 
-        for(Houses item : houses) {
-            addItem(item.getId(), item.c_street + " " + item.c_number + (!StringUtil.isEmptyOrNull(item.c_build) ? " корп. " + item.c_build : ""));
+        for(Streets item : streets) {
+            addItem(item.getId(), item.c_type + " " + item.c_name);
         }
     }
 

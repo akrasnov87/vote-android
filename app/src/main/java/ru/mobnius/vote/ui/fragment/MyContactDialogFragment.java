@@ -32,12 +32,11 @@ import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Contacts;
-import ru.mobnius.vote.data.storage.models.FeedbackTypes;
-import ru.mobnius.vote.data.storage.models.Houses;
-import ru.mobnius.vote.ui.adapter.FeedbackTypeAdapter;
-import ru.mobnius.vote.ui.adapter.HouseAdapter;
+import ru.mobnius.vote.data.storage.models.Streets;
+import ru.mobnius.vote.ui.adapter.StreetAdapter;
 import ru.mobnius.vote.ui.adapter.holder.MyContactsHolder;
 import ru.mobnius.vote.utils.DateUtil;
+import ru.mobnius.vote.utils.StringUtil;
 
 public class MyContactDialogFragment extends BaseDialogFragment
     implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -51,13 +50,15 @@ public class MyContactDialogFragment extends BaseDialogFragment
     private EditText mFirstName;
     private EditText mLastName;
     private EditText mPatronymic;
-    private Spinner mHouses;
+    private Spinner mStreets;
     private EditText mAppartament;
+    private EditText mHouseNum;
+    private EditText mHouseBuild;
     private EditText mPhone;
     private EditText mDescription;
 
-    private Houses mHouse;
-    private HouseAdapter mHouseAdapter;
+    private Streets mStreet;
+    private StreetAdapter mStreetAdapter;
     private MyContactsHolder.OnMyContactListeners mListeners;
 
     public MyContactDialogFragment() {}
@@ -76,6 +77,11 @@ public class MyContactDialogFragment extends BaseDialogFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_my_contact, container, false);
 
+        if(savedInstanceState != null) {
+            String mContactId = (String) savedInstanceState.getSerializable(Names.ID);
+            mContact = DataManager.getInstance().getDaoSession().getContactsDao().load(mContactId);
+        }
+
         btnDel = v.findViewById(R.id.my_contact_del);
         btnDel.setOnClickListener(this);
 
@@ -88,13 +94,15 @@ public class MyContactDialogFragment extends BaseDialogFragment
         mFirstName = v.findViewById(R.id.my_contact_first_name);
         mLastName = v.findViewById(R.id.my_contact_last_name);
         mPatronymic = v.findViewById(R.id.my_contact_patronymic);
-        mHouses = v.findViewById(R.id.my_contact_house);
+        mStreets = v.findViewById(R.id.my_contact_street);
 
-        mHouseAdapter = new HouseAdapter(getContext(), new ArrayList<Map<String, Object>>());
-        mHouses.setOnItemSelectedListener(this);
-        mHouses.setAdapter(mHouseAdapter);
+        mStreetAdapter = new StreetAdapter(getContext(), new ArrayList<Map<String, Object>>());
+        mStreets.setOnItemSelectedListener(this);
+        mStreets.setAdapter(mStreetAdapter);
 
         mAppartament = v.findViewById(R.id.my_contact_appartament);
+        mHouseNum = v.findViewById(R.id.my_contact_house_num);
+        mHouseBuild = v.findViewById(R.id.my_contact_house_build);
         mPhone = v.findViewById(R.id.my_contact_phone);
         mDescription = v.findViewById(R.id.my_contact_description);
 
@@ -117,11 +125,21 @@ public class MyContactDialogFragment extends BaseDialogFragment
             mLastName.setText(mContact.c_last_name);
             mPatronymic.setText(mContact.c_patronymic);
             mAppartament.setText(mContact.c_appartament);
+            mHouseNum.setText(mContact.c_house_num);
+            mHouseBuild.setText(mContact.c_house_build);
             mPhone.setText(mContact.c_phone);
             mDescription.setText(mContact.c_description);
-            mHouses.setSelection(mHouseAdapter.getPositionById(mContact.fn_house));
+            mStreets.setSelection(mStreetAdapter.getPositionById(mContact.fn_street));
         }
         btnDel.setVisibility(mContact != null ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mContact != null) {
+            outState.putSerializable(Names.ID, mContact.id);
+        }
     }
 
     public void bind(Contacts contact) {
@@ -164,6 +182,7 @@ public class MyContactDialogFragment extends BaseDialogFragment
                     mContact.id = UUID.randomUUID().toString();
                     mContact.fn_user = Authorization.getInstance().getUser().getUserId();
                     mContact.d_date = DateUtil.convertDateToString(new Date());
+                    mContact.n_order = new Date().getTime();
                     mContact.objectOperationType = DbOperationType.CREATED;
                 } else {
                     if(mContact.isSynchronization) {
@@ -175,9 +194,11 @@ public class MyContactDialogFragment extends BaseDialogFragment
                 mContact.c_last_name = mLastName.getText().toString();
                 mContact.c_patronymic = mPatronymic.getText().toString();
                 mContact.c_appartament = mAppartament.getText().toString();
+                mContact.c_house_num = mHouseNum.getText().toString();
+                mContact.c_house_build = mHouseBuild.getText().toString();
                 mContact.c_description = mDescription.getText().toString();
                 mContact.c_phone = mPhone.getText().toString();
-                mContact.fn_house = mHouse.id;
+                mContact.fn_street = mStreet.id;
 
                 if(isCreate) {
                     DataManager.getInstance().getDaoSession().getContactsDao().insert(mContact);
@@ -209,7 +230,7 @@ public class MyContactDialogFragment extends BaseDialogFragment
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         HashMap hashMap = (HashMap) parent.getItemAtPosition(position);
-        mHouse = DataManager.getInstance().getDaoSession().getHousesDao().load(String.valueOf(hashMap.get(Names.ID)));
+        mStreet = DataManager.getInstance().getDaoSession().getStreetsDao().load(String.valueOf(hashMap.get(Names.ID)));
     }
 
     @Override

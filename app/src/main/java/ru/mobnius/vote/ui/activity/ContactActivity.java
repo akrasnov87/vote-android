@@ -65,7 +65,7 @@ public class ContactActivity extends BaseActivity implements MyContactsHolder.On
     }
 
     private void onUpdateList() {
-        List<Contacts> contacts = DataManager.getInstance().getDaoSession().getContactsDao().queryBuilder().where(ContactsDao.Properties.B_disabled.eq(false)).orderDesc(ContactsDao.Properties.D_date).list();
+        List<Contacts> contacts = DataManager.getInstance().getDaoSession().getContactsDao().queryBuilder().where(ContactsDao.Properties.B_disabled.eq(false)).orderDesc(ContactsDao.Properties.N_order).list();
 
         if (contacts.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);

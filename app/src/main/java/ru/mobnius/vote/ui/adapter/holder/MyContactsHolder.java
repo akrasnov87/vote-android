@@ -1,9 +1,6 @@
 package ru.mobnius.vote.ui.adapter.holder;
 
-import android.content.Context;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,19 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
-import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.storage.models.Contacts;
-import ru.mobnius.vote.data.storage.models.Houses;
-import ru.mobnius.vote.ui.activity.FeedbackActivity;
-import ru.mobnius.vote.ui.activity.PointListActivity;
-import ru.mobnius.vote.ui.model.PointFilter;
-import ru.mobnius.vote.ui.model.PointItem;
-import ru.mobnius.vote.ui.model.RouteInfo;
-import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.data.storage.models.Streets;
 import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
@@ -50,14 +39,14 @@ public class MyContactsHolder extends RecyclerView.ViewHolder
     public void bind(Contacts contact) {
         mContact = contact;
 
-        tvAppartament.setText(contact.c_appartament);
-        Houses item = contact.getMHouse();
-        String name = item.c_street + " " + item.c_number + (!StringUtil.isEmptyOrNull(item.c_build) ? " корп. " + item.c_build : "");
+        tvAppartament.setText("кв. " + contact.c_appartament);
+        Streets item = contact.getStreet();
+        String name = item.c_type + " " + item.c_name + " д. " + contact.c_house_num + (!StringUtil.isEmptyOrNull(contact.c_house_build) ? " корп. " + contact.c_house_build : "");
         tvName.setText(name);
 
         try {
             Date date = DateUtil.convertStringToDate(contact.d_date);
-            tvDate.setText(DateUtil.convertDateToUserString(date, DateUtil.USER_SHORT_FORMAT));
+            tvDate.setText(DateUtil.convertDateToUserString(date, DateUtil.USER_FORMAT));
         } catch (ParseException e) {
             Logger.error(e);
         }

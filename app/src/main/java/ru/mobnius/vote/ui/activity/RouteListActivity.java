@@ -196,7 +196,11 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_contact:
-                startActivity(ContactActivity.getIntent(this));
+                if(DataManager.getInstance().getProfile() != null) {
+                    startActivity(ContactActivity.getIntent(this));
+                } else {
+                    alert(String.format("%s доступен только после синхронизации.", getString(R.string.my_contacts)));
+                }
                 break;
 
             case R.id.nav_setting:
