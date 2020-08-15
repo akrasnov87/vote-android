@@ -69,6 +69,7 @@ public class ContactActivity extends BaseActivity implements MyContactsHolder.On
 
         if (contacts.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
+            rvList.setAdapter(new MyContactsAdapter(this, contacts));
         } else {
             tvEmpty.setVisibility(View.GONE);
             rvList.setAdapter(new MyContactsAdapter(this, contacts));

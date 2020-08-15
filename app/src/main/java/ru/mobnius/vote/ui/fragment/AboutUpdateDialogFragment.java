@@ -69,7 +69,7 @@ public class AboutUpdateDialogFragment extends BaseDialogFragment
         Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(getDialog())).getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         tvDescription.setText("Идет загрузка описания...");
         mTask = new DigestsAsyncTask(this);
-        //mTask.execute("1.141.3.436");
+        //mTask.execute("1.144.3.1070");
         mTask.execute(VersionUtil.getVersionName(getContext()));
     }
 
