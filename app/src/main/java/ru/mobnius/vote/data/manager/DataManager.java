@@ -671,6 +671,14 @@ public class DataManager {
     }
 
     /**
+     * Получение кол-во уведомлений
+     * @return получение кол-во
+     */
+    public long getNotificationCount() {
+        return daoSession.getFeedbacksDao().queryBuilder().where(FeedbacksDao.Properties.D_date_answer.notEq("null")).count();
+    }
+
+    /**
      * Фильтрация маршрутов
      */
     public enum RouteFilter {

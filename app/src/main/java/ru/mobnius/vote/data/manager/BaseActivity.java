@@ -143,6 +143,22 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
                 .setPositiveButton("OK", null).show();
     }
 
+    /**
+     * Вывод окна сообщения
+     *
+     * @param listener обработчик события нажатий
+     */
+    public void confirmDialog(String message, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setPositiveButton(getResources().getString(R.string.yes), listener);
+        adb.setNegativeButton(getResources().getString(R.string.no), listener);
+
+        AlertDialog alert = adb.create();
+        alert.setTitle(message);
+        alert.show();
+    }
+
     protected void startProgress() {
         mProgressBar.setVisibility(View.VISIBLE);
     }

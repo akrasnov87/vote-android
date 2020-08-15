@@ -2,6 +2,7 @@ package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -44,6 +47,7 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
+import ru.mobnius.vote.data.storage.models.Feedbacks;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
@@ -161,10 +165,22 @@ public class RouteListActivity extends BaseActivity implements
 
         LocationChecker.start(this);
 
-        if(DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
+        if(isNewFeedbackAnswer()) {
+            confirmDialog("Доступен ответ на ранее заданный Вами вопрос. Перейти сейчас?", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(which == DialogInterface.BUTTON_POSITIVE) {
+                        startActivity(NotificationActivity.getIntent(getApplicationContext()));
+                    }
+                }
+            });
             MobniusApplication.isWelcome = true;
-            StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
-            dialogFragment.show(getSupportFragmentManager(), "statistic");
+        } else {
+            if (DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
+                MobniusApplication.isWelcome = true;
+                StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "statistic");
+            }
         }
     }
 
@@ -381,6 +397,27 @@ public class RouteListActivity extends BaseActivity implements
             searchResult(JsonUtil.EMPTY);
         }
         return false;
+    }
+
+    /**
+     * Есть ли новые ответы на обратную связь
+     * @return
+     */
+    private boolean isNewFeedbackAnswer() {
+        int count = (int)DataManager.getInstance().getNotificationCount();
+        int saveCount = PreferencesManager.getInstance().getFeedbackAnswerCount();
+        if(saveCount == -1) {
+            // при первой всавке не выдовать сообщение
+            PreferencesManager.getInstance().setFeedbackAnswerCount(count);
+            return false;
+        }
+        if(count > saveCount) {
+            // есть новые ответы
+            PreferencesManager.getInstance().setFeedbackAnswerCount(count);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
