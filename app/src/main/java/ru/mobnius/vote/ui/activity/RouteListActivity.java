@@ -37,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
@@ -49,6 +50,7 @@ import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Feedbacks;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
+import ru.mobnius.vote.ui.adapter.holder.RouteHolder;
 import ru.mobnius.vote.ui.component.MySnackBar;
 import ru.mobnius.vote.ui.data.RatingAsyncTask;
 import ru.mobnius.vote.ui.data.RatingCandidateAsyncTask;
@@ -67,13 +69,16 @@ public class RouteListActivity extends BaseActivity implements
         DialogInterface.OnClickListener,
         LocationChecker.OnLocationAvailable,
         RatingAsyncTask.OnRatingLoadedListener,
-        SearchView.OnQueryTextListener {
+        SearchView.OnQueryTextListener,
+        RouteHolder.OnRouteItemListeners {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rvHouses;
     private Button btnSync;
     private TextView tvMeRating;
     private TextView tvMessage;
+
+    private int mPositionSelected = 0;
 
     private AsyncTask<Integer, Void, List<RatingItemModel>> mRatingAsyncTask;
 
@@ -91,6 +96,10 @@ public class RouteListActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_with_menu);
+
+        if(savedInstanceState != null) {
+            mPositionSelected = savedInstanceState.getInt(Names.ID, 0);
+        }
 
         tvMessage = findViewById(R.id.house_list_message);
         rvHouses = findViewById(R.id.house_list);
@@ -182,6 +191,14 @@ public class RouteListActivity extends BaseActivity implements
                 dialogFragment.show(getSupportFragmentManager(), "statistic");
             }
         }
+
+        Objects.requireNonNull(rvHouses.getLayoutManager()).scrollToPosition(mPositionSelected);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Names.ID, mPositionSelected);
     }
 
     @Override
@@ -422,6 +439,12 @@ public class RouteListActivity extends BaseActivity implements
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onRouteItemClick(RouteItem routeItem, int position) {
+        mPositionSelected = position;
+        startActivityForResult(PointListActivity.newIntent(this, routeItem.id), PointListActivity.POINT_LIST_REQUEST_CODE);
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -22,11 +22,13 @@ public class PointHolder extends RecyclerView.ViewHolder
     private final TextView tvDeviceNumber;
     private final TextView tvDevicePriority;
     private PointItem mItem;
+    private OnPointItemListeners mListeners;
 
     public PointHolder(Context context, @NonNull View itemView) {
         super(itemView);
 
         mContext = context;
+        mListeners = (OnPointItemListeners)context;
         tvDeviceNumber = itemView.findViewById(R.id.itemPoint_appartamentNumber);
         tvDevicePriority = itemView.findViewById(R.id.itemPoint_appartamentPriority);
         itemView.setOnClickListener(this);
@@ -69,6 +71,10 @@ public class PointHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
-        mContext.startActivity(QuestionActivity.newIntent(mContext, mItem));
+        mListeners.onPointItemClick(mItem, getLayoutPosition());
+    }
+
+    public interface OnPointItemListeners {
+        void onPointItemClick(PointItem pointItem, int position);
     }
 }

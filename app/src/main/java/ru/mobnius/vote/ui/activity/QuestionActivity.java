@@ -48,6 +48,8 @@ import ru.mobnius.vote.utils.AuditUtils;
 public class QuestionActivity extends BaseFormActivity
         implements OnVoteListener, OnClickVoteItemListener, OnAnswerListener {
 
+    public static final int QUESTION_REQUEST_CODE = 2;
+
     private static final String ANSWER_ID = "answer_id";
     private static final String QUESTION_ID = "question_id";
     private static final String VOTE = "vote";

@@ -29,6 +29,7 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Routes;
+import ru.mobnius.vote.ui.adapter.holder.PointHolder;
 import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.model.PointFilter;
@@ -38,7 +39,7 @@ import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
 public class PointListActivity extends BaseActivity
-        implements SearchView.OnQueryTextListener {
+        implements SearchView.OnQueryTextListener, PointHolder.OnPointItemListeners {
 
     private DataManager mDataManager;
     private String routeId;
@@ -46,6 +47,8 @@ public class PointListActivity extends BaseActivity
     private ProgressBar mProgressBar;
     private PreferencesManager mPreferencesManager;
     private TextView tvMessage;
+    private int mPositionSelected = 0;
+    public static int POINT_LIST_REQUEST_CODE = 2;
 
     public static Intent newIntent(Context context, String routeId) {
         Intent intent = new Intent(context, PointListActivity.class);
@@ -57,6 +60,10 @@ public class PointListActivity extends BaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_list);
+
+        if(savedInstanceState != null) {
+            mPositionSelected = savedInstanceState.getInt(Names.ID, 0);
+        }
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mPreferencesManager = PreferencesManager.getInstance();
@@ -115,6 +122,14 @@ public class PointListActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         invalidateOptionsMenu();
+
+        Objects.requireNonNull(mRecyclerView.getLayoutManager()).scrollToPosition(mPositionSelected);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Names.ID, mPositionSelected);
     }
 
     @Override
@@ -136,7 +151,8 @@ public class PointListActivity extends BaseActivity
         if (item.getItemId() == R.id.point_filter) {
             item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
             PreferencesManager.getInstance().setSort(!mPreferencesManager.getSort());
-            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
+            List<PointItem> list = getSortedList(mPreferencesManager.getSort());
+            mRecyclerView.setAdapter(new PointAdapter(this, list));
         }
 
         if(item.getItemId() == R.id.point_feedback) {
@@ -189,5 +205,11 @@ public class PointListActivity extends BaseActivity
             searchResult(JsonUtil.EMPTY);
         }
         return false;
+    }
+
+    @Override
+    public void onPointItemClick(PointItem pointItem, int position) {
+        mPositionSelected = position;
+        startActivityForResult(QuestionActivity.newIntent(this, pointItem), QuestionActivity.QUESTION_REQUEST_CODE);
     }
 }

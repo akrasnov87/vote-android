@@ -36,10 +36,12 @@ public class RouteHolder extends RecyclerView.ViewHolder
     private final Context mContext;
 
     private RouteItem mRouteItem;
+    private OnRouteItemListeners mListeners;
 
     public RouteHolder(final Context context, @NonNull View itemView) {
         super(itemView);
         mContext = context;
+        mListeners = (OnRouteItemListeners)context;
         tvRouteName = itemView.findViewById(R.id.item_route_name);
         tvType = itemView.findViewById(R.id.item_route_type);
         tvPointCount = itemView.findViewById(R.id.item_route_point_count);
@@ -79,6 +81,10 @@ public class RouteHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
-        mContext.startActivity(PointListActivity.newIntent(mContext, mRouteItem.id));
+        mListeners.onRouteItemClick(mRouteItem, getLayoutPosition());
+    }
+
+    public interface OnRouteItemListeners {
+        void onRouteItemClick(RouteItem routeItem, int position);
     }
 }
