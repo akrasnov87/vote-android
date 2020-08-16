@@ -36,7 +36,6 @@ import ru.mobnius.vote.data.storage.models.Streets;
 import ru.mobnius.vote.ui.adapter.StreetAdapter;
 import ru.mobnius.vote.ui.adapter.holder.MyContactsHolder;
 import ru.mobnius.vote.utils.DateUtil;
-import ru.mobnius.vote.utils.StringUtil;
 
 public class MyContactDialogFragment extends BaseDialogFragment
     implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -215,13 +214,15 @@ public class MyContactDialogFragment extends BaseDialogFragment
                 mContact.c_house_build = mHouseBuild.getText().toString();
                 mContact.c_description = mDescription.getText().toString();
                 mContact.c_phone = mPhone.getText().toString();
-                mContact.fn_street = mStreet.id;
-
-                if(isCreate) {
-                    DataManager.getInstance().getDaoSession().getContactsDao().insert(mContact);
-                } else {
-                    DataManager.getInstance().getDaoSession().getContactsDao().update(mContact);
+                if(mStreet != null) {
+                    mContact.fn_street = mStreet.id;
+                    if(isCreate) {
+                        DataManager.getInstance().getDaoSession().getContactsDao().insert(mContact);
+                    } else {
+                        DataManager.getInstance().getDaoSession().getContactsDao().update(mContact);
+                    }
                 }
+
                 dismiss();
                 mListeners.onContactUpdate();
                 break;

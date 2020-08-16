@@ -129,13 +129,12 @@ public class RouteListActivity extends BaseActivity implements
         }
 
         TextView tvDescription = headerLayout.findViewById(R.id.app_description);
+        ImageView ivRatingImage = headerLayout.findViewById(R.id.app_rating_icon);
+        ivRatingImage.setOnClickListener(this);
+
         tvMeRating = headerLayout.findViewById(R.id.app_rating);
-        tvMeRating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(RatingActivity.getIntent(getBaseContext()));
-            }
-        });
+        tvMeRating.setOnClickListener(this);
+
         ProfileItem profile = DataManager.getInstance().getProfile();
         if (profile != null) {
             tvDescription.setText(profile.fio);
@@ -296,7 +295,16 @@ public class RouteListActivity extends BaseActivity implements
 
     @Override
     public void onClick(View v) {
-        startActivity(SynchronizationActivity.getIntent(this));
+        switch (v.getId()) {
+            case R.id.app_rating:
+            case R.id.app_rating_icon:
+                startActivity(RatingActivity.getIntent(getBaseContext()));
+                break;
+
+            case R.id.house_sync:
+                startActivity(SynchronizationActivity.getIntent(this));
+                break;
+        }
     }
 
     @Override
