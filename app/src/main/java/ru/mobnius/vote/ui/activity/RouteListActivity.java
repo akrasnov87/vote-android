@@ -3,6 +3,7 @@ package ru.mobnius.vote.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -231,6 +233,13 @@ public class RouteListActivity extends BaseActivity implements
                 } else {
                     alert(String.format("%s доступна только после синхронизации.", getString(R.string.feedback)));
                 }
+                break;
+
+            case R.id.nav_doc:
+                String url = "https://sway.office.com/f3Ft1ehOpDqP6k4y?ref=Link";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 break;
 
             case R.id.nav_feedback_answers:

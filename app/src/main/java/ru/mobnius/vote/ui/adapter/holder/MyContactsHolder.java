@@ -22,6 +22,7 @@ public class MyContactsHolder extends RecyclerView.ViewHolder
     private TextView tvAppartament;
     private TextView tvName;
     private TextView tvDate;
+    private TextView tvFio;
 
     private Contacts mContact;
     private OnMyContactListeners mListeners;
@@ -31,6 +32,7 @@ public class MyContactsHolder extends RecyclerView.ViewHolder
         tvAppartament = itemView.findViewById(R.id.item_my_contact_appartament);
         tvName = itemView.findViewById(R.id.item_my_contact_name);
         tvDate = itemView.findViewById(R.id.item_my_contact_date);
+        tvFio = itemView.findViewById(R.id.item_my_contact_fio);
         itemView.setOnClickListener(this);
 
         mListeners = (OnMyContactListeners)itemView.getContext();
@@ -43,6 +45,7 @@ public class MyContactsHolder extends RecyclerView.ViewHolder
         Streets item = contact.getStreet();
         String name = item.c_type + " " + item.c_name + " д. " + contact.c_house_num + (!StringUtil.isEmptyOrNull(contact.c_house_build) ? " корп. " + contact.c_house_build : "");
         tvName.setText(name);
+        tvFio.setText(String.format("%s %s %s", contact.c_first_name, contact.c_last_name, contact.c_patronymic));
 
         try {
             Date date = DateUtil.convertStringToDate(contact.d_date);

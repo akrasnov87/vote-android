@@ -132,6 +132,23 @@ public class MyContactDialogFragment extends BaseDialogFragment
             mStreets.setSelection(mStreetAdapter.getPositionById(mContact.fn_street));
         }
         btnDel.setVisibility(mContact != null ? View.VISIBLE : View.GONE);
+
+        Objects.requireNonNull(getDialog()).setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(android.content.DialogInterface dialog,
+                                 int keyCode,android.view.KeyEvent event)
+            {
+                if ((keyCode ==  android.view.KeyEvent.KEYCODE_BACK))
+                {
+                    // To dismiss the fragment when the back-button is pressed.
+                    dismiss();
+                    return true;
+                }
+                // Otherwise, do nothing else
+                else return false;
+            }
+        });
     }
 
     @Override
