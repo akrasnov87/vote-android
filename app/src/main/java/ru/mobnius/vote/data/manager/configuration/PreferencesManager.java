@@ -30,6 +30,7 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String MBL_TELEMETRY_INTERVAL = "MBL_TELEMETRY_INTERVAL";
 
     public static final String MBL_FEEDBACK_ANSWER_COUNT = "MBL_FEEDBACK_ANSWER_COUNT";
+    public static final String MBL_DOC = "MBL_DOC";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -119,6 +120,9 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getTelemetryInterval() {
         return getDefaultIntValue(MBL_TELEMETRY_INTERVAL);
+    }
+    public String getDoc() {
+        return getStringValue(MBL_DOC, "https://sway.office.com/HVzTm1B3ddm2EOqj?ref=Link");
     }
 
     public String getLog() {

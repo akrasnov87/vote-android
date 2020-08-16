@@ -236,7 +236,7 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_doc:
-                String url = "https://sway.office.com/f3Ft1ehOpDqP6k4y?ref=Link";
+                String url = PreferencesManager.getInstance().getDoc();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
