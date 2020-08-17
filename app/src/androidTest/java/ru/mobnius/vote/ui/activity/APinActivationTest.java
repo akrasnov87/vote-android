@@ -17,6 +17,7 @@ import ru.mobnius.vote.ui.component.PinCodeLinLay;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
@@ -31,8 +32,6 @@ import static org.hamcrest.Matchers.not;
 
 public class APinActivationTest extends BaseActivityTest {
 
-    private final static String RIGHT_LOGIN = "1801-01";
-    private final static String RIGHT_PASSWORD = "8842";
     @Before
     public void setUp() {
         loginTestRule.launchActivity(new Intent());
@@ -55,16 +54,29 @@ public class APinActivationTest extends BaseActivityTest {
             onView(withText("Сбросить пин-код и авторизоаться через логин и пароль?")).check(matches(isDisplayed()));
             onView(withText("Да")).perform(click());
         }
-        if (isServerUnavailable()){
+        if (isServerUnavailable()) {
             return;
         }
-        onView(withId(R.id.auth_login)).perform(replaceText(RIGHT_LOGIN));
-        onView(withId(R.id.auth_password)).perform(replaceText(RIGHT_PASSWORD));
+        onView(withId(R.id.auth_login)).perform(replaceText(LOGIN));
+        onView(withId(R.id.auth_password)).perform(replaceText(PASSWORD), closeSoftKeyboard());
         onView(withId(R.id.auth_sign_in)).perform(click());
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         //Открываем NavigationDrawer
+
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-        //Открываем окно настроек
+        onView(withText(getContext().getResources().getString(R.string.feedback))).check(matches(isDisplayed()));
+        onView(withText(getContext().getResources().getString(R.string.notifications))).check(matches(isDisplayed()));
+        onView(withText(getContext().getResources().getString(R.string.exit))).check(matches(isDisplayed()));
+
+        //Открываем окно настроек проверяем кнопки
+        //Проверяем раздел статистики
+        onView(withText(getContext().getResources().getString(R.string.statistic))).perform(click());
+        onView(withId(R.id.statistic_done_count)).check(matches(isDisplayed()));
+        onView(withId(R.id.action_rating)).perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         onView(withText(getContext().getResources().getString(R.string.settings))).perform(click());
         //Включаем активацию по пин-коду. Так как espresso плохо работет с PreferencesScreen нужен такой непонятный код
         // в случае если требуется предварительная прокрутка для отображения необходимого view-элемента

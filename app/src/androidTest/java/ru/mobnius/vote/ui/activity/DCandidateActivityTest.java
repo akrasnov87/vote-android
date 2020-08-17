@@ -41,6 +41,8 @@ import static org.hamcrest.Matchers.not;
 
 public class DCandidateActivityTest extends BaseActivityTest {
     private boolean isDebug;
+    private final static String CD_LOGIN = "01-01";
+    private final static String CD_PASSWORD = "3315";
 
 
     @Before
@@ -67,11 +69,6 @@ public class DCandidateActivityTest extends BaseActivityTest {
         boolean noServer = false;
 
         try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
             onView(withId(R.id.auth_no_server)).check(matches(isDisplayed()));
             noServer = true;
         } catch (AssertionFailedError e) {
@@ -93,15 +90,10 @@ public class DCandidateActivityTest extends BaseActivityTest {
                 return;
             }
             if (!isDebug) {
-                onView(withId(R.id.auth_login)).perform(replaceText("01-01"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("3315"), closeSoftKeyboard());
+                onView(withId(R.id.auth_login)).perform(replaceText(CD_LOGIN), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText(CD_PASSWORD), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
-        }
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         boolean noLocation = false;
         try {
@@ -124,11 +116,7 @@ public class DCandidateActivityTest extends BaseActivityTest {
         onView(withText("OK")).inRoot(isDialog()) // <---
                 .check(matches(isDisplayed()))
                 .perform(click());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         try {
             onView(withId(R.id.statistic_close)).perform(click());
         } catch (NoMatchingViewException e) {
@@ -149,30 +137,37 @@ public class DCandidateActivityTest extends BaseActivityTest {
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
             onView(withId(R.id.question_item_answers)).perform(scrollTo());
             onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
-            for (Answer answer : answers) {
-                onView(withText(answer.c_text)).check(matches(isDisplayed()));
+            if (singleAnswer().isEmpty()) {
+                for (Answer answer : answers) {
+                    onView(withText(answer.c_text)).check(matches(isDisplayed()));
+                }
+                onView(withText("открыли – АПМ вручен в руки")).perform(click());
+                onView(withId(R.id.rating_bar)).perform(click());
+                onView(withId(R.id.rating_done)).perform(click());
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).perform(click());
+                onView(withText("Да")).inRoot(isDialog()) // <---
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+                onView(withId(R.id.question_item_answers)).perform(scrollTo());
+                onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+                for (Answer answer : answers) {
+                    onView(withText(answer.c_text)).check(matches(isDisplayed()));
+                }
+                onView(withText("не открыли – общение через дверь")).perform(click());
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).perform(click());
+                onView(withText("Да")).inRoot(isDialog()) // <---
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+            }else {
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withText(singleAnswer())).check(matches(isDisplayed()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).check(matches(isDisplayed()));
             }
-            onView(withText("открыли – АПМ вручен в руки")).perform(click());
-            onView(withId(R.id.rating_bar)).perform(click());
-            onView(withId(R.id.rating_done)).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.choice_document_info)).perform(click());
-            onView(withId(R.id.point_info_reset)).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-            onView(withId(R.id.question_item_answers)).perform(scrollTo());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
-            for (Answer answer : answers) {
-                onView(withText(answer.c_text)).check(matches(isDisplayed()));
-            }
-            onView(withText("не открыли – общение через дверь")).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.choice_document_info)).perform(click());
-            onView(withId(R.id.point_info_reset)).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
         }
     }
 }

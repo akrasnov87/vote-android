@@ -28,15 +28,24 @@ import org.junit.Rule;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.List;
 
 import ru.mobnius.vote.ManagerGenerate;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.GlobalSettings;
+import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
+import ru.mobnius.vote.data.manager.vote.VoteManager;
+import ru.mobnius.vote.data.storage.models.Answer;
+import ru.mobnius.vote.data.storage.models.Question;
+import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.component.PinCodeLinLay;
+import ru.mobnius.vote.ui.model.PointFilter;
+import ru.mobnius.vote.ui.model.PointItem;
+import ru.mobnius.vote.ui.model.RouteItem;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
@@ -47,6 +56,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public abstract class BaseActivityTest extends ManagerGenerate {
     private boolean noServer = false;
     private boolean isDebug = false;
+
+    public final static String LOGIN = "1801-01";
+    public final static String PASSWORD = "8849";
 
     @Rule
     public ActivityTestRule<LoginActivity> loginTestRule = new ActivityTestRule<>(LoginActivity.class, true, false);
@@ -221,5 +233,32 @@ public abstract class BaseActivityTest extends ManagerGenerate {
 
     public boolean isServerUnavailable() {
         return noServer;
+    }
+
+    public String singleAnswer(){
+        List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
+        RouteItem routeItem = routes.get(0);
+        List<PointItem> pointItems = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.ALL);
+        PointItem pointItem = pointItems.get(0);
+        DataManager dataManager = DataManager.getInstance();
+        List<Results> results = dataManager.getPointResults(pointItem.id);
+        Question question = DataManager.getInstance().getQuestions()[0];
+        // задание ранее выполнялось
+        String singleAnswer ="";
+        if (DataManager.getInstance().getPointState(pointItem.id).isDone()) {
+            VoteManager voteManager = new VoteManager();
+            voteManager.importFromResult(results.toArray(new Results[0]));
+            long was = voteManager.getQuestionAnswer(question.id);
+            Answer[] answers = dataManager.getAnswers(question.id);
+            if(was > 0) {
+                // на данный вопрос был данн ответ с индентификатором was
+                for(Answer item : answers) {
+                    if(item.id == was) {
+                        singleAnswer = item.c_text;
+                    }
+                }
+            }
+        }
+        return  singleAnswer;
     }
 }

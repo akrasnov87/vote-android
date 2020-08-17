@@ -21,8 +21,8 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.authorization.AuthorizationCache;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.credentials.BasicUser;
+import ru.mobnius.vote.data.manager.vote.VoteManager;
 import ru.mobnius.vote.data.storage.models.Answer;
-import ru.mobnius.vote.data.storage.models.DaoMaster;
 import ru.mobnius.vote.data.storage.models.Question;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.model.PointFilter;
@@ -43,6 +43,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
 
 public class CPointListActivityTest extends BaseActivityTest {
     private boolean isDebug;
@@ -59,11 +60,13 @@ public class CPointListActivityTest extends BaseActivityTest {
 
     @After
     public void tearDown() {
-        String login = Authorization.getInstance().getUser().getCredentials().login;
-        MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
-        application.unAuthorized(true);
+        if (Authorization.getInstance().getUser()!= null) {
+            String login = Authorization.getInstance().getUser().getCredentials().login;
+            MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
+            application.unAuthorized(true);
 
-        getContext().deleteDatabase(login +".db");
+            getContext().deleteDatabase(login + ".db");
+        }
 
     }
 
@@ -100,8 +103,8 @@ public class CPointListActivityTest extends BaseActivityTest {
                 return;
             }
             if (!isDebug) {
-                onView(withId(R.id.auth_login)).perform(replaceText("1801-01"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("8842"), closeSoftKeyboard());
+                onView(withId(R.id.auth_login)).perform(replaceText(LOGIN), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText(PASSWORD), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
         }
@@ -122,54 +125,54 @@ public class CPointListActivityTest extends BaseActivityTest {
         }
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
-            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.point_search)).check(matches(isDisplayed()));
             onView(withId(R.id.point_search)).perform(click());
             onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("1"));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
-            RouteItem routeItem = routes.get(0);
-            List<PointItem> pointItems = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.ALL);
-            PointItem pointItem = pointItems.get(0);
-            DataManager dataManager = DataManager.getInstance();
-            List<Results> results = dataManager.getPointResults(pointItem.id);
-            // задание ранее выполнялось
-            if (DataManager.getInstance().getPointState(pointItem.id).isDone()) {
-            }
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
             Question question = DataManager.getInstance().getQuestions()[0];
-            Answer[] answers = DataManager.getInstance().getAnswers(question.id);
-            for (Answer answer : answers) {
-                onView(withText(answer.c_text)).check(matches(isDisplayed()));
+
+            // в случае если ранее не выполнялся опрос
+            if (singleAnswer().isEmpty()) {
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+                Answer[] answers = DataManager.getInstance().getAnswers(question.id);
+                for (Answer answer : answers) {
+                    onView(withText(answer.c_text)).check(matches(isDisplayed()));
+                }
+                onView(withText("открыли – АПМ вручен в руки")).perform(click());
+                onView(withText("Да")).inRoot(isDialog()) // <---
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+                onView(withId(R.id.contact_add)).perform(click());
+                onView(withId(R.id.contact_item_name)).perform(replaceText("Иванов И.И."));
+                onView(withId(R.id.contact_item_tel)).perform(replaceText("222222"));
+                onView(withId(R.id.contact_done)).perform(click());
+                onView(withId(R.id.rating_bar)).perform(click());
+                onView(withId(R.id.rating_done)).perform(click());
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).perform(click());
+                onView(withText("Да")).inRoot(isDialog()) // <---
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+                onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+                onView(withText("никого нет дома")).perform(click());
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).perform(click());
+                onView(withText("Да")).inRoot(isDialog()) // <---
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+                // в случае если ответ только один
+            }else {
+                onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                onView(withText(singleAnswer())).check(matches(isDisplayed()));
+                onView(withId(R.id.choice_document_info)).perform(click());
+                onView(withId(R.id.point_info_reset)).check(matches(isDisplayed()));
             }
-            onView(withText("открыли – АПМ вручен в руки")).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-            onView(withId(R.id.contact_add)).perform(click());
-            onView(withId(R.id.contact_item_name)).perform(replaceText("Иванов И.И."));
-            onView(withId(R.id.contact_item_tel)).perform(replaceText("222222"));
-            onView(withId(R.id.contact_done)).perform(click());
-            onView(withId(R.id.rating_bar)).perform(click());
-            onView(withId(R.id.rating_done)).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.choice_document_info)).perform(click());
-            onView(withId(R.id.point_info_reset)).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
-            for (Answer answer : answers) {
-                onView(withText(answer.c_text)).check(matches(isDisplayed()));
-            }
-            onView(withText("никого нет дома")).perform(click());
-            onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.choice_document_info)).perform(click());
-            onView(withId(R.id.point_info_reset)).perform(click());
-            onView(withText("Да")).inRoot(isDialog()) // <---
-                    .check(matches(isDisplayed()))
-                    .perform(click());
         }
     }
 }

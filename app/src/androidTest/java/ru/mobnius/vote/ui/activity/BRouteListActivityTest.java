@@ -34,6 +34,7 @@ import static org.hamcrest.Matchers.not;
 public class BRouteListActivityTest extends BaseActivityTest {
     private boolean isDebug;
 
+
     @Before
     public void setUp() {
         PreferencesManager.createInstance(getContext(), getBasicUser().getCredentials().login);
@@ -76,20 +77,22 @@ public class BRouteListActivityTest extends BaseActivityTest {
             onView(withText(String.valueOf(pinCode.charAt(2)))).perform(click());
             onView(withText(String.valueOf(pinCode.charAt(3)))).perform(click());
         } else {
-            if (!isDebug&&noServer){
+            if (!isDebug && noServer) {
                 return;
             }
             if (!isDebug) {
-                onView(withId(R.id.auth_login)).perform(replaceText("1801-01"), closeSoftKeyboard());
-                onView(withId(R.id.auth_password)).perform(replaceText("8842"), closeSoftKeyboard());
+                onView(withId(R.id.auth_login)).perform(replaceText(LOGIN), closeSoftKeyboard());
+                onView(withId(R.id.auth_password)).perform(replaceText(PASSWORD), closeSoftKeyboard());
                 onView(withId(R.id.auth_sign_in)).perform(scrollTo(), click());
             }
         }
         try {
             onView(withId(R.id.statistic_close)).perform(click());
-        }catch (NoMatchingViewException e){
+        } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
+
+
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
@@ -99,10 +102,10 @@ public class BRouteListActivityTest extends BaseActivityTest {
                 .perform(click());
         try {
             onView(withId(R.id.statistic_close)).perform(waitUntil(isDisplayed()), click());
-        }catch (NoMatchingViewException e){
+        } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
-        if (getRVLenght(routeTestRule, R.id.house_list) > 0){
+        if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -110,7 +113,7 @@ public class BRouteListActivityTest extends BaseActivityTest {
             }
             try {
                 onView(withId(R.id.statistic_close)).perform(click());
-            }catch (NoMatchingViewException e){
+            } catch (NoMatchingViewException e) {
                 e.printStackTrace();
             }
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
