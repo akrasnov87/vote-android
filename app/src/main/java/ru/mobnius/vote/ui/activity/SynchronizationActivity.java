@@ -139,6 +139,7 @@ public class SynchronizationActivity extends BaseActivity
     @Override
     public void onStop() {
         super.onStop();
+        ManualSynchronization.getInstance(true).stop();
         ((MobniusApplication)getApplication()).removeNetworkChangeListener(this);
     }
 

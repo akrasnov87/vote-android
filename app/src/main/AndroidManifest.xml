@@ -25,6 +25,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.ContactActivity"
+            android:label="@string/my_contacts"/>
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/appName"
@@ -52,8 +54,8 @@
             android:screenOrientation="locked" />
         <activity
             android:name=".ui.activity.QuestionActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.PointInfoActivity"
             android:label="@string/general_info" />
@@ -63,10 +65,12 @@
         <activity
             android:name=".ui.activity.RatingActivity"
             android:label="@string/rating" />
+        <activity
+            android:name=".ui.activity.FeedbackActivity"
+            android:label="@string/feedback" />
 
-        <activity android:name=".ui.activity.FeedbackActivity"
-            android:label="@string/feedback"/>
-        <activity android:name=".ui.activity.FeedbackAnswerActivity" />
+        <activity android:name=".ui.activity.NotificationActivity"
+            android:label="Ответы на обращения"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -83,7 +87,7 @@
             android:enabled="true"
             android:exported="false" />
 
-    <service
+        <service
             android:name=".data.service.MyService"
             android:enabled="true"
             android:exported="false" />

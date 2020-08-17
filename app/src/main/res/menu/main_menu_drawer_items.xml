@@ -11,6 +11,12 @@
                 android:title="@string/synchronization" />
 
             <item
+                android:visible="false"
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_baseline_import_contacts_24"
+                android:title="@string/my_contacts" />
+
+            <item
                 android:id="@+id/nav_statistic"
                 android:icon="@drawable/ic_show_chart_black_24dp"
                 android:title="@string/statistic" />
@@ -19,7 +25,6 @@
 
     <item android:title="@string/other">
         <menu>
-
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_baseline_feedback_24"
@@ -28,7 +33,8 @@
             <item
                 android:id="@+id/nav_feedback_answers"
                 android:icon="@drawable/ic_baseline_question_answer_24"
-                android:title="@string/notifications" />
+                android:title="@string/notifications"
+                android:visible="false"/>
 
             <item
                 android:id="@+id/nav_setting"
@@ -38,8 +44,7 @@
             <item
                 android:id="@+id/nav_doc"
                 android:icon="@drawable/ic_baseline_help_24"
-                android:title="@string/help"
-                android:visible="false"/>
+                android:title="@string/help"/>
 
             <item
                 android:id="@+id/nav_exit"

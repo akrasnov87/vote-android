@@ -29,6 +29,9 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String MBL_TRACK_INTERVAL = "MBL_TRACK_INTERVAL";
     public static final String MBL_TELEMETRY_INTERVAL = "MBL_TELEMETRY_INTERVAL";
 
+    public static final String MBL_FEEDBACK_ANSWER_COUNT = "MBL_FEEDBACK_ANSWER_COUNT";
+    public static final String MBL_DOC = "MBL_DOC";
+
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
         return preferencesManager;
@@ -47,6 +50,22 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public void setDebug(boolean value) {
         getSharedPreferences().edit().putBoolean(DEBUG, value).apply();
+    }
+
+    /**
+     * Кол-во ответов на обратную связь
+     * @return
+     */
+    public int getFeedbackAnswerCount() {
+        return getDefaultIntValue(MBL_FEEDBACK_ANSWER_COUNT);
+    }
+
+    /**
+     * Сохранить текущее кол-во сообщений
+     * @param value
+     */
+    public void setFeedbackAnswerCount(int value) {
+        getSharedPreferences().edit().putInt(MBL_FEEDBACK_ANSWER_COUNT, value).apply();
     }
 
     public boolean isPinAuth() {
@@ -101,6 +120,9 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getTelemetryInterval() {
         return getDefaultIntValue(MBL_TELEMETRY_INTERVAL);
+    }
+    public String getDoc() {
+        return getStringValue(MBL_DOC, "https://sway.office.com/HVzTm1B3ddm2EOqj?ref=Link");
     }
 
     public String getLog() {

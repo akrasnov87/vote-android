@@ -48,6 +48,8 @@
     <string name="appartament_done">Выполнено</string>
     <string name="appartament_lost">Осталось</string>
     <string name="statistic">Статистика</string>
+    <string name="my_contacts">Мои контакты</string>
+    <string name="my_contact">Мой контакт</string>
     <string name="phone_number">Номер телефона</string>
     <string name="clear">Очистить</string>
     <string name="show_password">Показать пароль</string>
@@ -91,6 +93,8 @@
     <string name="rating_num">Оценка</string>
     <string name="rating_voice">Оценить результат общения</string>
     <string name="next">Далее</string>
-    <string name="notifications">Уведомления</string>
-    <string name="no_feedbacks">Нет обращений</string>
+    <string name="no_feedbacks">Ответов на обращения не поступало</string>
+    <string name="no_my_contacts">Нет новых контактов</string>
+    <string name="notifications">Ответы</string>
+    <string name="update_today">Обновить сейчас</string>
 </resources>
