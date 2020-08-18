@@ -95,6 +95,6 @@
     <string name="next">Далее</string>
     <string name="no_feedbacks">Ответов на обращения не поступало</string>
     <string name="no_my_contacts">Нет новых контактов</string>
-    <string name="notifications">Ответы</string>
+    <string name="notifications">Уведомления</string>
     <string name="update_today">Обновить сейчас</string>
 </resources>

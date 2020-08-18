@@ -1,8 +1,10 @@
 package ru.mobnius.vote.ui.activity;
 
 import android.content.Intent;
+import android.view.Gravity;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.After;
@@ -20,6 +22,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -62,13 +65,14 @@ public class APinActivationTest extends BaseActivityTest {
         onView(withId(R.id.auth_sign_in)).perform(click());
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         //Открываем NavigationDrawer
-
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-        onView(withText(getContext().getResources().getString(R.string.feedback))).check(matches(isDisplayed()));
-        onView(withText(getContext().getResources().getString(R.string.notifications))).check(matches(isDisplayed()));
-        onView(withText(getContext().getResources().getString(R.string.exit))).check(matches(isDisplayed()));
+        onView(withId(R.id.mainMenuDrawerLayout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+       // onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
 
         //Открываем окно настроек проверяем кнопки
+        onView(withText(getContext().getResources().getString(R.string.feedback))).check(matches(isDisplayed()));
+        onView(withText(getContext().getResources().getString(R.string.exit))).check(matches(isDisplayed()));
         //Проверяем раздел статистики
         onView(withText(getContext().getResources().getString(R.string.statistic))).perform(click());
         onView(withId(R.id.statistic_done_count)).check(matches(isDisplayed()));
@@ -76,7 +80,10 @@ public class APinActivationTest extends BaseActivityTest {
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
 
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        //Еще раз открываем боковое меню, заходим в настройки
+        onView(withId(R.id.mainMenuDrawerLayout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
         onView(withText(getContext().getResources().getString(R.string.settings))).perform(click());
         //Включаем активацию по пин-коду. Так как espresso плохо работет с PreferencesScreen нужен такой непонятный код
         // в случае если требуется предварительная прокрутка для отображения необходимого view-элемента

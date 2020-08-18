@@ -1,9 +1,11 @@
 package ru.mobnius.vote.ui.activity;
 
 import android.content.Intent;
+import android.view.Gravity;
 import android.widget.AutoCompleteTextView;
 
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import junit.framework.AssertionFailedError;
@@ -29,6 +31,7 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -57,11 +60,13 @@ public class DCandidateActivityTest extends BaseActivityTest {
 
     @After
     public void tearDown() {
-        String login = Authorization.getInstance().getUser().getCredentials().login;
-        MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
-        application.unAuthorized(true);
+        if (Authorization.getInstance().getUser() != null) {
+            String login = Authorization.getInstance().getUser().getCredentials().login;
+            MobniusApplication application = (MobniusApplication) loginTestRule.getActivity().getApplication();
+            application.unAuthorized(true);
 
-        getContext().deleteDatabase(login + ".db");
+            getContext().deleteDatabase(login + ".db");
+        }
     }
 
     @Test
@@ -110,7 +115,9 @@ public class DCandidateActivityTest extends BaseActivityTest {
         } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        onView(withId(R.id.mainMenuDrawerLayout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());пше
         onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
         onView(withId(R.id.sync_start)).perform(click());
         onView(withText("OK")).inRoot(isDialog()) // <---
@@ -162,7 +169,7 @@ public class DCandidateActivityTest extends BaseActivityTest {
                 onView(withText("Да")).inRoot(isDialog()) // <---
                         .check(matches(isDisplayed()))
                         .perform(click());
-            }else {
+            } else {
                 onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
                 onView(withText(singleAnswer())).check(matches(isDisplayed()));
                 onView(withId(R.id.choice_document_info)).perform(click());
