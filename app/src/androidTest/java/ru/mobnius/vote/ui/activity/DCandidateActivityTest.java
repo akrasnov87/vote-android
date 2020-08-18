@@ -117,7 +117,7 @@ public class DCandidateActivityTest extends BaseActivityTest {
         }
         onView(withId(R.id.mainMenuDrawerLayout))
                 .check(matches(isClosed(Gravity.LEFT)))
-                .perform(DrawerActions.open());пше
+                .perform(DrawerActions.open());
         onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
         onView(withId(R.id.sync_start)).perform(click());
         onView(withText("OK")).inRoot(isDialog()) // <---
