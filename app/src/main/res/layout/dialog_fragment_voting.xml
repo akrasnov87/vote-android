@@ -25,7 +25,8 @@
 
         <ImageButton
             android:id="@+id/contact_add"
-            android:background="@drawable/ic_add_white_24dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            android:background="@android:color/transparent"
             android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
