@@ -51,6 +51,7 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Feedbacks;
+import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.adapter.holder.RouteHolder;
 import ru.mobnius.vote.ui.component.MySnackBar;
