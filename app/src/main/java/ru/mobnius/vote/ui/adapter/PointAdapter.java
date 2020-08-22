@@ -41,4 +41,9 @@ public class PointAdapter extends RecyclerView.Adapter<PointHolder> {
     public int getItemCount() {
         return mPointsList.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }

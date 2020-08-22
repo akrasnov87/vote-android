@@ -91,6 +91,7 @@ public class SettingActivity extends BaseActivity {
 
         private final String debugSummary = "Режим отладки: %s";
         private final String pinSummary = "Авторизация по пину: %s";
+        private final String simpleColorSummary = "Упрощенная цветовая схема: %s";
         private int clickToVersion = 0;
 
         private Preference pVersion;
@@ -98,6 +99,7 @@ public class SettingActivity extends BaseActivity {
         private SwitchPreference spGeoCheck;
         private SwitchPreference spDebug;
         private SwitchPreference spPin;
+        private SwitchPreference spSimpleColor;
         private Preference pCreateError;
 
         private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
@@ -146,6 +148,9 @@ public class SettingActivity extends BaseActivity {
             spPin = findPreference(PreferencesManager.PIN);
             Objects.requireNonNull(spPin).setOnPreferenceChangeListener(this);
 
+            spSimpleColor = findPreference(PreferencesManager.MBL_COLOR_THEME);
+            Objects.requireNonNull(spSimpleColor).setOnPreferenceChangeListener(this);
+
             pCreateError = findPreference(PreferencesManager.GENERATED_ERROR);
             Objects.requireNonNull(pCreateError).setVisible(PreferencesManager.getInstance().isDebug());
             pCreateError.setOnPreferenceClickListener(this);
@@ -162,6 +167,9 @@ public class SettingActivity extends BaseActivity {
 
             spPin.setSummary(String.format(pinSummary, PreferencesManager.getInstance().isPinAuth() ? "включена" : "отключена"));
             spPin.setChecked(PreferencesManager.getInstance().isPinAuth());
+
+            spSimpleColor.setSummary(String.format(simpleColorSummary, PreferencesManager.getInstance().isSimpleColor() ? "включена" : "отключена"));
+            spSimpleColor.setChecked(PreferencesManager.getInstance().isSimpleColor());
 
             spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
             spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
@@ -236,6 +244,11 @@ public class SettingActivity extends BaseActivity {
                         PreferencesManager.getInstance().setPinAuth(false);
                     }
                     break;
+
+                case PreferencesManager.MBL_COLOR_THEME:
+                    boolean colorValue = Boolean.parseBoolean(String.valueOf(newValue));
+                    spSimpleColor.setSummary(String.format(simpleColorSummary, colorValue ? "включена" : "отключена"));
+                    PreferencesManager.getInstance().setSimpleColor(colorValue);
             }
             return true;
         }
@@ -292,4 +305,5 @@ public class SettingActivity extends BaseActivity {
             }
         }
     }
+
 }

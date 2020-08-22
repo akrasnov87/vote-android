@@ -19,5 +19,6 @@
 
     <color name="colorSuccess">#388e3c</color>
     <color name="colorSuccessLight">#81c784</color>
-    <color name="color_nobody_at_home">##263238</color>
+    <color name="colorSimpleNobodyAtHome">#263238</color>
+    <color name="colorSimpleSuccess">#66bb6a</color>
 </resources>

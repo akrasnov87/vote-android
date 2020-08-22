@@ -31,6 +31,7 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public static final String MBL_FEEDBACK_ANSWER_COUNT = "MBL_FEEDBACK_ANSWER_COUNT";
     public static final String MBL_DOC = "MBL_DOC";
+    public static final String MBL_COLOR_THEME = "MBL_COLOR_THEME";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -135,5 +136,12 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getDistance() {
         return getDefaultIntValue(MBL_DISTANCE) == -1 ? 100 : getDefaultIntValue(MBL_DISTANCE);
+    }
+
+    public boolean isSimpleColor(){
+        return getDefaultBooleanValue(MBL_COLOR_THEME);
+    }
+    public void setSimpleColor(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_COLOR_THEME, value).apply();
     }
 }
