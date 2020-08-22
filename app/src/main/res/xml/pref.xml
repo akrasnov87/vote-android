@@ -72,6 +72,16 @@
             android:title="Пин-код" />
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:icon="@drawable/ic_baseline_user_settings_24"
+        android:title="Пользовательские настройки">
+        <SwitchPreference
+            android:enabled="true"
+            android:key="MBL_COLOR_THEME"
+            android:summary="Включить упрощенную цветовую схему"
+            android:title="Цветовая схема" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:icon="@drawable/ic_bug_report_black_24dp"
