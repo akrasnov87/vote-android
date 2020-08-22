@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,9 +30,9 @@ import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Routes;
+import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.adapter.holder.PointHolder;
 import ru.mobnius.vote.ui.data.PointSearchManager;
-import ru.mobnius.vote.ui.adapter.PointAdapter;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
@@ -61,7 +62,7 @@ public class PointListActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_list);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPositionSelected = savedInstanceState.getInt(Names.ID, 0);
         }
 
@@ -73,8 +74,10 @@ public class PointListActivity extends BaseActivity
         mProgressBar = findViewById(R.id.point_list_progress);
         mRecyclerView = findViewById(R.id.point_list);
         tvMessage = findViewById(R.id.point_list_message);
+        if (mPreferencesManager.isZeroPriority()){
 
-        mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
+        }
+        mRecyclerView.setAdapter(new PointAdapter(this, setPriorityList()));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }
 
@@ -82,16 +85,16 @@ public class PointListActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
 
-        if(!DataManager.getInstance().isRouteStatus(routeId, "RECEIVED")) {
+        if (!DataManager.getInstance().isRouteStatus(routeId, "RECEIVED")) {
             // Принят
             DataManager.getInstance().setRouteStatus(routeId, "RECEIVED");
         }
 
         RouteInfo routeInfo = DataManager.getInstance().getRouteInfo(routeId);
         Objects.requireNonNull(getSupportActionBar()).setSubtitle(routeInfo.getNumber());
-        if(routeInfo.getDateEnd().getTime() <= new Date().getTime()) {
+        if (routeInfo.getDateEnd().getTime() <= new Date().getTime()) {
             // Просрочен
-            if(!DataManager.getInstance().isRouteStatus(routeId, "EXPIRED")) {
+            if (!DataManager.getInstance().isRouteStatus(routeId, "EXPIRED")) {
                 // Выполняется
                 DataManager.getInstance().setRouteStatus(routeId, "EXPIRED");
             }
@@ -99,7 +102,7 @@ public class PointListActivity extends BaseActivity
 
         int donePoints = mDataManager.getCountDonePoints(routeId);
         if (donePoints > 0) {
-            if(!DataManager.getInstance().isRouteStatus(routeId, "PROCCESS")) {
+            if (!DataManager.getInstance().isRouteStatus(routeId, "PROCCESS")) {
                 // Выполняется
                 DataManager.getInstance().setRouteStatus(routeId, "PROCCESS");
             }
@@ -109,8 +112,8 @@ public class PointListActivity extends BaseActivity
             mProgressBar.setProgress(donePoints);
             mProgressBar.setVisibility(View.VISIBLE);
 
-            if(donePoints == routeItem.n_count) {
-                if(!DataManager.getInstance().isRouteStatus(routeId, "DONED")) {
+            if (donePoints == routeItem.n_count) {
+                if (!DataManager.getInstance().isRouteStatus(routeId, "DONED")) {
                     // Выполнено
                     DataManager.getInstance().setRouteStatus(routeId, "DONED");
                 }
@@ -138,6 +141,8 @@ public class PointListActivity extends BaseActivity
         inflater.inflate(R.menu.menu_point, menu);
         MenuItem sortIcon = menu.findItem(R.id.point_filter);
         MenuItem searchItem = menu.findItem(R.id.point_search);
+        MenuItem priorityItem = menu.findItem(R.id.point_zero_priority);
+        priorityItem.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.show_zero_priority) : getResources().getString(R.string.hide_zero_priority));
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -155,22 +160,34 @@ public class PointListActivity extends BaseActivity
             mRecyclerView.setAdapter(new PointAdapter(this, list));
         }
 
-        if(item.getItemId() == R.id.point_feedback) {
+        if (item.getItemId() == R.id.point_feedback) {
             // NO_DATA
             startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.NO_DATA, "{\"route_id\": \"" + routeId + "\"}"));
         }
 
-        if(item.getItemId() == R.id.point_zero_rating) {
-            // NO_DATA
-            startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.NO_DATA, "{\"route_id\": \"" + routeId + "\"}"));
+        if (item.getItemId() == R.id.point_zero_priority) {
+            item.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.hide_zero_priority) : getResources().getString(R.string.show_zero_priority) );
+            mPreferencesManager.setZeroPriority(!mPreferencesManager.isZeroPriority());
+            mRecyclerView.setAdapter(new PointAdapter(this, setPriorityList()));
         }
-
-
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private List<PointItem> setPriorityList() {
+        List<PointItem> list= getSortedList(mPreferencesManager.getSort());
+        if(mPreferencesManager.isZeroPriority()) {
+            for (Iterator<PointItem> it = list.iterator(); it.hasNext(); ) {
+                PointItem pointItem = it.next();
+                if (pointItem.priority == 0) {
+                    it.remove();
+                }
+            }
+        }
+        return list;
     }
 
     @Override
@@ -191,13 +208,14 @@ public class PointListActivity extends BaseActivity
 
     private List<PointItem> getSortedList(boolean sort) {
         List<PointItem> list = mDataManager.getPointItems(routeId, sort ? PointFilter.UNDONE : PointFilter.ALL);
-        if(sort && list.size() == 0) {
+        if (sort && list.size() == 0) {
             tvMessage.setVisibility(View.VISIBLE);
         } else {
             tvMessage.setVisibility(View.GONE);
         }
         return list;
     }
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -207,7 +225,7 @@ public class PointListActivity extends BaseActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(StringUtil.isEmptyOrNull(newText)) {
+        if (StringUtil.isEmptyOrNull(newText)) {
             searchResult(JsonUtil.EMPTY);
         }
         return false;

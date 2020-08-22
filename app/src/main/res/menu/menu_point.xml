@@ -20,8 +20,8 @@
         android:title="@string/feedback"
         app:showAsAction="never" />
     <item
-        android:id="@+id/point_zero_rating"
-        android:title="@string/zero_rating"
+        android:id="@+id/point_zero_priority"
+        android:title="@string/hide_zero_priority"
         app:showAsAction="never" />
 
 </menu>
