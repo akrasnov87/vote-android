@@ -160,6 +160,12 @@ public class PointListActivity extends BaseActivity
             startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.NO_DATA, "{\"route_id\": \"" + routeId + "\"}"));
         }
 
+        if(item.getItemId() == R.id.point_zero_rating) {
+            // NO_DATA
+            startActivity(FeedbackActivity.getIntent(this, FeedbackActivity.NO_DATA, "{\"route_id\": \"" + routeId + "\"}"));
+        }
+
+
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;

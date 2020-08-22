@@ -19,5 +19,9 @@
         android:icon="@drawable/ic_baseline_feedback_24"
         android:title="@string/feedback"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/point_zero_rating"
+        android:title="@string/zero_rating"
+        app:showAsAction="never" />
 
 </menu>
