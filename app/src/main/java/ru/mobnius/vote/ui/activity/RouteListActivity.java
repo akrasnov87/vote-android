@@ -2,40 +2,33 @@ package ru.mobnius.vote.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +43,6 @@ import ru.mobnius.vote.data.manager.RequestManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
-import ru.mobnius.vote.data.storage.models.Feedbacks;
-import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.adapter.RouteAdapter;
 import ru.mobnius.vote.ui.adapter.holder.RouteHolder;
 import ru.mobnius.vote.ui.component.MySnackBar;
@@ -101,7 +92,7 @@ public class RouteListActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_with_menu);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPositionSelected = savedInstanceState.getInt(Names.ID, 0);
         }
 
@@ -123,7 +114,7 @@ public class RouteListActivity extends BaseActivity implements
         ImageView ivIcon = headerLayout.findViewById(R.id.app_icon);
         TextView tvName = headerLayout.findViewById(R.id.app_name);
 
-        if(Authorization.getInstance().getUser().isCandidate()) {
+        if (Authorization.getInstance().getUser().isCandidate()) {
             tvName.setText("Кандидат");
             ivIcon.setBackgroundResource(R.mipmap.ic_candidate_launcher_round);
             contactMenuItem.setVisible(true);
@@ -155,16 +146,22 @@ public class RouteListActivity extends BaseActivity implements
         });
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onStart() {
         super.onStart();
         updateList(PreferencesManager.getInstance().getFilter(), null);
-        if(Authorization.getInstance().getUser().isCandidate()) {
-            mRatingAsyncTask = new RatingCandidateAsyncTask(this);
-        } else {
-            mRatingAsyncTask = new RatingAsyncTask(this);
+        if (!MobniusApplication.isWelcome) {
+            if (Authorization.getInstance().getUser().isCandidate()) {
+                mRatingAsyncTask = new RatingCandidateAsyncTask(this);
+            } else {
+                mRatingAsyncTask = new RatingAsyncTask(this);
+            }
+            mRatingAsyncTask.execute((Integer) null);
+        }else {
+            tvMeRating.setVisibility(View.VISIBLE);
+            tvMeRating.setText(String.format(" %d", MobniusApplication.currentRating));
         }
-        mRatingAsyncTask.execute((Integer) null);
     }
 
     @Override
@@ -177,11 +174,11 @@ public class RouteListActivity extends BaseActivity implements
 
         LocationChecker.start(this);
 
-        if(isNewFeedbackAnswer()) {
+        if (isNewFeedbackAnswer()) {
             confirmDialog("Доступен ответ на ранее заданный Вами вопрос. Перейти сейчас?", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(which == DialogInterface.BUTTON_POSITIVE) {
+                    if (which == DialogInterface.BUTTON_POSITIVE) {
                         startActivity(NotificationActivity.getIntent(getApplicationContext()));
                     }
                 }
@@ -216,7 +213,7 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_contact:
-                if(DataManager.getInstance().getProfile() != null) {
+                if (DataManager.getInstance().getProfile() != null) {
                     startActivity(ContactActivity.getIntent(this));
                 } else {
                     alert(String.format("%s доступен только после синхронизации.", getString(R.string.my_contacts)));
@@ -228,7 +225,7 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_feedback:
-                if(DataManager.getInstance().getProfile() != null) {
+                if (DataManager.getInstance().getProfile() != null) {
                     startActivity(FeedbackActivity.getIntent(this));
                 } else {
                     alert(String.format("%s доступна только после синхронизации.", getString(R.string.feedback)));
@@ -321,12 +318,12 @@ public class RouteListActivity extends BaseActivity implements
     private void updateList(boolean isFilter, String query) {
         List<RouteItem> routes = DataManager.getInstance().getRouteItems(DataManager.RouteFilter.ALL);
 
-        if(query != null) {
+        if (query != null) {
             List<RouteItem> filterRoutes = new ArrayList<>();
             query = query.toLowerCase();
 
-            for(RouteItem routeItem : routes) {
-                if(routeItem.number.toLowerCase().contains(query)) {
+            for (RouteItem routeItem : routes) {
+                if (routeItem.number.toLowerCase().contains(query)) {
                     filterRoutes.add(routeItem);
                 }
             }
@@ -347,7 +344,7 @@ public class RouteListActivity extends BaseActivity implements
             }
             rvHouses.setAdapter(new RouteAdapter(this, undoneRoutes));
 
-            if(routes.size() > 0 && undoneRoutes.size() == 0){
+            if (routes.size() > 0 && undoneRoutes.size() == 0) {
                 tvMessage.setVisibility(View.VISIBLE);
             } else {
                 tvMessage.setVisibility(View.GONE);
@@ -370,7 +367,7 @@ public class RouteListActivity extends BaseActivity implements
     public void onLocationAvailable(int mode) {
         switch (mode) {
             case LocationChecker.LOCATION_OFF:
-                geoAlert("Для работы приложения необходимо включить доступ к геолокации","Включить геолокацию");
+                geoAlert("Для работы приложения необходимо включить доступ к геолокации", "Включить геолокацию");
                 break;
             case LocationChecker.LOCATION_ON_LOW_ACCURACY:
                 geoAlert("Включен режим определения геолокации \"По спутникам GPS\". Для корректной работы приложения " +
@@ -379,7 +376,7 @@ public class RouteListActivity extends BaseActivity implements
         }
     }
 
-    private void geoAlert(String message, String buttonText){
+    private void geoAlert(String message, String buttonText) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
@@ -398,11 +395,12 @@ public class RouteListActivity extends BaseActivity implements
     public void onRatingLoaded(List<RatingItemModel> items) {
         int idx = 0;
         long userId = Authorization.getInstance().getUser().getUserId();
-        for(RatingItemModel item : items) {
+        for (RatingItemModel item : items) {
             idx++;
-            if(item.user_id == userId) {
+            if (item.user_id == userId) {
                 tvMeRating.setVisibility(View.VISIBLE);
                 tvMeRating.setText(String.format(" %d", idx));
+                MobniusApplication.currentRating = idx;
                 break;
             }
         }
@@ -426,7 +424,7 @@ public class RouteListActivity extends BaseActivity implements
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(StringUtil.isEmptyOrNull(newText)) {
+        if (StringUtil.isEmptyOrNull(newText)) {
             searchResult(JsonUtil.EMPTY);
         }
         return false;
@@ -434,17 +432,18 @@ public class RouteListActivity extends BaseActivity implements
 
     /**
      * Есть ли новые ответы на обратную связь
+     *
      * @return
      */
     private boolean isNewFeedbackAnswer() {
-        int count = (int)DataManager.getInstance().getNotificationCount();
+        int count = (int) DataManager.getInstance().getNotificationCount();
         int saveCount = PreferencesManager.getInstance().getFeedbackAnswerCount();
-        if(saveCount == -1) {
+        if (saveCount == -1) {
             // при первой всавке не выдовать сообщение
             PreferencesManager.getInstance().setFeedbackAnswerCount(count);
             return false;
         }
-        if(count > saveCount) {
+        if (count > saveCount) {
             // есть новые ответы
             PreferencesManager.getInstance().setFeedbackAnswerCount(count);
             return true;
