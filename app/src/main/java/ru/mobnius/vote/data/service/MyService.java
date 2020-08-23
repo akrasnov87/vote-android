@@ -74,23 +74,6 @@ public class MyService extends BaseService {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        NotificationChannel channel;
-        String channelId = "httpServiceClient";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            channel = new NotificationChannel(channelId, "ltnChannel", NotificationManager.IMPORTANCE_DEFAULT);
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-            Notification notification = new NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.mipmap.ic_logo_round)
-                    .setContentTitle(getString(R.string.appName))
-                    .setContentText("Автоматическая синхронизация запущена").build();
-            startForeground(1, notification);
-        }
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         runServiceSynchronization(intent);
         runTracking(intent);

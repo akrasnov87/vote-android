@@ -34,11 +34,7 @@ class ServiceManager {
         myIntent.putExtra(MyService.TELEMETRY_INTERVAL, telemetryInterval);
         myIntent.putExtra(MyService.TELEMETRY_MEMORY, true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(myIntent);
-        } else {
-            context.startService(myIntent);
-        }
+        context.startService(myIntent);
     }
 
     /**
