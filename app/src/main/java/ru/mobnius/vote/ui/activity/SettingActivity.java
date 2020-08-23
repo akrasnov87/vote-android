@@ -92,6 +92,7 @@ public class SettingActivity extends BaseActivity {
         private final String debugSummary = "Режим отладки: %s";
         private final String pinSummary = "Авторизация по пину: %s";
         private final String simpleColorSummary = "Упрощенная цветовая схема: %s";
+        private final String autoSyncSummary = "Автоматическая передача данных: %s";
         private int clickToVersion = 0;
 
         private Preference pVersion;
@@ -100,6 +101,7 @@ public class SettingActivity extends BaseActivity {
         private SwitchPreference spDebug;
         private SwitchPreference spPin;
         private SwitchPreference spSimpleColor;
+        private SwitchPreference spAutoSync;
         private Preference pCreateError;
 
         private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
@@ -151,6 +153,9 @@ public class SettingActivity extends BaseActivity {
             spSimpleColor = findPreference(PreferencesManager.MBL_COLOR_THEME);
             Objects.requireNonNull(spSimpleColor).setOnPreferenceChangeListener(this);
 
+            spAutoSync = findPreference(PreferencesManager.MBL_AUTO_SYNC);
+            Objects.requireNonNull(spAutoSync).setOnPreferenceChangeListener(this);
+
             pCreateError = findPreference(PreferencesManager.GENERATED_ERROR);
             Objects.requireNonNull(pCreateError).setVisible(PreferencesManager.getInstance().isDebug());
             pCreateError.setOnPreferenceClickListener(this);
@@ -170,6 +175,9 @@ public class SettingActivity extends BaseActivity {
 
             spSimpleColor.setSummary(String.format(simpleColorSummary, PreferencesManager.getInstance().isSimpleColor() ? "включена" : "отключена"));
             spSimpleColor.setChecked(PreferencesManager.getInstance().isSimpleColor());
+
+            spAutoSync.setSummary(String.format(autoSyncSummary, PreferencesManager.getInstance().isAutoSync() ? "включена" : "отключена"));
+            spAutoSync.setChecked(PreferencesManager.getInstance().isAutoSync());
 
             spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
             spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
@@ -249,6 +257,13 @@ public class SettingActivity extends BaseActivity {
                     boolean colorValue = Boolean.parseBoolean(String.valueOf(newValue));
                     spSimpleColor.setSummary(String.format(simpleColorSummary, colorValue ? "включена" : "отключена"));
                     PreferencesManager.getInstance().setSimpleColor(colorValue);
+                    break;
+
+                case PreferencesManager.MBL_AUTO_SYNC:
+                    boolean autoSync = Boolean.parseBoolean(String.valueOf(newValue));
+                    spAutoSync.setSummary(String.format(autoSyncSummary, autoSync ? "включена" : "отключена"));
+                    PreferencesManager.getInstance().setAutoSync(autoSync);
+                    break;
             }
             return true;
         }

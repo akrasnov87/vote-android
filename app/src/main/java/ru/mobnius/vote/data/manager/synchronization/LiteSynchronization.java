@@ -81,17 +81,6 @@ public class LiteSynchronization extends WebSocketSynchronization {
         for(Entity entity : getEntities()){
             // обработка только элемента с указанным ключом
             if(entity.tid.equals(tid)) {
-                if (entity.from) {
-                    TableQuery tableQuery = new TableQuery(entity.tableName, entity.select);
-                    RPCItem rpcItem;
-                    if(entity.useCFunction) {
-                        rpcItem = tableQuery.toRPCSelect(entity.params);
-                    } else {
-                        rpcItem = tableQuery.toRPCQuery(MAX_COUNT_IN_QUERY, entity.filters);
-                    }
-                    utils.addFrom(rpcItem);
-                }
-
                 if (entity.to) {
                     processingPackageTo(utils, entity.tableName, tid);
                 }
@@ -105,7 +94,6 @@ public class LiteSynchronization extends WebSocketSynchronization {
         /*
         Если хоть одна вставка была ошибочной, данные не добавлять
          */
-        boolean success = true;
         try {
             for (RPCResult result : utils.getResultTo(isZip())) { // при добавление информации была ошибка на сервере.
 
@@ -113,33 +101,9 @@ public class LiteSynchronization extends WebSocketSynchronization {
                 if(!packageResult.success){
                     onError(IProgressStep.RESTORE, packageResult.message, tid);
                 }
-                if(success && !packageResult.success)
-                {
-                    success = false;
-                }
             }
         }catch (Exception e){
             onError(IProgressStep.RESTORE, e, tid);
-            success = false;
-        }
-
-        if(!success){
-            return;
-        }
-
-        try {
-            for (RPCResult result : utils.getResultFrom(isZip())) {
-
-                String tableName = result.action;
-                Entity entity = getEntity(tableName);
-                PackageResult packageResult = serverSidePackage.from(getDaoSession(),result,tid,entity.to, false);
-
-                if(!packageResult.success){
-                    onError(IProgressStep.PACKAGE_CREATE, packageResult.message, tid);
-                }
-            }
-        }catch (Exception e){
-            onError(IProgressStep.PACKAGE_CREATE, e, tid);
         }
     }
 }

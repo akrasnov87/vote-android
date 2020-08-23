@@ -51,6 +51,10 @@ public class MyService extends BaseService {
      */
     private final Timer mServiceSyncTimer;
     /**
+     * таймер для отправки служебных данных
+     */
+    private final Timer mAutoSyncTimer;
+    /**
      * таймер для сбора телеметрии
      */
     private Timer telemetryTimer;
@@ -59,6 +63,7 @@ public class MyService extends BaseService {
 
     public MyService() {
         mServiceSyncTimer = new Timer();
+        mAutoSyncTimer = new Timer();
         telemetryTimer = new Timer();
     }
 
@@ -101,8 +106,8 @@ public class MyService extends BaseService {
               Интервал отправки служебных данных на сервер
              */
             int serviceInterval = intent.getIntExtra(SYNC_SERVICE, PreferencesManager.getInstance().getSyncInterval());
-
-            mServiceSyncTimer.schedule(new SyncTimerTask(), 0, 10000);
+            mAutoSyncTimer.schedule(new AutoSyncTimerTask(), 0, PreferencesManager.getInstance().getAutoSyncInterval());
+            mServiceSyncTimer.schedule(new SyncTimerTask(), 0, serviceInterval);
         }
     }
 

@@ -46,21 +46,17 @@ public class PointHolder extends RecyclerView.ViewHolder
             if (!point.done) {
                 tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
             } else {
-                if (point.rating != null) {
-                    try {
-                        if (point.color[0].equals("#000000")) {
-                            tvDeviceNumber.setBackgroundColor(mContext.getResources().getColor(R.color.colorSimpleNobodyAtHome));
-                        } else {
-                            tvDeviceNumber.setBackgroundColor(mContext.getResources().getColor(R.color.colorSimpleSuccess));
-                        }
-                        tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryText));
-
-                    } catch (Exception e) {
-                        tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
-                        Logger.error(e);
+                try {
+                    if (point.color[0].equals("#000000")) {
+                        tvDeviceNumber.setBackgroundColor(mContext.getResources().getColor(R.color.colorSimpleNobodyAtHome));
+                    } else {
+                        tvDeviceNumber.setBackgroundColor(mContext.getResources().getColor(R.color.colorSimpleSuccess));
                     }
-                } else {
+                    tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryText));
+
+                } catch (Exception e) {
                     tvDeviceNumber.setTextColor(mContext.getResources().getColor(R.color.colorHint));
+                    Logger.error(e);
                 }
             }
             return;
