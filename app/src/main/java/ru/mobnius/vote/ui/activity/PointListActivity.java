@@ -74,9 +74,6 @@ public class PointListActivity extends BaseActivity
         mProgressBar = findViewById(R.id.point_list_progress);
         mRecyclerView = findViewById(R.id.point_list);
         tvMessage = findViewById(R.id.point_list_message);
-        if (mPreferencesManager.isZeroPriority()){
-
-        }
         mRecyclerView.setAdapter(new PointAdapter(this, setPriorityList()));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }
@@ -142,7 +139,7 @@ public class PointListActivity extends BaseActivity
         MenuItem sortIcon = menu.findItem(R.id.point_filter);
         MenuItem searchItem = menu.findItem(R.id.point_search);
         MenuItem priorityItem = menu.findItem(R.id.point_zero_priority);
-        priorityItem.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.show_zero_priority) : getResources().getString(R.string.hide_zero_priority));
+        priorityItem.setTitle(PreferencesManager.getInstance().isZeroPriority() ?  getResources().getString(R.string.hide_zero_priority): getResources().getString(R.string.show_zero_priority));
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -166,7 +163,7 @@ public class PointListActivity extends BaseActivity
         }
 
         if (item.getItemId() == R.id.point_zero_priority) {
-            item.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.hide_zero_priority) : getResources().getString(R.string.show_zero_priority) );
+            item.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.show_zero_priority):getResources().getString(R.string.hide_zero_priority)  );
             mPreferencesManager.setZeroPriority(!mPreferencesManager.isZeroPriority());
             mRecyclerView.setAdapter(new PointAdapter(this, setPriorityList()));
         }
@@ -179,7 +176,7 @@ public class PointListActivity extends BaseActivity
 
     private List<PointItem> setPriorityList() {
         List<PointItem> list= getSortedList(mPreferencesManager.getSort());
-        if(mPreferencesManager.isZeroPriority()) {
+        if(!mPreferencesManager.isZeroPriority()) {
             for (Iterator<PointItem> it = list.iterator(); it.hasNext(); ) {
                 PointItem pointItem = it.next();
                 if (pointItem.priority == 0) {
