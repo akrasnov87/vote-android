@@ -19,16 +19,19 @@ public class AuthorizationMeta extends Meta {
      */
     private final Integer mUserId;
 
-    public AuthorizationMeta(int status, String message, String token, String claims, Integer userId) {
+    private final String mServerDate;
+
+    public AuthorizationMeta(int status, String message, String token, String claims, Integer userId, String serverDate) {
         super(status, message);
 
         mToken = token;
         mClaims = claims;
         mUserId = userId;
+        mServerDate = serverDate;
     }
 
     public AuthorizationMeta(int status, String message) {
-        this(status, message, null, null, null);
+        this(status, message, null, null, null, null);
     }
 
     public String getToken() {
@@ -41,5 +44,9 @@ public class AuthorizationMeta extends Meta {
 
     public Integer getUserId() {
         return mUserId;
+    }
+
+    public String getServerDate() {
+        return mServerDate;
     }
 }

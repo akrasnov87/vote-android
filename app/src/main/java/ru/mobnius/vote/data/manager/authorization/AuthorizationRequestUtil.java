@@ -77,10 +77,12 @@ class AuthorizationRequestUtil {
         Integer userId = null;
         String claims = null;
         String message;
+        String serverDate = null;
 
         try {
             JSONObject jsonObject = new JSONObject(response);
             try {
+                serverDate = jsonObject.getJSONObject("user").getString("server_date");
                 status = jsonObject.getInt("code");
                 message = jsonObject.getJSONObject("meta").getString("msg");
             } catch (JSONException e) {
@@ -94,6 +96,8 @@ class AuthorizationRequestUtil {
             status = Meta.ERROR_SERVER;
             message = "Результат авторизации не является JSON.";
         }
-        return new AuthorizationMeta(status, message, token, claims, userId);
+        AuthorizationMeta meta = new AuthorizationMeta(status, message, token, claims, userId, serverDate);
+        return meta;
     }
+
 }

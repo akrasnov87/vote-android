@@ -103,13 +103,13 @@ public class Authorization {
                             "Вы авторизованы",
                             basicUser.getCredentials().getToken(),
                             basicUser.claims,
-                            Integer.parseInt(String.valueOf(basicUser.getUserId()))));
+                            Integer.parseInt(String.valueOf(basicUser.getUserId())), null));
                 } else {
-                    callback.onResult(new AuthorizationMeta(Meta.NOT_AUTHORIZATION, "Логин или пароль введены не верно.", null, null, null));
+                    callback.onResult(new AuthorizationMeta(Meta.NOT_AUTHORIZATION, "Логин или пароль введены не верно.", null, null, null, null));
                     reset();
                 }
             } else {
-                callback.onResult(new AuthorizationMeta(Meta.NOT_AUTHORIZATION, "У приложения отсутствует доступ к серверу. Проверьте интернет.", null, null, null));
+                callback.onResult(new AuthorizationMeta(Meta.NOT_AUTHORIZATION, "У приложения отсутствует доступ к серверу. Проверьте интернет.", null, null, null, null));
                 reset();
             }
         }

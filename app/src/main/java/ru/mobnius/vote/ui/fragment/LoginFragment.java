@@ -1,7 +1,10 @@
 package ru.mobnius.vote.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -18,8 +21,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.ICallback;
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.Meta;
 import ru.mobnius.vote.data.manager.BaseFragment;
 import ru.mobnius.vote.data.manager.MobniusApplication;
@@ -35,6 +41,7 @@ import ru.mobnius.vote.ui.activity.LoginActivity;
 import ru.mobnius.vote.ui.activity.RouteListActivity;
 import ru.mobnius.vote.ui.data.ServerExistsAsyncTask;
 import ru.mobnius.vote.utils.AuthUtil;
+import ru.mobnius.vote.utils.DateUtil;
 import ru.mobnius.vote.utils.NetworkUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
@@ -200,7 +207,23 @@ public class LoginFragment extends BaseFragment
             @Override
             public void onResult(Meta meta) {
                 AuthorizationMeta authorizationMeta = (AuthorizationMeta) meta;
-
+                String serverDate = authorizationMeta.getServerDate();
+                if (serverDate == null) {
+                    serverDateAlert("Не удалось получить данные с сервера.\n" + "Попробуйте авторизоаться еще раз", false);
+                    return;
+                } else {
+                    try {
+                        if (!DateUtil.isEqualsServerDate(serverDate)) {
+                            serverDateAlert("Время на устройстве не соответствует времени на сервере \nНажмите \"Ок\" чтобы перейти в настройки и установить местное время", true);
+                            failAuthorized("Несоответствие времени");
+                            return;
+                        }
+                    } catch (ParseException e) {
+                        Logger.error(e);
+                        failAuthorized("Ошибка чтения даты");
+                        return;
+                    }
+                }
                 switch (authorizationMeta.getStatus()) {
                     case Meta.NOT_AUTHORIZATION:
                         failAuthorized(meta.getMessage());
@@ -219,6 +242,7 @@ public class LoginFragment extends BaseFragment
                         break;
                 }
             }
+
         });
     }
 
@@ -251,6 +275,7 @@ public class LoginFragment extends BaseFragment
                         break;
                 }
             }
+
         });
     }
 
@@ -261,7 +286,7 @@ public class LoginFragment extends BaseFragment
 
         AuthorizationCache cache = new AuthorizationCache(getContext());
 
-        if(cache.getNames().length == 0 && NetworkUtil.isNetworkAvailable(requireContext())) {
+        if (cache.getNames().length == 0 && NetworkUtil.isNetworkAvailable(requireContext())) {
             onSignOnline(login, password);
         } else {
             if (NetworkUtil.isNetworkAvailable(requireContext()) &&
@@ -381,5 +406,20 @@ public class LoginFragment extends BaseFragment
             mConfigurationAsyncTask.cancel(true);
             mConfigurationAsyncTask = null;
         }
+    }
+
+    private void serverDateAlert(String message, final boolean isDateOk) {
+        new AlertDialog.Builder(getContext())
+                .setMessage(message)
+                .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        if (isDateOk) {
+                            requireActivity().startActivity(new Intent(Settings.ACTION_DATE_SETTINGS));
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 }

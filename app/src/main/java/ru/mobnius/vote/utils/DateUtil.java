@@ -25,6 +25,7 @@ public class DateUtil {
 
     /**
      * Преобразование строки в дату
+     *
      * @param time время в милисекундах
      * @return результат преобразования
      */
@@ -34,17 +35,36 @@ public class DateUtil {
 
     /**
      * Преобразование строки в дату
+     *
      * @param date дата
      * @return результат преобразования
      * @throws ParseException исключение при неверном формате
      */
     public static Date convertStringToDate(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(SYSTEM_FORMAT, Locale.getDefault());
+
         return dateFormat.parse(date);
     }
 
+
+    public static boolean isEqualsServerDate(String serverDate) throws ParseException {
+        String localDate = convertDateToUserString(new Date(), SYSTEM_FORMAT);
+        String localTimeZone= localDate.substring(localDate.length() - 5);
+        String remoteTimeZone = serverDate.substring(serverDate.length() - 5);
+        int z = Integer.parseInt(localTimeZone);
+        int t = Integer.parseInt(remoteTimeZone);
+        int v = (z - t) / 100;
+        if (v <= 1 && v >= -1) {
+            return true;
+        }
+        return false;
+
+    }
+
+
     /**
      * Дата преобразуется в строку с определнным форматом
+     *
      * @param date дата
      * @return возврщается строка
      */
@@ -54,7 +74,8 @@ public class DateUtil {
 
     /**
      * Дата преобразуется в строку с определнным форматом
-     * @param date дата
+     *
+     * @param date   дата
      * @param format формат даты
      * @return возврщается строка
      */
@@ -64,10 +85,11 @@ public class DateUtil {
 
     /**
      * Генерация TID
+     *
      * @return уникальный идентификатор
      */
     public static int generateTid() {
-        return Math.abs((int)((new Date().getTime() - Version.BIRTH_DAY.getTime())));
+        return Math.abs((int) ((new Date().getTime() - Version.BIRTH_DAY.getTime())));
     }
 
     public static String getMonthName(Date date, boolean isFull) {

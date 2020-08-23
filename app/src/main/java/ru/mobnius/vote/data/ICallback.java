@@ -9,4 +9,5 @@ public interface ICallback {
      * @param meta результат
      */
     void onResult(Meta meta);
+
 }
