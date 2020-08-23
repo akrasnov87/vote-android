@@ -27,6 +27,7 @@ import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Routes;
@@ -139,7 +140,11 @@ public class PointListActivity extends BaseActivity
         MenuItem sortIcon = menu.findItem(R.id.point_filter);
         MenuItem searchItem = menu.findItem(R.id.point_search);
         MenuItem priorityItem = menu.findItem(R.id.point_zero_priority);
-        priorityItem.setTitle(PreferencesManager.getInstance().isZeroPriority() ?  getResources().getString(R.string.hide_zero_priority): getResources().getString(R.string.show_zero_priority));
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            priorityItem.setTitle(PreferencesManager.getInstance().isZeroPriority() ? getResources().getString(R.string.hide_zero_priority) : getResources().getString(R.string.show_zero_priority));
+        } else {
+            priorityItem.setVisible(false);
+        }
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -176,7 +181,7 @@ public class PointListActivity extends BaseActivity
 
     private List<PointItem> setPriorityList() {
         List<PointItem> list= getSortedList(mPreferencesManager.getSort());
-        if(!mPreferencesManager.isZeroPriority()) {
+        if(!mPreferencesManager.isZeroPriority() && Authorization.getInstance().getUser().isCandidate()) {
             for (Iterator<PointItem> it = list.iterator(); it.hasNext(); ) {
                 PointItem pointItem = it.next();
                 if (pointItem.priority == 0) {
