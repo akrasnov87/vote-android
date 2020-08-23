@@ -97,4 +97,6 @@
     <string name="no_my_contacts">Нет новых контактов</string>
     <string name="notifications">Ответы</string>
     <string name="update_today">Обновить сейчас</string>
+    <string name="hide_zero_priority">Скрыть с нулевым рейтингом</string>
+    <string name="show_zero_priority">Показать с нулевым рейтингом</string>
 </resources>

@@ -34,6 +34,7 @@ public class PreferencesManager extends AbstractPreferencesManager {
     public static final String MBL_COLOR_THEME = "MBL_COLOR_THEME";
     public static final String MBL_AUTO_SYNC = "MBL_AUTO_SYNC";
     public static final String MBL_AUTO_SYNC_INTERVAL = "MBL_AUTO_SYNC_INTERVAL";
+    public static final String MBL_ZERO_PRIORITY = "MBL_ZERO_PRIORITY";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -145,6 +146,13 @@ public class PreferencesManager extends AbstractPreferencesManager {
     }
     public void setSimpleColor(boolean value) {
         getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_COLOR_THEME, value).apply();
+    }
+
+    public boolean isZeroPriority(){
+        return getDefaultBooleanValue(MBL_ZERO_PRIORITY);
+    }
+    public void setZeroPriority(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_ZERO_PRIORITY, value).apply();
     }
 
     public boolean isAutoSync(){

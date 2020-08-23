@@ -586,7 +586,9 @@ public class DataManager {
      */
     public Question[] getQuestions(int priority) {
         String role = Authorization.getInstance().getUser().isCandidateOne() ? BasicUser.CANDIDATE_ONE : BasicUser.CANDIDATE_LIST;
-
+        if (priority == 0){
+            priority = 5;
+        }
         List<Question> questions = daoSession.getQuestionDao().queryBuilder().where(QuestionDao.Properties.N_priority.eq(priority), QuestionDao.Properties.C_role.eq(role)).orderAsc(QuestionDao.Properties.N_order).list();
         return questions.toArray(new Question[0]);
     }
