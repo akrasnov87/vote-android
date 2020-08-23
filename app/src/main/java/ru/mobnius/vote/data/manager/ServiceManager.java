@@ -2,6 +2,7 @@ package ru.mobnius.vote.data.manager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.service.MyService;
@@ -32,7 +33,12 @@ class ServiceManager {
         myIntent.putExtra(MyService.TRACK_TIMEOUT, timeout);
         myIntent.putExtra(MyService.TELEMETRY_INTERVAL, telemetryInterval);
         myIntent.putExtra(MyService.TELEMETRY_MEMORY, true);
-        context.startService(myIntent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(myIntent);
+        } else {
+            context.startService(myIntent);
+        }
     }
 
     /**

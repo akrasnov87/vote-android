@@ -11,7 +11,7 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 public class ToServerOnly extends ServerSidePackage {
     @Override
     public PackageResult to(DaoSession session, RPCResult rpcResult, String packageTid) {
-        if(rpcResult.meta.success){
+        if(rpcResult.meta.success) {
             // тут все хорошо, нужно удалить все записи c tid
             Database db = session.getDatabase();
             Object[] params = new Object[1];

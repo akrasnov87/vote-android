@@ -89,7 +89,7 @@ public class SyncUtil {
      * @param blockTid идентификатор транзакции
      * @param operationType тип операции
      */
-    public static void updateBlockTid(ISynchronization context, String tableName, String tid, String blockTid, String operationType){
+    public static void updateBlockTid(ISynchronization context, String tableName, String tid, String blockTid, String operationType) {
         DaoSession daoSession = context.getDaoSession();
         Database db = daoSession.getDatabase();
         try {

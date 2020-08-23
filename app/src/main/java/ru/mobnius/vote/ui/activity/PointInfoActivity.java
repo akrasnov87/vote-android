@@ -82,7 +82,7 @@ public class PointInfoActivity extends BaseActivity
 
         mPointInfo = DataManager.getInstance().getPointInfo(mPointID);
         if(!StringUtil.isEmptyOrNull(mPointInfo.getNotice())) {
-            tfvNotice.setFieldText(mPointInfo.getNotice());
+            tfvNotice.setFieldHtml(Html.fromHtml(mPointInfo.getNotice()));
             tfvNotice.setVisibility(View.VISIBLE);
         }
 

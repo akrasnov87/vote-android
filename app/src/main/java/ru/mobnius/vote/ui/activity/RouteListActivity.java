@@ -409,11 +409,19 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mServerAppVersionAsyncTask.cancel(true);
-        mServerAppVersionAsyncTask = null;
+        if(mServerAppVersionAsyncTask!= null) {
+            if(!mServerAppVersionAsyncTask.isCancelled()) {
+                mServerAppVersionAsyncTask.cancel(true);
+            }
+            mServerAppVersionAsyncTask = null;
+        }
 
-        mRatingAsyncTask.cancel(true);
-        mRatingAsyncTask = null;
+        if(mRatingAsyncTask != null) {
+            if(!mRatingAsyncTask.isCancelled()) {
+                mRatingAsyncTask.cancel(true);
+            }
+            mRatingAsyncTask = null;
+        }
     }
 
     @Override

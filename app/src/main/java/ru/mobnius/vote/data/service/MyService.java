@@ -1,17 +1,24 @@
 package ru.mobnius.vote.data.service;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import java.util.Date;
 import java.util.Timer;
 import java.util.jar.Attributes;
 
 import ru.mobnius.vote.Names;
+import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.BaseService;
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -62,6 +69,23 @@ public class MyService extends BaseService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        NotificationChannel channel;
+        String channelId = "httpServiceClient";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(channelId, "ltnChannel", NotificationManager.IMPORTANCE_DEFAULT);
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+            Notification notification = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.mipmap.ic_logo_round)
+                    .setContentTitle(getString(R.string.appName))
+                    .setContentText("Автоматическая синхронизация запущена").build();
+            startForeground(1, notification);
+        }
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         runServiceSynchronization(intent);
         runTracking(intent);
@@ -78,7 +102,7 @@ public class MyService extends BaseService {
              */
             int serviceInterval = intent.getIntExtra(SYNC_SERVICE, PreferencesManager.getInstance().getSyncInterval());
 
-            mServiceSyncTimer.schedule(new SyncTimerTask(), 0, serviceInterval);
+            mServiceSyncTimer.schedule(new SyncTimerTask(), 0, 10000);
         }
     }
 
