@@ -74,6 +74,11 @@ public class RatingActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "rating";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_rating, menu);

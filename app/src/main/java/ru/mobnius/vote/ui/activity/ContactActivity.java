@@ -58,6 +58,11 @@ public class ContactActivity extends BaseActivity implements MyContactsHolder.On
     }
 
     @Override
+    public String getHelpKey() {
+        return "contacts";
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 

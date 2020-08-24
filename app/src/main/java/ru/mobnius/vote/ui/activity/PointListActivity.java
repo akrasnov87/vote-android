@@ -37,6 +37,7 @@ import ru.mobnius.vote.ui.data.PointSearchManager;
 import ru.mobnius.vote.ui.model.PointFilter;
 import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.RouteInfo;
+import ru.mobnius.vote.utils.HelpUtil;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.StringUtil;
 
@@ -128,6 +129,11 @@ public class PointListActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "points";
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(Names.ID, mPositionSelected);
@@ -150,7 +156,8 @@ public class PointListActivity extends BaseActivity
 
         searchView.setOnQueryTextListener(this);
         sortIcon.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
-        return true;
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -199,7 +206,7 @@ public class PointListActivity extends BaseActivity
 
     private void searchResult(String query) {
         if (JsonUtil.isEmpty(query)) {
-            mRecyclerView.setAdapter(new PointAdapter(this, getSortedList(mPreferencesManager.getSort())));
+            mRecyclerView.setAdapter(new PointAdapter(this, setPriorityList()));
         } else {
             PointSearchManager pointSearchManager = new PointSearchManager();
             List<PointItem> list;

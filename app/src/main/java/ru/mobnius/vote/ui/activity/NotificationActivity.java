@@ -3,6 +3,8 @@ package ru.mobnius.vote.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +48,11 @@ public class NotificationActivity extends BaseActivity {
     }
 
     @Override
+    public String getHelpKey() {
+        return "notice";
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -56,6 +63,14 @@ public class NotificationActivity extends BaseActivity {
         } else {
             rvList.setAdapter(new NotificationAdapter(this, feedbacks));
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_notice, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

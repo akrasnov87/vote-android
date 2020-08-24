@@ -77,6 +77,11 @@ public class PointInfoActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "point_info";
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 

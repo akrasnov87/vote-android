@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.ui.fragment.HelpDialogFragment;
+import ru.mobnius.vote.utils.HelpUtil;
 import ru.mobnius.vote.utils.ThemeUtil;
 
 /**
@@ -165,5 +169,31 @@ public abstract class BaseActivity extends ExceptionInterceptActivity {
 
     protected void stopProgress() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    public void showHelp(String key) {
+        HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
+        helpDialogFragment.bind(key);
+        helpDialogFragment.show(getSupportFragmentManager(), "help");
+    }
+
+    public abstract String getHelpKey();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem help = menu.findItem(R.id.help);
+        if(help != null) {
+            help.setVisible(HelpUtil.isShow(getHelpKey()));
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.help) {
+            showHelp(getHelpKey());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

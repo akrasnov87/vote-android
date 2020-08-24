@@ -27,6 +27,7 @@ import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.Answer;
 import ru.mobnius.vote.data.storage.models.Points;
+import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.Results;
 import ru.mobnius.vote.ui.fragment.tools.ContactAdapter;
 
@@ -61,7 +62,8 @@ public class StatisticDialogFragment extends BaseDialogFragment
     public void onResume() {
         super.onResume();
 
-        List<Points> all = DataManager.getInstance().getDaoSession().getPointsDao().loadAll();
+        List<Points> all = DataManager.getInstance().getDaoSession().getPointsDao().queryBuilder()
+                .where(PointsDao.Properties.N_priority.gt(0)).list();
         List<Results> allResults = DataManager.getInstance().getDaoSession().getResultsDao().loadAll();
 
         StringBuilder builder = new StringBuilder();

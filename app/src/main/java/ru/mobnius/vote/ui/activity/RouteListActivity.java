@@ -53,6 +53,7 @@ import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
+import ru.mobnius.vote.utils.HelpUtil;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
@@ -196,6 +197,11 @@ public class RouteListActivity extends BaseActivity implements
     }
 
     @Override
+    public String getHelpKey() {
+        return "routes";
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(Names.ID, mPositionSelected);
@@ -272,6 +278,7 @@ public class RouteListActivity extends BaseActivity implements
         MenuItem filterIcon = menu.findItem(R.id.action_route_filters);
         boolean isFilter = PreferencesManager.getInstance().getFilter();
         filterIcon.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_filter_on_24dp : R.drawable.ic_filter_off_24dp));
+
         return super.onCreateOptionsMenu(menu);
     }
 

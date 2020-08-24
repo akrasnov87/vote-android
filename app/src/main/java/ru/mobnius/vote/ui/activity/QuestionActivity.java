@@ -311,6 +311,11 @@ public class QuestionActivity extends BaseFormActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "question";
+    }
+
+    @Override
     public VoteManager getVoteManager() {
         return mVoteManager;
     }

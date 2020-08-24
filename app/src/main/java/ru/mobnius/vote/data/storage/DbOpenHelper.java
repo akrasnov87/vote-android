@@ -28,5 +28,31 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                 db.endTransaction();
             }
         }
+
+        if(oldVersion == 1 && newVersion == 3) {
+            try {
+                db.beginTransaction();
+                db.execSQL("CREATE TABLE \"cs_street\" (\"ID\" TEXT PRIMARY KEY NOT NULL ,\"C_TYPE\" TEXT,\"C_NAME\" TEXT,\"JB_DATA\" TEXT)");
+                db.execSQL("CREATE TABLE \"cd_mobile_help\" (\"id\" INTEGER PRIMARY KEY ,\"C_KEY\" TEXT,\"C_HTML\" TEXT,\"D_DATE\" TEXT,\"C_TITLE\" TEXT)");
+                db.execSQL("CREATE TABLE \"cd_contacts\" (\"ID\" TEXT PRIMARY KEY NOT NULL ,\"C_FIRST_NAME\" TEXT,\"C_LAST_NAME\" TEXT,\"C_PATRONYMIC\" TEXT,\"FN_STREET\" TEXT,\"C_HOUSE_NUM\" TEXT,\"C_HOUSE_BUILD\" TEXT,\"C_APPARTAMENT\" TEXT,\"N_RATING\" INTEGER,\"C_DESCRIPTION\" TEXT,\"D_DATE\" TEXT,\"FN_USER\" INTEGER NOT NULL ,\"JB_DATA\" TEXT,\"C_PHONE\" TEXT,\"B_DISABLED\" INTEGER NOT NULL ,\"N_ORDER\" INTEGER NOT NULL ,\"OBJECT_OPERATION_TYPE\" TEXT,\"IS_DELETE\" INTEGER NOT NULL ,\"IS_SYNCHRONIZATION\" INTEGER NOT NULL ,\"TID\" TEXT,\"BLOCK_TID\" TEXT)");
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Logger.error(e);
+            } finally {
+                db.endTransaction();
+            }
+        }
+
+        if(oldVersion == 2 && newVersion == 3) {
+            try {
+                db.beginTransaction();
+                db.execSQL("CREATE TABLE \"cd_mobile_help\" (\"id\" INTEGER PRIMARY KEY ,\"C_KEY\" TEXT,\"C_HTML\" TEXT,\"D_DATE\" TEXT,\"C_TITLE\" TEXT)");
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Logger.error(e);
+            } finally {
+                db.endTransaction();
+            }
+        }
     }
 }
