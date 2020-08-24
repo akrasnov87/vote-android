@@ -486,7 +486,7 @@ public class RouteListActivity extends BaseActivity implements
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(final String s) {
             super.onPostExecute(s);
 
             if (VersionUtil.isUpgradeVersion(getBaseContext(), s)) {
@@ -496,6 +496,7 @@ public class RouteListActivity extends BaseActivity implements
                     @Override
                     public void onClick(View v) {
                         AboutUpdateDialogFragment aboutUpdateDialogFragment = new AboutUpdateDialogFragment();
+                        aboutUpdateDialogFragment.bind(s);
                         aboutUpdateDialogFragment.show(getSupportFragmentManager(), "about-update");
                     }
                 }).show();

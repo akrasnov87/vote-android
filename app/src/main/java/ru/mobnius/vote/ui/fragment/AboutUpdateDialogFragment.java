@@ -41,6 +41,8 @@ public class AboutUpdateDialogFragment extends BaseDialogFragment
     private DigestsAsyncTask mDigestsAsyncTask;
     private LocaleDataAsyncTask mLocaleDataAsyncTask;
 
+    private String mVersion;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,10 +77,14 @@ public class AboutUpdateDialogFragment extends BaseDialogFragment
         Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(getDialog())).getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         tvDescription.setText("Идет загрузка описания...");
         mDigestsAsyncTask = new DigestsAsyncTask(this);
-        mDigestsAsyncTask.execute(VersionUtil.getVersionName(getContext()));
+        mDigestsAsyncTask.execute(mVersion);
 
         mLocaleDataAsyncTask = new LocaleDataAsyncTask();
         mLocaleDataAsyncTask.execute();
+    }
+
+    public void bind(String version) {
+        mVersion = version;
     }
 
     @Override
