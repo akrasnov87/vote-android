@@ -53,7 +53,6 @@ import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.ProfileItem;
 import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
-import ru.mobnius.vote.utils.HelpUtil;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
 import ru.mobnius.vote.utils.StringUtil;
@@ -159,7 +158,7 @@ public class RouteListActivity extends BaseActivity implements
                 mRatingAsyncTask = new RatingAsyncTask(this);
             }
             mRatingAsyncTask.execute((Integer) null);
-        }else {
+        } else {
             tvMeRating.setVisibility(View.VISIBLE);
             tvMeRating.setText(String.format(" %d", MobniusApplication.currentRating));
         }
@@ -215,7 +214,11 @@ public class RouteListActivity extends BaseActivity implements
                 break;
 
             case R.id.nav_statistic:
-                startActivity(StatisticActivity.getIntent(this));
+                if (DataManager.getInstance().getProfile() != null) {
+                    startActivity(StatisticActivity.getIntent(this));
+                } else {
+                    alert(String.format("%s доступна только после синхронизации.", getString(R.string.statistic)));
+                }
                 break;
 
             case R.id.nav_contact:
@@ -303,7 +306,11 @@ public class RouteListActivity extends BaseActivity implements
         switch (v.getId()) {
             case R.id.app_rating:
             case R.id.app_rating_icon:
-                startActivity(RatingActivity.getIntent(getBaseContext()));
+                if (DataManager.getInstance().getProfile() != null) {
+                    startActivity(RatingActivity.getIntent(getBaseContext()));
+                } else {
+                    alert(String.format("%s доступна только после синхронизации.", getString(R.string.rating)));
+                }
                 break;
 
             case R.id.house_sync:
@@ -416,15 +423,15 @@ public class RouteListActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mServerAppVersionAsyncTask!= null) {
-            if(!mServerAppVersionAsyncTask.isCancelled()) {
+        if (mServerAppVersionAsyncTask != null) {
+            if (!mServerAppVersionAsyncTask.isCancelled()) {
                 mServerAppVersionAsyncTask.cancel(true);
             }
             mServerAppVersionAsyncTask = null;
         }
 
-        if(mRatingAsyncTask != null) {
-            if(!mRatingAsyncTask.isCancelled()) {
+        if (mRatingAsyncTask != null) {
+            if (!mRatingAsyncTask.isCancelled()) {
                 mRatingAsyncTask.cancel(true);
             }
             mRatingAsyncTask = null;

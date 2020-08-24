@@ -165,7 +165,7 @@ public class PointListActivity extends BaseActivity
         if (item.getItemId() == R.id.point_filter) {
             item.setIcon(getResources().getDrawable(mPreferencesManager.getSort() ? R.drawable.ic_filter_off_24dp : R.drawable.ic_filter_on_24dp));
             PreferencesManager.getInstance().setSort(!mPreferencesManager.getSort());
-            List<PointItem> list = getSortedList(mPreferencesManager.getSort());
+            List<PointItem> list = setPriorityList();
             mRecyclerView.setAdapter(new PointAdapter(this, list));
         }
 
@@ -210,7 +210,7 @@ public class PointListActivity extends BaseActivity
         } else {
             PointSearchManager pointSearchManager = new PointSearchManager();
             List<PointItem> list;
-            list = Arrays.asList(pointSearchManager.toFilters(getSortedList(mPreferencesManager.getSort()).toArray(new PointItem[0]), query));
+            list = Arrays.asList(pointSearchManager.toFilters(setPriorityList().toArray(new PointItem[0]), query));
             mRecyclerView.setAdapter(new PointAdapter(this, list));
         }
     }
