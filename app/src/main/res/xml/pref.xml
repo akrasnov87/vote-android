@@ -84,7 +84,7 @@
     </PreferenceCategory>
 
     <SwitchPreference
-        android:enabled="true"
+        android:enabled="false"
         android:key="MBL_AUTO_SYNC"
         android:summary="Передача пройденных квартир на сервер"
         android:title="Автоматическая синхронизация"
