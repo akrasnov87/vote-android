@@ -14,6 +14,7 @@ import java.util.List;
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
+import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.ui.activity.FeedbackActivity;
 import ru.mobnius.vote.ui.activity.PointListActivity;
 import ru.mobnius.vote.ui.model.FeedbackExcessData;
@@ -69,9 +70,20 @@ public class RouteHolder extends RecyclerView.ViewHolder
         tvEndDate.setText(endDate);
 
         List<PointItem> doneList = DataManager.getInstance().getPointItems(routeItem.id, PointFilter.DONE);
+        int actualCount = 0;
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            for (PointItem pointItem:
+                 doneList) {
+                if(pointItem.priority != 0) {
+                    actualCount++;
+                }
+            }
+        } else {
+            actualCount = doneList.size();
+        }
 
         int allPoints = routeItem.count;
-        int donePoints = doneList.size();
+        int donePoints = actualCount;
         mProgress.setMax(allPoints);
         mProgress.setProgress(donePoints);
         mProgress.setSecondaryProgress(allPoints);

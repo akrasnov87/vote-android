@@ -31,6 +31,8 @@ import ru.mobnius.vote.data.manager.BaseActivity;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.exception.IExceptionCode;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.Points;
+import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.ui.data.BurndownChartAsyncTask;
 import ru.mobnius.vote.ui.fragment.StatisticDialogFragment;
 import ru.mobnius.vote.ui.model.BurndownItemModel;
@@ -86,7 +88,8 @@ public class StatisticActivity extends BaseActivity
         tvLost = findViewById(R.id.statistic_lost_count);
 
         DaoSession daoSession = DataManager.getInstance().getDaoSession();
-        mAllCount = daoSession.getPointsDao().queryBuilder().count();
+        List<Points> allList = daoSession.getPointsDao().queryBuilder().where(PointsDao.Properties.N_priority.gt(0)).list();
+        mAllCount = allList.size();
         mDoneCount = daoSession.getUserPointsDao().queryBuilder().count();
     }
 
@@ -141,6 +144,11 @@ public class StatisticActivity extends BaseActivity
         p.setColor(Color.rgb(244, 67, 54));
         p.setTextAlign(Paint.Align.CENTER);
         mChart.invalidate();
+    }
+
+    @Override
+    public String getHelpKey() {
+        return "statistic";
     }
 
     @Override

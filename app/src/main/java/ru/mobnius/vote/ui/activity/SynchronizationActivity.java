@@ -93,6 +93,11 @@ public class SynchronizationActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "sync";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_synchronization, menu);
@@ -104,7 +109,7 @@ public class SynchronizationActivity extends BaseActivity
             eye.setVisible(false);
         }
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

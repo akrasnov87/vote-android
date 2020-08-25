@@ -77,12 +77,17 @@ public class PointInfoActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "point_info";
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
         mPointInfo = DataManager.getInstance().getPointInfo(mPointID);
         if(!StringUtil.isEmptyOrNull(mPointInfo.getNotice())) {
-            tfvNotice.setFieldText(mPointInfo.getNotice());
+            tfvNotice.setFieldHtml(Html.fromHtml(mPointInfo.getNotice()));
             tfvNotice.setVisibility(View.VISIBLE);
         }
 

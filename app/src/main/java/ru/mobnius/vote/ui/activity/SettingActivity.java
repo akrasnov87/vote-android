@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -71,12 +73,25 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
+    public String getHelpKey() {
+        return "setting";
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_setting, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -91,6 +106,8 @@ public class SettingActivity extends BaseActivity {
 
         private final String debugSummary = "Режим отладки: %s";
         private final String pinSummary = "Авторизация по пину: %s";
+        private final String simpleColorSummary = "Упрощенная цветовая схема: %s";
+        private final String autoSyncSummary = "Автоматическая передача данных: %s";
         private int clickToVersion = 0;
 
         private Preference pVersion;
@@ -98,6 +115,8 @@ public class SettingActivity extends BaseActivity {
         private SwitchPreference spGeoCheck;
         private SwitchPreference spDebug;
         private SwitchPreference spPin;
+        private SwitchPreference spSimpleColor;
+        private SwitchPreference spAutoSync;
         private Preference pCreateError;
 
         private ServerAppVersionAsyncTask mServerAppVersionAsyncTask;
@@ -146,6 +165,12 @@ public class SettingActivity extends BaseActivity {
             spPin = findPreference(PreferencesManager.PIN);
             Objects.requireNonNull(spPin).setOnPreferenceChangeListener(this);
 
+            spSimpleColor = findPreference(PreferencesManager.MBL_COLOR_THEME);
+            Objects.requireNonNull(spSimpleColor).setOnPreferenceChangeListener(this);
+
+            spAutoSync = findPreference(PreferencesManager.MBL_AUTO_SYNC);
+            Objects.requireNonNull(spAutoSync).setOnPreferenceChangeListener(this);
+
             pCreateError = findPreference(PreferencesManager.GENERATED_ERROR);
             Objects.requireNonNull(pCreateError).setVisible(PreferencesManager.getInstance().isDebug());
             pCreateError.setOnPreferenceClickListener(this);
@@ -162,6 +187,12 @@ public class SettingActivity extends BaseActivity {
 
             spPin.setSummary(String.format(pinSummary, PreferencesManager.getInstance().isPinAuth() ? "включена" : "отключена"));
             spPin.setChecked(PreferencesManager.getInstance().isPinAuth());
+
+            spSimpleColor.setSummary(String.format(simpleColorSummary, PreferencesManager.getInstance().isSimpleColor() ? "включена" : "отключена"));
+            spSimpleColor.setChecked(PreferencesManager.getInstance().isSimpleColor());
+
+            spAutoSync.setSummary(String.format(autoSyncSummary, PreferencesManager.getInstance().isAutoSync() ? "включена" : "отключена"));
+            spAutoSync.setChecked(PreferencesManager.getInstance().isAutoSync());
 
             spGeoCheck.setSummary(PreferencesManager.getInstance().isGeoCheck() ? "включена" : "отключена");
             spGeoCheck.setChecked(PreferencesManager.getInstance().isGeoCheck());
@@ -236,6 +267,18 @@ public class SettingActivity extends BaseActivity {
                         PreferencesManager.getInstance().setPinAuth(false);
                     }
                     break;
+
+                case PreferencesManager.MBL_COLOR_THEME:
+                    boolean colorValue = Boolean.parseBoolean(String.valueOf(newValue));
+                    spSimpleColor.setSummary(String.format(simpleColorSummary, colorValue ? "включена" : "отключена"));
+                    PreferencesManager.getInstance().setSimpleColor(colorValue);
+                    break;
+
+                case PreferencesManager.MBL_AUTO_SYNC:
+                    boolean autoSync = Boolean.parseBoolean(String.valueOf(newValue));
+                    spAutoSync.setSummary(String.format(autoSyncSummary, autoSync ? "включена" : "отключена"));
+                    PreferencesManager.getInstance().setAutoSync(autoSync);
+                    break;
             }
             return true;
         }
@@ -292,4 +335,5 @@ public class SettingActivity extends BaseActivity {
             }
         }
     }
+
 }

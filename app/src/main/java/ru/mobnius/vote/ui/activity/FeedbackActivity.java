@@ -137,6 +137,11 @@ public class FeedbackActivity extends BaseActivity
     }
 
     @Override
+    public String getHelpKey() {
+        return "feedback";
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 

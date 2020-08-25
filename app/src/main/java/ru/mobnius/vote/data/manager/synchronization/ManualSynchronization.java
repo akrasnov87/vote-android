@@ -19,6 +19,7 @@ import ru.mobnius.vote.data.storage.models.DaoSession;
 import ru.mobnius.vote.data.storage.models.DivisionsDao;
 import ru.mobnius.vote.data.storage.models.FeedbackTypesDao;
 import ru.mobnius.vote.data.storage.models.FeedbacksDao;
+import ru.mobnius.vote.data.storage.models.MobileHelpDao;
 import ru.mobnius.vote.data.storage.models.PointTypesDao;
 import ru.mobnius.vote.data.storage.models.PointsDao;
 import ru.mobnius.vote.data.storage.models.QuestionDao;
@@ -92,6 +93,7 @@ public class ManualSynchronization extends WebSocketSynchronization {
         addEntity(new EntityDictionary(AnswerDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(QuestionDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(RolesDao.TABLENAME, false, true).setTid(dictionaryTid));
+        addEntity(new EntityDictionary(MobileHelpDao.TABLENAME, false, true).setTid(dictionaryTid));
         addEntity(new EntityDictionary(StreetsDao.TABLENAME, false, true).setTid(dictionaryTid).setParam(getUserID()).setUseCFunction());
         addEntity(new EntityDictionary(UserInDivisionsDao.TABLENAME, false, true).setTid(dictionaryTid).setFilter(new FilterItem(UserInDivisionsDao.Properties.F_user.name, getUserID())));
 

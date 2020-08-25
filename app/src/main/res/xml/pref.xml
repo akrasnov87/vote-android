@@ -72,6 +72,23 @@
             android:title="Пин-код" />
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:icon="@drawable/ic_baseline_user_settings_24"
+        android:title="Пользовательские настройки">
+        <SwitchPreference
+            android:enabled="true"
+            android:key="MBL_COLOR_THEME"
+            android:summary="Включить упрощенную цветовую схему"
+            android:title="Цветовая схема" />
+
+    </PreferenceCategory>
+
+    <SwitchPreference
+        android:enabled="false"
+        android:key="MBL_AUTO_SYNC"
+        android:summary="Передача пройденных квартир на сервер"
+        android:title="Автоматическая синхронизация"
+        android:icon="@drawable/ic_baseline_sync_24"/>
 
     <PreferenceCategory
         android:icon="@drawable/ic_bug_report_black_24dp"

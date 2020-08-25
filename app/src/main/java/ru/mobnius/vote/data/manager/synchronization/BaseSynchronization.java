@@ -463,6 +463,9 @@ public abstract class BaseSynchronization implements ISynchronization {
      * Принудительная остановка выполнения
      */
     public void stop() {
+        if(FinishStatus.FAIL != finishStatus) {
+            successStop();
+        }
         resetTid(this);
 
         if(activity != null) {
@@ -478,6 +481,13 @@ public abstract class BaseSynchronization implements ISynchronization {
         onProgress(IProgressStep.STOP, "Синхронизация завершена.", null);
         progressListener = null;
         isRunning = false;
+    }
+
+    /**
+     * Выполняется если была завершена удачно
+     */
+    public void successStop() {
+
     }
 
     /**

@@ -31,6 +31,10 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public static final String MBL_FEEDBACK_ANSWER_COUNT = "MBL_FEEDBACK_ANSWER_COUNT";
     public static final String MBL_DOC = "MBL_DOC";
+    public static final String MBL_COLOR_THEME = "MBL_COLOR_THEME";
+    public static final String MBL_AUTO_SYNC = "MBL_AUTO_SYNC";
+    public static final String MBL_AUTO_SYNC_INTERVAL = "MBL_AUTO_SYNC_INTERVAL";
+    public static final String MBL_ZERO_PRIORITY = "MBL_ZERO_PRIORITY";
 
     private static PreferencesManager preferencesManager;
     public static PreferencesManager getInstance(){
@@ -135,5 +139,30 @@ public class PreferencesManager extends AbstractPreferencesManager {
 
     public int getDistance() {
         return getDefaultIntValue(MBL_DISTANCE) == -1 ? 100 : getDefaultIntValue(MBL_DISTANCE);
+    }
+
+    public boolean isSimpleColor(){
+        return getDefaultBooleanValue(MBL_COLOR_THEME);
+    }
+    public void setSimpleColor(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_COLOR_THEME, value).apply();
+    }
+
+    public boolean isZeroPriority(){
+        return getDefaultBooleanValue(MBL_ZERO_PRIORITY);
+    }
+    public void setZeroPriority(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_ZERO_PRIORITY, value).apply();
+    }
+
+    public boolean isAutoSync(){
+        return getDefaultBooleanValue(MBL_AUTO_SYNC);
+    }
+    public void setAutoSync(boolean value) {
+        getSharedPreferences().edit().putBoolean(PreferencesManager.MBL_AUTO_SYNC, value).apply();
+    }
+
+    public int getAutoSyncInterval() {
+        return getDefaultIntValue(MBL_AUTO_SYNC_INTERVAL);
     }
 }

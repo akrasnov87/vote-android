@@ -1,17 +1,24 @@
 package ru.mobnius.vote.data.service;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import java.util.Date;
 import java.util.Timer;
 import java.util.jar.Attributes;
 
 import ru.mobnius.vote.Names;
+import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.BaseService;
 import ru.mobnius.vote.data.manager.DbOperationType;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
@@ -44,6 +51,10 @@ public class MyService extends BaseService {
      */
     private final Timer mServiceSyncTimer;
     /**
+     * таймер для отправки служебных данных
+     */
+    private final Timer mAutoSyncTimer;
+    /**
      * таймер для сбора телеметрии
      */
     private Timer telemetryTimer;
@@ -52,6 +63,7 @@ public class MyService extends BaseService {
 
     public MyService() {
         mServiceSyncTimer = new Timer();
+        mAutoSyncTimer = new Timer();
         telemetryTimer = new Timer();
     }
 
@@ -77,7 +89,7 @@ public class MyService extends BaseService {
               Интервал отправки служебных данных на сервер
              */
             int serviceInterval = intent.getIntExtra(SYNC_SERVICE, PreferencesManager.getInstance().getSyncInterval());
-
+            mAutoSyncTimer.schedule(new AutoSyncTimerTask(), 0, PreferencesManager.getInstance().getAutoSyncInterval());
             mServiceSyncTimer.schedule(new SyncTimerTask(), 0, serviceInterval);
         }
     }

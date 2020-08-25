@@ -5,6 +5,7 @@ import java.util.TimerTask;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
 import ru.mobnius.vote.data.manager.synchronization.IProgress;
 import ru.mobnius.vote.data.manager.synchronization.ISynchronization;
+import ru.mobnius.vote.data.manager.synchronization.LiteSynchronization;
 import ru.mobnius.vote.data.manager.synchronization.ServiceSynchronization;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.Transfer;
 import ru.mobnius.vote.data.manager.synchronization.utils.transfer.TransferProgress;

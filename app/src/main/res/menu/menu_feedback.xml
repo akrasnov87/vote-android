@@ -15,4 +15,10 @@
         android:title="@string/notifications"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_baseline_help_outline_24"
+        android:title="@string/help"
+        app:showAsAction="always"/>
+
 </menu>

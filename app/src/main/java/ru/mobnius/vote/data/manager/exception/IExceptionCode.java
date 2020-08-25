@@ -55,4 +55,5 @@ public interface IExceptionCode {
     int MY_CONTACT_ITEM = 47;
     int NOTIFICATION = 48;
     int UPDATE_ABOUT = 49;
+    int HELP = 50;
 }

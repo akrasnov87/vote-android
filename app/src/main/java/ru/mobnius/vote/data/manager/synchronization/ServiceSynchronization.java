@@ -11,10 +11,14 @@ import ru.mobnius.vote.data.manager.synchronization.utils.PackageResult;
 import ru.mobnius.vote.data.manager.synchronization.utils.ToServerOnly;
 import ru.mobnius.vote.data.storage.models.AuditsDao;
 import ru.mobnius.vote.data.storage.models.ClientErrorsDao;
+import ru.mobnius.vote.data.storage.models.ContactsDao;
 import ru.mobnius.vote.data.storage.models.DaoSession;
+import ru.mobnius.vote.data.storage.models.FeedbacksDao;
 import ru.mobnius.vote.data.storage.models.MobileDevicesDao;
 import ru.mobnius.vote.data.storage.models.MobileIndicatorsDao;
+import ru.mobnius.vote.data.storage.models.ResultsDao;
 import ru.mobnius.vote.data.storage.models.TrackingDao;
+import ru.mobnius.vote.data.storage.models.UserPointsDao;
 import ru.mobnius.vote.utils.PackageCreateUtils;
 import ru.mobnius.vote.utils.PackageReadUtils;
 
@@ -22,7 +26,6 @@ import ru.mobnius.vote.utils.PackageReadUtils;
  * Механизм синхронизации служебных данных
  */
 public class ServiceSynchronization extends WebSocketSynchronization {
-
     @SuppressLint("StaticFieldLeak")
     private static ServiceSynchronization serviceSynchronization;
 
@@ -47,7 +50,6 @@ public class ServiceSynchronization extends WebSocketSynchronization {
      */
     ServiceSynchronization(DaoSession session, boolean zip){
         super(session, "SERVICE_SYNCHRONIZATION", zip);
-
         serverSidePackage = new ToServerOnly();
     }
 
@@ -103,5 +105,7 @@ public class ServiceSynchronization extends WebSocketSynchronization {
         addEntity(new Entity(MobileDevicesDao.TABLENAME).setTid(UUID.randomUUID().toString()));
         addEntity(new Entity(MobileIndicatorsDao.TABLENAME).setTid(UUID.randomUUID().toString()));
         addEntity(new Entity(ClientErrorsDao.TABLENAME).setTid(UUID.randomUUID().toString()));
+
+
     }
 }
