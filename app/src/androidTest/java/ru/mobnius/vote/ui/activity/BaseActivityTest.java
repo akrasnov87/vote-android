@@ -14,6 +14,8 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.internal.platform.app.ActivityLifecycleTimeout;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -48,6 +50,7 @@ import ru.mobnius.vote.ui.model.PointItem;
 import ru.mobnius.vote.ui.model.RouteItem;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.setFailureHandler;
 import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -61,7 +64,7 @@ public abstract class BaseActivityTest extends ManagerGenerate {
     public final static String PASSWORD = "8849";
 
     @Rule
-    public ActivityTestRule<LoginActivity> loginTestRule = new ActivityTestRule<>(LoginActivity.class, true, false);
+    public ActivityTestRule<LoginActivity> loginTestRule = new ActivityTestRule<>(LoginActivity.class, true, true);
 
     @Rule
     public ActivityTestRule<RouteListActivity> routeTestRule = new ActivityTestRule<>(RouteListActivity.class, true, false);

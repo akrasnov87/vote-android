@@ -42,10 +42,7 @@ public class ALoginToPinTest extends BaseActivityTest {
     private final static String TOO_SHORT = "18";
     private final static String LONG_ENOUGH = "1801";
 
-    @Before
-    public void setUp() {
-        loginTestRule.launchActivity(new Intent());
-    }
+
 
     @After
     public void tearDown() {
@@ -61,7 +58,7 @@ public class ALoginToPinTest extends BaseActivityTest {
         etLogin.perform(closeSoftKeyboard());
         onView(withId(R.id.auth_version)).check(matches(withText(containsString("Версия:")))).perform(click());
         onView(withText(containsString("Версия приложения")))
-                .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+               .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
 
         //Поле логина. Очистка на случай если вставлен ник
         etLogin.perform(scrollTo(), clearText());
@@ -91,7 +88,7 @@ public class ALoginToPinTest extends BaseActivityTest {
         ViewInteraction btnSignIn = onView(withId(R.id.auth_sign_in));
         btnSignIn.perform(scrollTo(), click());
         if (isServerUnavailable()) {
-            onView(anyOf(withText("Сервер не доступен"), withText(containsString("У приложения отсутствует доступ к серверу"))))
+           onView(anyOf(withText("Сервер не доступен"), withText(containsString("У приложения отсутствует доступ к серверу"))))
                     .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         } else {
             onView(withText("Логин или пароль введены не верно."))

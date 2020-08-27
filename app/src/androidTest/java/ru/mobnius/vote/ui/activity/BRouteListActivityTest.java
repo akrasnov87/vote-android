@@ -44,7 +44,6 @@ public class BRouteListActivityTest extends BaseActivityTest {
         if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
         }
-        loginTestRule.launchActivity(new Intent());
     }
 
     @After
@@ -54,9 +53,6 @@ public class BRouteListActivityTest extends BaseActivityTest {
     @Test
     public void routeListTest() {
         boolean noServer = false;
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
@@ -105,11 +101,26 @@ public class BRouteListActivityTest extends BaseActivityTest {
         onView(withText("OK")).inRoot(isDialog()) // <---
                 .check(matches(isDisplayed()))
                 .perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         try {
             onView(withId(R.id.statistic_close)).perform(waitUntil(isDisplayed()), click());
         } catch (NoMatchingViewException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.mainMenuDrawerLayout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        // onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+
+        //Открываем окно настроек проверяем кнопки
+        onView(withText(getContext().getResources().getString(R.string.feedback))).check(matches(isDisplayed()));
+        onView(withText(getContext().getResources().getString(R.string.exit))).check(matches(isDisplayed()));
+        //Проверяем раздел статистики
+        onView(withText(getContext().getResources().getString(R.string.statistic))).perform(click());
+        onView(withId(R.id.statistic_done_count)).check(matches(isDisplayed()));
+        onView(withId(R.id.action_rating)).perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
             try {
                 Thread.sleep(3000);
@@ -126,7 +137,7 @@ public class BRouteListActivityTest extends BaseActivityTest {
             onView(withId(R.id.point_search)).check(matches(isDisplayed()));
             onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
             onView(withId(R.id.action_route_filters)).check(matches(isDisplayed()));
-        }
+       }
     }
 
 }

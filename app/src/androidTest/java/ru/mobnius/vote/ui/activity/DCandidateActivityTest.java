@@ -54,7 +54,6 @@ public class DCandidateActivityTest extends BaseActivityTest {
         if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
         }
-        loginTestRule.launchActivity(new Intent());
 
     }
 
@@ -124,6 +123,7 @@ public class DCandidateActivityTest extends BaseActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         try {
             onView(withId(R.id.statistic_close)).perform(click());
         } catch (NoMatchingViewException e) {
@@ -139,14 +139,13 @@ public class DCandidateActivityTest extends BaseActivityTest {
 
             onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.choice_document_info)).check(matches(isDisplayed()));
-            onView(withId(R.id.choice_document_geo)).check(matches(isDisplayed()));
-            Question question = DataManager.getInstance().getQuestions()[0];
+            Question question = DataManager.getInstance().getQuestions(5)[0];
             Answer[] answers = DataManager.getInstance().getAnswers(question.id);
             onView(withId(R.id.question_item_answers)).perform(scrollTo());
-            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length - 1, scrollTo()));
+            onView(withId(R.id.question_item_answers)).perform(RecyclerViewActions.actionOnItemAtPosition(answers.length-1, scrollTo()));
             if (singleAnswer().isEmpty()) {
-                for (Answer answer : answers) {
-                    onView(withText(answer.c_text)).check(matches(isDisplayed()));
+                for (int i = 0; i < answers.length-1; i++) {
+                    onView(withText(answers[i].c_text)).check(matches(isDisplayed()));
                 }
                 onView(withText("открыли – АПМ вручен в руки")).perform(click());
                 onView(withId(R.id.rating_bar)).perform(click());

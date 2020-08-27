@@ -1,9 +1,10 @@
 package ru.mobnius.vote.ui.activity;
 
-import android.content.Intent;
+import android.view.Gravity;
 import android.widget.AutoCompleteTextView;
 
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import junit.framework.AssertionFailedError;
@@ -12,7 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 
 import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.manager.DataManager;
@@ -36,14 +36,17 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class CPointListActivityTest extends BaseActivityTest {
     private boolean isDebug;
@@ -55,7 +58,6 @@ public class CPointListActivityTest extends BaseActivityTest {
         if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
         }
-        loginTestRule.launchActivity(new Intent());
     }
 
     @After
@@ -73,9 +75,6 @@ public class CPointListActivityTest extends BaseActivityTest {
     @Test
     public void agitatorTest() {
         boolean noServer = false;
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
@@ -124,7 +123,24 @@ public class CPointListActivityTest extends BaseActivityTest {
             e.printStackTrace();
         }
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
+        onView(withId(R.id.mainMenuDrawerLayout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        onView(allOf(withText(getContext().getResources().getString(R.string.synchronization)), not(withId(R.id.house_sync)))).perform(click());
+        onView(withId(R.id.sync_start)).perform(click());
+        onView(withText("OK")).inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()))
+                .perform(click());
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        try {
+            onView(withId(R.id.statistic_close)).perform(waitUntil(isDisplayed()), click());
+        } catch (NoMatchingViewException e) {
+            e.printStackTrace();
+        }
         if (getRVLenght(routeTestRule, R.id.house_list) > 0) {
+
+            onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
+            onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, scrollTo()));
             onView(withId(R.id.house_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.point_search)).check(matches(isDisplayed()));
             onView(withId(R.id.point_search)).perform(click());
@@ -142,16 +158,7 @@ public class CPointListActivityTest extends BaseActivityTest {
                 for (Answer answer : answers) {
                     onView(withText(answer.c_text)).check(matches(isDisplayed()));
                 }
-                onView(withText("открыли – АПМ вручен в руки")).perform(click());
-                onView(withText("Да")).inRoot(isDialog()) // <---
-                        .check(matches(isDisplayed()))
-                        .perform(click());
-                onView(withId(R.id.contact_add)).perform(click());
-                onView(withId(R.id.contact_item_name)).perform(replaceText("Иванов И.И."));
-                onView(withId(R.id.contact_item_tel)).perform(replaceText("222222"));
-                onView(withId(R.id.contact_done)).perform(click());
-                onView(withId(R.id.rating_bar)).perform(click());
-                onView(withId(R.id.rating_done)).perform(click());
+                onView(withText(answers[4].c_text)).perform(click());
                 onView(withId(R.id.point_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
                 onView(withId(R.id.choice_document_info)).perform(click());
                 onView(withId(R.id.point_info_reset)).perform(click());
@@ -173,6 +180,6 @@ public class CPointListActivityTest extends BaseActivityTest {
                 onView(withId(R.id.choice_document_info)).perform(click());
                 onView(withId(R.id.point_info_reset)).check(matches(isDisplayed()));
             }
-        }
+       }
     }
 }

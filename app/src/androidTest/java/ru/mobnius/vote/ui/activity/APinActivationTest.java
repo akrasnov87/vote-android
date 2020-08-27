@@ -35,10 +35,7 @@ import static org.hamcrest.Matchers.not;
 
 public class APinActivationTest extends BaseActivityTest {
 
-    @Before
-    public void setUp() {
-        loginTestRule.launchActivity(new Intent());
-    }
+
 
     @After
     public void tearDown() {
@@ -65,22 +62,7 @@ public class APinActivationTest extends BaseActivityTest {
         onView(withId(R.id.auth_sign_in)).perform(click());
         onView(withId(R.id.mainMenu_Toolbar)).perform(waitUntil(isDisplayed()));
         //Открываем NavigationDrawer
-        onView(withId(R.id.mainMenuDrawerLayout))
-                .check(matches(isClosed(Gravity.LEFT)))
-                .perform(DrawerActions.open());
-       // onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
 
-        //Открываем окно настроек проверяем кнопки
-        onView(withText(getContext().getResources().getString(R.string.feedback))).check(matches(isDisplayed()));
-        onView(withText(getContext().getResources().getString(R.string.exit))).check(matches(isDisplayed()));
-        //Проверяем раздел статистики
-        onView(withText(getContext().getResources().getString(R.string.statistic))).perform(click());
-        onView(withId(R.id.statistic_done_count)).check(matches(isDisplayed()));
-        onView(withId(R.id.action_rating)).perform(click());
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
-
-        //Еще раз открываем боковое меню, заходим в настройки
         onView(withId(R.id.mainMenuDrawerLayout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open());
@@ -98,8 +80,8 @@ public class APinActivationTest extends BaseActivityTest {
         onView(withId(R.id.pin_clear)).perform(click());
         pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
         btnOne.perform(click()).perform(click()).perform(click()).perform(click());
-        onView(withText(containsString("Подтвердите пин-код")))
-                .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+       onView(withText(containsString("Подтвердите пин-код")))
+               .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
         try {
             Thread.sleep(1000);
@@ -109,7 +91,7 @@ public class APinActivationTest extends BaseActivityTest {
         btnOne.perform(click()).perform(click()).perform(click());
         onView(withText("2")).perform(click());
         onView(withText("Пин-коды не совпадают, порпобуйте еще раз"))
-                .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+               .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         pinCodeLinLay.check(matches(withStatus(PinCodeLinLay.PinDotStatus.FIRST_CLEAR)));
         try {
             Thread.sleep(1000);
