@@ -26,7 +26,8 @@ import static org.hamcrest.Matchers.not;
 public class APinTest extends BaseActivityTest{
 
 
-
+    @Before
+    public void setUp() {}
 
     @After
     public void tearDown() {

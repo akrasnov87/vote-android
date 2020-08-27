@@ -1,5 +1,6 @@
 package ru.mobnius.vote.ui.activity;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.widget.AutoCompleteTextView;
 
@@ -58,6 +59,7 @@ public class CPointListActivityTest extends BaseActivityTest {
         if (PreferencesManager.getInstance().isDebug()) {
             isDebug = true;
         }
+
     }
 
     @After

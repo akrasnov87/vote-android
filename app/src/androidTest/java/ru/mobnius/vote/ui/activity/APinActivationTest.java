@@ -35,7 +35,9 @@ import static org.hamcrest.Matchers.not;
 
 public class APinActivationTest extends BaseActivityTest {
 
-
+    @Before
+    public void setUp() {
+    }
 
     @After
     public void tearDown() {

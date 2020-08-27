@@ -42,7 +42,9 @@ public class ALoginToPinTest extends BaseActivityTest {
     private final static String TOO_SHORT = "18";
     private final static String LONG_ENOUGH = "1801";
 
-
+    @Before
+    public void setUp() {
+    }
 
     @After
     public void tearDown() {
@@ -88,11 +90,11 @@ public class ALoginToPinTest extends BaseActivityTest {
         ViewInteraction btnSignIn = onView(withId(R.id.auth_sign_in));
         btnSignIn.perform(scrollTo(), click());
         if (isServerUnavailable()) {
-           onView(anyOf(withText("Сервер не доступен"), withText(containsString("У приложения отсутствует доступ к серверу"))))
+            onView(anyOf(withText("Сервер не доступен"), withText(containsString("У приложения отсутствует доступ к серверу"))))
                     .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         } else {
-            onView(withText("Логин или пароль введены не верно."))
-                    .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+           onView(withText("Логин или пароль введены не верно."))
+                   .inRoot(withDecorView(not(is(loginTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
             etLogin.perform(replaceText(LOGIN));
             etPassword.perform(replaceText(PASSWORD));
             btnSignIn.perform(click());

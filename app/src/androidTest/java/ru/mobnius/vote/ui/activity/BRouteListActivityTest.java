@@ -46,6 +46,7 @@ public class BRouteListActivityTest extends BaseActivityTest {
         }
     }
 
+
     @After
     public void tearDown() {
     }
