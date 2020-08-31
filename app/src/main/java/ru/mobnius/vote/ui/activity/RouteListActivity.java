@@ -55,6 +55,7 @@ import ru.mobnius.vote.ui.model.RatingItemModel;
 import ru.mobnius.vote.ui.model.RouteItem;
 import ru.mobnius.vote.utils.JsonUtil;
 import ru.mobnius.vote.utils.LocationChecker;
+import ru.mobnius.vote.utils.NetworkUtil;
 import ru.mobnius.vote.utils.StringUtil;
 import ru.mobnius.vote.utils.VersionUtil;
 
@@ -185,10 +186,13 @@ public class RouteListActivity extends BaseActivity implements
             });
             MobniusApplication.isWelcome = true;
         } else {
-            if (DataManager.getInstance().getDaoSession().getPointsDao().count() > 0 && !MobniusApplication.isWelcome) {
-                MobniusApplication.isWelcome = true;
-                StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
-                dialogFragment.show(getSupportFragmentManager(), "statistic");
+            if (DataManager.getInstance().getDaoSession().getPointsDao().count() > 0
+                    && !MobniusApplication.isWelcome) {
+                if(NetworkUtil.isNetworkAvailable(this)) {
+                    MobniusApplication.isWelcome = true;
+                    StatisticDialogFragment dialogFragment = new StatisticDialogFragment();
+                    dialogFragment.show(getSupportFragmentManager(), "statistic");
+                }
             }
         }
 
