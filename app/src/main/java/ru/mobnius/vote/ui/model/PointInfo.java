@@ -20,11 +20,12 @@ public class PointInfo {
             JSONObject jsonObject = new JSONObject(data);
             mAppartament = jsonObject.getString("c_appartament_num");
             mAddress = jsonObject.getString("c_address");
-            mFoodKit = People.getPeoples(jsonObject.getString("jb_food_kit"));
-            mOther = People.getPeoples(jsonObject.getString("jb_other"));
-            mER = People.getPeoples(jsonObject.getString("jb_er"));
-            mBudget = People.getPeoples(jsonObject.getString("jb_budget"));
+            mFoodKit = jsonObject.has("jb_food_kit") ? People.getPeoples(jsonObject.getString("jb_food_kit")) : null;
+            mOther = jsonObject.has("jb_other") ? People.getPeoples(jsonObject.getString("jb_other")) : null;
+            mER = jsonObject.has("jb_er") ? People.getPeoples(jsonObject.getString("jb_er")) : null;
+            mBudget = jsonObject.has("jb_budget") ? People.getPeoples(jsonObject.getString("jb_budget")) : null;
             mSignature = jsonObject.has("n_signature") ? jsonObject.getInt("n_signature") : null;
+            mPeoples = jsonObject.has("c_peoples") ? jsonObject.getString("c_peoples") : "";
         } catch (JSONException e) {
             Logger.error(e);
         }
@@ -49,6 +50,7 @@ public class PointInfo {
     private People[] mER;
     private People[] mBudget;
     private Integer mSignature;
+    private String mPeoples;
 
     public String getAddress() {
         return mAddress;
@@ -173,5 +175,9 @@ public class PointInfo {
             default:
                 return null;
         }
+    }
+
+    public String getPeoples() {
+        return mPeoples;
     }
 }

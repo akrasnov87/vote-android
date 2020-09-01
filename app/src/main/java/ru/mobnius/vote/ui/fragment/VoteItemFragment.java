@@ -60,7 +60,8 @@ public class VoteItemFragment extends BaseFragment
             String userName = pointInfo.getUserName();
             //Log.d("INFO_USER", pointInfo.getUserName());
             String txt = question.c_text.replace("[c_fio]", userName == null ? "<font color='#FF0000'>(ФИО не найдено)</font>" : userName)
-                    .replace("[c_my_fio]", dataManager.getProfile().fio);
+                    .replace("[c_my_fio]", dataManager.getProfile().fio)
+                    .replace("[c_peoples]", pointInfo.getPeoples());
             //question.c_text = question.c_text.replace("[c_my_fio]", dataManager.getProfile().fio);
             tvDescription.setText(Html.fromHtml(txt));
         }
