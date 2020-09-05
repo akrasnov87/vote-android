@@ -39,6 +39,7 @@ import ru.mobnius.vote.data.storage.models.UserPointsDao;
 import ru.mobnius.vote.data.storage.models.UsersDao;
 import ru.mobnius.vote.utils.PackageCreateUtils;
 import ru.mobnius.vote.utils.PackageReadUtils;
+import ru.mobnius.vote.utils.VersionUtil;
 
 /**
  * Ручная синхронизация данных

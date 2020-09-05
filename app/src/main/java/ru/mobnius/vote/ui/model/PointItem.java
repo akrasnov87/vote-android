@@ -1,5 +1,7 @@
 package ru.mobnius.vote.ui.model;
 
+import org.json.JSONObject;
+
 public class PointItem {
     public PointItem() {
         color = null;
@@ -18,6 +20,7 @@ public class PointItem {
     public String houseNumber;
     public Integer priority;
     public Integer rating;
+    public String data;
 
     /**
      * Было выполнено или нет
@@ -29,4 +32,12 @@ public class PointItem {
      */
     public boolean sync;
 
+    public Integer getStatus() {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            return jsonObject.has("n_status") ? jsonObject.getInt("n_status"): null;
+        }catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -94,7 +94,7 @@ public class RPCItem {
      * @param items список объектов
      * @return объект
      */
-    public static RPCItem updateItems(String action, Object[] items){
+    public static RPCItem updateItems(String action, Object[] items) {
         RPCItem rpcItem = new RPCItem();
         rpcItem.method = "Update";
         rpcItem.action = action;

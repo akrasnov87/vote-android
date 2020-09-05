@@ -12,6 +12,7 @@ import ru.mobnius.vote.R;
 import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
 import ru.mobnius.vote.data.manager.configuration.PreferencesManager;
+import ru.mobnius.vote.ui.fragment.tools.VoteInHomeDialogFragment;
 import ru.mobnius.vote.ui.model.PointItem;
 
 public class PointHolder extends RecyclerView.ViewHolder
@@ -38,9 +39,24 @@ public class PointHolder extends RecyclerView.ViewHolder
 
         tvDeviceNumber.setText(point.appartament);
 
-        tvDevicePriority.setVisibility(Authorization.getInstance().getUser().isCandidate() ? View.VISIBLE : View.GONE);
+        if(Authorization.getInstance().getUser().isCandidate()) {
+            tvDevicePriority.setVisibility(View.VISIBLE);
+            tvDevicePriority.setText(point.priority != null ? String.valueOf(point.priority) : "");
+        }else {
+            tvDevicePriority.setVisibility(View.VISIBLE);
+            if(point.getStatus() != null) {
+                int status = point.getStatus();
+                switch (status) {
+                    case VoteInHomeDialogFragment.YES_DOC_WRITE:
+                        tvDevicePriority.setText("!");
+                        break;
 
-        tvDevicePriority.setText(point.priority != null ? String.valueOf(point.priority) : "");
+                    case VoteInHomeDialogFragment.YES_DOC_NO_WRITE:
+                        tvDevicePriority.setText("?");
+                        break;
+                }
+            }
+        }
 
         if (PreferencesManager.getInstance().isSimpleColor()) {
             if (!point.done) {

@@ -307,6 +307,7 @@ public class DataManager {
                     pointItem.sync = pointState.isSync();
                     pointItem.color = pointState.getColor();
                     pointItem.rating = pointState.getRating();
+                    pointItem.data = pointState.getData();
                 }
 
                 String jd_data = point.getJb_data();
@@ -372,6 +373,7 @@ public class DataManager {
                 if(answer != null) {
                     pointState.setColor(answer.c_color);
                     pointState.setRating(result.n_rating);
+                    pointState.setData(result.jb_data);
                 }
 
                 if(!result.isSynchronization) {

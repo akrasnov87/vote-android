@@ -15,12 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Objects;
 
 import ru.mobnius.vote.Command;
 import ru.mobnius.vote.Names;
 import ru.mobnius.vote.R;
+import ru.mobnius.vote.data.Logger;
 import ru.mobnius.vote.data.manager.DataManager;
 import ru.mobnius.vote.data.manager.DocumentManager;
 import ru.mobnius.vote.data.manager.authorization.Authorization;
@@ -39,6 +43,7 @@ import ru.mobnius.vote.ui.fragment.VoteItemFragment;
 import ru.mobnius.vote.ui.data.OnClickVoteItemListener;
 import ru.mobnius.vote.ui.BaseFormActivity;
 import ru.mobnius.vote.ui.fragment.tools.RatingDialogFragment;
+import ru.mobnius.vote.ui.fragment.tools.VoteInHomeDialogFragment;
 import ru.mobnius.vote.ui.fragment.tools.VotingDialogFragment;
 import ru.mobnius.vote.ui.model.FeedbackExcessData;
 import ru.mobnius.vote.ui.model.PointInfo;
@@ -285,6 +290,12 @@ public class QuestionActivity extends BaseFormActivity
             return;
         }
 
+        if (mVoteManager.isExistsCommand(answer, Command.VOTE_IN_HOME)) {
+            mDialog = new VoteInHomeDialogFragment(answer, mVoteManager.getTel(answer.f_question), isDone());
+            mDialog.show(getSupportFragmentManager(), "dialog");
+            return;
+        }
+
         if (mVoteManager.isExistsCommand(answer, Command.RATING)) {
             mDialog = new RatingDialogFragment(answer, mVoteManager.getRating(answer.f_question), isDone());
             mDialog.show(getSupportFragmentManager(), "dialog");
@@ -386,6 +397,19 @@ public class QuestionActivity extends BaseFormActivity
                     mDialog.show(getSupportFragmentManager(), "dialog");
                     return;
                 }
+                break;
+
+            case Command.VOTE_IN_HOME:
+                int rating = 1;
+                try {
+                    JSONObject jsonObject = new JSONObject(String.valueOf(result));
+                    if(jsonObject.has("n_rating")) {
+                        rating = jsonObject.getInt("n_rating");
+                    }
+                } catch (JSONException e) {
+                    Logger.error(e);
+                }
+                mVoteManager.updateQuestion(answer.f_question, null, String.valueOf(result), rating);
                 break;
 
             case Command.RATING:

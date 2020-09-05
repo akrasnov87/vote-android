@@ -20,6 +20,7 @@ public class PointState {
     private String[] mColor;
 
     private Integer mRating;
+    private String mData;
 
     public boolean isDone() {
         return mDone;
@@ -54,5 +55,13 @@ public class PointState {
 
     public void setRating(Integer rating) {
         mRating = rating;
+    }
+
+    public String getData() {
+        return mData;
+    }
+
+    public void setData(String data) {
+        mData = data;
     }
 }

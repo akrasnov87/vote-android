@@ -56,4 +56,5 @@ public interface IExceptionCode {
     int NOTIFICATION = 48;
     int UPDATE_ABOUT = 49;
     int HELP = 50;
+    int VOTE_IN_HOME_DIALOG = 51;
 }
